@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_story_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bear.passby.activity.StoryMap">
+
+    <com.amap.api.maps2d.MapView
+        android:id="@+id/story_map_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.amap.api.maps2d.MapView>
+
+    <!--标题栏 -->
+    <com.bear.passby.widget.title.TitleView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        app:title_size="@dimen/font_big"
+        app:title_string="@string/app_name">
+
+    </com.bear.passby.widget.title.TitleView>
+
+
+    <!--底部按钮 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/icon_large">
+        <!--创建故事-->
+        <ImageView
+            android:id="@+id/story_map_create_story"
+            android:layout_width="@dimen/image_normal"
+            android:layout_height="@dimen/image_normal"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_create_story"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/create_story"
+            android:text="@string/create_story"
+            android:textColor="@color/colorWhite" />
+
+        <!--获取当前的位置定位-->
+        <ImageView
+            android:id="@+id/story_map_get_position"
+            android:layout_width="@dimen/icon_normal"
+            android:layout_height="@dimen/icon_normal"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_big"
+            android:background="@drawable/button_get_position"
+            android:scaleType="centerInside"
+            android:src="@drawable/get_location" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

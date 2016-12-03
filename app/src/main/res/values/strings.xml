@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">左右</string>
+
+    <!--首页 故事地图-->
+    <string name="create_story">写故事</string>
+</resources>

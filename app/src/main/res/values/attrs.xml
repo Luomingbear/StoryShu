@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TitleView">
+        <attr name="title_string" format="string|reference" />
+        <attr name="title_color" format="color|reference" />
+        <attr name="title_size" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SelectorGroup">
+        <attr name="selectorMode" format="enum">
+            <enum name="CheckButton" value="0" />
+            <enum name="RadioButton" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SelectorButton">
+        <attr name="text_color" format="color|reference" />
+        <attr name="text_string" format="string|reference" />
+        <attr name="text_size" format="dimension|reference" />
+        <attr name="icon_padding" format="dimension|reference" />
+        <attr name="layout_padding" format="dimension|reference" />
+        <attr name="icon_position" format="enum">
+            <enum name="Left" value="0" />
+            <enum name="Top" value="1" />
+            <enum name="Right" value="2" />
+            <enum name="Bottom" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>

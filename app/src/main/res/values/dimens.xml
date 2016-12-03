@@ -1,0 +1,30 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--标题栏的高度 -->
+    <dimen name="title_height">58dp</dimen>
+
+    <!--选项-->
+    <dimen name="selector_height">36dp</dimen>
+
+    <!--图标的大小-->
+    <dimen name="icon_small">28dp</dimen>
+    <dimen name="icon_normal">38dp</dimen>
+    <dimen name="icon_large">48dp</dimen>
+
+    <!--图片的大小-->
+    <dimen name="image_small">78dp</dimen>
+    <dimen name="image_normal">98dp</dimen>
+
+    <!--字体大小-->
+    <dimen name="font_small">12dp</dimen>
+    <dimen name="font_normal">18dp</dimen>
+    <dimen name="font_big">24dp</dimen>
+
+    <!--外边距 -->
+    <dimen name="margin_small">9dp</dimen>
+    <dimen name="margin_normal">18dp</dimen>
+    <dimen name="margin_big">24dp</dimen>
+</resources>
