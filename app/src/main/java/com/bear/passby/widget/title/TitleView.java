@@ -26,6 +26,7 @@ public class TitleView extends RelativeLayout {
     private int mTitleCoclor; // 标题栏字体颜色
     private float mTitleSize; // 标题栏字体大小
     private String mTitleString; //标题栏文本
+    private RelativeLayout mRightButton; //右边的按钮
 
     public TitleView(Context context) {
         this(context, null);
@@ -53,18 +54,24 @@ public class TitleView extends RelativeLayout {
         setGravity(Gravity.CENTER_VERTICAL);
         setBackgroundResource(R.color.colorWhite);
         removeAllViews();
-
+        //
         addLeftButton();
-
+        //
         addTitle();
-
+        //
         addRightButton();
     }
 
+    /**
+     * 添加左边按钮
+     */
     private void addLeftButton() {
         addView(newImageButton(RelativeLayout.ALIGN_PARENT_LEFT, R.drawable.meun));
     }
 
+    /**
+     * 添加中间的标题
+     */
     private void addTitle() {
         if (TextUtils.isEmpty(mTitleString))
             return;
@@ -72,16 +79,29 @@ public class TitleView extends RelativeLayout {
         LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         p.addRule(CENTER_IN_PARENT);
         mTitleTextView.setLayoutParams(p);
+
+        mTitleTextView.setEllipsize(TextUtils.TruncateAt.END);
+        mTitleTextView.setSingleLine();
+
         mTitleTextView.setText(mTitleString);
         mTitleTextView.setTextColor(mTitleCoclor);
         mTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
-
+        mTitleTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onTitleClickListener != null)
+                    onTitleClickListener.onCenterClick();
+            }
+        });
         addView(mTitleTextView);
     }
 
+    /**
+     * 添加右边的按钮
+     */
     private void addRightButton() {
-        addView(newImageButton(RelativeLayout.ALIGN_PARENT_RIGHT, R.drawable.sift));
-
+        mRightButton = newImageButton(RelativeLayout.ALIGN_PARENT_RIGHT, R.drawable.sift);
+        addView(mRightButton);
     }
 
     /**
@@ -90,7 +110,7 @@ public class TitleView extends RelativeLayout {
      * @param gravity 位置
      * @param resId   图标资源id
      */
-    private RelativeLayout newImageButton(int gravity, int resId) {
+    private RelativeLayout newImageButton(final int gravity, int resId) {
         RelativeLayout relativeLayout = new RelativeLayout(getContext());
         LayoutParams p = new LayoutParams(mTitleViewHeight, mTitleViewHeight);
         p.addRule(gravity);
@@ -101,12 +121,19 @@ public class TitleView extends RelativeLayout {
         relativeLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (onTitleClickListener != null)
+                    switch (gravity) {
+                        case RelativeLayout.ALIGN_PARENT_LEFT:
+                            onTitleClickListener.onLeftClick();
+                            break;
+                        case RelativeLayout.ALIGN_PARENT_RIGHT:
+                            onTitleClickListener.onRightClick();
+                            break;
+                    }
             }
         });
         return relativeLayout;
     }
-
 
     private ImageView newImageView(int resId) {
         ImageView imageView = new ImageView(getContext());
@@ -118,4 +145,40 @@ public class TitleView extends RelativeLayout {
     }
 
 
+    public void setmTitleString(String mTitleString) {
+        this.mTitleString = mTitleString;
+    }
+
+    public void setmTitleSize(float mTitleSize) {
+        this.mTitleSize = mTitleSize;
+    }
+
+    public void setmTitleCoclor(int mTitleCoclor) {
+        this.mTitleCoclor = mTitleCoclor;
+    }
+
+    private onTitleClickListener onTitleClickListener;
+
+    public void setOnTitleClickListener(TitleView.onTitleClickListener onTitleClickListener) {
+        this.onTitleClickListener = onTitleClickListener;
+    }
+
+    public TextView getmTitleTextView() {
+        return mTitleTextView;
+    }
+
+    public RelativeLayout getmRightButton() {
+        return mRightButton;
+    }
+
+    /**
+     * 标题栏的点击事件
+     */
+    public interface onTitleClickListener {
+        void onLeftClick();
+
+        void onCenterClick();
+
+        void onRightClick();
+    }
 }

@@ -101,16 +101,16 @@ public class SelectorGroup extends LinearLayout implements ViewGroup.OnHierarchy
 
     }
 
-    private SelectorCheckedListener selectorCheckedListener;
+    private OnSelectorCheckedListener selectorCheckedListener;
 
-    public void setSelectorCheckedListener(SelectorCheckedListener selectorCheckedListener) {
+    public void setOnSelectorCheckedListener(OnSelectorCheckedListener selectorCheckedListener) {
         this.selectorCheckedListener = selectorCheckedListener;
     }
 
     /**
      * 选择的回调函数
      */
-    public interface SelectorCheckedListener {
+    public interface OnSelectorCheckedListener {
         void onChecked(List<Integer> checkedIdList);
     }
 }

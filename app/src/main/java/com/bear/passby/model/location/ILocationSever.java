@@ -37,7 +37,7 @@ public class ILocationSever {
         public void onLocationChanged(AMapLocation aMapLocation) {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
-                    Log.i(TAG, "onLocationChanged: " + aMapLocation);
+//                    Log.i(TAG, "onLocationChanged: " + aMapLocation);
 
                     //获取当前位置的具体信息如楼号等
 //                    getLocationName(aMapLocation);

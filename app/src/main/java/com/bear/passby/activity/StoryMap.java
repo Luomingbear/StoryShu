@@ -1,16 +1,24 @@
 package com.bear.passby.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 
-import com.amap.api.maps2d.MapView;
+import com.amap.api.maps.MapView;
 import com.bear.passby.R;
 import com.bear.passby.model.location.ILocationManager;
+import com.bear.passby.widget.sift.SiftWindow;
+import com.bear.passby.widget.title.TitleView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
-public class StoryMap extends AppCompatActivity implements View.OnClickListener {
+public class StoryMap extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = "StoryMap";
+
+    private TitleView mTitleView; //标题栏
 
     private MapView mMapView; //地图
     private View mCreateStory; //写故事按钮
@@ -21,9 +29,22 @@ public class StoryMap extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initImageLoader();
+
         setContentView(R.layout.activity_story_map);
 
         initView(savedInstanceState);
+    }
+
+    /**
+     * 初始化图像加载器
+     */
+    private void initImageLoader() {
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(options).build();
+
+        ImageLoader.getInstance().init(configuration);
     }
 
     private void initView(Bundle savedInstanceState) {
@@ -41,7 +62,7 @@ public class StoryMap extends AppCompatActivity implements View.OnClickListener 
         /**
          * 标题栏
          */
-
+        initTitle();
 
         /**
          * 写故事
@@ -54,6 +75,36 @@ public class StoryMap extends AppCompatActivity implements View.OnClickListener 
          */
         View getPosition = findViewById(R.id.story_map_get_position);
         getPosition.setOnClickListener(this);
+    }
+
+    /**
+     * 标题栏点击响应事件
+     */
+    private TitleView.onTitleClickListener onTitleClickListener = new TitleView.onTitleClickListener() {
+        @Override
+        public void onLeftClick() {
+            Log.i(TAG, "onLeftClick: ");
+        }
+
+        @Override
+        public void onCenterClick() {
+            Log.i(TAG, "onCenterClick: ");
+        }
+
+        @Override
+        public void onRightClick() {
+            Log.i(TAG, "onRightClick: ");
+            SiftWindow siftWindow = new SiftWindow(StoryMap.this);
+            siftWindow.showAsDropDown(mTitleView.getmRightButton(), 0, 0);
+        }
+    };
+
+    /**
+     * 标题栏
+     */
+    private void initTitle() {
+        mTitleView = (TitleView) findViewById(R.id.title_view);
+        mTitleView.setOnTitleClickListener(onTitleClickListener);
     }
 
     /**

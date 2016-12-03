@@ -3,4 +3,9 @@
 
     <!--首页 故事地图-->
     <string name="create_story">写故事</string>
+
+    <!--筛选 -->
+    <string name="sift_follow">只看关注</string>
+    <string name="sift_all">查看所有</string>
+    <string name="sift_hot">只看热门</string>
 </resources>

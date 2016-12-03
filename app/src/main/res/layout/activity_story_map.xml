@@ -7,15 +7,16 @@
     android:layout_height="match_parent"
     tools:context="com.bear.passby.activity.StoryMap">
 
-    <com.amap.api.maps2d.MapView
+    <com.amap.api.maps.MapView
         android:id="@+id/story_map_map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.amap.api.maps2d.MapView>
+    </com.amap.api.maps.MapView>
 
     <!--标题栏 -->
     <com.bear.passby.widget.title.TitleView
+        android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         app:title_size="@dimen/font_big"
@@ -56,6 +57,5 @@
             android:src="@drawable/get_location" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>

@@ -1,16 +1,15 @@
 package com.bear.passby.model.location;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.AMapUtils;
-import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.UiSettings;
-import com.amap.api.maps2d.model.CameraPosition;
-import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeAddress;
@@ -68,6 +67,10 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
 
         //隐藏缩放按钮
         mUiSettings.setZoomControlsEnabled(false);
+        //旋转
+        mUiSettings.setRotateGesturesEnabled(true);
+        //
+        mUiSettings.setIndoorSwitchEnabled(false);
     }
 
 
@@ -84,9 +87,9 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
              */
             List<PoiItem> poiItemList = regeocodeAddress.getPois();
             for (PoiItem poiItem : poiItemList) {
-                Log.i(TAG, "PoiItem: " + poiItem.getTitle());
+//                Log.i(TAG, "PoiItem: " + poiItem.getTitle());
                 LatLng latLng = new LatLng(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
-                if (Math.abs(AMapUtils.calculateLineDistance(mLatLng, latLng)) < 100) {
+                if (Math.abs(AMapUtils.calculateLineDistance(mLatLng, latLng)) <50) {
                     showBookIcon(poiItem.getLatLonPoint(), poiItem.getTitle());
                 }
             }
@@ -151,7 +154,7 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
 
         BookMarker bookMarker = new BookMarker(mContext, mAMap,
                 new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
-        bookMarker.init(title);
+        bookMarker.init("");
     }
 
     /**

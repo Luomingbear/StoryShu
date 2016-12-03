@@ -26,4 +26,20 @@
             <enum name="Bottom" value="3" />
         </attr>
     </declare-styleable>
+
+
+    <declare-styleable name="RoundImageView">
+        <attr name="Scale" format="float" />
+        <attr name="BorderRadius" format="dimension|reference" />
+        <attr name="RoundType">
+            <enum name="circle" value="0" />
+            <enum name="round" value="1" />
+            <enum name="round_top_left_top_right" value="2" />
+            <enum name="round_bottom_left_bottom_right" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RatioImageView">
+        <attr name="ratio" format="float|reference" />
+    </declare-styleable>
 </resources>

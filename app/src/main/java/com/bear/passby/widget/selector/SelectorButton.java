@@ -71,7 +71,7 @@ public class SelectorButton extends View {
 
         mIconRadius = DipPxConversion.dip2px(getContext(), 6);
         mIconColor = getResources().getColor(R.color.colorGreenScallionLight);
-        mCheckedColor = getResources().getColor(R.color.colorGreenScallionDeep);
+        mCheckedColor = getResources().getColor(R.color.colorGrayLight);
         mUnCheckColor = Color.WHITE;
     }
 

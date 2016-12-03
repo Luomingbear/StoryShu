@@ -2,8 +2,9 @@ package com.bear.passby.widget.marker;
 
 import android.content.Context;
 
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.model.LatLng;
+
 
 /**
  * 地图上的标记图标的基础类

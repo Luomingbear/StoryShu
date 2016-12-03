@@ -2,7 +2,8 @@ package com.bear.passby.model.location;
 
 import android.content.Context;
 
-import com.amap.api.maps2d.MapView;
+import com.amap.api.maps.MapView;
+
 
 /**
  * 位置服务的管家,单例
