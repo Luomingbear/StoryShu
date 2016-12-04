@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <com.bear.passby.widget.story.StoriesAdapterView
+        android:id="@+id/stories_adapter_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

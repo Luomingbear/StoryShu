@@ -48,7 +48,7 @@ public class StoriesDialog extends Dialog {
         Display display = manager.getDefaultDisplay();
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.width = display.getWidth();
-        params.height = (int) (display.getHeight() * 0.7f);
+        params.height = (int) (display.getHeight() * 0.6f);
         getWindow().setAttributes(params);
     }
 }

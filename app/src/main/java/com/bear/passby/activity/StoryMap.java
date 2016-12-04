@@ -86,6 +86,7 @@ public class StoryMap extends FragmentActivity implements View.OnClickListener, 
         @Override
         public void onLeftClick() {
             Log.i(TAG, "onLeftClick: ");
+            StoriesDialogManager.getInstance().showDialog(StoryMap.this);
 
         }
 
