@@ -10,7 +10,7 @@ import com.amap.api.maps.model.Marker;
 import com.bear.passby.R;
 import com.bear.passby.model.location.ILocationManager;
 import com.bear.passby.widget.sift.SiftWindow;
-import com.bear.passby.widget.story.StoriesDialog;
+import com.bear.passby.widget.story.StoriesDialogManager;
 import com.bear.passby.widget.title.TitleView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -189,10 +189,8 @@ public class StoryMap extends FragmentActivity implements View.OnClickListener, 
         if (marker.getId().equals("Marker1")) {
             //点击的个人图标
         } else {
-            //点击的不是个人图标
-            StoriesDialog dialog = new StoriesDialog(StoryMap.this);
-            dialog.setContentView(R.layout.stories_dialog_layout);
-            dialog.show();
         }
+        StoriesDialogManager.getInstance().showDialog(this);
+
     }
 }

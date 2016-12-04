@@ -3,11 +3,14 @@ package com.bear.passby.widget.marker;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.animation.Animation;
+import com.amap.api.maps.model.animation.TranslateAnimation;
 import com.bear.passby.utils.ViewBitmapTool;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -46,7 +49,7 @@ public class PersonMarker extends IMarker {
             markerOptions.position(mLatLng);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
-            mAMap.addMarker(markerOptions);
+            mMarker = mAMap.addMarker(markerOptions);
         }
 
         @Override
@@ -62,6 +65,17 @@ public class PersonMarker extends IMarker {
 
     }
 
-    private void remove() {
+    /**
+     * 移动marker
+     *
+     * @param latLng
+     */
+    public void move(LatLng latLng) {
+        Animation animation = new TranslateAnimation(latLng);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setDuration(2000);
+
+        mMarker.setAnimation(animation);
+        mMarker.startAnimation();
     }
 }

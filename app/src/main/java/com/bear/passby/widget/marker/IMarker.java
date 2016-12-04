@@ -26,4 +26,20 @@ public class IMarker {
         this.mAMap = mAMap;
         this.mLatLng = mLatLng;
     }
+
+    public LatLng getmLatLng() {
+        return mLatLng;
+    }
+
+    public void setmLatLng(LatLng mLatLng) {
+        this.mLatLng = mLatLng;
+    }
+
+    /**
+     * 清除标记
+     */
+    public void destroy() {
+        if (mMarker != null)
+            mMarker.destroy();
+    }
 }

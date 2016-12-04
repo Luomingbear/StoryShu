@@ -23,7 +23,7 @@ public class ILocationSever {
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
-    private int mIntervalTime = 4000; //定位间隔时间毫秒
+    private int mIntervalTime = 2000; //定位间隔时间毫秒
 
 
     public ILocationSever(Context applicationContext) {
@@ -126,10 +126,7 @@ public class ILocationSever {
         List<GeocodeAddress> addressesList;
 
 
-
     }
-
-
 
 
     private OnLocationChangeListener onLocationChange;

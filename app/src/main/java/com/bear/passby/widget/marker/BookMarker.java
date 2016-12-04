@@ -36,4 +36,5 @@ public class BookMarker extends IMarker {
 
         mMarker = mAMap.addMarker(markerOptions);
     }
+
 }

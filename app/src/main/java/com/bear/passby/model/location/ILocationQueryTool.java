@@ -33,19 +33,19 @@ public class ILocationQueryTool {
         this.mContext = context;
     }
 
-    public ILocationQueryTool init(AMapLocation aMapLocation, OnLOcationQueryListener onLOcationQueryListener) {
+    public ILocationQueryTool init(AMapLocation aMapLocation, OnLocationQueryListener onLocationQueryListener) {
         if (mContext == null)
             return this;
         this.mGeocodeSearch = new GeocodeSearch(mContext);
         this.mAmapLocation = aMapLocation;
-        this.onLOcationQueryListener = onLOcationQueryListener;
+        this.onLocationQueryListener = onLocationQueryListener;
         return this;
     }
 
-    public ILocationQueryTool init(Context context, AMapLocation aMapLocation, OnLOcationQueryListener onLOcationQueryListener) {
+    public ILocationQueryTool init(Context context, AMapLocation aMapLocation, OnLocationQueryListener onLocationQueryListener) {
         this.mGeocodeSearch = new GeocodeSearch(context);
         this.mAmapLocation = aMapLocation;
-        this.onLOcationQueryListener = onLOcationQueryListener;
+        this.onLocationQueryListener = onLocationQueryListener;
         return this;
     }
 
@@ -59,8 +59,8 @@ public class ILocationQueryTool {
                 if (regeocodeResult != null && regeocodeResult.getRegeocodeAddress() != null
                         && regeocodeResult.getRegeocodeAddress().getFormatAddress() != null) {
                     RegeocodeAddress r = regeocodeResult.getRegeocodeAddress();
-                    if (onLOcationQueryListener != null)
-                        onLOcationQueryListener.onRegeocodeSearched(r);
+                    if (onLocationQueryListener != null)
+                        onLocationQueryListener.onRegeocodeSearched(r);
 
                 } else {
                     Log.i(TAG, "onRegeocodeSearched: regeocodeResult:" + regeocodeResult);
@@ -76,8 +76,8 @@ public class ILocationQueryTool {
                 if (geocodeResult != null && geocodeResult.getGeocodeAddressList() != null
                         && geocodeResult.getGeocodeAddressList().size() > 0) {
                     List<GeocodeAddress> addressList = geocodeResult.getGeocodeAddressList();
-                    if (onLOcationQueryListener != null)
-                        onLOcationQueryListener.onGeocodeSearched(addressList);
+                    if (onLocationQueryListener != null)
+                        onLocationQueryListener.onGeocodeSearched(addressList);
                 } else {
                     Log.i(TAG, "onGeocodeSearched: ");
                 }
@@ -117,13 +117,13 @@ public class ILocationQueryTool {
     }
 
 
-    private OnLOcationQueryListener onLOcationQueryListener;
+    private OnLocationQueryListener onLocationQueryListener;
 
-    public void setOnLOcationQueryListener(OnLOcationQueryListener onLOcationQueryListener) {
-        this.onLOcationQueryListener = onLOcationQueryListener;
+    public void setOnLocationQueryListener(OnLocationQueryListener onLocationQueryListener) {
+        this.onLocationQueryListener = onLocationQueryListener;
     }
 
-    public interface OnLOcationQueryListener {
+    public interface OnLocationQueryListener {
         /***
          * 搜索经纬度得到的值
          */
