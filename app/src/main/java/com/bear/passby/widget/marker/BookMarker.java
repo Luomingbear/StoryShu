@@ -22,9 +22,8 @@ public class BookMarker extends IMarker {
 
     public void init(String title) {
         BookView bookView = new BookView(mContext);
-        bookView.setTitleString(title);
+//        bookView.setTitleString(title);
         Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(bookView);
-
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(mLatLng);
@@ -34,6 +33,7 @@ public class BookMarker extends IMarker {
 //                        R.drawable.person_location)));
 
         //add
-        mAMap.addMarker(markerOptions);
+
+        mMarker = mAMap.addMarker(markerOptions);
     }
 }

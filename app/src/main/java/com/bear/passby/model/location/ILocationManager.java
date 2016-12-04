@@ -3,6 +3,7 @@ package com.bear.passby.model.location;
 import android.content.Context;
 
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.Marker;
 
 
 /**
@@ -10,7 +11,7 @@ import com.amap.api.maps.MapView;
  * Created by bear on 2016/12/2.
  */
 
-public class ILocationManager {
+public class ILocationManager implements IMapManager.OnMarkerClickedListener {
     private volatile static ILocationManager instance;
 
     private Context mAppContext; //应用上下文
@@ -59,10 +60,10 @@ public class ILocationManager {
         }
         mLocationSever.start();
         mMapManager.init(mLocationSever);
+        mMapManager.setOnMarkerClickedListener(this);
 
         //移动地图到上一次的地点
         mMapManager.move2Position(LocationSharedPreference.getLatLngData(mAppContext));
-
 
     }
 
@@ -86,5 +87,26 @@ public class ILocationManager {
             return;
 
         mMapManager.move2Position();
+    }
+
+    @Override
+    public void OnClick(Marker marker) {
+        if (onLocationMarkerClickListener != null)
+            onLocationMarkerClickListener.OnClick(marker);
+    }
+
+    private OnLocationMarkerClickListener onLocationMarkerClickListener;
+
+    public ILocationManager setOnLocationMarkerClickListener(OnLocationMarkerClickListener
+                                                                     onLocationMarkerClickListener) {
+        this.onLocationMarkerClickListener = onLocationMarkerClickListener;
+        return this;
+    }
+
+    /**
+     * 标记点点击回调函数
+     */
+    public interface OnLocationMarkerClickListener {
+        void OnClick(Marker marker);
     }
 }

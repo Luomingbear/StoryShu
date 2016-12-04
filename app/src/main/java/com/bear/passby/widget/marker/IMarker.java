@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
 
 
 /**
@@ -12,6 +13,7 @@ import com.amap.api.maps.model.LatLng;
  */
 
 public class IMarker {
+    public Marker mMarker; //标记对象
     public Context mContext;
     public AMap mAMap; //地图对象
     public LatLng mLatLng; //经纬度

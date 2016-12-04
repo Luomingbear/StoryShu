@@ -10,6 +10,7 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeAddress;
@@ -89,7 +90,7 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
             for (PoiItem poiItem : poiItemList) {
 //                Log.i(TAG, "PoiItem: " + poiItem.getTitle());
                 LatLng latLng = new LatLng(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
-                if (Math.abs(AMapUtils.calculateLineDistance(mLatLng, latLng)) <50) {
+                if (Math.abs(AMapUtils.calculateLineDistance(mLatLng, latLng)) < 100) {
                     showBookIcon(poiItem.getLatLonPoint(), poiItem.getTitle());
                 }
             }
@@ -102,6 +103,16 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
 
         }
     };
+
+    private AMap.OnMarkerClickListener onMarkerClickListener = new AMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            if (onMarkerClickedListener != null)
+                onMarkerClickedListener.OnClick(marker);
+            return false;
+        }
+    };
+
 
     /**
      * 取得位置信息的时候执行
@@ -131,10 +142,18 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
          * 图标显示
          */
         mLatLng = latLng;
+        mAMap.clear(); //清除图标数据
         showPersonIcon();
-        move2Position();
+        move2Position(); //移动镜头到当前位置
 
-        //保存地理位置信息
+        /**
+         * 点击事件
+         */
+        mAMap.setOnMarkerClickListener(onMarkerClickListener);
+
+        /**
+         * 保存位置信息
+         */
         LocationSharedPreference.saveLatLng(mContext, mLatLng);
     }
 
@@ -142,19 +161,16 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
      * 显示用户位置的图标
      */
     private void showPersonIcon() {
-        if (mPersonMarker == null)
-            mPersonMarker = new PersonMarker(mContext, mAMap, mLatLng);
-
+        mPersonMarker = new PersonMarker(mContext, mAMap, mLatLng);
     }
 
     /**
      * 显示故事集图标
      */
     private void showBookIcon(LatLonPoint latLonPoint, String title) {
-
         BookMarker bookMarker = new BookMarker(mContext, mAMap,
                 new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
-        bookMarker.init("");
+        bookMarker.init(title);
     }
 
     /**
@@ -217,6 +233,19 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
         void onSucceed();
 
         void onFailed();
+    }
+
+    private OnMarkerClickedListener onMarkerClickedListener;
+
+    public void setOnMarkerClickedListener(OnMarkerClickedListener onMarkerClickListener) {
+        this.onMarkerClickedListener = onMarkerClickListener;
+    }
+
+    /**
+     * 标记点点击回调
+     */
+    public interface OnMarkerClickedListener {
+        void OnClick(Marker marker);
     }
 
 }

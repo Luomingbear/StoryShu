@@ -45,11 +45,6 @@ public class PersonMarker extends IMarker {
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
-//        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-//                .decodeResource(mContext.getResources(),
-//                        R.drawable.person_location)));
-
-            //add
 
             mAMap.addMarker(markerOptions);
         }

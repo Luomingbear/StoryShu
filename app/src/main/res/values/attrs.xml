@@ -42,4 +42,9 @@
     <declare-styleable name="RatioImageView">
         <attr name="ratio" format="float|reference" />
     </declare-styleable>
+
+    <declare-styleable name="AutoScaleLayout">
+        <attr name="scaleRate" format="float" />
+    </declare-styleable>
+
 </resources>

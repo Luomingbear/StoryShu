@@ -6,16 +6,18 @@ import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.Marker;
 import com.bear.passby.R;
 import com.bear.passby.model.location.ILocationManager;
 import com.bear.passby.widget.sift.SiftWindow;
+import com.bear.passby.widget.story.StoriesDialog;
 import com.bear.passby.widget.title.TitleView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
-public class StoryMap extends FragmentActivity implements View.OnClickListener {
+public class StoryMap extends FragmentActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener {
     private static final String TAG = "StoryMap";
 
     private TitleView mTitleView; //标题栏
@@ -84,6 +86,7 @@ public class StoryMap extends FragmentActivity implements View.OnClickListener {
         @Override
         public void onLeftClick() {
             Log.i(TAG, "onLeftClick: ");
+
         }
 
         @Override
@@ -117,11 +120,10 @@ public class StoryMap extends FragmentActivity implements View.OnClickListener {
 //            ILocationManager.getInstance().move2CurrentPosition();
 //            return;
 //        }
-
 //        getPositionTime = time;
         ILocationManager.getInstance().stop();
 
-        ILocationManager.getInstance().start();
+        ILocationManager.getInstance().setOnLocationMarkerClickListener(this).start();
 
     }
 
@@ -176,4 +178,21 @@ public class StoryMap extends FragmentActivity implements View.OnClickListener {
     }
 
 
+    /**
+     * 标记点点击事件
+     *
+     * @param marker
+     */
+    @Override
+    public void OnClick(Marker marker) {
+        Log.e(TAG, "OnClick: id:" + marker.getId());
+        if (marker.getId().equals("Marker1")) {
+            //点击的个人图标
+        } else {
+            //点击的不是个人图标
+            StoriesDialog dialog = new StoriesDialog(StoryMap.this);
+            dialog.setContentView(R.layout.stories_dialog_layout);
+            dialog.show();
+        }
+    }
 }
