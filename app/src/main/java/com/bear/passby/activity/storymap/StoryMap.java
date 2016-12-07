@@ -1,15 +1,16 @@
-package com.bear.passby.activity;
+package com.bear.passby.activity.storymap;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.Marker;
 import com.bear.passby.R;
+import com.bear.passby.activity.base.IBaseActivity;
 import com.bear.passby.model.location.ILocationManager;
-import com.bear.passby.widget.sift.SiftWindow;
+import com.bear.passby.widget.menu.MenuDialogManager;
+import com.bear.passby.widget.sift.SiftWindowManager;
 import com.bear.passby.widget.story.StoriesDialogManager;
 import com.bear.passby.widget.title.TitleView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -17,11 +18,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
-public class StoryMap extends FragmentActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener {
+public class StoryMap extends IBaseActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener {
     private static final String TAG = "StoryMap";
 
     private TitleView mTitleView; //标题栏
-
     private MapView mMapView; //地图
     private View mCreateStory; //写故事按钮
     private long getPositionTime; //获取定位的时间
@@ -86,8 +86,8 @@ public class StoryMap extends FragmentActivity implements View.OnClickListener, 
         @Override
         public void onLeftClick() {
             Log.i(TAG, "onLeftClick: ");
-            StoriesDialogManager.getInstance().showDialog(StoryMap.this);
-
+//            StoriesDialogManager.getInstance().showDialog(StoryMap.this);
+            MenuDialogManager.getInstance().showMenu(StoryMap.this);
         }
 
         @Override
@@ -98,10 +98,16 @@ public class StoryMap extends FragmentActivity implements View.OnClickListener, 
         @Override
         public void onRightClick() {
             Log.i(TAG, "onRightClick: ");
-            SiftWindow siftWindow = new SiftWindow(StoryMap.this);
-            siftWindow.showAsDropDown(mTitleView.getmRightButton(), 0, 0);
+            showSift();
         }
     };
+
+    /**
+     * 显示筛选栏
+     */
+    private void showSift() {
+        SiftWindowManager.getInstance().showSift(StoryMap.this, mTitleView.getmRightButton());
+    }
 
     /**
      * 标题栏

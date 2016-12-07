@@ -8,4 +8,10 @@
     <string name="sift_follow">只看关注</string>
     <string name="sift_all">查看所有</string>
     <string name="sift_hot">只看热门</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

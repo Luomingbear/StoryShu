@@ -1,49 +1,34 @@
 package com.bear.passby.widget.story;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.Window;
 import android.view.WindowManager;
 
 import com.bear.passby.R;
+import com.bear.passby.widget.dialog.IBaseDialog;
 
 /**
  * 故事集的Dialog
  * Created by bear on 2016/12/4.
  */
 
-public class StoriesDialog extends Dialog {
+public class StoriesDialog extends IBaseDialog {
     public StoriesDialog(Context context) {
         this(context, 0);
-        init(context);
     }
 
     public StoriesDialog(Context context, int themeResId) {
-        super(context, R.style.popDialogTheme);
-        init(context);
+        super(context, R.style.StoryDialogTheme);
     }
 
     public StoriesDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
-        init(context);
-    }
-
-    private void init(Context context) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //取消标题栏
-
-//        LayoutInflater layoutInflater = LayoutInflater.from(context);
-//        View layout = layoutInflater.inflate(R.layout.stories_dialog_layout, null);
-//        setContentView(layout);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getWindow().setGravity(Gravity.CENTER);
+    public void Create() {
+        getWindow().setGravity(Gravity.CENTER); //位置
         WindowManager manager = getWindow().getWindowManager();
         Display display = manager.getDefaultDisplay();
         WindowManager.LayoutParams params = getWindow().getAttributes();

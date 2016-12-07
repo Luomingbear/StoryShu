@@ -29,13 +29,17 @@
             android:value="73c7c86b651fc354393a0e206079a080" />
 
         <activity
-            android:name=".activity.StoryMap"
+            android:name=".activity.storymap.StoryMap"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.test">
+
         </activity>
     </application>
 
