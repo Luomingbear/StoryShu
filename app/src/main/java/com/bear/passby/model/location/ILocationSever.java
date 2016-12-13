@@ -9,6 +9,8 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.bear.passby.R;
+import com.bear.passby.tool.observable.EventObservable;
 
 import java.util.List;
 
@@ -37,8 +39,8 @@ public class ILocationSever {
         public void onLocationChanged(AMapLocation aMapLocation) {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
-//                    Log.i(TAG, "onLocationChanged: " + aMapLocation);
-
+                    Log.i(TAG, "onLocationChanged: " + aMapLocation);
+                    EventObservable.getInstance().notifyObservers(R.id.title_view, aMapLocation.getAoiName());
                     //获取当前位置的具体信息如楼号等
 //                    getLocationName(aMapLocation);
 

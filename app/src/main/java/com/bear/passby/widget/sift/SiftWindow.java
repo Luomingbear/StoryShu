@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 import com.bear.passby.R;
-import com.bear.passby.utils.DipPxConversion;
 import com.bear.passby.utils.ToastUtil;
 import com.bear.passby.widget.selector.SelectorGroup;
 
@@ -50,7 +49,7 @@ public class SiftWindow extends PopupWindow implements SelectorGroup.OnSelectorC
         setBackgroundDrawable(new BitmapDrawable());
         float height = context.getResources().getDimension(R.dimen.selector_height);
 
-        setWidth(DipPxConversion.dip2px(context, 130));
+        setWidth((int) context.getResources().getDimension(R.dimen.sift_window_width));
         setHeight((int) (height * 3));
 
         /**

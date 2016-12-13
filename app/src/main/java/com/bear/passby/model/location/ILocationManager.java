@@ -12,6 +12,7 @@ import com.amap.api.maps.model.Marker;
  */
 
 public class ILocationManager implements IMapManager.OnMarkerClickedListener {
+    private static final String TAG = "ILocationManager";
     private volatile static ILocationManager instance;
 
     private Context mAppContext; //应用上下文
@@ -108,5 +109,16 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener {
      */
     public interface OnLocationMarkerClickListener {
         void OnClick(Marker marker);
+    }
+
+    private OnLocationGotListener onLOcationGotListener;
+
+//    public ILocationManager setOnLocationGotListener(OnLocationGotListener onLOcationGotListener) {
+//        this.onLOcationGotListener = onLOcationGotListener;
+//        return this;
+//    }
+
+    public interface OnLocationGotListener {
+        void onLocationGot(String locationName);
     }
 }

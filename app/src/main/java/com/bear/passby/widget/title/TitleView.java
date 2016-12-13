@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -13,17 +14,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bear.passby.R;
+import com.bear.passby.tool.observable.EventObserver;
 
 /**
  * 标题栏
  * Created by bear on 2016/12/2.
  */
 
-public class TitleView extends RelativeLayout {
+public class TitleView extends RelativeLayout implements EventObserver {
+    private static final String TAG = "TitleView";
     private int mTitleViewHeight; //控件的高度
     private int mIconWidth; // 图标的宽度
     private TextView mTitleTextView; //标题文本
-    private int mTitleCoclor; // 标题栏字体颜色
+    private int mTitleColor; // 标题栏字体颜色
     private float mTitleSize; // 标题栏字体大小
     private String mTitleString; //标题栏文本
     private RelativeLayout mRightButton; //右边的按钮
@@ -40,7 +43,7 @@ public class TitleView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TitleView);
-        mTitleCoclor = typedArray.getColor(R.styleable.TitleView_title_color, Color.BLACK);
+        mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, Color.BLACK);
         mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_normal));
         mTitleString = typedArray.getString(R.styleable.TitleView_title_string);
         typedArray.recycle();
@@ -84,7 +87,7 @@ public class TitleView extends RelativeLayout {
         mTitleTextView.setSingleLine();
 
         mTitleTextView.setText(mTitleString);
-        mTitleTextView.setTextColor(mTitleCoclor);
+        mTitleTextView.setTextColor(mTitleColor);
         mTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
         mTitleTextView.setOnClickListener(new OnClickListener() {
             @Override
@@ -145,16 +148,19 @@ public class TitleView extends RelativeLayout {
     }
 
 
-    public void setmTitleString(String mTitleString) {
+    public void setTitleString(String mTitleString) {
         this.mTitleString = mTitleString;
+        mTitleTextView.setText(mTitleString);
     }
 
-    public void setmTitleSize(float mTitleSize) {
+    public void setTitleSize(float mTitleSize) {
         this.mTitleSize = mTitleSize;
+        mTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
     }
 
-    public void setmTitleCoclor(int mTitleCoclor) {
-        this.mTitleCoclor = mTitleCoclor;
+    public void setTitleCoclor(int mTitleCoclor) {
+        this.mTitleColor = mTitleCoclor;
+        mTitleTextView.setTextColor(mTitleCoclor);
     }
 
     private onTitleClickListener onTitleClickListener;
@@ -163,12 +169,26 @@ public class TitleView extends RelativeLayout {
         this.onTitleClickListener = onTitleClickListener;
     }
 
-    public TextView getmTitleTextView() {
+    public TextView getTitleTextView() {
         return mTitleTextView;
     }
 
-    public RelativeLayout getmRightButton() {
+    public RelativeLayout getRightButton() {
         return mRightButton;
+    }
+
+    /**
+     * 通知观察者，位置获取成功
+     *
+     * @param sender
+     * @param eventId
+     * @param args
+     */
+    @Override
+    public void onNotify(Object sender, int eventId, Object... args) {
+        Log.e(TAG, "onNotify: " + args[0].toString());
+        if (eventId == R.id.title_view)
+            setTitleString(args[0].toString());
     }
 
     /**

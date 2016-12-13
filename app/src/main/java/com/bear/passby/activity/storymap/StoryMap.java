@@ -9,9 +9,10 @@ import com.amap.api.maps.model.Marker;
 import com.bear.passby.R;
 import com.bear.passby.activity.base.IBaseActivity;
 import com.bear.passby.model.location.ILocationManager;
+import com.bear.passby.tool.observable.EventObservable;
 import com.bear.passby.widget.menu.MenuDialogManager;
 import com.bear.passby.widget.sift.SiftWindowManager;
-import com.bear.passby.widget.story.StoriesDialogManager;
+import com.bear.passby.widget.story.StoriesWindowManager;
 import com.bear.passby.widget.title.TitleView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -24,6 +25,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
     private TitleView mTitleView; //标题栏
     private MapView mMapView; //地图
     private View mCreateStory; //写故事按钮
+    private View mDarkView; //半透明的黑色背景
     private long getPositionTime; //获取定位的时间
     private int minLocationIntervalTime = 10 * 1000;// 最小的获取定位的间隔时间，单位毫秒
 
@@ -59,7 +61,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
         ILocationManager.getInstance().init(getApplicationContext(), mMapView);
-        getPosition();
+        getLocation();
 
         /**
          * 标题栏
@@ -71,6 +73,11 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
          */
         mCreateStory = findViewById(R.id.story_map_create_story);
         mCreateStory.setOnClickListener(this);
+
+        /**
+         * 黑色的背景
+         */
+        mDarkView = findViewById(R.id.story_map_dark_view);
 
         /**
          * 获取当前的定位并且移动地图
@@ -86,7 +93,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
         @Override
         public void onLeftClick() {
             Log.i(TAG, "onLeftClick: ");
-//            StoriesDialogManager.getInstance().showDialog(StoryMap.this);
+//            StoriesWindowManager.getInstance().showDialog(StoryMap.this);
             MenuDialogManager.getInstance().showMenu(StoryMap.this);
         }
 
@@ -106,7 +113,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
      * 显示筛选栏
      */
     private void showSift() {
-        SiftWindowManager.getInstance().showSift(StoryMap.this, mTitleView.getmRightButton());
+        SiftWindowManager.getInstance().showSift(StoryMap.this, mTitleView.getRightButton());
     }
 
     /**
@@ -115,12 +122,13 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
     private void initTitle() {
         mTitleView = (TitleView) findViewById(R.id.title_view);
         mTitleView.setOnTitleClickListener(onTitleClickListener);
+        EventObservable.getInstance().addObserver(mTitleView);
     }
 
     /**
      * 获取位置信息
      */
-    private void getPosition() {
+    private void getLocation() {
 //        long time = System.currentTimeMillis();
 //        //如果当前的时间与上一次获取定位的时间差不到10s，则不重复进行定位
 //        if (time - getPositionTime < minLocationIntervalTime) {
@@ -155,6 +163,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
         mMapView.onPause();
+        StoriesWindowManager.getInstance().dismissDialog();
     }
 
     @Override
@@ -197,7 +206,20 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
             //点击的个人图标
         } else {
         }
-        StoriesDialogManager.getInstance().showDialog(this);
+        showStoryWindow();
+    }
 
+    /**
+     * 显示故事集
+     */
+    private void showStoryWindow() {
+        mDarkView.setVisibility(View.VISIBLE);
+
+        StoriesWindowManager.getInstance().showDialog(this, getWindow(), mMapView).setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
+            @Override
+            public void onDismiss() {
+                mDarkView.setVisibility(View.GONE);
+            }
+        });
     }
 }

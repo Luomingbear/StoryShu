@@ -14,16 +14,6 @@
 
     </com.amap.api.maps.MapView>
 
-    <!--标题栏 -->
-    <com.bear.passby.widget.title.TitleView
-        android:id="@+id/title_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        app:title_size="@dimen/font_big"
-        app:title_string="@string/app_name">
-
-    </com.bear.passby.widget.title.TitleView>
-
 
     <!--底部按钮 -->
     <RelativeLayout
@@ -58,4 +48,20 @@
 
     </RelativeLayout>
 
+    <View
+        android:id="@+id/story_map_dark_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTranslateDark"
+        android:visibility="gone" />
+
+    <!--标题栏 -->
+    <com.bear.passby.widget.title.TitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        app:title_size="@dimen/font_normal"
+        app:title_string="@string/app_name">
+
+    </com.bear.passby.widget.title.TitleView>
 </RelativeLayout>

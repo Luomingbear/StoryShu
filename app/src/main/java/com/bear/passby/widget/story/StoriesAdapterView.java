@@ -167,7 +167,7 @@ public class StoriesAdapterView extends AdapterView {
         /**
          * 缩放卡片到合适的尺寸
          */
-        float WidthRatio = ratio * (1 - 0.05f);
+        float WidthRatio = ratio * (1 - 0.08f);
         float showWidth = width * WidthRatio; //获取当前卡片缩放之后的宽度
 
         //
