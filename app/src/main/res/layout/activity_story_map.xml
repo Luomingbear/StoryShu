@@ -10,7 +10,8 @@
     <com.amap.api.maps.MapView
         android:id="@+id/story_map_map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/title_height">
 
     </com.amap.api.maps.MapView>
 
@@ -58,6 +59,7 @@
     <!--标题栏 -->
     <com.bear.passby.widget.title.TitleView
         android:id="@+id/title_view"
+        app:title_color="@color/colorRedPomegranate"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         app:title_size="@dimen/font_normal"

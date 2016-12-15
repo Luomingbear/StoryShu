@@ -187,8 +187,13 @@ public class TitleView extends RelativeLayout implements EventObserver {
     @Override
     public void onNotify(Object sender, int eventId, Object... args) {
         Log.e(TAG, "onNotify: " + args[0].toString());
-        if (eventId == R.id.title_view)
-            setTitleString(args[0].toString());
+        if (eventId == R.id.title_view) {
+            mTitleString = args[0].toString();
+            if (TextUtils.isEmpty(mTitleString))
+                mTitleString = getResources().getString(R.string.inLocation);
+
+            setTitleString(mTitleString);
+        }
     }
 
     /**

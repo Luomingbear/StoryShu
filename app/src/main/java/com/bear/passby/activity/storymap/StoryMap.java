@@ -12,7 +12,7 @@ import com.bear.passby.model.location.ILocationManager;
 import com.bear.passby.tool.observable.EventObservable;
 import com.bear.passby.widget.menu.MenuDialogManager;
 import com.bear.passby.widget.sift.SiftWindowManager;
-import com.bear.passby.widget.story.StoriesWindowManager;
+import com.bear.passby.model.stories.StoriesWindowManager;
 import com.bear.passby.widget.title.TitleView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -25,6 +25,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
     private TitleView mTitleView; //标题栏
     private MapView mMapView; //地图
     private View mCreateStory; //写故事按钮
+    private View mGetPosition; //定位到当前位置的按钮
     private View mDarkView; //半透明的黑色背景
     private long getPositionTime; //获取定位的时间
     private int minLocationIntervalTime = 10 * 1000;// 最小的获取定位的间隔时间，单位毫秒
@@ -82,8 +83,8 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
         /**
          * 获取当前的定位并且移动地图
          */
-        View getPosition = findViewById(R.id.story_map_get_position);
-        getPosition.setOnClickListener(this);
+        mGetPosition = findViewById(R.id.story_map_get_position);
+        mGetPosition.setOnClickListener(this);
     }
 
     /**
@@ -163,7 +164,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
         mMapView.onPause();
-        StoriesWindowManager.getInstance().dismissDialog();
+//        StoriesWindowManager.getInstance().dismissDialog();
     }
 
     @Override
@@ -214,11 +215,14 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
      */
     private void showStoryWindow() {
         mDarkView.setVisibility(View.VISIBLE);
-
+        mCreateStory.setVisibility(View.GONE);
+        mGetPosition.setVisibility(View.GONE);
         StoriesWindowManager.getInstance().showDialog(this, getWindow(), mMapView).setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
             @Override
             public void onDismiss() {
                 mDarkView.setVisibility(View.GONE);
+                mCreateStory.setVisibility(View.VISIBLE);
+                mGetPosition.setVisibility(View.VISIBLE);
             }
         });
     }
