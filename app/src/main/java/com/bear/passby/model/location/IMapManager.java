@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
@@ -12,13 +11,11 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.services.core.LatLonPoint;
-import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.bear.passby.widget.marker.BookMarker;
 import com.bear.passby.widget.marker.PersonMarker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,24 +85,24 @@ public class IMapManager implements ILocationSever.OnLocationChangeListener {
             /**
              * 假的故事集数据
              */
-            List<PoiItem> poiItemList = regeocodeAddress.getPois();
-            bookMarkerList = new ArrayList<>();
-            for (PoiItem poiItem : poiItemList) {
-                LatLng latLng = new LatLng(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
-                if (Math.abs(AMapUtils.calculateLineDistance(mLatLng, latLng)) < maxDistance) {
-                    showBookIcon(poiItem.getLatLonPoint(), poiItem.getTitle());
-                }
-            }
+//            List<PoiItem> poiItemList = regeocodeAddress.getPois();
+//            bookMarkerList = new ArrayList<>();
+//            for (PoiItem poiItem : poiItemList) {
+//                LatLng latLng = new LatLng(poiItem.getLatLonPoint().getLatitude(), poiItem.getLatLonPoint().getLongitude());
+//                if (Math.abs(AMapUtils.calculateLineDistance(mLatLng, latLng)) < maxDistance) {
+//                    showBookIcon(poiItem.getLatLonPoint(), poiItem.getTitle());
+//                }
+//            }
 
             /**
              *  清除不在范围内的故事集图标
              */
-            for (BookMarker bookMarker : bookMarkerList) {
-                if (AMapUtils.calculateLineDistance(mLatLng, bookMarker.getmLatLng()) > maxDistance) {
-                    bookMarker.destroy();
-                    bookMarkerList.remove(bookMarker);
-                }
-            }
+//            for (BookMarker bookMarker : bookMarkerList) {
+//                if (AMapUtils.calculateLineDistance(mLatLng, bookMarker.getmLatLng()) > maxDistance) {
+//                    bookMarker.destroy();
+//                    bookMarkerList.remove(bookMarker);
+//                }
+//            }
         }
 
         @Override
