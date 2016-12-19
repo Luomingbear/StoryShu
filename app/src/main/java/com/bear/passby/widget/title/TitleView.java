@@ -30,6 +30,26 @@ public class TitleView extends RelativeLayout implements EventObserver {
     private float mTitleSize; // 标题栏字体大小
     private String mTitleString; //标题栏文本
     private RelativeLayout mRightButton; //右边的按钮
+    private long oldClickTime; //上一次点击的时间
+
+    private TitleMode mTitleMode; //按钮的模式
+
+    public enum TitleMode {
+        /**
+         * 菜单-标题-筛选
+         */
+        MENU_TITLE_SIFT,
+
+        /**
+         * 返回-标题
+         */
+        BACK_TILE,
+
+        /**
+         *
+         */
+
+    }
 
     public TitleView(Context context) {
         this(context, null);
@@ -46,23 +66,52 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, Color.BLACK);
         mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_normal));
         mTitleString = typedArray.getString(R.styleable.TitleView_title_string);
+        mTitleMode = TitleMode.values()[typedArray.getInt(R.styleable.TitleView_title_mode, 0)];
         typedArray.recycle();
         init();
+        initTitle();
     }
 
+    /**
+     * 初始化信息
+     */
     private void init() {
 
         mIconWidth = (int) getResources().getDimension(R.dimen.icon_small);
         mTitleViewHeight = (int) getResources().getDimension(R.dimen.title_height);
         setGravity(Gravity.CENTER_VERTICAL);
-        setBackgroundResource(R.color.colorWhite);
+    }
+
+    /**
+     * 设置标题栏的样式，添加按钮等
+     */
+    private void initTitle() {
+        //移除之前的所有的view
         removeAllViews();
-        //
-        addLeftButton();
-        //
-        addTitle();
-        //
-        addRightButton();
+
+        //动态的生成界面
+        switch (mTitleMode) {
+            case BACK_TILE:
+                setBackgroundResource(R.color.colorWhite);
+
+                //left
+                addView(newImageButton(RelativeLayout.ALIGN_PARENT_LEFT, R.drawable.back));
+                //
+                addTitle();
+                break;
+            case MENU_TITLE_SIFT:
+                //
+                setBackgroundResource(R.color.colorWhite);
+
+                //left
+                addView(newImageButton(RelativeLayout.ALIGN_PARENT_LEFT, R.drawable.meun));
+                //
+                addTitle();
+                //right
+                mRightButton = newImageButton(RelativeLayout.ALIGN_PARENT_RIGHT, R.drawable.sift);
+                addView(mRightButton);
+                break;
+        }
     }
 
     /**
@@ -78,11 +127,14 @@ public class TitleView extends RelativeLayout implements EventObserver {
     private void addTitle() {
         if (TextUtils.isEmpty(mTitleString))
             return;
+
+        //生成一个textview并且设置layoutParams
         mTitleTextView = new TextView(getContext());
         LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         p.addRule(CENTER_IN_PARENT);
         mTitleTextView.setLayoutParams(p);
 
+        //设置单行，句尾省略
         mTitleTextView.setEllipsize(TextUtils.TruncateAt.END);
         mTitleTextView.setSingleLine();
 
@@ -92,10 +144,21 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mTitleTextView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onTitleClickListener != null)
-                    onTitleClickListener.onCenterClick();
+                long clickTime = System.currentTimeMillis();
+                float spendTime = clickTime - oldClickTime;
+                oldClickTime = clickTime;
+                if (onTitleClickListener != null) {
+                    /**
+                     * 如果时间间隔小于500毫秒则是双击，否则是单击
+                     */
+                    if (spendTime < 500)
+                        onTitleClickListener.onCenterDoubleClick();
+                    else
+                        onTitleClickListener.onCenterClick();
+                }
             }
         });
+
         addView(mTitleTextView);
     }
 
@@ -200,10 +263,16 @@ public class TitleView extends RelativeLayout implements EventObserver {
      * 标题栏的点击事件
      */
     public interface onTitleClickListener {
+        //左边的按钮被点击
         void onLeftClick();
 
+        //标题栏的按钮被点击
         void onCenterClick();
 
+        //标题栏被双击
+        void onCenterDoubleClick();
+
+        //右边的按钮被点击
         void onRightClick();
     }
 }

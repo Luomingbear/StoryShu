@@ -38,7 +38,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.test">
+        <activity
+            android:name=".activity.test"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activity.create.CreateStory"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>

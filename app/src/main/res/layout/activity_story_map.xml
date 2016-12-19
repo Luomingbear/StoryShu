@@ -59,9 +59,9 @@
     <!--标题栏 -->
     <com.bear.passby.widget.title.TitleView
         android:id="@+id/title_view"
-        app:title_color="@color/colorRedPomegranate"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
+        app:title_color="@color/colorRedPomegranate"
         app:title_size="@dimen/font_normal"
         app:title_string="@string/app_name">
 

@@ -32,7 +32,8 @@ public class StoriesAdapterView extends AdapterView {
     private int rightCardIndex = MaxCardShowNum - 1; //屏幕上最右边的卡片的下标
     private float minDistance; // 卡片距离中心卡片的最小距离
     private float[] mLeftPoints = new float[MaxCardShowNum]; //卡片的左端点x坐标集合
-    private long spendTime = 160; //动画的执行时间
+    private long spendTime = 150; //动画的执行时间
+
 
     public StoriesAdapterView(Context context) {
         super(context);

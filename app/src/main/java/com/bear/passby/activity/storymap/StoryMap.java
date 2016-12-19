@@ -1,5 +1,6 @@
 package com.bear.passby.activity.storymap;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,15 +9,17 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.Marker;
 import com.bear.passby.R;
 import com.bear.passby.activity.base.IBaseActivity;
+import com.bear.passby.activity.create.CreateStory;
 import com.bear.passby.model.location.ILocationManager;
+import com.bear.passby.model.stories.StoriesWindowManager;
 import com.bear.passby.tool.observable.EventObservable;
 import com.bear.passby.widget.menu.MenuDialogManager;
 import com.bear.passby.widget.sift.SiftWindowManager;
-import com.bear.passby.model.stories.StoriesWindowManager;
 import com.bear.passby.widget.title.TitleView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 
 public class StoryMap extends IBaseActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener {
@@ -46,7 +49,8 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
      * 初始化图像加载器
      */
     private void initImageLoader() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+        FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(200, true, false, false); //设置图片渐显，200毫秒
+        DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565).cacheInMemory(true).displayer(fadeInBitmapDisplayer).cacheOnDisk(true).build();
         ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(options).build();
 
         ImageLoader.getInstance().init(configuration);
@@ -104,6 +108,11 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
         }
 
         @Override
+        public void onCenterDoubleClick() {
+            move2Position();
+        }
+
+        @Override
         public void onRightClick() {
             Log.i(TAG, "onRightClick: ");
             showSift();
@@ -144,6 +153,12 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        move2Position();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
@@ -178,6 +193,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.story_map_create_story:
+                intentTo(CreateStory.class);
 //                Toast.makeText(this, R.string.create_story, Toast.LENGTH_SHORT).show();
                 break;
 
@@ -211,7 +227,7 @@ public class StoryMap extends IBaseActivity implements View.OnClickListener, ILo
     }
 
     /**
-     * 显示故事集
+     * 显示故事集弹窗
      */
     private void showStoryWindow() {
         mDarkView.setVisibility(View.VISIBLE);
