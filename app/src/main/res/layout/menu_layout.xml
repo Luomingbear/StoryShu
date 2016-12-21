@@ -1,38 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <com.storyshu.storyshu.widget.imageview.RoundImageView
+        android:id="@+id/menu_avatar"
+        android:layout_width="@dimen/image_small"
+        android:layout_height="@dimen/image_small"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/title_height"
+        android:src="@drawable/test"
+        app:RoundType="circle" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:gravity="center"
+        android:id="@+id/menu_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu_avatar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_small"
         android:text="@string/app_name"
-        android:textColor="@color/colorGreenScallionLight"
-        android:textSize="@dimen/font_big" />
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/font_small" />
 
-    <TextView
+    <!--中间的选项-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/colorGreenScallionLight"
-        android:textSize="@dimen/font_big" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu_nickname"
+        android:layout_marginLeft="@dimen/margin_big"
+        android:layout_marginTop="@dimen/margin_big"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/colorGreenScallionLight"
-        android:textSize="@dimen/font_big" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_big"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    <TextView
+            <ImageView
+                android:layout_width="@dimen/icon_min"
+                android:layout_height="@dimen/icon_min"
+                android:src="@drawable/story" />
+            ø
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:text="@string/my_stories"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_big"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/icon_min"
+                android:layout_height="@dimen/icon_min"
+                android:src="@drawable/like" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:text="@string/my_fans"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_big"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/icon_min"
+                android:layout_height="@dimen/icon_min"
+                android:src="@drawable/inbox" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:text="@string/my_inbox"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/icon_min"
+                android:layout_height="@dimen/icon_min"
+                android:src="@drawable/collection" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:text="@string/my_collection"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_normal" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/colorGreenScallionLight"
-        android:textSize="@dimen/font_big" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_big"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/icon_min"
+                android:layout_height="@dimen/icon_min"
+                android:src="@drawable/set" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:text="@string/setting"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/icon_min"
+                android:layout_height="@dimen/icon_min"
+                android:src="@drawable/night" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:text="@string/night_mode"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bear.passby">
+    package="com.storyshu.storyshu">
 
     <!--允许程序打开网络套接字-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -26,10 +26,10 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="73c7c86b651fc354393a0e206079a080" />
+            android:value="f586be2e1a9562e175e4e96018ed79cc" />
 
         <activity
-            android:name=".activity.storymap.StoryMap"
+            android:name="com.storyshu.storyshu.activity.welcome.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,15 +39,27 @@
         </activity>
 
         <activity
-            android:name=".activity.test"
+            android:name="com.storyshu.storyshu.activity.storymap.StoryMapActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.storyshu.storyshu.activity.test"
             android:screenOrientation="portrait">
 
         </activity>
         <activity
-            android:name=".activity.create.CreateStory"
+            android:name="com.storyshu.storyshu.activity.create.CreateStoryActivity"
             android:screenOrientation="portrait">
 
         </activity>
+
+        <activity
+            android:name="com.storyshu.storyshu.activity.story.StoryDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.create.CreateCoverActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

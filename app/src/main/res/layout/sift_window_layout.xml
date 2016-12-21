@@ -3,32 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
+    android:background="@drawable/shift_window_bg"
     android:orientation="vertical">
 
-    <com.bear.passby.widget.selector.SelectorGroup
+    <com.storyshu.storyshu.widget.selector.SelectorGroup
         android:id="@+id/sift_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:selectorMode="RadioButton">
 
-        <com.bear.passby.widget.selector.SelectorButton
+        <com.storyshu.storyshu.widget.selector.SelectorButton
             android:id="@+id/sift_all"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/selector_height"
+            app:icon_position="Center"
+            app:need_drawable="false"
             app:text_string="@string/sift_all" />
 
-        <com.bear.passby.widget.selector.SelectorButton
+        <!--分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGrayLight" />
+
+        <com.storyshu.storyshu.widget.selector.SelectorButton
             android:id="@+id/sift_hot"
             android:layout_width="match_parent"
             android:layout_height="@dimen/selector_height"
+            app:icon_position="Center"
+            app:need_drawable="false"
             app:text_string="@string/sift_hot" />
 
-        <com.bear.passby.widget.selector.SelectorButton
+        <!--分割线-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGrayLight" />
+
+        <com.storyshu.storyshu.widget.selector.SelectorButton
             android:id="@+id/sift_follow"
             android:layout_width="match_parent"
             android:layout_height="@dimen/selector_height"
+            app:icon_position="Center"
+            app:need_drawable="false"
             app:text_string="@string/sift_follow" />
-    </com.bear.passby.widget.selector.SelectorGroup>
+    </com.storyshu.storyshu.widget.selector.SelectorGroup>
 </LinearLayout>

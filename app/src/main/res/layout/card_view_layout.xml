@@ -4,18 +4,19 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.bear.passby.widget.card.AutoScaleLayout
+    <com.storyshu.storyshu.widget.card.AutoScaleLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_normal"
         android:background="@drawable/card_view_bg"
         app:scaleRate="1.6">
 
-        <com.bear.passby.widget.imageview.RoundImageView
+        <com.storyshu.storyshu.widget.imageview.RoundImageView
             android:id="@+id/card_view_detail_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="1dp"
+            android:transitionName="story_pic"
             app:BorderRadius="@dimen/card_round_size"
             app:RoundType="round_top_left_top_right"
             app:Scale="1.1" />
@@ -44,7 +45,7 @@
                 android:layout_marginTop="@dimen/margin_min"
                 android:orientation="horizontal">
 
-                <com.bear.passby.widget.imageview.RoundImageView
+                <com.storyshu.storyshu.widget.imageview.RoundImageView
                     android:id="@+id/card_view_head_portrait"
                     android:layout_width="@dimen/icon_normal"
                     android:layout_height="@dimen/icon_normal"
@@ -59,7 +60,7 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:singleLine="true"
                     android:textColor="@color/colorGrayDeep"
-                    android:textSize="@dimen/font_small" />
+                    android:textSize="@dimen/font_min" />
 
             </LinearLayout>
 
@@ -69,8 +70,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/card_view_user_layout"
                 android:layout_marginTop="@dimen/margin_min"
+                android:lineSpacingExtra="@dimen/margin_min"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/font_normal" />
 
@@ -83,10 +85,10 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
                 android:textColor="@color/colorGrayDeep"
-                android:textSize="@dimen/font_small" />
+                android:textSize="@dimen/font_min" />
         </RelativeLayout>
 
 
-    </com.bear.passby.widget.card.AutoScaleLayout>
+    </com.storyshu.storyshu.widget.card.AutoScaleLayout>
 
 </RelativeLayout>

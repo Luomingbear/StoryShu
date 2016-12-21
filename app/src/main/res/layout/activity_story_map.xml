@@ -5,7 +5,7 @@
     android:id="@+id/activity_story_map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bear.passby.activity.storymap.StoryMap">
+    tools:context="com.storyshu.storyshu.activity.storymap.StoryMapActivity">
 
     <com.amap.api.maps.MapView
         android:id="@+id/story_map_map_view"
@@ -57,13 +57,13 @@
         android:visibility="gone" />
 
     <!--标题栏 -->
-    <com.bear.passby.widget.title.TitleView
+    <com.storyshu.storyshu.widget.title.TitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        app:title_color="@color/colorRedPomegranate"
+        app:title_color="@color/colorBlack"
         app:title_size="@dimen/font_normal"
         app:title_string="@string/app_name">
 
-    </com.bear.passby.widget.title.TitleView>
+    </com.storyshu.storyshu.widget.title.TitleView>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="TitleView">
         <attr name="title_string" format="string|reference" />
         <attr name="title_color" format="color|reference" />
@@ -7,6 +8,7 @@
         <attr name="title_mode" format="enum">
             <enum name="MenuTitleSift" value="0" />
             <enum name="BackTitle" value="1" />
+            <enum name="BackTitleGo" value="2" />
         </attr>
     </declare-styleable>
 
@@ -18,16 +20,18 @@
     </declare-styleable>
 
     <declare-styleable name="SelectorButton">
+        <attr name="need_drawable" format="boolean" />
+        <attr name="icon_padding" format="dimension|reference" />
+        <attr name="layout_padding" format="dimension|reference" />
         <attr name="text_color" format="color|reference" />
         <attr name="text_string" format="string|reference" />
         <attr name="text_size" format="dimension|reference" />
-        <attr name="icon_padding" format="dimension|reference" />
-        <attr name="layout_padding" format="dimension|reference" />
         <attr name="icon_position" format="enum">
             <enum name="Left" value="0" />
             <enum name="Top" value="1" />
             <enum name="Right" value="2" />
             <enum name="Bottom" value="3" />
+            <enum name="Center" value="4" />
         </attr>
     </declare-styleable>
 
@@ -49,6 +53,12 @@
 
     <declare-styleable name="AutoScaleLayout">
         <attr name="scaleRate" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="StoryEditView">
+        <attr name="contentColor" format="color|reference" />
+        <attr name="contentSize" format="dimension|reference" />
+        <attr name="lineSpace" format="dimension|reference" />
     </declare-styleable>
 
 </resources>

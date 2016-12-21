@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrayLight"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.storyshu.storyshu.widget.title.TitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        app:title_mode="BackTitleGo"
+        app:title_string="@string/create_cover">
+
+    </com.storyshu.storyshu.widget.title.TitleView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/card_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/margin_big"
+            android:background="@drawable/card_view_bg">
+
+            <RelativeLayout
+                android:id="@+id/pic_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.storyshu.storyshu.widget.imageview.RoundImageView
+                    android:id="@+id/cover_detail_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    app:BorderRadius="@dimen/card_round_size"
+                    app:RoundType="round_top_left_top_right"
+                    app:Scale="1.1" />
+
+                <ImageView
+                    android:id="@+id/cover_add_image"
+                    android:layout_width="@dimen/image_normal"
+                    android:layout_height="@dimen/image_normal"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/add" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/cover_detail_pic"
+                    android:background="@color/colorGrayLight" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pic_layout"
+                android:layout_marginLeft="@dimen/margin_big"
+                android:layout_marginRight="@dimen/margin_big"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_small"
+                        android:layout_height="@dimen/icon_small"
+                        android:src="@drawable/edit1" />
+
+                    <TextView
+                        android:id="@+id/cover_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_min"
+                        android:background="@null"
+                        android:hint="@string/edit_title"
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:nextFocusForward="@id/card_view_extract"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/font_big" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/extra_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_small"
+                        android:layout_height="@dimen/icon_small"
+                        android:src="@drawable/edit1" />
+
+                    <TextView
+                        android:id="@+id/cover_extract"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_min"
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:hint="@string/edit_extra"
+                        android:lineSpacingExtra="@dimen/margin_min"
+                        android:maxLines="2"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/font_normal" />
+                </LinearLayout>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:stretchColumns="1">
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_small"
+                            android:layout_height="@dimen/icon_small"
+                            android:src="@drawable/location" />
+
+                        <TextView
+                            android:id="@+id/cover_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_min"
+                            android:layout_marginRight="@dimen/margin_min"
+                            android:ellipsize="end"
+                            android:hint="@string/edit_location"
+                            android:maxLines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/font_small" />
+
+                        <TextView
+                            android:id="@+id/card_view_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="2016.22"
+                            android:textColor="@color/colorGrayDeep"
+                            android:textSize="@dimen/font_small" />
+                    </TableRow>
+                </TableLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>
