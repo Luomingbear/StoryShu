@@ -7,8 +7,8 @@ import android.text.TextUtils;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.StoryBaseInfo;
-import com.storyshu.storyshu.model.create.CreateStorySharedPreferences;
 import com.storyshu.storyshu.utils.ParcelableUtil;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.story.StoryEditView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
@@ -38,8 +38,8 @@ public class CreateStoryActivity extends IBaseActivity {
 
         //正文编辑()
         mStoryEdit = (StoryEditView) findViewById(R.id.story_edit);
-        if (!TextUtils.isEmpty(CreateStorySharedPreferences.getContent(this)))
-            mStoryEdit.setContent(CreateStorySharedPreferences.getContent(this));
+        if (!TextUtils.isEmpty(ISharePreference.getContent(this)))
+            mStoryEdit.setContent(ISharePreference.getContent(this));
     }
 
     /**
@@ -73,7 +73,7 @@ public class CreateStoryActivity extends IBaseActivity {
 
     @Override
     protected void onStop() {
-        CreateStorySharedPreferences.saveContent(CreateStoryActivity.this, mStoryEdit.getContent());
+        ISharePreference.saveContent(CreateStoryActivity.this, mStoryEdit.getContent());
         super.onStop();
     }
 }

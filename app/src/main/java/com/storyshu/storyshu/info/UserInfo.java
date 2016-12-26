@@ -10,13 +10,13 @@ import android.os.Parcelable;
 
 public class UserInfo implements Parcelable {
     private String nickname; //昵称
-    private int userId; //用户id
-    private String headPortrait; //头像
+    private int userId = -1; //用户id 默认游客身份
+    private String avatar; //头像
 
     public UserInfo(String nickname, int userId, String headPortrait) {
         this.nickname = nickname;
         this.userId = userId;
-        this.headPortrait = headPortrait;
+        this.avatar = headPortrait;
     }
 
     public String getNickname() {
@@ -35,12 +35,12 @@ public class UserInfo implements Parcelable {
         this.userId = userId;
     }
 
-    public String getHeadPortrait() {
-        return headPortrait;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setHeadPortrait(String headPortrait) {
-        this.headPortrait = headPortrait;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.nickname);
         dest.writeInt(this.userId);
-        dest.writeString(this.headPortrait);
+        dest.writeString(this.avatar);
     }
 
     public UserInfo() {
@@ -61,7 +61,7 @@ public class UserInfo implements Parcelable {
     protected UserInfo(Parcel in) {
         this.nickname = in.readString();
         this.userId = in.readInt();
-        this.headPortrait = in.readString();
+        this.avatar = in.readString();
     }
 
     public static final Parcelable.Creator<UserInfo> CREATOR = new Parcelable.Creator<UserInfo>() {

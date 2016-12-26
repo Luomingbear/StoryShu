@@ -9,6 +9,7 @@
             <enum name="MenuTitleSift" value="0" />
             <enum name="BackTitle" value="1" />
             <enum name="BackTitleGo" value="2" />
+            <enum name="BackTitleShot" value="3" />
         </attr>
     </declare-styleable>
 

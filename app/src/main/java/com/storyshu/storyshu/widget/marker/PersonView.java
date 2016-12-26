@@ -61,6 +61,8 @@ public class PersonView extends RelativeLayout {
         mHeadPicIV = new RoundImageView(getContext());
         float width = mWidth * 0.78f;
         LayoutParams layoutParams = new LayoutParams((int) width, (int) width);
+        int margin = (int) (mWidth * 0.05f);
+        layoutParams.setMargins(margin * 2, 0, margin * 2, margin);
         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         mHeadPicIV.setLayoutParams(layoutParams);
         mHeadPicIV.setType(RoundImageView.TYPE_CIRCLE);

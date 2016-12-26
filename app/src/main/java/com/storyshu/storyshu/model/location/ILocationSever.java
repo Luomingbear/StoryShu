@@ -7,12 +7,8 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.services.geocoder.GeocodeAddress;
-import com.amap.api.services.geocoder.RegeocodeResult;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.tool.observable.EventObservable;
-
-import java.util.List;
 
 /**
  * 具体实现定位服务的类
@@ -48,7 +44,7 @@ public class ILocationSever {
                      */
                     //可在其中解析amapLocation获取相应内容。
                     if (onLocationChange != null)
-                        onLocationChange.locationChange(aMapLocation);
+                        onLocationChange.onLocationChange(aMapLocation);
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e("AmapError", "location Error, ErrCode:"
@@ -118,18 +114,6 @@ public class ILocationSever {
     }
 
 
-    /**
-     * 获取当前地点的兴趣的列表
-     */
-    public void getNearLocationList(RegeocodeResult result) {
-        if (result == null)
-            return;
-        List<GeocodeAddress> addressesList;
-
-
-    }
-
-
     private OnLocationChangeListener onLocationChange;
 
     public void setOnLocationChange(OnLocationChangeListener onLocationChange) {
@@ -142,6 +126,6 @@ public class ILocationSever {
          *
          * @param aMapLocation 位置数据
          */
-        void locationChange(AMapLocation aMapLocation);
+        void onLocationChange(AMapLocation aMapLocation);
     }
 }

@@ -1,8 +1,12 @@
 package com.storyshu.storyshu.widget.menu;
 
 import android.content.Context;
+import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.widget.imageview.RoundImageView;
 
 /**
  * 菜单弹窗的管家
@@ -12,6 +16,9 @@ import com.storyshu.storyshu.R;
 public class MenuDialogManager {
     private static MenuDialogManager instance; //单例对象
     private MenuDialog mMenuDialog; //弹窗对象
+    private RoundImageView mAvatar; //用户头像
+    private TextView mNickName; //昵称
+    private Context mContext;
 
     public static MenuDialogManager getInstance() {
         if (instance == null) {
@@ -37,10 +44,20 @@ public class MenuDialogManager {
             return;
         }
 
+        mContext = context;
         mMenuDialog = new MenuDialog(context);
         mMenuDialog.setContentView(R.layout.menu_layout);
-
         mMenuDialog.show();
+        initView();
+    }
+
+    private void initView() {
+        mAvatar = (RoundImageView) mMenuDialog.findViewById(R.id.menu_avatar);
+        ImageLoader.getInstance().displayImage(ISharePreference.getUserData(mContext).getAvatar(), mAvatar);
+
+        //
+        mNickName = (TextView) mMenuDialog.findViewById(R.id.menu_nickname);
+        mNickName.setText(ISharePreference.getUserData(mContext).getNickname());
     }
 
     /**

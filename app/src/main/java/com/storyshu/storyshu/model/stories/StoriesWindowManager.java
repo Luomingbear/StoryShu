@@ -7,7 +7,7 @@ import android.view.Window;
 import android.widget.PopupWindow;
 
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.adapter.CardAdapter;
+import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
@@ -101,7 +101,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
         int i;
         for (i = 0; i < 10; i++) {
             CardInfo cardInfo = new CardInfo();
-            cardInfo.setTitle("最初不过你好" + i);
+            cardInfo.setTitle("路人三千");
             cardInfo.setDetailPic("http://img.hb.aicdn.com/61588dbae333304cfe8510ac5183a33d30c922bf2ad93-kn7LXO_fw658");
             cardInfo.setExtract("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
             Date date = new Date(System.currentTimeMillis());
@@ -109,8 +109,8 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
 
             cardInfo.setCreateDate(date);
             UserInfo userInfo = new UserInfo();
-            userInfo.setHeadPortrait("http://img4.duitang.com/uploads/item/201512/01/20151201084252_BmJzQ.jpeg");
-            userInfo.setNickname("鹿人三千");
+            userInfo.setAvatar("http://img4.duitang.com/uploads/item/201512/01/20151201084252_BmJzQ.jpeg");
+            userInfo.setNickname("钟无艳");
             cardInfo.setUserInfo(userInfo);
             mCardInfoList.add(cardInfo);
         }

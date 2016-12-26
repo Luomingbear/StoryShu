@@ -26,4 +26,9 @@
     <string name="edit_extra">添加简介</string>
     <string name="edit_location">所在位置</string>
 
+    <!--保存故事截图-->
+    <string name="app_version">来自【故事鼠】</string>
+    <string name="save_screenshot_failed">图片保存失败</string>
+    <string name="save_screenshot_succeed">图片保存成功</string>
+
 </resources>

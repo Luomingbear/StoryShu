@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.adapter;
+package com.storyshu.storyshu.adapter.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;

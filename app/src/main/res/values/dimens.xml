@@ -36,7 +36,7 @@
     <dimen name="margin_small">9dp</dimen>
     <dimen name="margin_normal">18dp</dimen>
     <dimen name="margin_big">24dp</dimen>
-    <dimen name="margin_cover">34dp</dimen>
+    <dimen name="margin_cover">35dp</dimen>
 
     <!--卡片的圆角值-->
     <dimen name="card_round_size">15dp</dimen>

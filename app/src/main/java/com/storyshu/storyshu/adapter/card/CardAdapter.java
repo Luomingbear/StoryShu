@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.adapter;
+package com.storyshu.storyshu.adapter.card;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.adapter.base.IBaseAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.time.ConvertTimeUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
@@ -99,7 +100,7 @@ public class CardAdapter extends IBaseAdapter {
             return convertView;
         ImageLoader.getInstance().displayImage(cardInfo.getDetailPic(), viewHolder.storyPic, detailPicLoadListener);
         viewHolder.title.setText(cardInfo.getTitle());
-        ImageLoader.getInstance().displayImage(cardInfo.getUserInfo().getHeadPortrait(), viewHolder.headPortrait, headPortraitLoadListener);
+        ImageLoader.getInstance().displayImage(cardInfo.getUserInfo().getAvatar(), viewHolder.headPortrait, headPortraitLoadListener);
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
         viewHolder.extract.setText(cardInfo.getExtract());
         viewHolder.createDate.setText(ConvertTimeUtil.convertCurrentTime(cardInfo.getCreateDate()));

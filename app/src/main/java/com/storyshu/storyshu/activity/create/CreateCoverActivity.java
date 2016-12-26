@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amap.api.services.core.PoiItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -20,10 +21,11 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
 import com.storyshu.storyshu.info.StoryBaseInfo;
-import com.storyshu.storyshu.model.create.CreateStorySharedPreferences;
 import com.storyshu.storyshu.utils.ParcelableUtil;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.inputview.InputDialog;
+import com.storyshu.storyshu.widget.poilist.AoiDialogManger;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 /**
@@ -58,13 +60,13 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
         View coverPic = findViewById(R.id.cover_add_image);
         coverPic.setOnClickListener(this);
         mCoverPic = (RoundImageView) findViewById(R.id.cover_detail_pic);
-        showImage(CreateStorySharedPreferences.getCoverPic(this));
+        showImage(ISharePreference.getCoverPic(this));
 
         //标题文字
         mTitleTextView = (TextView) findViewById(R.id.cover_title);
         mTitleTextView.setOnClickListener(this);
-        if (!TextUtils.isEmpty(CreateStorySharedPreferences.getCoverPic(this)))
-            mTitleTextView.setText(CreateStorySharedPreferences.getTitle(this));
+        if (!TextUtils.isEmpty(ISharePreference.getCoverPic(this)))
+            mTitleTextView.setText(ISharePreference.getTitle(this));
 
         //摘要
         mExtraTextView = (TextView) findViewById(R.id.cover_extract);
@@ -105,10 +107,10 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
 
             @Override
             public void onRightClick() {
-                CreateStorySharedPreferences.saveExtra(CreateCoverActivity.this, "");
-                CreateStorySharedPreferences.saveContent(CreateCoverActivity.this, "");
-                CreateStorySharedPreferences.saveCoverPic(CreateCoverActivity.this, "");
-                CreateStorySharedPreferences.saveTitle(CreateCoverActivity.this, "");
+                ISharePreference.saveExtra(CreateCoverActivity.this, "");
+                ISharePreference.saveContent(CreateCoverActivity.this, "");
+                ISharePreference.saveCoverPic(CreateCoverActivity.this, "");
+                ISharePreference.saveTitle(CreateCoverActivity.this, "");
 
                 intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             }
@@ -145,7 +147,7 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
             //显示
             showImage(path);
             c.close();
-            CreateStorySharedPreferences.saveCoverPic(CreateCoverActivity.this, path);
+            ISharePreference.saveCoverPic(CreateCoverActivity.this, path);
         }
     }
 
@@ -188,7 +190,7 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
         titleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                CreateStorySharedPreferences.saveTitle(CreateCoverActivity.this, mTitleTextView.getText().toString());
+                ISharePreference.saveTitle(CreateCoverActivity.this, mTitleTextView.getText().toString());
             }
         });
 
@@ -218,11 +220,26 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
         extraDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                CreateStorySharedPreferences.saveExtra(CreateCoverActivity.this, mExtraTextView.getText().toString());
+                ISharePreference.saveExtra(CreateCoverActivity.this, mExtraTextView.getText().toString());
             }
         });
 
         extraDialog.setShowText(mExtraTextView.getText().toString());
+    }
+
+    /**
+     * 选择当前的位置
+     */
+    private void chooseAoiLocation() {
+        AoiDialogManger.getInstance().showAoiDialog(this).setOnPoiChooseListener(new AoiDialogManger.OnPoiChooseListener() {
+            @Override
+            public void onChoose(PoiItem choosePoi) {
+                mLocationTextView.setText(choosePoi.getTitle());
+                AoiDialogManger.getInstance().dismissAoiDialog();
+            }
+        });
+
+
     }
 
 
@@ -239,6 +256,7 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
                 editExtraShow();
                 break;
             case R.id.cover_location:
+                chooseAoiLocation();
                 break;
         }
     }

@@ -17,6 +17,8 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
+import com.storyshu.storyshu.info.UserInfo;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,6 +41,7 @@ public class WelcomeActivity extends IBaseActivity {
         setContentView(R.layout.welcome_layout);
         initView();
         initImageLoader();
+        initUSerData();
         initTimer();
     }
 
@@ -58,6 +61,16 @@ public class WelcomeActivity extends IBaseActivity {
             }
         });
 
+    }
+
+    /**
+     * 初始化游客身份
+     */
+    private void initUSerData() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAvatar("https://imgsa.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=2b7f34583da85edfee81f671283d6246/f703738da97739122455d869f1198618367ae243.jpg");
+        userInfo.setNickname("翻船");
+        ISharePreference.saveUserData(this, userInfo);
     }
 
     /**

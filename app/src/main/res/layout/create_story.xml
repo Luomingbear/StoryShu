@@ -26,8 +26,8 @@
             android:id="@+id/story_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_small">
 
         </com.storyshu.storyshu.widget.story.StoryEditView>

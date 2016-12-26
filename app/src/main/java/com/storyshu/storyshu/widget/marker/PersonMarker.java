@@ -15,6 +15,7 @@ import com.storyshu.storyshu.utils.ViewBitmapTool;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * 个人的标志
@@ -60,7 +61,7 @@ public class PersonMarker extends IMarker {
 
     private void init() {
         mPersonView = new PersonView(mContext);
-        String url = "http://img3.imgtn.bdimg.com/it/u=1059202420,708287351&fm=23&gp=0.jpg";
+        String url = ISharePreference.getUserData(mContext).getAvatar();
         ImageLoader.getInstance().loadImage(url, imageLoadingListener);
 
     }
