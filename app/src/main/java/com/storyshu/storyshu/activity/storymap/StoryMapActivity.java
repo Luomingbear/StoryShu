@@ -233,6 +233,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     @Override
     public void onCardClick(int position, CardInfo clickCardInfo) {
         intentWithParcelable(StoryDetailActivity.class, "story", clickCardInfo);
+        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
     }
 
     /**

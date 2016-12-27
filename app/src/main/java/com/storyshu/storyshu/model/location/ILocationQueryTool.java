@@ -42,13 +42,6 @@ public class ILocationQueryTool {
         return this;
     }
 
-    public ILocationQueryTool init(Context context, AMapLocation aMapLocation, OnLocationQueryListener onLocationQueryListener) {
-        this.mGeocodeSearch = new GeocodeSearch(context);
-        this.mAmapLocation = aMapLocation;
-        this.onLocationQueryListener = onLocationQueryListener;
-        return this;
-    }
-
     /**
      * 搜索回调函数
      */

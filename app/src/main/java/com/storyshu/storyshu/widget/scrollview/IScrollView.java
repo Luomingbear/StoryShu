@@ -94,7 +94,7 @@ public class IScrollView extends ScrollView {
          *
          * @param scrollY 、
          */
-        public void onScroll(int scrollY);
+        void onScroll(int scrollY);
     }
 
 

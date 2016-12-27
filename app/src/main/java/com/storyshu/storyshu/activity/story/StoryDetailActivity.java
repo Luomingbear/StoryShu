@@ -23,6 +23,7 @@ import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
+import com.storyshu.storyshu.widget.more.MoreDialogManager;
 import com.storyshu.storyshu.widget.scrollview.IScrollView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
@@ -47,8 +48,10 @@ public class StoryDetailActivity extends IBaseActivity {
     private TextView mNickname; //用户昵称
     private TextView mContent; //正文
     private IScrollView mScrollView; //滚动控件
-    private View mLogoLayout; //app作者
+    private View mLogoLayout; //app版权
+    private View mBottomBar; //底部栏
 
+    private int mAnimateTime = 260; //动画执行时间 毫秒
     private boolean isTitleShow = true; //标题栏是否隐藏了 否
     private boolean isTitleAnimate = false; //标题栏是否处于动画状态 否
 
@@ -114,6 +117,11 @@ public class StoryDetailActivity extends IBaseActivity {
         //app版权
         mLogoLayout = findViewById(R.id.story_detail_logo_layout);
 
+        //底部栏
+        mBottomBar = findViewById(R.id.story_detail_bottom_bar);
+
+        animateTitleShow(false);
+
     }
 
 
@@ -125,7 +133,19 @@ public class StoryDetailActivity extends IBaseActivity {
     private IScrollView.OnScrollListener scrollListener = new IScrollView.OnScrollListener() {
         @Override
         public void onScroll(int scrollY) {
+            Log.i(TAG, "onScroll: scrollY:" + scrollY);
+
             float distanceY = scrollY - oldScrollY;
+            /**
+             * 滑动底部的时候显示标题栏和底部栏
+             */
+            float scrollHeight = mScrollView.getChildAt(0).getHeight() - mScrollView.getHeight();
+            Log.d(TAG, "onScroll: height:" + scrollHeight);
+            if (scrollHeight - scrollY <= 5)
+                animateTitleShow(true);
+            /**
+             * 如果手指的移动距离过小就不运行动画
+             */
             if (Math.abs(distanceY) <= 1)
                 return;
 
@@ -133,16 +153,17 @@ public class StoryDetailActivity extends IBaseActivity {
              * 手指上滑或者滚动至0的位置 隐藏标题栏
              * 手指下滑 显示标题栏
              */
-            if (distanceY > 0 || scrollY == 0) {
+            if (distanceY > 0 || scrollY <= 5) {
                 animateTitleShow(false);
             } else animateTitleShow(true);
+
             oldScrollY = scrollY;
         }
     };
 
 
     /**
-     * 标题栏隐藏、显示
+     * 标题栏、底部栏 隐藏、显示
      *
      * @param isShow true 显示 false 隐藏
      */
@@ -152,17 +173,35 @@ public class StoryDetailActivity extends IBaseActivity {
 
         float height = getResources().getDimension(R.dimen.title_height);
 
+
+        /**
+         * 标题栏
+         */
         float fromY = isShow ? -height : 0;
         height = isShow ? height : -height;
 
         DecelerateInterpolator dl = new DecelerateInterpolator();  //减速
-        ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(mTitleView, "translationY",
+        ObjectAnimator titleAnimator = ObjectAnimator.ofFloat(mTitleView, "translationY",
                 fromY, fromY + height);
 
-        translationAnimator.setInterpolator(dl);
-        translationAnimator.setDuration(260);
-        translationAnimator.start();
-        translationAnimator.addListener(animatorListener);
+        titleAnimator.setInterpolator(dl);
+        titleAnimator.setDuration(mAnimateTime);
+        titleAnimator.addListener(animatorListener);
+
+
+        /**
+         * 底部栏
+         */
+        fromY = isShow ? height : 0;
+        ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(mBottomBar, "translationY",
+                fromY, fromY - height);
+
+        bottomAnimator.setInterpolator(dl);
+        bottomAnimator.setDuration(mAnimateTime);
+
+
+        titleAnimator.start();
+        bottomAnimator.start();
         isTitleShow = isShow;
     }
 
@@ -219,10 +258,30 @@ public class StoryDetailActivity extends IBaseActivity {
 
             @Override
             public void onRightClick() {
-                saveStory2Image();
+                MoreDialogManager.getInstance().setOnMoreDialogClickListener(onMoreDialogClickListener).showMoreDialog(StoryDetailActivity.this);
             }
         });
     }
+
+    private MoreDialogManager.OnMoreDialogClickListener onMoreDialogClickListener = new MoreDialogManager.OnMoreDialogClickListener() {
+        @Override
+        public void onLongPicClick() {
+            ToastUtil.Show(StoryDetailActivity.this, R.string.save_long_pic);
+            saveStory2Image();
+        }
+
+        @Override
+        public void onCoverClick() {
+            ToastUtil.Show(StoryDetailActivity.this, R.string.save_cover);
+
+        }
+
+        @Override
+        public void onReportClick() {
+            ToastUtil.Show(StoryDetailActivity.this, R.string.report);
+
+        }
+    };
 
     /**
      * 将故事保存为图片分享

@@ -10,6 +10,8 @@ import android.widget.TextView;
  */
 
 public class IBaseTextView extends TextView {
+    private int position = 0;
+
     public IBaseTextView(Context context) {
         super(context);
     }
@@ -20,5 +22,13 @@ public class IBaseTextView extends TextView {
 
     public IBaseTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

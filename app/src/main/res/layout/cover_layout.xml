@@ -11,7 +11,7 @@
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        app:title_mode="BackTitleGo"
+        app:title_mode="BackTitleSend"
         app:title_string="@string/create_cover">
 
     </com.storyshu.storyshu.widget.title.TitleView>
@@ -123,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_normal"
+                    android:shrinkColumns="1"
                     android:stretchColumns="1">
 
                     <TableRow
@@ -148,11 +149,10 @@
                             android:textSize="@dimen/font_small" />
 
                         <TextView
-                            android:id="@+id/card_view_date"
+                            android:id="@+id/cover_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="2016.22"
                             android:textColor="@color/colorGrayDeep"
                             android:textSize="@dimen/font_small" />
                     </TableRow>

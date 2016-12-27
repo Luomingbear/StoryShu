@@ -22,7 +22,6 @@ public class IBaseActivity extends FragmentActivity {
         Intent intent = new Intent();
         intent.setClass(this, cls);
         startActivity(intent);
-        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
 
     }
 
@@ -32,7 +31,6 @@ public class IBaseActivity extends FragmentActivity {
         intent.setFlags(flag);
         startActivity(intent);
         //淡入淡出
-        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
     }
 
     public void intentWithParcelable(Class<?> cls, String name, Parcelable parcelable) {
@@ -40,7 +38,6 @@ public class IBaseActivity extends FragmentActivity {
         intent.setClass(this, cls);
         intent.putExtra(name, parcelable);
         startActivity(intent);
-        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
 
     }
 

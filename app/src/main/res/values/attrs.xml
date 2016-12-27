@@ -10,11 +10,20 @@
             <enum name="BackTitle" value="1" />
             <enum name="BackTitleGo" value="2" />
             <enum name="BackTitleShot" value="3" />
+            <enum name="BackTitleSend" value="4" />
+            <enum name="BackTitleMore" value="5" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="SelectorGroup">
         <attr name="selectorMode" format="enum">
+            <enum name="CheckButton" value="0" />
+            <enum name="RadioButton" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SelectorAdapterView">
+        <attr name="selectorAdapterMode" format="enum">
             <enum name="CheckButton" value="0" />
             <enum name="RadioButton" value="1" />
         </attr>

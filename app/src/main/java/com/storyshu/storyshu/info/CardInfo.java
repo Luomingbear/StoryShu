@@ -87,7 +87,6 @@ public class CardInfo implements Parcelable {
         this.createDate = createDate;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -113,7 +112,7 @@ public class CardInfo implements Parcelable {
         this.createDate = tmpCreateDate == -1 ? null : new Date(tmpCreateDate);
     }
 
-    public static final Creator<CardInfo> CREATOR = new Creator<CardInfo>() {
+    public static final Parcelable.Creator<CardInfo> CREATOR = new Parcelable.Creator<CardInfo>() {
         @Override
         public CardInfo createFromParcel(Parcel source) {
             return new CardInfo(source);

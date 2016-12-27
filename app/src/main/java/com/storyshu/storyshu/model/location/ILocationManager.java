@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.model.location;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.MapView;
@@ -34,11 +35,12 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
     private ILocationQueryTool mLocationQueryTool; //位置搜索工具
 
-    private int mRadius = 10; //搜索半径
-    private int maxDistance = 50; //最大距离 单位米
+    private AMapLocation mAmapLocation; //位置数据
+    private LatLng mLatLng = new LatLng(0, 0); //位置数据
+    private int mRadius = 5; //搜索半径
+    private List<PoiItem> poiItemList; //搜索的结果
 
     private LatLng oldLatlng; //上一次的位置数据
-    private List<PoiItem> aoiList; //当前位置的兴趣点列表
 
     /**
      * 获取单例的位置管家，定位和地图都通过这个完成
@@ -91,7 +93,6 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
         //移动地图到上一次的地点
         mMapManager.move2Position(ISharePreference.getLatLngData(mAppContext));
-
     }
 
     /**
@@ -119,9 +120,26 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 获取当前地点的兴趣的列表
      */
     public List<PoiItem> getPoiList() {
-        if (aoiList == null)
-            return null;
-        return aoiList;
+        List<PoiItem> list = poiItemList;
+        removeDuplicate(list);
+        return list;
+    }
+
+    /**
+     * 移除重复的元素
+     *
+     * @param list 需要重新排列的元素
+     */
+    private void removeDuplicate(List<PoiItem> list) {
+        if (list == null)
+            return;
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getTitle().equals(list.get(i).getTitle())) {
+                    list.remove(j);
+                }
+            }
+        }
     }
 
 
@@ -137,7 +155,8 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     private ILocationQueryTool.OnLocationQueryListener onLocationQueryListener = new ILocationQueryTool.OnLocationQueryListener() {
         @Override
         public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
-            aoiList = regeocodeAddress.getPois();
+            poiItemList = regeocodeAddress.getPois();
+            Log.d(TAG, "onRegeocodeSearched: poiList Size:" + poiItemList.size());
         }
 
         @Override
@@ -153,10 +172,13 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      */
     @Override
     public void onLocationChange(AMapLocation aMapLocation) {
+        LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+        if (mLatLng.latitude == latLng.latitude && mLatLng.longitude == latLng.longitude)
+            return;
+        mLatLng = latLng;
         /**
          * 设置地图的显示
          */
-        LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
         //
         moveMap(latLng);
         //
@@ -166,10 +188,13 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
          */
         mMapManager.showPersonIcon(latLng);
 
+        //更新位置信息
+        mAmapLocation = aMapLocation;
+
         /**
          * 搜索工具,寻找当前位置的兴趣点
          */
-        mLocationQueryTool.init(aMapLocation, onLocationQueryListener).startRegeocodeQuery(mRadius);
+        mLocationQueryTool.init(mAmapLocation, onLocationQueryListener).startRegeocodeQuery(mRadius);
     }
 
     /**
@@ -205,16 +230,5 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      */
     public interface OnLocationMarkerClickListener {
         void OnClick(Marker marker);
-    }
-
-    private OnLocationGotListener onLOcationGotListener;
-
-//    public ILocationManager setOnLocationGotListener(OnLocationGotListener onLOcationGotListener) {
-//        this.onLOcationGotListener = onLOcationGotListener;
-//        return this;
-//    }
-
-    public interface OnLocationGotListener {
-        void onLocationGot(String locationName);
     }
 }

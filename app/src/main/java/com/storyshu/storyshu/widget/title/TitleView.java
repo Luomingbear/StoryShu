@@ -56,6 +56,16 @@ public class TitleView extends RelativeLayout implements EventObserver {
          */
         BACK_TILE_SHOT,
 
+        /**
+         * 返回-标题-发布
+         */
+        BACK_TILE_SEND,
+
+        /**
+         * 返回-标题-更多
+         */
+        BACK_TILE_MORE,
+
 
     }
 
@@ -137,7 +147,25 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //title
                 addTitle();
                 //go
-                addView(mRightButton = newImageButton(RelativeLayout.ALIGN_PARENT_RIGHT, R.drawable.screenshot2));
+                addView(mRightButton = newImageButton(RelativeLayout.ALIGN_PARENT_RIGHT, R.drawable.screenshot));
+                break;
+
+            case BACK_TILE_SEND:
+                //left
+                addView(newImageButton(RelativeLayout.ALIGN_PARENT_LEFT, R.drawable.back));
+                //title
+                addTitle();
+                //send
+                addView(mRightButton = newImageButton(RelativeLayout.ALIGN_PARENT_RIGHT, R.drawable.send));
+                break;
+
+            case BACK_TILE_MORE:
+                //left
+                addView(newImageButton(RelativeLayout.ALIGN_PARENT_LEFT, R.drawable.back));
+                //title
+                addTitle();
+                //more
+                addView(mRightButton = newImageButton(RelativeLayout.ALIGN_PARENT_RIGHT, R.drawable.more));
                 break;
         }
     }

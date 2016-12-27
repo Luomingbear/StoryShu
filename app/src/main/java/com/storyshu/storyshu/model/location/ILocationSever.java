@@ -23,7 +23,6 @@ public class ILocationSever {
     public AMapLocationClientOption mLocationOption = null;
     private int mIntervalTime = 2000; //定位间隔时间毫秒
 
-
     public ILocationSever(Context applicationContext) {
         //初始化定位
         mLocationClient = new AMapLocationClient(applicationContext);

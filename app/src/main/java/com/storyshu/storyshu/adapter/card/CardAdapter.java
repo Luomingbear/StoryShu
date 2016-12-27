@@ -93,7 +93,8 @@ public class CardAdapter extends IBaseAdapter {
             viewHolder.extract = (TextView) convertView.findViewById(R.id.card_view_extract);
             viewHolder.createDate = (TextView) convertView.findViewById(R.id.card_view_date);
             convertView.setTag(viewHolder);
-        } else convertView.getTag();
+        } else
+            viewHolder = (ViewHolder) convertView.getTag();
 
         CardInfo cardInfo = (CardInfo) getItem(position);
         if (cardInfo == null)

@@ -111,10 +111,98 @@
         android:layout_height="@dimen/title_height"
         android:layout_alignParentTop="true"
         app:title_color="@color/colorBlack"
-        app:title_mode="BackTitleShot"
+        app:title_mode="BackTitleMore"
         app:title_size="@dimen/font_normal">
 
     </com.storyshu.storyshu.widget.title.TitleView>
 
+    <!--底部导航栏-->
+    <RelativeLayout
+        android:id="@+id/story_detail_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGrayLight" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_min"
+                    android:layout_height="@dimen/icon_min"
+                    android:src="@drawable/collection" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_min"
+                    android:gravity="center"
+                    android:text="@string/collect"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_min" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_min"
+                    android:layout_height="@dimen/icon_min"
+                    android:src="@drawable/inbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_min"
+                    android:gravity="center"
+                    android:text="@string/communicate"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_min" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_min"
+                    android:layout_height="@dimen/icon_min"
+                    android:src="@drawable/like" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_min"
+                    android:gravity="center"
+                    android:text="@string/like"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_min" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

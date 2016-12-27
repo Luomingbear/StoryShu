@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,12 +22,16 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
 import com.storyshu.storyshu.info.StoryBaseInfo;
+import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.inputview.InputDialog;
-import com.storyshu.storyshu.widget.poilist.AoiDialogManger;
+import com.storyshu.storyshu.widget.poilist.PoiDialogManger;
 import com.storyshu.storyshu.widget.title.TitleView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 封面设置
@@ -34,13 +39,17 @@ import com.storyshu.storyshu.widget.title.TitleView;
  */
 
 public class CreateCoverActivity extends IBaseActivity implements View.OnClickListener {
+    private static final String TAG = "CreateCoverActivity";
     private TextView mTitleTextView; //标题文字显示框
     private TextView mExtraTextView; //摘要文字框
     private TextView mLocationTextView; //所在位置文字框
     private RoundImageView mCoverPic; //封面图
+    private TextView mCreateTime; //创建时间
     private static final int IMAGE = 1;
     private static final int CAMERA = 2;
-    private StoryBaseInfo mStoryInfo; //获取上个页面传来的数据
+    private StoryBaseInfo mBeforeStoryInfo; //获取上个页面传来的数据
+    private StoryInfo mStoryInfo; //故事的数据
+    private String coverPicPath; //封面图片的地址
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,13 +86,17 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
         mLocationTextView = (TextView) findViewById(R.id.cover_location);
         mLocationTextView.setOnClickListener(this);
 
+        //创建时间
+        mCreateTime = (TextView) findViewById(R.id.cover_date);
+        setCreateTime();
     }
 
     /**
      * 获取故事的正文数据
      */
     private void initDate() {
-        mStoryInfo = getIntent().getParcelableExtra(ParcelableUtil.STORY);
+        mBeforeStoryInfo = getIntent().getParcelableExtra(ParcelableUtil.STORY);
+        mStoryInfo = new StoryInfo();
     }
 
     private void initTitle() {
@@ -107,11 +120,18 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
 
             @Override
             public void onRightClick() {
+                mStoryInfo.setExtract(mExtraTextView.getText().toString());
+                mStoryInfo.setCreateDate(new Date(System.currentTimeMillis()));
+                mStoryInfo.setDetailPic(coverPicPath);
+                mStoryInfo.setTitle(mTitleTextView.getText().toString());
+                mStoryInfo.setContent(ISharePreference.getContent(CreateCoverActivity.this));
+                mStoryInfo.setUserInfo(ISharePreference.getUserData(CreateCoverActivity.this));
+                // TODO: 2016/12/27 发布故事到服务器 
+
                 ISharePreference.saveExtra(CreateCoverActivity.this, "");
                 ISharePreference.saveContent(CreateCoverActivity.this, "");
                 ISharePreference.saveCoverPic(CreateCoverActivity.this, "");
                 ISharePreference.saveTitle(CreateCoverActivity.this, "");
-
                 intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             }
         });
@@ -143,11 +163,11 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
             Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
             c.moveToFirst();
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            String path = c.getString(columnIndex);
+            coverPicPath = c.getString(columnIndex);
             //显示
-            showImage(path);
+            showImage(coverPicPath);
             c.close();
-            ISharePreference.saveCoverPic(CreateCoverActivity.this, path);
+            ISharePreference.saveCoverPic(CreateCoverActivity.this, coverPicPath);
         }
     }
 
@@ -164,7 +184,6 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
 
         }
         ImageLoader.getInstance().displayImage("file://" + path, mCoverPic);
-
     }
 
     /**
@@ -231,15 +250,25 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
      * 选择当前的位置
      */
     private void chooseAoiLocation() {
-        AoiDialogManger.getInstance().showAoiDialog(this).setOnPoiChooseListener(new AoiDialogManger.OnPoiChooseListener() {
+        PoiDialogManger.getInstance().showAoiDialog(this).setOnPoiChooseListener(new PoiDialogManger.OnPoiChooseListener() {
             @Override
             public void onChoose(PoiItem choosePoi) {
                 mLocationTextView.setText(choosePoi.getTitle());
-                AoiDialogManger.getInstance().dismissAoiDialog();
+                Log.i(TAG, "onChoose: PoiItem:" + choosePoi);
+                PoiDialogManger.getInstance().dismissAoiDialog();
             }
         });
+    }
 
+    /**
+     * 设置当前的时间
+     */
+    private void setCreateTime() {
 
+        Date createDate = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+        String str = formatter.format(createDate);
+        mCreateTime.setText(str);
     }
 
 

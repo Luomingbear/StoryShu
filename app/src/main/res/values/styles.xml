@@ -13,4 +13,9 @@
         <item name="android:windowExitAnimation">@anim/menu_out</item>
     </style>
 
+    <style name="moreDialogAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/more_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/more_dialog_out</item>
+    </style>
+
 </resources>

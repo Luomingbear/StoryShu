@@ -22,7 +22,7 @@ public abstract class IBaseAdapter extends BaseAdapter {
         this.mList = mList;
     }
 
-    public Context getmContext() {
+    public Context getContext() {
         return mContext;
     }
 
