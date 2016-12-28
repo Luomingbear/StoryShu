@@ -164,6 +164,7 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
             c.moveToFirst();
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             coverPicPath = c.getString(columnIndex);
+            Log.i(TAG, "onActivityResult: coverpath:" + coverPicPath);
             //显示
             showImage(coverPicPath);
             c.close();

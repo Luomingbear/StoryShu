@@ -10,6 +10,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.activity.story.StoryDetailActivity;
+import com.storyshu.storyshu.activity.Test;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoriesWindowManager;
@@ -77,6 +78,41 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     }
 
     /**
+     * 侧边菜单点击响应
+     */
+    private MenuDialogManager.OnMenuClickListener onMenuClickListener = new MenuDialogManager.OnMenuClickListener() {
+        @Override
+        public void OnAvatarClick() {
+            intentTo(Test.class);
+        }
+
+        @Override
+        public void OnMyStoriesClick() {
+
+        }
+
+        @Override
+        public void OnInBoxClick() {
+
+        }
+
+        @Override
+        public void OnCollectionClick() {
+
+        }
+
+        @Override
+        public void OnSettingClick() {
+
+        }
+
+        @Override
+        public void OnNightModeClick() {
+
+        }
+    };
+
+    /**
      * 标题栏点击响应事件
      */
     private TitleView.onTitleClickListener onTitleClickListener = new TitleView.onTitleClickListener() {
@@ -84,7 +120,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         public void onLeftClick() {
             Log.i(TAG, "onLeftClick: ");
 //            StoriesWindowManager.getInstance().showDialog(StoryMapActivity.this);
-            MenuDialogManager.getInstance().showMenu(StoryMapActivity.this);
+            MenuDialogManager.getInstance().setOnMenuClickListener(onMenuClickListener).showMenu(StoryMapActivity.this);
         }
 
         @Override

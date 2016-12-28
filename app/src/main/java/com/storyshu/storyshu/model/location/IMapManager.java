@@ -79,7 +79,14 @@ public class IMapManager {
         mUiSettings.setZoomControlsEnabled(false);
         //旋转
         mUiSettings.setRotateGesturesEnabled(true);
+        //缩放
+        mUiSettings.setZoomGesturesEnabled(false);
+        //倾斜
+        mUiSettings.setTiltGesturesEnabled(false);
+        //移动
+//        mUiSettings.setScrollGesturesEnabled(false);
         //
+
         mUiSettings.setIndoorSwitchEnabled(false);
     }
 
@@ -120,6 +127,7 @@ public class IMapManager {
     public void showBookIcons() {
         // TODO: 2016/12/3 获取服务器的数据显示图标
     }
+
 
     /**
      * 移动地图到当前位置

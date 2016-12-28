@@ -112,8 +112,9 @@ public class MenuDialogManager implements View.OnClickListener {
 
     private OnMenuClickListener onMenuClickListener;
 
-    public void setOnMenuClickListener(OnMenuClickListener onMenuClickListener) {
+    public MenuDialogManager setOnMenuClickListener(OnMenuClickListener onMenuClickListener) {
         this.onMenuClickListener = onMenuClickListener;
+        return this;
     }
 
     @Override

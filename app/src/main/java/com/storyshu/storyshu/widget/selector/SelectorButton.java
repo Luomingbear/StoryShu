@@ -196,7 +196,7 @@ public class SelectorButton extends View {
                 break;
             case CENTER:
                 textX = centerX - textWidth / 2;
-                textY = centerY + 2 * mTextSize / 3;
+                textY = centerY + 1 * mTextSize / 3;
                 break;
         }
 
