@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
+import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -32,6 +33,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     private ILocationSever mLocationSever; //定位服务
 
     private IMapManager mMapManager; //地图视图管家，定位的数据在地图上更新
+    private boolean isMapLoaded = false; //地图加载完毕
 
     private ILocationQueryTool mLocationQueryTool; //位置搜索工具
 
@@ -74,6 +76,17 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     }
 
     /**
+     * 地图加载完毕的接口回调
+     */
+    private AMap.OnMapLoadedListener onMapLoadedListener = new AMap.OnMapLoadedListener() {
+        @Override
+        public void onMapLoaded() {
+            Log.i(TAG, "onMapLoaded: !!!!!!!");
+            isMapLoaded = true;
+        }
+    };
+
+    /**
      * 开始定位
      */
     public void start() {
@@ -84,6 +97,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         if (mMapManager == null) {
             mMapManager = new IMapManager(mAppContext, mMapView);
         }
+        mMapView.getMap().setOnMapLoadedListener(onMapLoadedListener);
         //
         mLocationSever.start();
         mLocationSever.setOnLocationChange(this);
@@ -173,7 +187,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     @Override
     public void onLocationChange(AMapLocation aMapLocation) {
         LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
-        if (mLatLng.latitude == latLng.latitude && mLatLng.longitude == latLng.longitude)
+        if (mLatLng.equals(latLng) && isMapLoaded)
             return;
         mLatLng = latLng;
         /**
@@ -201,8 +215,6 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 移动地图到当前的位置
      */
     private void moveMap(LatLng latLng) {
-        if (latLng.equals(oldLatlng))
-            return;
         mMapManager.move2Position(latLng);
         oldLatlng = latLng;
     }

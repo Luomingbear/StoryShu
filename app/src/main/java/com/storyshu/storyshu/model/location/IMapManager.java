@@ -29,7 +29,7 @@ public class IMapManager {
     private UiSettings mUiSettings; //地图ui设置
     private boolean isFirstZoom = true; //是否首次启动地图
 
-    private int mScaleLevel = 19; //默认的地图缩放比例
+    private int mScaleLevel = 17; //默认的地图缩放比例
     private PersonMarker mPersonMarker; //个人位置点图标
     private List<BookMarker> bookMarkerList; //故事集图标列表
 

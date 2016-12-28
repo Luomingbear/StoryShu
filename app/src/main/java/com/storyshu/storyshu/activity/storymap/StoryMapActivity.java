@@ -125,7 +125,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
 //        }
 //        getPositionTime = time;
         ILocationManager.getInstance().stop();
-
         ILocationManager.getInstance().setOnLocationMarkerClickListener(this).start();
 
     }
