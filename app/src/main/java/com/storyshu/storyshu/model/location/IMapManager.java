@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.model.location;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -104,6 +105,7 @@ public class IMapManager {
      * 显示位置的图标
      */
     public void showPersonIcon(LatLng personLatLng) {
+        Log.i(TAG, "showPersonIcon: !!!!!!!!!!!!!!!");
         if (mPersonMarker == null)
             mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
         else

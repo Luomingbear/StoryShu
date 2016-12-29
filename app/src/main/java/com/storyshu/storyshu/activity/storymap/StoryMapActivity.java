@@ -1,16 +1,21 @@
 package com.storyshu.storyshu.activity.storymap;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.Marker;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.Test;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.activity.story.StoryDetailActivity;
-import com.storyshu.storyshu.activity.Test;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoriesWindowManager;
@@ -35,11 +40,13 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_story_map);
 
         initView(savedInstanceState);
+//        initImageLoader();
     }
 
     private void initView(Bundle savedInstanceState) {
@@ -52,7 +59,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
         ILocationManager.getInstance().init(getApplicationContext(), mMapView);
-        getLocation();
 
         /**
          * 标题栏
@@ -75,6 +81,20 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
          */
         mGetPosition = findViewById(R.id.story_map_get_position);
         mGetPosition.setOnClickListener(this);
+    }
+
+    /**
+     * 初始化图像加载器
+     */
+    private void initImageLoader() {
+        if (ImageLoader.getInstance().isInited())
+            return;
+
+        FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(180, true, false, false); //设置图片渐显，200毫秒
+        DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565).cacheInMemory(true).displayer(fadeInBitmapDisplayer).cacheOnDisk(true).build();
+        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(options).build();
+
+        ImageLoader.getInstance().init(configuration);
     }
 
     /**
@@ -153,22 +173,33 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
      * 获取位置信息
      */
     private void getLocation() {
-//        long time = System.currentTimeMillis();
-//        //如果当前的时间与上一次获取定位的时间差不到10s，则不重复进行定位
-//        if (time - getPositionTime < minLocationIntervalTime) {
-//            ILocationManager.getInstance().move2CurrentPosition();
-//            return;
-//        }
-//        getPositionTime = time;
-        ILocationManager.getInstance().stop();
+//        ILocationManager.getInstance().stop();
         ILocationManager.getInstance().setOnLocationMarkerClickListener(this).start();
-
     }
 
     @Override
     protected void onStart() {
+        Log.d(TAG, "onStart: ");
         super.onStart();
-        move2Position();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
+        mMapView.onPause();
+        ILocationManager.getInstance().stop();
+
+//        StoriesWindowManager.getInstance().dismissDialog();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+        //在activity执行onResume时执行mMapView.onResume ()，实现地图生命周期管理
+        mMapView.onResume();
+        getLocation();
     }
 
     @Override
@@ -177,23 +208,9 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
 
-        ILocationManager.getInstance().init(getApplicationContext(), mMapView).stop();
+        ILocationManager.getInstance().init(getApplicationContext(), mMapView).destroy();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //在activity执行onResume时执行mMapView.onResume ()，实现地图生命周期管理
-        mMapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
-        mMapView.onPause();
-//        StoriesWindowManager.getInstance().dismissDialog();
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

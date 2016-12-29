@@ -21,7 +21,7 @@ public class ILocationSever {
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
-    private int mIntervalTime = 2000; //定位间隔时间毫秒
+    private int mIntervalTime = 2500; //定位间隔时间毫秒
 
     public ILocationSever(Context applicationContext) {
         //初始化定位
@@ -34,13 +34,9 @@ public class ILocationSever {
         public void onLocationChanged(AMapLocation aMapLocation) {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
-                    EventObservable.getInstance().notifyObservers(R.id.title_view, aMapLocation.getAoiName());
-                    //获取当前位置的具体信息如楼号等
-//                    getLocationName(aMapLocation);
+                    EventObservable.getInstance().notifyObservers(R.id.title_view, aMapLocation.getPoiName());
+                    Log.d(TAG, "onLocationChanged: " + aMapLocation.getPoiName());
 
-                    /**
-                     * 回调给地图视图控制类 IMapManager
-                     */
                     //可在其中解析amapLocation获取相应内容。
                     if (onLocationChange != null)
                         onLocationChange.onLocationChange(aMapLocation);
@@ -61,7 +57,6 @@ public class ILocationSever {
     private void init() {
         //设置定位回调监听
         mLocationClient.setLocationListener(mLocationListener);
-
         //初始化AMapLocationClientOption对象
         mLocationOption = new AMapLocationClientOption();
 
@@ -100,6 +95,15 @@ public class ILocationSever {
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
+//        mLocationClient.startAssistantLocation();
+    }
+
+    /**
+     * 停止定位
+     */
+    public void stop() {
+        mLocationClient.stopLocation();
+//        mLocationClient.stopAssistantLocation();
     }
 
     /**
@@ -110,6 +114,7 @@ public class ILocationSever {
             return;
         mLocationClient.stopLocation();//停止定位后，本地定位服务并不会被销毁
         mLocationClient.onDestroy();
+        mLocationClient.stopLocation();
     }
 
 

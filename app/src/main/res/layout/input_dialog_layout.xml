@@ -24,7 +24,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:maxLines="3"
-            android:paddingLeft="@dimen/margin_small"
+            android:paddingLeft="@dimen/margin_normal"
             android:paddingRight="@dimen/margin_small"
             android:lineSpacingExtra="@dimen/margin_small"
             android:textColor="@color/colorBlack"

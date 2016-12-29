@@ -2,6 +2,7 @@ package com.storyshu.storyshu.widget.marker;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
@@ -11,10 +12,11 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.TranslateAnimation;
-import com.storyshu.storyshu.utils.ViewBitmapTool;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.utils.ViewBitmapTool;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
@@ -23,6 +25,7 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
  */
 
 public class PersonMarker extends IMarker {
+    private static final String TAG = "PersonMarker";
     private PersonView mPersonView; //
 
     public PersonMarker(Context mContext, AMap mAMap, LatLng mLatLng) {
@@ -33,12 +36,16 @@ public class PersonMarker extends IMarker {
     private ImageLoadingListener imageLoadingListener = new ImageLoadingListener() {
         @Override
         public void onLoadingStarted(String imageUri, View view) {
-
         }
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(mLatLng);
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.person_maker_bg));
 
+            mMarker = mAMap.addMarker(markerOptions);
+            Log.e(TAG, "onLoadingFailed: 地图上个人头像的图标加载失败");
         }
 
         @Override
@@ -51,11 +58,12 @@ public class PersonMarker extends IMarker {
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
             mMarker = mAMap.addMarker(markerOptions);
+            Log.i(TAG, "onLoadingComplete: ");
         }
 
         @Override
         public void onLoadingCancelled(String imageUri, View view) {
-
+            Log.i(TAG, "onLoadingCancelled: ");
         }
     };
 

@@ -39,7 +39,6 @@ public class PersonView extends RelativeLayout {
         if (bmp == null)
             return;
         mHeadPicIV.setImageBitmap(bmp);
-//        invalidate();
     }
 
     /**
@@ -50,7 +49,7 @@ public class PersonView extends RelativeLayout {
         LayoutParams p = new LayoutParams(mWidth, mWidth);
 //        p.addRule(RelativeLayout.CENTER_HORIZONTAL);
         bgIV.setLayoutParams(p);
-        bgIV.setBackgroundResource(R.drawable.location1);
+        bgIV.setBackgroundResource(R.drawable.person_maker_bg);
         addView(bgIV);
     }
 

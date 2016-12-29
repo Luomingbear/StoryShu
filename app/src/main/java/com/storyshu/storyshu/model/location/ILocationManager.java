@@ -82,6 +82,8 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         @Override
         public void onMapLoaded() {
             Log.i(TAG, "onMapLoaded: !!!!!!!");
+            move2CurrentPosition();
+
             isMapLoaded = true;
         }
     };
@@ -113,6 +115,17 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 结束定位
      */
     public void stop() {
+        //清除定位服务
+        if (mLocationSever != null) {
+            mLocationSever.stop();
+        }
+    }
+
+    /**
+     * 销毁定位
+     */
+    public void destroy() {
+        mMapView.getMap().clear();
         //清除定位服务
         if (mLocationSever != null) {
             mLocationSever.destroy();
@@ -190,18 +203,17 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         if (mLatLng.equals(latLng) && isMapLoaded)
             return;
         mLatLng = latLng;
-        /**
-         * 设置地图的显示
-         */
+
         //
-        moveMap(latLng);
-        //
-        saveLatlngPreference(latLng);
         /**
          * 设置用户的图标显示
          */
         mMapManager.showPersonIcon(latLng);
 
+        /**
+         * 移动地图的显示
+         */
+        moveMap(latLng);
         //更新位置信息
         mAmapLocation = aMapLocation;
 
@@ -209,6 +221,10 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
          * 搜索工具,寻找当前位置的兴趣点
          */
         mLocationQueryTool.init(mAmapLocation, onLocationQueryListener).startRegeocodeQuery(mRadius);
+
+        //保存位置信息到本地
+        saveLatlngPreference(latLng);
+
     }
 
     /**
