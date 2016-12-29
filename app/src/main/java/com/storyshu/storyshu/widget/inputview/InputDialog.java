@@ -3,6 +3,7 @@ package com.storyshu.storyshu.widget.inputview;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.storyshu.storyshu.widget.dialog.IBaseDialog;
  */
 
 public class InputDialog extends IBaseDialog {
+    private static final String TAG = "InputDialog";
     private EditText mEditText; //输入框
     private View mSend; //发送按钮
     private InputMethodManager inputMethodManager;
@@ -75,16 +77,27 @@ public class InputDialog extends IBaseDialog {
      * 显示键盘
      */
     public void showKeyboard() {
-        inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        Log.i(TAG, "showKeyboard: 显示");
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
         inputMethodManager.showSoftInput(mEditText, InputMethodManager.SHOW_FORCED);
+
+        boolean isOpen = mEditText.isActivated();
+        Log.i(TAG, "showKeyboard: isOpen:" + isOpen);
     }
 
     /**
      * 隐藏键盘
      */
     public void hideKeyboard() {
-        //// TODO: 16/10/29 隐藏键盘 
+        Log.i(TAG, "hideKeyboard: 隐藏");
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+        InputDialog.this.dismiss();
+
+//        inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(), InputMethodManager.SHOW_FORCED);
+//        inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_SHOWN, InputMethodManager.RESULT_HIDDEN);
+
     }
 
     private void initView() {
@@ -125,9 +138,9 @@ public class InputDialog extends IBaseDialog {
         mSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputDialog.this.dismiss();
                 if (onInputChangeListener != null)
                     onInputChangeListener.onSendClick();
+                //
             }
         });
     }

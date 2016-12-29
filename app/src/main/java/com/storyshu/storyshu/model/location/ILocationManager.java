@@ -81,7 +81,6 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     private AMap.OnMapLoadedListener onMapLoadedListener = new AMap.OnMapLoadedListener() {
         @Override
         public void onMapLoaded() {
-            Log.i(TAG, "onMapLoaded: !!!!!!!");
             move2CurrentPosition();
 
             isMapLoaded = true;
@@ -109,6 +108,8 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
         //移动地图到上一次的地点
         mMapManager.move2Position(ISharePreference.getLatLngData(mAppContext));
+        //显示用户图标
+        mMapManager.showPersonIcon(ISharePreference.getLatLngData(mAppContext));
     }
 
     /**

@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.storyshu.storyshu.widget.story.StoryEditView
+        <com.storyshu.storyshu.widget.text.RichTextEditor
             android:id="@+id/story_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:layout_marginRight="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_small">
 
-        </com.storyshu.storyshu.widget.story.StoryEditView>
+        </com.storyshu.storyshu.widget.text.RichTextEditor>
     </ScrollView>
 
 </LinearLayout>

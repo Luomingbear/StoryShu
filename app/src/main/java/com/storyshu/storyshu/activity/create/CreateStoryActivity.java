@@ -9,7 +9,7 @@ import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.StoryBaseInfo;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
-import com.storyshu.storyshu.widget.story.StoryEditView;
+import com.storyshu.storyshu.widget.text.RichTextEditor;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 /**
@@ -19,7 +19,7 @@ import com.storyshu.storyshu.widget.title.TitleView;
 
 public class CreateStoryActivity extends IBaseActivity {
     private TitleView mTitleView; //标题栏
-    private StoryEditView mStoryEdit; //正文编辑栏
+    private RichTextEditor mStoryEdit; //正文编辑栏
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,9 +37,9 @@ public class CreateStoryActivity extends IBaseActivity {
         initTitleView();
 
         //正文编辑()
-        mStoryEdit = (StoryEditView) findViewById(R.id.story_edit);
+        mStoryEdit = (RichTextEditor) findViewById(R.id.story_edit);
         if (!TextUtils.isEmpty(ISharePreference.getContent(this)))
-            mStoryEdit.setContent(ISharePreference.getContent(this));
+            mStoryEdit.setContentDescription(ISharePreference.getContent(this));
     }
 
     /**
@@ -65,7 +65,7 @@ public class CreateStoryActivity extends IBaseActivity {
             @Override
             public void onRightClick() {
                 StoryBaseInfo storyBaseInfo = new StoryBaseInfo();
-                storyBaseInfo.setContent(mStoryEdit.getContent());
+//                storyBaseInfo.setContent(mStoryEdit.buildEditData());
                 intentWithParcelable(CreateCoverActivity.class, ParcelableUtil.STORY, storyBaseInfo);
             }
         });
@@ -73,7 +73,7 @@ public class CreateStoryActivity extends IBaseActivity {
 
     @Override
     protected void onStop() {
-        ISharePreference.saveContent(CreateStoryActivity.this, mStoryEdit.getContent());
+//        ISharePreference.saveContent(CreateStoryActivity.this, mStoryEdit.buildEditData());
         super.onStop();
     }
 }

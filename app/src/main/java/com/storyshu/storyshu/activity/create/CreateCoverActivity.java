@@ -132,6 +132,7 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
                 ISharePreference.saveContent(CreateCoverActivity.this, "");
                 ISharePreference.saveCoverPic(CreateCoverActivity.this, "");
                 ISharePreference.saveTitle(CreateCoverActivity.this, "");
+                //
                 intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             }
         });

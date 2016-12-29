@@ -123,22 +123,28 @@ public class MenuDialogManager implements View.OnClickListener {
             case R.id.menu_avatar:
                 if (onMenuClickListener != null)
                     onMenuClickListener.OnAvatarClick();
+                mMenuDialog.dismiss();
                 break;
             case R.id.menu_my_stories:
                 if (onMenuClickListener != null)
                     onMenuClickListener.OnMyStoriesClick();
+                mMenuDialog.dismiss();
+
                 break;
             case R.id.menu_inbox:
                 if (onMenuClickListener != null)
                     onMenuClickListener.OnInBoxClick();
+                mMenuDialog.dismiss();
                 break;
             case R.id.menu_collection:
                 if (onMenuClickListener != null)
                     onMenuClickListener.OnCollectionClick();
+                mMenuDialog.dismiss();
                 break;
             case R.id.menu_setting:
                 if (onMenuClickListener != null)
                     onMenuClickListener.OnSettingClick();
+                mMenuDialog.dismiss();
                 break;
             case R.id.menu_night_mode:
                 changeNightModeShow();

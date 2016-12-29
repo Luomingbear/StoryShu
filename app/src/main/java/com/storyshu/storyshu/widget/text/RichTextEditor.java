@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,7 +104,7 @@ public class RichTextEditor extends ScrollView {
         LinearLayout.LayoutParams firstEditParam = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         editNormalPadding = dip2px(EDIT_PADDING);
-        EditText firstEdit = createEditText("input here",
+        EditText firstEdit = createEditText("",
                 dip2px(EDIT_FIRST_PADDING_TOP));
         allLayout.addView(firstEdit, firstEditParam);
         lastFocusEdit = firstEdit;
@@ -170,9 +171,10 @@ public class RichTextEditor extends ScrollView {
         //
         editText.setOnKeyListener(keyListener);
         editText.setTag(viewTagIndex++);
-        editText.setPadding(editNormalPadding, paddingTop, editNormalPadding, 0);
+//        editText.setPadding(editNormalPadding, paddingTop, editNormalPadding, 0);
         editText.setHint(hint);
         editText.setOnFocusChangeListener(focusListener);
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_small));
         editText.setBackgroundResource(0);
         editText.setLineSpacing(getResources().getDimension(R.dimen.line_space), 1);
         return editText;
@@ -184,6 +186,8 @@ public class RichTextEditor extends ScrollView {
     private RelativeLayout createImageLayout() {
         RelativeLayout layout = new RelativeLayout(getContext());
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        int margin = (int) getResources().getDimension(R.dimen.margin_normal);
+        p.setMargins(0, margin, 0, margin);
         layout.setLayoutParams(p);
         layout.setTag(viewTagIndex++);
 
@@ -200,6 +204,7 @@ public class RichTextEditor extends ScrollView {
         closeView.setTag(layout.getTag());
         closeView.setOnClickListener(btnListener);
         closeView.setId(R.id.image_close);
+        closeView.setBackgroundColor(getResources().getColor(R.color.colorRedPomegranate));
         layout.addView(closeView);
         return layout;
     }
@@ -394,7 +399,7 @@ public class RichTextEditor extends ScrollView {
                 DataImageView item = (DataImageView) itemView
                         .findViewById(R.id.edit_imageView);
                 itemData.imagePath = item.getAbsolutePath();
-                itemData.bitmap = item.getBitmap();
+//                itemData.bitmap = item.getBitmap();
             }
             dataList.add(itemData);
         }
@@ -405,6 +410,6 @@ public class RichTextEditor extends ScrollView {
     class EditData {
         String inputStr;
         String imagePath;
-        Bitmap bitmap;
+//        Bitmap bitmap;
     }
 }
