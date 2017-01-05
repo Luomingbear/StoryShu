@@ -1,18 +1,12 @@
 package com.storyshu.storyshu.activity.storymap;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.Marker;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.activity.Test;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.activity.story.StoryDetailActivity;
@@ -84,26 +78,12 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     }
 
     /**
-     * 初始化图像加载器
-     */
-    private void initImageLoader() {
-        if (ImageLoader.getInstance().isInited())
-            return;
-
-        FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(180, true, false, false); //设置图片渐显，200毫秒
-        DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565).cacheInMemory(true).displayer(fadeInBitmapDisplayer).cacheOnDisk(true).build();
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(options).build();
-
-        ImageLoader.getInstance().init(configuration);
-    }
-
-    /**
      * 侧边菜单点击响应
      */
     private MenuDialogManager.OnMenuClickListener onMenuClickListener = new MenuDialogManager.OnMenuClickListener() {
         @Override
         public void OnAvatarClick() {
-            intentTo(Test.class);
+//            intentTo(Test.class);
         }
 
         @Override
@@ -135,7 +115,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     /**
      * 标题栏点击响应事件
      */
-    private TitleView.onTitleClickListener onTitleClickListener = new TitleView.onTitleClickListener() {
+    private TitleView.OnTitleClickListener onTitleClickListener = new TitleView.OnTitleClickListener() {
         @Override
         public void onLeftClick() {
             Log.i(TAG, "onLeftClick: ");

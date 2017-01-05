@@ -16,6 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
+import com.storyshu.storyshu.activity.login.LoginActivity;
 import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -56,7 +57,7 @@ public class WelcomeActivity extends IBaseActivity {
                 if (mTimer != null)
                     mTimer.cancel();
                 //跳转到地图界面
-                intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent2Class();
 
             }
         });
@@ -118,10 +119,23 @@ public class WelcomeActivity extends IBaseActivity {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                //跳转到地图界面
-                intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent2Class();
             }
         };
         mTimer.schedule(timerTask, mWaitTime);
+    }
+
+
+    /**
+     * 跳转界面
+     * 如果用户已经登录则跳转到地图界面
+     * 没有登录则跳转到登录界面
+     */
+    private void intent2Class() {
+        UserInfo userInfo = ISharePreference.getUserData(this);
+        if (userInfo.getUserId() == -1)
+            intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        else
+            intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }

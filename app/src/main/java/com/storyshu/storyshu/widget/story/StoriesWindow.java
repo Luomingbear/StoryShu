@@ -40,7 +40,7 @@ public class StoriesWindow extends PopupWindow {
         //是否可以点击
         setTouchable(true);
         //点击外部消失
-//        setOutsideTouchable(true);
+        setOutsideTouchable(true);
         // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
         setBackgroundDrawable(new BitmapDrawable());
 

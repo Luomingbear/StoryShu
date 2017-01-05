@@ -240,7 +240,7 @@ public class StoryDetailActivity extends IBaseActivity {
 
 
         //按钮
-        mTitleView.setOnTitleClickListener(new TitleView.onTitleClickListener() {
+        mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
             public void onLeftClick() {
                 finish();

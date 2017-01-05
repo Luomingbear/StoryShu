@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.activity.base.IBaseActivity;
+import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
 import com.storyshu.storyshu.info.StoryBaseInfo;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -17,9 +17,11 @@ import com.storyshu.storyshu.widget.title.TitleView;
  * Created by bear on 2016/12/19.
  */
 
-public class CreateStoryActivity extends IBaseActivity {
+public class CreateStoryActivity extends ChooseImageResultActivity {
     private TitleView mTitleView; //标题栏
     private RichTextEditor mStoryEdit; //正文编辑栏
+    private static final int IMAGE = 1;
+    private static final int CAMERA = 2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class CreateStoryActivity extends IBaseActivity {
      * 标题栏的设置和响应事件
      */
     private void initTitleView() {
-        mTitleView.setOnTitleClickListener(new TitleView.onTitleClickListener() {
+        mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
             public void onLeftClick() {
                 finish();
@@ -65,15 +67,30 @@ public class CreateStoryActivity extends IBaseActivity {
             @Override
             public void onRightClick() {
                 StoryBaseInfo storyBaseInfo = new StoryBaseInfo();
-//                storyBaseInfo.setContent(mStoryEdit.buildEditData());
+//              storyBaseInfo.setContent(mStoryEdit.getEditData());
+                ISharePreference.saveExtra(CreateStoryActivity.this, mStoryEdit.getExtract());
                 intentWithParcelable(CreateCoverActivity.class, ParcelableUtil.STORY, storyBaseInfo);
+            }
+        });
+
+        mTitleView.setOnTitleInsertImageListener(new TitleView.OnTitleInsertImageListener() {
+            @Override
+            public void onInsertImageClick() {
+                chooseImage();
             }
         });
     }
 
     @Override
+    public void onResult(String imagePath) {
+        //插入图片
+        mStoryEdit.insertImage(imagePath);
+    }
+
+
+    @Override
     protected void onStop() {
-//        ISharePreference.saveContent(CreateStoryActivity.this, mStoryEdit.buildEditData());
+        ISharePreference.saveExtra(CreateStoryActivity.this, mStoryEdit.getExtract());
         super.onStop();
     }
 }

@@ -75,6 +75,9 @@ public class PoiDialogManger {
         customLocationEdit.setOnCustomLocationEditListener(new CustomLocationEdit.OnCustomLocationEditListener() {
             @Override
             public void OnCustomLocation(String locationName) {
+                if (mPoiItemList.size() == 0)
+                    return;
+
                 PoiItem p = mPoiItemList.get(0);
                 PoiItem poi = new PoiItem(p.getPoiId(), p.getLatLonPoint(), locationName, p.getSnippet());
                 if (onPoiChooseListener != null)
@@ -90,7 +93,7 @@ public class PoiDialogManger {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "onItemClick: choose position:" + position);
                 if (onPoiChooseListener != null)
-                    onPoiChooseListener.onChoose((PoiItem) mPoiItemList.get(position));
+                    onPoiChooseListener.onChoose(mPoiItemList.get(position));
             }
         });
     }

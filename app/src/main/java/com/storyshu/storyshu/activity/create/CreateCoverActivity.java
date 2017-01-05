@@ -1,13 +1,9 @@
 package com.storyshu.storyshu.activity.create;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +15,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.activity.base.IBaseActivity;
+import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
 import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
 import com.storyshu.storyshu.info.StoryBaseInfo;
 import com.storyshu.storyshu.info.StoryInfo;
@@ -38,7 +34,7 @@ import java.util.Date;
  * Created by bear on 2016/12/25.
  */
 
-public class CreateCoverActivity extends IBaseActivity implements View.OnClickListener {
+public class CreateCoverActivity extends ChooseImageResultActivity implements View.OnClickListener {
     private static final String TAG = "CreateCoverActivity";
     private TextView mTitleTextView; //标题文字显示框
     private TextView mExtraTextView; //摘要文字框
@@ -79,7 +75,7 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
 
         //摘要
         mExtraTextView = (TextView) findViewById(R.id.cover_extract);
-        mExtraTextView.setText(mStoryInfo.getExtract());
+        mExtraTextView.setText(ISharePreference.getExtra(this));
         mExtraTextView.setOnClickListener(this);
 
         //所在位置
@@ -101,7 +97,7 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
 
     private void initTitle() {
         TitleView titleView = (TitleView) findViewById(R.id.title_view);
-        titleView.setOnTitleClickListener(new TitleView.onTitleClickListener() {
+        titleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
             public void onLeftClick() {
 
@@ -138,39 +134,11 @@ public class CreateCoverActivity extends IBaseActivity implements View.OnClickLi
         });
     }
 
-    /**
-     * 调用系统相册
-     */
-    private void chooseImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, IMAGE);
-    }
-
-    /**
-     * 调用系统相册返回
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //获取相册图片
-        if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            coverPicPath = c.getString(columnIndex);
-            Log.i(TAG, "onActivityResult: coverpath:" + coverPicPath);
-            //显示
-            showImage(coverPicPath);
-            c.close();
-            ISharePreference.saveCoverPic(CreateCoverActivity.this, coverPicPath);
-        }
+    public void onResult(String imagePath) {
+        coverPicPath = imagePath;
+        showImage(coverPicPath);
+        ISharePreference.saveCoverPic(CreateCoverActivity.this, coverPicPath);
     }
 
     /**

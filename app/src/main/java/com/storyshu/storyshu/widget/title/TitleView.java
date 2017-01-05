@@ -68,6 +68,10 @@ public class TitleView extends RelativeLayout implements EventObserver {
          */
         BACK_TILE_MORE,
 
+        /**
+         * 返回-标题-插入图片-继续
+         */
+        BACK_TILE_IMAGE_GO,
 
     }
 
@@ -120,6 +124,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addLeftButton(R.drawable.back);
                 //title
                 addTitle();
+                //line
+                addBottomLine();
                 break;
 
             case BACK_TILE_GO:
@@ -129,6 +135,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addRightButton(R.drawable.go);
                 //title
                 addTitle();
+                //line
+                addBottomLine();
                 break;
 
             case MENU_POSITION_SIFT:
@@ -138,6 +146,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addPositionTitle();
                 //right
                 addRightButton(R.drawable.sift);
+                //line
+                addBottomLine();
                 break;
 
             case BACK_TILE_SHOT:
@@ -156,6 +166,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addRightButton(R.drawable.send);
                 //title
                 addTitle();
+                //line
+                addBottomLine();
                 break;
 
             case BACK_TILE_MORE:
@@ -165,6 +177,20 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addRightButton(R.drawable.more);
                 //title
                 addTitle();
+                break;
+
+            case BACK_TILE_IMAGE_GO:
+                //left
+                addLeftButton(R.drawable.back);
+                //title
+                addTitle();
+                //go
+                addRightButton(R.drawable.ok);
+                //image
+                addInsertImageButton();
+                //line
+                addBottomLine();
+
                 break;
         }
     }
@@ -315,13 +341,42 @@ public class TitleView extends RelativeLayout implements EventObserver {
         return relativeLayout;
     }
 
-    private ImageView newImageView(int resId) {
-        ImageView imageView = new ImageView(getContext());
-        imageView.setBackgroundResource(resId);
+    /**
+     * 添加图片的按钮
+     */
+    private void addInsertImageButton() {
+        RelativeLayout imageLayout = new RelativeLayout(getContext());
+        LayoutParams p = new LayoutParams(mTitleViewHeight, mTitleViewHeight);
+        p.addRule(RelativeLayout.LEFT_OF, mRightLayout.getId());
+        imageLayout.setLayoutParams(p);
+        imageLayout.setGravity(Gravity.CENTER);
 
-        LayoutParams p = new LayoutParams(mIconWidth, mIconWidth);
-        imageView.setLayoutParams(p);
-        return imageView;
+        imageLayout.addView(newImageView(R.drawable.image));
+
+        imageLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onTitleInserImageListener != null)
+                    onTitleInserImageListener.onInsertImageClick();
+            }
+        });
+        addView(imageLayout);
+    }
+
+    /**
+     * 添加底部的分界线
+     */
+    private void addBottomLine() {
+        View lineView = new View(getContext());
+        LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, 2);
+        p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lineView.setLayoutParams(p);
+        lineView.setBackgroundColor(getResources().getColor(R.color.colorGrayLight));
+        addView(lineView);
+    }
+
+    private ImageView newImageView(int resId) {
+        return newImageView(resId, mIconWidth, mIconWidth);
     }
 
     private ImageView newImageView(int resId, float width, float height) {
@@ -358,9 +413,9 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mTitleTextView.setTextColor(mTitleCoclor);
     }
 
-    private onTitleClickListener onTitleClickListener;
+    private OnTitleClickListener onTitleClickListener;
 
-    public void setOnTitleClickListener(TitleView.onTitleClickListener onTitleClickListener) {
+    public void setOnTitleClickListener(OnTitleClickListener onTitleClickListener) {
         this.onTitleClickListener = onTitleClickListener;
     }
 
@@ -395,7 +450,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
     /**
      * 标题栏的点击事件
      */
-    public interface onTitleClickListener {
+    public interface OnTitleClickListener {
         //左边的按钮被点击
         void onLeftClick();
 
@@ -407,5 +462,15 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
         //右边的按钮被点击
         void onRightClick();
+    }
+
+    private OnTitleInsertImageListener onTitleInserImageListener;
+
+    public void setOnTitleInsertImageListener(OnTitleInsertImageListener onTitleInserImageListener) {
+        this.onTitleInserImageListener = onTitleInserImageListener;
+    }
+
+    public interface OnTitleInsertImageListener {
+        void onInsertImageClick();
     }
 }

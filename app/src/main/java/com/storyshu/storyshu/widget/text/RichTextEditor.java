@@ -5,11 +5,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.info.EditLineData;
 import com.storyshu.storyshu.widget.imageview.DataImageView;
 
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class RichTextEditor extends ScrollView {
 
     private int viewTagIndex = 1; // 新生的view都会打一个tag，对每个view来说，这个tag是唯一的。
     private LinearLayout allLayout; // 这个是所有子view的容器，scrollView内部的唯一一个ViewGroup
-    private LayoutInflater inflater;
     private OnKeyListener keyListener; // 所有EditText的软键盘监听器
     private OnClickListener btnListener; // 图片右上角红叉按钮监听器
     private OnFocusChangeListener focusListener; // 所有EditText的焦点监听listener
@@ -55,7 +55,6 @@ public class RichTextEditor extends ScrollView {
 
     public RichTextEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflater = LayoutInflater.from(context);
 
         // 1. 初始化allLayout
         allLayout = new LinearLayout(context);
@@ -171,7 +170,6 @@ public class RichTextEditor extends ScrollView {
         //
         editText.setOnKeyListener(keyListener);
         editText.setTag(viewTagIndex++);
-//        editText.setPadding(editNormalPadding, paddingTop, editNormalPadding, 0);
         editText.setHint(hint);
         editText.setOnFocusChangeListener(focusListener);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_small));
@@ -186,9 +184,9 @@ public class RichTextEditor extends ScrollView {
     private RelativeLayout createImageLayout() {
         RelativeLayout layout = new RelativeLayout(getContext());
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        int margin = (int) getResources().getDimension(R.dimen.margin_normal);
-        p.setMargins(0, margin, 0, margin);
         layout.setLayoutParams(p);
+        int margin = (int) getResources().getDimension(R.dimen.margin_normal);
+        layout.setPadding(0, margin, 0, margin);
         layout.setTag(viewTagIndex++);
 
         DataImageView imageView = new DataImageView(getContext());
@@ -204,7 +202,7 @@ public class RichTextEditor extends ScrollView {
         closeView.setTag(layout.getTag());
         closeView.setOnClickListener(btnListener);
         closeView.setId(R.id.image_close);
-        closeView.setBackgroundColor(getResources().getColor(R.color.colorRedPomegranate));
+        closeView.setBackgroundResource(R.drawable.close);
         layout.addView(closeView);
         return layout;
     }
@@ -355,17 +353,9 @@ public class RichTextEditor extends ScrollView {
             EditText preEdit = (EditText) preView;
             EditText nextEdit = (EditText) nextView;
             String str1 = preEdit.getText().toString();
-            String str2 = nextEdit.getText().toString();
-            String mergeText = "";
-            if (str2.length() > 0) {
-                mergeText = str1 + "\n" + str2;
-            } else {
-                mergeText = str1;
-            }
 
             allLayout.setLayoutTransition(null);
             allLayout.removeView(nextEdit);
-            preEdit.setText(mergeText);
             preEdit.requestFocus();
             preEdit.setSelection(str1.length(), str1.length());
             allLayout.setLayoutTransition(mTransitioner);
@@ -386,20 +376,19 @@ public class RichTextEditor extends ScrollView {
     /**
      * 对外提供的接口, 生成编辑数据上传
      */
-    public List<EditData> buildEditData() {
-        List<EditData> dataList = new ArrayList<EditData>();
+    public List<EditLineData> getEditData() {
+        List<EditLineData> dataList = new ArrayList<>();
         int num = allLayout.getChildCount();
         for (int index = 0; index < num; index++) {
             View itemView = allLayout.getChildAt(index);
-            EditData itemData = new EditData();
+            EditLineData itemData = new EditLineData();
             if (itemView instanceof EditText) {
                 EditText item = (EditText) itemView;
-                itemData.inputStr = item.getText().toString();
+                itemData.setInputStr(item.getText().toString());
             } else if (itemView instanceof RelativeLayout) {
                 DataImageView item = (DataImageView) itemView
                         .findViewById(R.id.edit_imageView);
-                itemData.imagePath = item.getAbsolutePath();
-//                itemData.bitmap = item.getBitmap();
+                itemData.setIamgePath(item.getAbsolutePath());
             }
             dataList.add(itemData);
         }
@@ -407,9 +396,17 @@ public class RichTextEditor extends ScrollView {
         return dataList;
     }
 
-    class EditData {
-        String inputStr;
-        String imagePath;
-//        Bitmap bitmap;
+    /**
+     * 获取摘要文件
+     *
+     * @return 摘要
+     */
+    public String getExtract() {
+        String extract = "";
+        for (EditLineData data : getEditData()) {
+            if (!TextUtils.isEmpty(data.getInputStr()))
+                return extract = data.getInputStr();
+        }
+        return extract;
     }
 }

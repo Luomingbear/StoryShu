@@ -12,6 +12,7 @@
             <enum name="BackTitleShot" value="3" />
             <enum name="BackTitleSend" value="4" />
             <enum name="BackTitleMore" value="5" />
+            <enum name="BackTitleImageGo" value="6" />
         </attr>
     </declare-styleable>
 

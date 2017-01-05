@@ -42,4 +42,18 @@ public class MenuDialog extends IBaseDialog {
         params.width = (int) (display.getWidth() * 0.65f);
         getWindow().setAttributes(params);
     }
+//
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                break;
+//            case MotionEvent.ACTION_CANCEL:
+//            case MotionEvent.ACTION_UP:
+//                break;
+//        }
+//        return super.onTouchEvent(event);
+//    }
 }

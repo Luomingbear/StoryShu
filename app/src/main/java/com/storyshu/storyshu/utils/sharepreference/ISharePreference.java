@@ -38,6 +38,14 @@ public class ISharePreference {
     public static final String LAT = "lat";
     public static final String LNG = "lng";
 
+
+    /**
+     * 登录信息
+     */
+    public static final String LOGIN_DATA = "LOGIN_DATA";
+    public static final String IS_LOGIN = "isLogin";
+
+
     public static void saveUserData(Context context, UserInfo userInfo) {
         SharedPreferences sp = context.getSharedPreferences(USER_DATA,
                 Activity.MODE_PRIVATE);
@@ -194,5 +202,31 @@ public class ISharePreference {
                 sp.getFloat(LNG, 1));
 
         return latLng;
+    }
+
+    /**
+     * 登录成功
+     */
+    public static void setIsLogin(Context context, boolean isFirstLogin) {
+
+        SharedPreferences sp = context.getSharedPreferences(LOGIN_DATA,
+                Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(IS_LOGIN, isFirstLogin);
+
+        editor.apply();
+    }
+
+    /**
+     * 是否完成登录
+     *
+     * @return 经纬度
+     */
+    public static boolean isLogin(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(LOGIN_DATA,
+                Activity.MODE_PRIVATE);
+
+        return sp.getBoolean(IS_LOGIN, true);
     }
 }

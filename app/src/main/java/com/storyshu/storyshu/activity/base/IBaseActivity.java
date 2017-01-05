@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 
-import com.storyshu.storyshu.R;
-
 /**
  * 基本的activity
  * Created by bear on 2016/12/6.

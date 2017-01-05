@@ -43,6 +43,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.login.LoginActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.storyshu.storyshu.activity.Test"
             android:screenOrientation="portrait">
 
