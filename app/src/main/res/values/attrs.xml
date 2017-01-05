@@ -13,6 +13,7 @@
             <enum name="BackTitleSend" value="4" />
             <enum name="BackTitleMore" value="5" />
             <enum name="BackTitleImageGo" value="6" />
+            <enum name="BackTitleList" value="7" />
         </attr>
     </declare-styleable>
 
@@ -72,4 +73,10 @@
         <attr name="lineSpace" format="dimension|reference" />
     </declare-styleable>
 
+    <declare-styleable name="FontTextView">
+        <attr name="textFont" format="enum">
+            <enum name="HanYiZhongHeiJian" value="0" />
+            <enum name="HanYiMeiHei" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>
