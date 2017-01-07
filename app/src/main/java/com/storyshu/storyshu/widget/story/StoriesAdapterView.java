@@ -32,8 +32,8 @@ public class StoriesAdapterView extends AdapterView {
     private int rightCardIndex = MaxCardShowNum - 1; //屏幕上最右边的卡片的下标
     private float minDistance; // 卡片距离中心卡片的最小距离
     private float[] mLeftPoints = new float[MaxCardShowNum]; //卡片的左端点x坐标集合
-    private long spendTime = 150; //动画的执行时间
-
+    private long spendTime = 200; //动画的执行时间
+    private float mCardRatio = 1.3f; // 卡片的高宽比；
 
     public StoriesAdapterView(Context context) {
         super(context);
@@ -140,16 +140,21 @@ public class StoriesAdapterView extends AdapterView {
     private void addAndMeasureCard(int index) {
         //add
         View card = mAdapter.getView(index, null, this);
+        if (index == centerCardIndex)
+            mCenterCard = card;
         LayoutParams params = card.getLayoutParams();
         if (params == null)
             params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         addViewInLayout(card, 0, params, true);
 
-        //measureView
+        /**
+         * 设置卡片的大小
+         */
         boolean isNeedMeasure = card.isLayoutRequested();
         if (isNeedMeasure) {
-            int itemWidth = getWidth();
-            card.measure(MeasureSpec.EXACTLY | itemWidth, MeasureSpec.UNSPECIFIED);
+            int itemWidth = (int) (getWidth() * 0.95f);
+            int itemHeight = (int) (itemWidth * mCardRatio);
+            card.measure(MeasureSpec.EXACTLY | itemWidth, MeasureSpec.EXACTLY | itemHeight);
         }
 
         //position
@@ -171,14 +176,13 @@ public class StoriesAdapterView extends AdapterView {
 
         int width = card.getMeasuredWidth();
         int height = card.getMeasuredHeight();
-//        Log.e(TAG, "positionCard: ratio:" + (height / (float) width));
 
         /**
          * 卡片的大小有时候会超过给定的空间，所以需要在显示之后缩放
          */
 
         //高宽比
-        float ratio = getHeight() / (float) height;
+        float ratio = getHeight() / (float) height / 1.35f;
         mRatio = ratio;
         /**
          * 缩放卡片到合适的尺寸
@@ -190,7 +194,7 @@ public class StoriesAdapterView extends AdapterView {
         int left = (int) ((getWidth() - width) / 2 + showWidth * (index - centerCardIndex));
         int top = (getHeight() - height) / 2;
         card.layout(left, top, left + width, top + height);
-
+        Log.i(TAG, "positionCard: height:" + height);
         mLeftPoints[index - leftCardIndex] = left;//保存左端点的值
 
         //纪录屏幕中心卡片的左端点和右端点
@@ -207,7 +211,6 @@ public class StoriesAdapterView extends AdapterView {
 //        Log.e(TAG, "positionCard: Ratio:" + ratio);
         card.setScaleX(ratio);
         card.setScaleY(ratio);
-        Log.i(TAG, "positionCard: oldX:" + card.getX());
 
         //记录下当前最小的距离值
         minDistance = mCenterWidth;
@@ -240,8 +243,12 @@ public class StoriesAdapterView extends AdapterView {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
                 float upX = event.getX();
+                float upY = event.getY();
+                //手指移动的距离小于5并且手指在卡片上
                 if (Math.abs(upX - downX) < 5) {
-                    onCardClick();
+                    if (upY < (getHeight() + mCenterCard.getHeight() * mRatio) / 2 &&
+                            upY > (getHeight() - mCenterCard.getHeight() * mRatio) / 2)
+                        onCardClick();
 
                 } else {
                     long endTime = System.currentTimeMillis(); //
@@ -336,14 +343,19 @@ public class StoriesAdapterView extends AdapterView {
      * @param moveDistance 手指滑动的距离
      */
     void animationMoveCards(float moveDistance) {
-        Log.i(TAG, "animationMoveCards: animation");
-        int symbol = moveDistance > 0 ? -1 : 1; //如果大于0则说明手指是向右滑动，反之
+        /**
+         * 计算加速度
+         */
+        float acceleration = Math.abs(moveDistance / mMoveTime); //加速度
+        Log.i(TAG, "animationMoveCards: acceleration:" + acceleration);
 
+        int symbol = moveDistance > 0 ? -1 : 1; //如果大于0则说明手指是向右滑动，反之
 
         /**
          * 计算中心卡片的下标
          */
-        int changIndex = Math.abs(moveDistance) > mCenterWidth / 4 ? 1 : 0; //手指滑动的距离大于卡片的宽度的1／4就可以改变中心卡片的下标
+//        int changIndex = Math.abs(moveDistance) > mCenterWidth / 4 ? 1 : 0; //手指滑动的距离大于卡片的宽度的1／4就可以改变中心卡片的下标
+        int changIndex = Math.abs(acceleration) > 0.7f ? 1 : 0; //手指滑动的加速度大于0.7就可以改变中心卡片的下标
         centerCardIndex = centerCardIndex + changIndex * symbol; //之前的中心卡片下标加上手指滑动的卡片数量，乘以符号是判断滑动的方向
         centerCardIndex = Math.max(centerCardIndex, 0); //不能为负数
         centerCardIndex = Math.min(centerCardIndex, mAdapter.getCount() - 1);//不能超过卡片的总数
@@ -355,7 +367,7 @@ public class StoriesAdapterView extends AdapterView {
          */
         // TODO: 2016/12/14 计算移动的距离
         if (oldCenterCardIndex != centerCardIndex) {
-            if (Math.abs(moveDistance) <= mCenterWidth / 4) { //移动的距离小于卡片的1／4则弹回去
+            if (acceleration <= 0.7f) { //移动的距离小于卡片的1／4则弹回去
                 minDistance = -moveDistance;
             } else if (Math.abs(moveDistance) > mCenterWidth / 4 && Math.abs(moveDistance) <= mCenterWidth) {  //移动的距离小于卡片的宽度并且大于1／4
                 minDistance = -(mCenterWidth - Math.abs(moveDistance)) * symbol;
@@ -378,26 +390,31 @@ public class StoriesAdapterView extends AdapterView {
         //最大的显示卡片数量除以2得到的是中心卡片的一侧有几张卡片
         int i;
         for (i = getChildCount() - 1; i >= 0; i--) {
-            // TODO: 2016/12/14 自动移动距离是distance；
             View card = getChildAt(i);
             if (card == null)
                 continue;
-
-            Log.i(TAG, "animationMoveCards: getScaleX:" + card.getScaleX() + " index:" + i);
 
             //清除动画
             card.clearAnimation();
 
             /**
              * 位移动画
+             * 动画执行的时间和滑动的加速度有关
+             *
+             */
+            //利用指数函数实现,在第一象限,无限接近0，0点的值为1，所以加速度越大，时间越小
+            double sTime = Math.pow(0.8, acceleration);
+            sTime = Math.max(sTime, 0.5); //最快也不能小于标准的一半
+
+            /**
+             * 设置位移动画
              */
             DecelerateInterpolator dl = new DecelerateInterpolator();  //减速
 
             ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(card, "translationX",
                     card.getTranslationX(), card.getTranslationX() + minDistance);
             translationAnimator.setInterpolator(dl);
-            translationAnimator.setDuration(spendTime);
-
+            translationAnimator.setDuration((long) (spendTime * sTime));
             /**
              * 添加缩放动画，设置缩放的比例
              */
@@ -407,11 +424,11 @@ public class StoriesAdapterView extends AdapterView {
             ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(card, "scaleX",
                     card.getScaleX(), mRatio * (1 - 0.15f * index));
             scaleXAnimator.setInterpolator(dl);
-            scaleXAnimator.setDuration(spendTime);
+            scaleXAnimator.setDuration((long) (spendTime * sTime));
             ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(card, "scaleY",
                     card.getScaleY(), mRatio * (1 - 0.15f * index));
             scaleYAnimator.setInterpolator(dl);
-            scaleYAnimator.setDuration(spendTime);
+            scaleYAnimator.setDuration((long) (spendTime * sTime));
 
 
             /**
