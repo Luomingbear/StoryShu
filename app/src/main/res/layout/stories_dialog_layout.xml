@@ -7,7 +7,48 @@
     <com.storyshu.storyshu.widget.story.StoriesAdapterView
         android:id="@+id/stories_adapter_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
     </com.storyshu.storyshu.widget.story.StoriesAdapterView>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_radio_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/sift_all">
+
+        </RadioButton>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_radio_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/sift_hot"
+            android:textColorHighlight="@color/colorWhite">
+
+        </RadioButton>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_radio_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/sift_follow">
+
+        </RadioButton>
+    </RadioGroup>
 </LinearLayout>

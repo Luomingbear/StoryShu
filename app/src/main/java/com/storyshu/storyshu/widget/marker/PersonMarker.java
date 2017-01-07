@@ -2,6 +2,8 @@ package com.storyshu.storyshu.widget.marker;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -27,6 +29,7 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 public class PersonMarker extends IMarker {
     private static final String TAG = "PersonMarker";
     private PersonView mPersonView; //
+    public static String PersonId = "personMarker";
 
     public PersonMarker(Context mContext, AMap mAMap, LatLng mLatLng) {
         super(mContext, mAMap, mLatLng);
@@ -40,11 +43,16 @@ public class PersonMarker extends IMarker {
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(mLatLng);
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.person_maker_bg));
+            if (failReason.getType() == FailReason.FailType.UNKNOWN) {
+                mPersonView.init(imageUri);
+                Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(mPersonView);
 
-            mMarker = mAMap.addMarker(markerOptions);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(mLatLng);
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+
+                mMarker = mAMap.addMarker(markerOptions);
+            }
             Log.e(TAG, "onLoadingFailed: 地图上个人头像的图标加载失败");
         }
 
@@ -70,7 +78,17 @@ public class PersonMarker extends IMarker {
     private void init() {
         mPersonView = new PersonView(mContext);
         String url = ISharePreference.getUserData(mContext).getAvatar();
-        ImageLoader.getInstance().loadImage(url, imageLoadingListener);
+        if (TextUtils.isEmpty(url)) {
+            mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_superman));
+            Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(mPersonView);
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(mLatLng);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+
+            mMarker = mAMap.addMarker(markerOptions);
+        } else
+            ImageLoader.getInstance().loadImage(url, imageLoadingListener);
 
     }
 

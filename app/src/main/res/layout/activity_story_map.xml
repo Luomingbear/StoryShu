@@ -63,6 +63,7 @@
         android:layout_height="@dimen/title_height"
         app:title_color="@color/colorBlack"
         app:title_size="@dimen/font_normal"
+        app:title_mode="BackTitleList"
         app:title_string="@string/app_name">
 
     </com.storyshu.storyshu.widget.title.TitleView>

@@ -2,6 +2,8 @@ package com.storyshu.storyshu.adapter.card;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,12 +37,16 @@ public class CardAdapter extends IBaseAdapter {
     private ImageLoadingListener detailPicLoadListener = new ImageLoadingListener() {
         @Override
         public void onLoadingStarted(String imageUri, View view) {
-
+//            viewHolder.storyPic
         }
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
+            switch (failReason.getType()) {
+                case UNKNOWN:
+                    viewHolder.storyPic.setImageBitmap(BitmapFactory.decodeFile(imageUri));
+                    break;
+            }
         }
 
         @Override
@@ -57,7 +63,7 @@ public class CardAdapter extends IBaseAdapter {
     /**
      * 用户头像的加载监听
      */
-    private ImageLoadingListener headPortraitLoadListener = new ImageLoadingListener() {
+    private ImageLoadingListener avatarLoadListener = new ImageLoadingListener() {
         @Override
         public void onLoadingStarted(String imageUri, View view) {
 
@@ -65,12 +71,16 @@ public class CardAdapter extends IBaseAdapter {
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
+            Log.i(TAG, "onLoadingFailed: fail:" + failReason.getType());
+            switch (failReason.getType()) {
+                case UNKNOWN:
+                    break;
+            }
         }
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            viewHolder.headPortrait.setImageBitmap(loadedImage);
+            viewHolder.avatar.setImageBitmap(loadedImage);
         }
 
         @Override
@@ -82,13 +92,13 @@ public class CardAdapter extends IBaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = getInflater().inflate(R.layout.card_view_layout, null);
+            convertView = getInflater().inflate(R.layout.card_view_layout2, null);
 
             viewHolder = new ViewHolder();
 
             viewHolder.storyPic = (RoundImageView) convertView.findViewById(R.id.card_view_detail_pic);
             viewHolder.title = (TextView) convertView.findViewById(R.id.card_view_title);
-            viewHolder.headPortrait = (RoundImageView) convertView.findViewById(R.id.card_view_head_portrait);
+            viewHolder.avatar = (RoundImageView) convertView.findViewById(R.id.card_view_head_portrait);
             viewHolder.nickName = (TextView) convertView.findViewById(R.id.card_view_username);
             viewHolder.extract = (TextView) convertView.findViewById(R.id.card_view_extract);
             viewHolder.createDate = (TextView) convertView.findViewById(R.id.card_view_date);
@@ -99,9 +109,16 @@ public class CardAdapter extends IBaseAdapter {
         CardInfo cardInfo = (CardInfo) getItem(position);
         if (cardInfo == null)
             return convertView;
-        ImageLoader.getInstance().displayImage(cardInfo.getDetailPic(), viewHolder.storyPic, detailPicLoadListener);
+        Log.i(TAG, "getView: avatar:" + cardInfo.getUserInfo().getAvatar());
+        if (cardInfo.getDetailPic().contains("/storage/emulated/"))
+            ImageLoader.getInstance().displayImage("file://" + cardInfo.getDetailPic(), viewHolder.storyPic, detailPicLoadListener);
+        else
+            ImageLoader.getInstance().displayImage(cardInfo.getDetailPic(), viewHolder.storyPic, detailPicLoadListener);
         viewHolder.title.setText(cardInfo.getTitle());
-        ImageLoader.getInstance().displayImage(cardInfo.getUserInfo().getAvatar(), viewHolder.headPortrait, headPortraitLoadListener);
+        if (cardInfo.getUserInfo().getAvatar().contains("/storage/emulated/"))
+            ImageLoader.getInstance().displayImage("file://" + cardInfo.getUserInfo().getAvatar(), viewHolder.avatar, avatarLoadListener);
+        else
+            ImageLoader.getInstance().displayImage(cardInfo.getUserInfo().getAvatar(), viewHolder.avatar, avatarLoadListener);
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
         viewHolder.extract.setText(cardInfo.getExtract());
         viewHolder.createDate.setText(ConvertTimeUtil.convertCurrentTime(cardInfo.getCreateDate()));
@@ -113,7 +130,7 @@ public class CardAdapter extends IBaseAdapter {
     private class ViewHolder {
         RoundImageView storyPic; //故事的详情图
         TextView title; //故事标题
-        RoundImageView headPortrait; //用户头像
+        RoundImageView avatar; //用户头像
         TextView nickName; //用户昵称
         TextView extract; //故事摘要
         TextView createDate; //发布时间

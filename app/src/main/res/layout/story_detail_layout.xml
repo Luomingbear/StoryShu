@@ -36,16 +36,45 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/story_detail_avatar"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:text="@string/app_name"
                     android:textColor="@color/colorGrayDeep"
-                    android:textSize="@dimen/font_normal" />
+                    android:textSize="@dimen/font_normal"
+                    android:visibility="gone" />
+
+
+                <LinearLayout
+                    android:id="@+id/story_detail_location_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/story_detail_avatar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/margin_cover"
+                    android:layout_marginRight="@dimen/margin_cover"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_small"
+                        android:layout_height="@dimen/icon_small"
+                        android:src="@drawable/location" />
+
+                    <TextView
+                        android:id="@+id/story_detail_location_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="start"
+                        android:singleLine="true"
+                        android:textColor="@color/colorGrayDeep"
+                        android:textSize="@dimen/font_small" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/story_detail_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/story_detail_nickname"
+                    android:layout_below="@id/story_detail_location_layout"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="center"
@@ -60,10 +89,12 @@
                     android:layout_below="@id/story_detail_title"
                     android:layout_marginLeft="@dimen/margin_cover"
                     android:layout_marginRight="@dimen/margin_cover"
-                    android:layout_marginTop="@dimen/margin_big"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:background="@color/colorGrayLight"
                     app:BorderRadius="0dp"
                     app:Scale="1" />
+
+
             </com.storyshu.storyshu.widget.story.CoverLayout>
 
             <TextView

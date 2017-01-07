@@ -105,6 +105,8 @@ public class IMapManager {
      * 显示位置的图标
      */
     public void showPersonIcon(LatLng personLatLng) {
+        if (personLatLng == null)
+            return;
         Log.i(TAG, "showPersonIcon: !!!!!!!!!!!!!!!");
         if (mPersonMarker == null)
             mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
@@ -115,10 +117,10 @@ public class IMapManager {
     /**
      * 显示故事集图标
      */
-    public void showBookIcon(LatLonPoint latLonPoint, String title) {
+    public void showBookIcon(LatLonPoint latLonPoint, String title,String bgPath) {
         BookMarker bookMarker = new BookMarker(mContext, mAMap,
                 new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
-        bookMarker.init(title);
+        bookMarker.init(title,bgPath);
         //添加到故事集列表
         bookMarkerList.add(bookMarker);
     }

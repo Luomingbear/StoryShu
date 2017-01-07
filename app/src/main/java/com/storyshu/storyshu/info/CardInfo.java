@@ -17,26 +17,40 @@ public class CardInfo implements Parcelable {
     private String extract; //故事的摘要
     private UserInfo userInfo; //用户信息
     private Date createDate; //发布时间
+    private String location;
 
     public CardInfo() {
     }
 
-    public CardInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, Date createDate) {
+    public CardInfo(StoryInfo storyInfo) {
+        this.storyId = storyInfo.getStoryId();
+        this.detailPic = storyInfo.getDetailPic();
+        this.title = storyInfo.getTitle();
+        this.extract = storyInfo.getExtract();
+        this.userInfo = storyInfo.getUserInfo();
+        this.createDate = storyInfo.getCreateDate();
+        this.location = storyInfo.getLocation();
+    }
+
+    public CardInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, Date createDate, String location) {
         this.storyId = storyId;
         this.detailPic = detailPic;
         this.title = title;
         this.extract = extract;
         this.userInfo = userInfo;
         this.createDate = createDate;
+        this.location = location;
     }
 
-    public CardInfo(int storyId, String detailPic, String title, String extract, String nickname, int userId, String headPortrait, Date createDate) {
+    public CardInfo(int storyId, String detailPic, String title, String extract, String nickname, int userId, String headPortrait,
+                    Date createDate, String location) {
         this.storyId = storyId;
         this.detailPic = detailPic;
         this.title = title;
         this.extract = extract;
         this.userInfo = new UserInfo(nickname, userId, headPortrait);
         this.createDate = createDate;
+        this.location = location;
     }
 
     public int getStoryId() {
@@ -87,6 +101,15 @@ public class CardInfo implements Parcelable {
         this.createDate = createDate;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -100,6 +123,7 @@ public class CardInfo implements Parcelable {
         dest.writeString(this.extract);
         dest.writeParcelable(this.userInfo, flags);
         dest.writeLong(this.createDate != null ? this.createDate.getTime() : -1);
+        dest.writeString(this.location);
     }
 
     protected CardInfo(Parcel in) {
@@ -110,9 +134,10 @@ public class CardInfo implements Parcelable {
         this.userInfo = in.readParcelable(UserInfo.class.getClassLoader());
         long tmpCreateDate = in.readLong();
         this.createDate = tmpCreateDate == -1 ? null : new Date(tmpCreateDate);
+        this.location = in.readString();
     }
 
-    public static final Parcelable.Creator<CardInfo> CREATOR = new Parcelable.Creator<CardInfo>() {
+    public static final Creator<CardInfo> CREATOR = new Creator<CardInfo>() {
         @Override
         public CardInfo createFromParcel(Parcel source) {
             return new CardInfo(source);

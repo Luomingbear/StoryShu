@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_active="false">
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/card_round_size" />
+            <corners android:radius="@dimen/card_border_radius" />
             <solid android:color="@color/colorWhite" />
             <stroke android:width="0.5dp" android:color="@color/colorGrayLight" android:dashWidth="1dp" />
         </shape>
@@ -10,7 +10,7 @@
 
     <item android:state_active="true">
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/card_round_size" />
+            <corners android:radius="@dimen/card_border_radius" />
             <solid android:color="@color/colorWhite" />
             <stroke android:width="0.5dp" android:color="@color/colorGrayLight" android:dashWidth="1dp" />
         </shape>

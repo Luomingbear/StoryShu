@@ -5,94 +5,150 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--登录、注册-->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <com.storyshu.storyshu.widget.imageview.RoundImageView
-            android:layout_width="@dimen/image_small"
-            android:layout_height="@dimen/image_small"
-            android:layout_marginBottom="@dimen/margin_big"
-            android:src="@drawable/test"
-            app:RoundType="circle" />
-
-        <RelativeLayout
+        android:layout_height="match_parent">
+        <!--登录、注册-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/title_height">
-
-            <EditText
-                android:id="@+id/login_phone_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:hint="@string/input_phone_number"
-                android:inputType="phone" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/title_height">
-
-            <EditText
-                android:id="@+id/login_verify_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:hint="@string/input_verify_number"
-                android:inputType="number" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_big"
+            android:layout_marginRight="@dimen/margin_big"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/login_get_verify_number"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_small">
-
-                <TextView
-                    android:id="@+id/login_countdown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/get_verify_number" />
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/login_login"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/title_height"
-            android:gravity="center">
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_marginBottom="@dimen/margin_big">
 
-    <!--第三方登录-->
+                <com.storyshu.storyshu.widget.imageview.RoundImageView
+                    android:id="@+id/login_avatar"
+                    android:layout_width="@dimen/image_normal"
+                    android:layout_height="@dimen/image_normal"
+                    android:src="@drawable/avatar_superman"
+                    app:RoundType="circle" />
+
+                <ImageView
+                    android:layout_width="@dimen/image_small"
+                    android:layout_height="@dimen/image_small"
+                    android:src="@drawable/add"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_height"
+                android:background="@drawable/text_edit_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_normal"
+                    android:layout_height="@dimen/icon_normal" />
+
+                <EditText
+                    android:id="@+id/login_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:hint="@string/input_phone_number"
+                    android:inputType="phone"
+                    android:textColorHint="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_height"
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/margin_min"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_edit_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_normal"
+                        android:layout_height="@dimen/icon_normal" />
+
+                    <EditText
+                        android:id="@+id/login_verify_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:hint="@string/input_verify_number"
+                        android:inputType="number"
+                        android:textColorHint="@color/colorGrayDeep"
+                        android:textSize="@dimen/font_normal" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/login_get_verify_number"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_min"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_red_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/login_countdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/get_verify_number"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/font_normal" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/login_login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_height"
+                android:layout_marginTop="@dimen/margin_big"
+                android:background="@drawable/button_gray_bg"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_big" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--第三方登录-->
+
+    </ScrollView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/margin_normal"
-        android:visibility="gone">
+        android:layout_margin="@dimen/margin_normal">
 
         <LinearLayout
+            android:id="@+id/test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/icon_small"
@@ -102,7 +158,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:text="@string/skip"
+                android:textColor="@color/colorWhite" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

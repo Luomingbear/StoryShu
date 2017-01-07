@@ -32,6 +32,7 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     public static String COVER_PIC = "cover_pic"; //故事的说明图
     public static String TITLE = "title"; //故事的标题
     public static String EXTRACT = "extract"; //故事的摘要
+    public static String CONTENT = "content"; //故事的摘要
     public static String CREATE_DATE = "create_date"; //发布时间
 
     /**
@@ -45,7 +46,7 @@ public class BaseDataHelper extends SQLiteOpenHelper {
 
 
     public BaseDataHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+        this(context, name, factory, version, null);
     }
 
     public BaseDataHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
@@ -56,22 +57,24 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //用户表
         String CREATE_USR_TABLE = "CREATE TABLE " + USER_TABLE + "("
-                + USER_ID + " INTEGER PRIMARY KEY NOT NULL," + NICK_NAME + " TEXT NOT NULL,"
-                + AVATAR + "TEXT" + ACCOUNT + "TEXT" + ")";
+                + USER_ID + " INTEGER PRIMARY KEY NOT NULL, " + NICK_NAME + " TEXT NOT NULL,"
+                + AVATAR + " TEXT, " + ACCOUNT + " TEXT " + ")";
         db.execSQL(CREATE_USR_TABLE);
 
         //故事表
         String CREATE_STORY_TABLE = "CREATE TABLE " + STORY_TABLE + "("
-                + STORY_ID + " INTEGER PRIMARY KEY NOT NULL," + USER_ID + "FOREIGN KEY NOT NULL,"
-                + LOCATION_ID + "INTEGER," + TITLE + " TEXT NOT NULL,"
-                + COVER_PIC + "TEXT NOT NULL" + EXTRACT + "TEXT NOT NULL" + CREATE_DATE + "TEXT NOT NULL" + ")";
+                + STORY_ID + " INTEGER PRIMARY KEY NOT NULL, " + USER_ID + " INTEGER NOT NULL,"
+                + LOCATION_ID + " INTEGER, " + LOCATION_NAME + " TEXT NOT NULL, " + LAT + " REAL, " +
+                LNG + " REAL, " + TITLE + " TEXT NOT NULL, " + COVER_PIC + " TEXT NOT NULL, "
+                + EXTRACT + " TEXT NOT NULL, " + CONTENT + " TEXT NOT NULL, "
+                + CREATE_DATE + " TEXT NOT NULL " + ")";
         db.execSQL(CREATE_STORY_TABLE);
 
         //位置表
-        String CREATE_LOCATION_TABLE = "CREATE TABLE " + LOCATION_TABLE + "("
-                + LOCATION_ID + " INTEGER PRIMARY KEY," + LOCATION_NAME + " TEXT,"
-                + LAT + "DOUBLE" + LNG + "DOUBLE" + ")";
-        db.execSQL(CREATE_LOCATION_TABLE);
+//        String CREATE_LOCATION_TABLE = "CREATE TABLE " + LOCATION_TABLE + "("
+//                + LOCATION_ID + " INTEGER PRIMARY KEY," + LOCATION_NAME + " TEXT,"
+//                + LAT + "DOUBLE" + LNG + "DOUBLE" + ")";
+//        db.execSQL(CREATE_LOCATION_TABLE);
     }
 
     @Override

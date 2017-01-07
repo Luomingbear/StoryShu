@@ -13,10 +13,12 @@
     <string name="input_verify_number">请输入验证码</string>
     <string name="get_verify_number">获取验证码</string>
     <string name="login">登录</string>
+    <string name="register">注册</string>
     <string name="login_phone_number_empty">请输入手机号码</string>
     <string name="login_phone_number_illegal">请输入正确的手机号码</string>
     <string name="login_verify_number_empty">请输入验证码</string>
     <string name="login_verify_number_illegal">验证码错误</string>
+    <string name="login_avatar_empty">请先设置头像</string>
 
     <!--菜单-->
     <string name="my_stories">我的故事</string>

@@ -37,6 +37,8 @@ public class StoryBaseInfo implements Parcelable {
 
     public void setExtract(String extract) {
         this.extract = extract;
+        int length = Math.min(extract.length(), 50);
+        this.extract = extract.substring(0, length);
     }
 
     public String getContent() {
@@ -47,9 +49,6 @@ public class StoryBaseInfo implements Parcelable {
         if (TextUtils.isEmpty(content))
             return;
         this.content = content;
-        //摘要最多25个字
-        int length = Math.min(content.length(), 25);
-        this.extract = content.substring(0, length);
     }
 
     @Override

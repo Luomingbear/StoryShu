@@ -25,6 +25,8 @@ import com.storyshu.storyshu.widget.imageview.DataImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 富文本编辑器
@@ -32,6 +34,7 @@ import java.util.List;
  */
 
 public class RichTextEditor extends ScrollView {
+    private static final String TAG = "RichTextEditor";
     private static final int EDIT_PADDING = 10; // edittext常规padding是10dp
     private static final int EDIT_FIRST_PADDING_TOP = 10; // 第一个EditText的paddingTop值
 
@@ -103,8 +106,7 @@ public class RichTextEditor extends ScrollView {
         LinearLayout.LayoutParams firstEditParam = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         editNormalPadding = dip2px(EDIT_PADDING);
-        EditText firstEdit = createEditText("",
-                dip2px(EDIT_FIRST_PADDING_TOP));
+        EditText firstEdit = createEditText("");
         allLayout.addView(firstEdit, firstEditParam);
         lastFocusEdit = firstEdit;
     }
@@ -143,6 +145,7 @@ public class RichTextEditor extends ScrollView {
                     lastFocusEdit = preEdit;
                 }
             }
+
         }
     }
 
@@ -162,7 +165,7 @@ public class RichTextEditor extends ScrollView {
     /**
      * 生成文本输入框
      */
-    private EditText createEditText(String hint, int paddingTop) {
+    private EditText createEditText(String hint) {
         //
         EditText editText = new EditText(getContext());
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -198,6 +201,7 @@ public class RichTextEditor extends ScrollView {
         int iconSize = (int) getResources().getDimension(R.dimen.icon_small);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(iconSize, iconSize);
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        params.topMargin = margin;
         closeView.setLayoutParams(params);
         closeView.setTag(layout.getTag());
         closeView.setOnClickListener(btnListener);
@@ -213,7 +217,10 @@ public class RichTextEditor extends ScrollView {
      * @param imagePath
      */
     public void insertImage(String imagePath) {
-        Bitmap bmp = getScaledBitmap(imagePath, getWidth());
+        Log.i(TAG, "insertImage: imagePath:" + imagePath);
+//        int width = getWidth() == 0 ? 1024 : getWidth();
+        int width = 1024;
+        Bitmap bmp = getScaledBitmap(imagePath, width);
         insertImage(bmp, imagePath);
     }
 
@@ -221,6 +228,8 @@ public class RichTextEditor extends ScrollView {
      * 插入一张图片
      */
     private void insertImage(Bitmap bitmap, String imagePath) {
+        if (bitmap == null)
+            return;
         String lastEditStr = lastFocusEdit.getText().toString();
         int cursorIndex = lastFocusEdit.getSelectionStart();
         String editStr1 = lastEditStr.substring(0, cursorIndex).trim();
@@ -261,8 +270,7 @@ public class RichTextEditor extends ScrollView {
      * @param editStr EditText显示的文字
      */
     private void addEditTextAtIndex(final int index, String editStr) {
-        EditText editText2 = createEditText("", getResources()
-                .getDimensionPixelSize(R.dimen.font_small));
+        EditText editText2 = createEditText("");
         editText2.setText(editStr);
 
         // 请注意此处，EditText添加、或删除不触动Transition动画
@@ -274,17 +282,16 @@ public class RichTextEditor extends ScrollView {
     /**
      * 在特定位置添加ImageView
      */
-    private void addImageViewAtIndex(final int index, Bitmap bmp,
-                                     String imagePath) {
+    private void addImageViewAtIndex(final int index, Bitmap bmp, String imagePath) {
         final RelativeLayout imageLayout = createImageLayout();
-        DataImageView imageView = (DataImageView) imageLayout
-                .findViewById(R.id.edit_imageView);
+        DataImageView imageView = (DataImageView) imageLayout.findViewById(R.id.edit_imageView);
         imageView.setImageBitmap(bmp);
         imageView.setBitmap(bmp);
         imageView.setAbsolutePath(imagePath);
 
         // 调整imageView的高度
-        int imageHeight = getWidth() * bmp.getHeight() / bmp.getWidth();
+        int width = getWidth() == 0 ? 1024 : getWidth();
+        int imageHeight = width * bmp.getHeight() / bmp.getWidth();
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, imageHeight);
         imageView.setLayoutParams(lp);
@@ -296,6 +303,26 @@ public class RichTextEditor extends ScrollView {
                 allLayout.addView(imageLayout, index);
             }
         }, 200);
+    }
+
+    /**
+     * 在特定位置添加ImageView
+     */
+    private void addImageViewAtIndex(final int index, String imagePath) {
+        final RelativeLayout imageLayout = createImageLayout();
+        DataImageView imageView = (DataImageView) imageLayout.findViewById(R.id.edit_imageView);
+        Bitmap bmp = getScaledBitmap(imagePath, 1024);
+        imageView.setImageBitmap(bmp);
+        imageView.setBitmap(bmp);
+        imageView.setAbsolutePath(imagePath);
+
+        // 调整imageView的高度
+        int width = 1024;
+        int imageHeight = width * bmp.getHeight() / bmp.getWidth();
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, imageHeight);
+        imageView.setLayoutParams(lp);
+        allLayout.addView(imageLayout, index);
     }
 
     /**
@@ -334,7 +361,7 @@ public class RichTextEditor extends ScrollView {
                 if (!transition.isRunning()
                         && transitionType == LayoutTransition.CHANGE_DISAPPEARING) {
                     // transition动画结束，合并EditText
-                    // mergeEditText();
+                    mergeEditText();
                 }
             }
         });
@@ -345,21 +372,26 @@ public class RichTextEditor extends ScrollView {
      * 图片删除的时候，如果上下方都是EditText，则合并处理
      */
     private void mergeEditText() {
+        int i;
         View preView = allLayout.getChildAt(disappearingImageIndex - 1);
         View nextView = allLayout.getChildAt(disappearingImageIndex);
+
         if (preView != null && preView instanceof EditText && null != nextView
                 && nextView instanceof EditText) {
-            Log.d("LeiTest", "合并EditText");
+            Log.d(TAG, "mergeEditText:合并EditText ");
             EditText preEdit = (EditText) preView;
             EditText nextEdit = (EditText) nextView;
             String str1 = preEdit.getText().toString();
+            String str2 = nextEdit.getText().toString();
 
+            preEdit.setText(str1 + "\n" + str2);
             allLayout.setLayoutTransition(null);
             allLayout.removeView(nextEdit);
             preEdit.requestFocus();
-            preEdit.setSelection(str1.length(), str1.length());
+            preEdit.setSelection((str1 + str2).length(), (str1 + str2).length());
             allLayout.setLayoutTransition(mTransitioner);
         }
+
     }
 
     /**
@@ -373,6 +405,60 @@ public class RichTextEditor extends ScrollView {
         return (int) (dipValue * m + 0.5f);
     }
 
+    //类型标签
+    private static String TAG_TXT = "txt";
+    private static String TAG_IMG = "img";
+
+    /**
+     * 设置故事的数据
+     *
+     * @param data
+     */
+    public void setDataContent(String data) {
+        Log.i(TAG, "setDataContent: 开始匹配！！！");
+        String regxp = "<[^>]+>"; //匹配文本
+
+        Pattern pattern = Pattern.compile(regxp);
+        Matcher matcher = pattern.matcher(data);
+        StringBuffer sb = new StringBuffer();
+        boolean result1 = matcher.find();
+
+        int index = 0;
+        while (result1) {
+            StringBuffer s = new StringBuffer();
+            matcher.appendReplacement(s, "");
+            result1 = matcher.find();
+
+            if (TextUtils.isEmpty(s))
+                continue;
+            createViewByData(index, s.toString());
+            index++;
+        }
+        matcher.appendTail(sb);
+        //
+        mergeEditText();
+
+    }
+
+    /**
+     * 根据类型添加文本或者图片
+     *
+     * @param index
+     * @param s
+     */
+    private void createViewByData(int index, String s) {
+        if (index == 0)
+            allLayout.removeAllViews();
+
+        if (s.substring(0, 3).equals(TAG_TXT)) {
+            addEditTextAtIndex(index, s.substring(TAG_TXT.length()));
+        } else if (s.substring(0, 3).equals(TAG_IMG)) {
+            String path = s.substring(TAG_IMG.length());
+            addImageViewAtIndex(index, path);
+        }
+    }
+
+
     /**
      * 对外提供的接口, 生成编辑数据上传
      */
@@ -385,6 +471,7 @@ public class RichTextEditor extends ScrollView {
             if (itemView instanceof EditText) {
                 EditText item = (EditText) itemView;
                 itemData.setInputStr(item.getText().toString());
+//                if (!TextUtils.isEmpty(item.getText().toString()))
             } else if (itemView instanceof RelativeLayout) {
                 DataImageView item = (DataImageView) itemView
                         .findViewById(R.id.edit_imageView);
@@ -394,6 +481,29 @@ public class RichTextEditor extends ScrollView {
         }
 
         return dataList;
+    }
+
+    /**
+     * 对外提供的接口, 生成编辑数据上传
+     */
+    public String getEditString() {
+        StringBuffer data = new StringBuffer();
+        List<EditLineData> dataList = new ArrayList<>();
+        int num = allLayout.getChildCount();
+        for (int index = 0; index < num; index++) {
+            View itemView = allLayout.getChildAt(index);
+            EditLineData itemData = new EditLineData();
+            if (itemView instanceof EditText) {
+                EditText item = (EditText) itemView;
+                data.append("<text>" + TAG_TXT + item.getText().toString() + "</text>");
+            } else if (itemView instanceof RelativeLayout) {
+                DataImageView item = (DataImageView) itemView
+                        .findViewById(R.id.edit_imageView);
+                data.append("<image>" + TAG_IMG + item.getAbsolutePath() + "</image>");
+            }
+            dataList.add(itemData);
+        }
+        return data.toString();
     }
 
     /**
@@ -408,5 +518,19 @@ public class RichTextEditor extends ScrollView {
                 return extract = data.getInputStr();
         }
         return extract;
+    }
+
+    /**
+     * 获取封面
+     *
+     * @return
+     */
+    public String getCoverPic() {
+        String cover = "";
+        for (EditLineData data : getEditData()) {
+            if (!TextUtils.isEmpty(data.getIamgePath()))
+                return cover = data.getIamgePath();
+        }
+        return cover;
     }
 }

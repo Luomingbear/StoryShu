@@ -52,6 +52,7 @@ public class ILocationQueryTool {
                 if (regeocodeResult != null && regeocodeResult.getRegeocodeAddress() != null
                         && regeocodeResult.getRegeocodeAddress().getFormatAddress() != null) {
                     RegeocodeAddress r = regeocodeResult.getRegeocodeAddress();
+                    Log.d(TAG, "onRegeocodeSearched: 搜索完毕！");
                     if (onLocationQueryListener != null)
                         onLocationQueryListener.onRegeocodeSearched(r);
 

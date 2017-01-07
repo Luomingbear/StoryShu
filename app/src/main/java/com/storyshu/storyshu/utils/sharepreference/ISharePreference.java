@@ -20,6 +20,7 @@ public class ISharePreference {
     public static final String USER_DATA = "userData";
     private static String NICK_NAME = "nickName"; //昵称
     private static String AVATAR = "avatar"; //头像
+    private static String USER_ID = "userId"; //id
 
 
     /**
@@ -53,6 +54,7 @@ public class ISharePreference {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(NICK_NAME, userInfo.getNickname());
         editor.putString(AVATAR, userInfo.getAvatar());
+        editor.putInt(USER_ID, userInfo.getUserId());
         editor.apply();
     }
 
@@ -63,6 +65,7 @@ public class ISharePreference {
         UserInfo userInfo = new UserInfo();
         userInfo.setNickname(sp.getString(NICK_NAME, context.getResources().getString(R.string.app_name)));
         userInfo.setAvatar(sp.getString(AVATAR, ""));
+        userInfo.setUserId(sp.getInt(USER_ID, UserInfo.Visitor));
         return userInfo;
     }
 
@@ -178,7 +181,6 @@ public class ISharePreference {
      * 保存最近的一次经纬度
      */
     public static void saveLatLng(Context context, LatLng latLng) {
-
         SharedPreferences sp = context.getSharedPreferences(LOCATION_DATA,
                 Activity.MODE_PRIVATE);
         // 获取Editor对象
@@ -195,12 +197,16 @@ public class ISharePreference {
      * @return 经纬度
      */
     public static LatLng getLatLngData(Context context) {
-
         SharedPreferences sp = context.getSharedPreferences(LOCATION_DATA,
                 Activity.MODE_PRIVATE);
-        LatLng latLng = new LatLng(sp.getFloat(LAT, 1),
-                sp.getFloat(LNG, 1));
-
+        /**
+         * latitude - 地点的纬度，在-90 与90 之间的double 型数值。
+         longitude - 地点的经度，在-180 与180 之间的double 型数值。
+         */
+        LatLng latLng = new LatLng(sp.getFloat(LAT, 360),
+                sp.getFloat(LNG, 360));
+        if (latLng.latitude == 360 && latLng.longitude == 360)
+            return null;
         return latLng;
     }
 
@@ -208,7 +214,6 @@ public class ISharePreference {
      * 登录成功
      */
     public static void setIsLogin(Context context, boolean isFirstLogin) {
-
         SharedPreferences sp = context.getSharedPreferences(LOGIN_DATA,
                 Activity.MODE_PRIVATE);
         // 获取Editor对象

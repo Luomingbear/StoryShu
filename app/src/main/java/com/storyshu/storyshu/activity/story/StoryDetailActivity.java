@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.CardInfo;
+import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.more.MoreDialogManager;
@@ -48,6 +49,8 @@ public class StoryDetailActivity extends IBaseActivity {
     private TextView mNickname; //用户昵称
     private TextView mContent; //正文
     private IScrollView mScrollView; //滚动控件
+    private View mLocationLayout; //位置
+    private TextView mLocationText; //
     private View mLogoLayout; //app版权
     private View mBottomBar; //底部栏
 
@@ -80,11 +83,13 @@ public class StoryDetailActivity extends IBaseActivity {
 
         //头像
         mAvatar = (RoundImageView) findViewById(R.id.story_detail_avatar);
-        ImageLoader.getInstance().displayImage(mCardInfo.getUserInfo().getAvatar(), mAvatar);
+        if (mCardInfo.getUserInfo().getAvatar().contains("/storage/emulated/0"))
+            ImageLoader.getInstance().displayImage("file://" + mCardInfo.getUserInfo().getAvatar(), mAvatar);
+        else ImageLoader.getInstance().displayImage(mCardInfo.getUserInfo().getAvatar(), mAvatar);
 
         //昵称
-        mNickname = (TextView) findViewById(R.id.story_detail_nickname);
-        mNickname.setText(mCardInfo.getUserInfo().getNickname());
+//        mNickname = (TextView) findViewById(R.id.story_detail_nickname);
+//        mNickname.setText(mCardInfo.getUserInfo().getNickname());
 
         //标题
         mTitle = (TextView) findViewById(R.id.story_detail_title);
@@ -92,30 +97,29 @@ public class StoryDetailActivity extends IBaseActivity {
 
         //封面图
         ImageView detailPic = (ImageView) findViewById(R.id.story_detail_pic);
-        ImageLoader.getInstance().displayImage(mCardInfo.getDetailPic(), detailPic);
+        if (mCardInfo.getDetailPic().contains("/storage/emulated/0"))
+            ImageLoader.getInstance().displayImage("file://" + mCardInfo.getDetailPic(), detailPic);
+        else ImageLoader.getInstance().displayImage(mCardInfo.getDetailPic(), detailPic);
+
 
         //正文
         mContent = (TextView) findViewById(R.id.story_detail_content_text);
         // TODO: 2016/12/26 获取正文
-        mContent.setText("我相信这个世界上，一定会有一个爱你的人，他会穿过这个世间拥挤的人潮，一一的走过他们，怀着一颗用力跳动的心脏，捧着满腔的热，和沉甸甸的爱，走向你，抓紧你，你要等，他一定会找到你的。\n" +
-                "\n" +
-                "    书上说，世界很大，努力就能多看一些风景；\n" +
-                "    书上说，我永远深爱着她，她也一直没有离开我；\n" +
-                "    书上说，一个爱自己的人，才懂得爱别人，才值得被生命拥抱；\n" +
-                "    书上说，总会有人为你奋不顾身，总有人为你赴汤蹈火；\n" +
-                "    书上说，天下没有不散的宴席，别怕，书上还说了，人生何处不相逢。\n" +
-                "    鹿人三千，一个喜欢碎片式写作的年轻人，94年生人，和我一般大，他是双子，我是天秤。\n" +
-                "\n" +
-                "    我是一个很喜欢听故事的人，相比于长篇名著或者实用性更强的专业教材，我更钟情于小说。听过一个朋友说小说不算是真正意义上的书籍吧，也许是的。不过我确实喜欢这种经历别人人生的舒畅感，它会让我满足，让我觉得真的有那么一个人坐在我旁边，告诉我他喜欢过一个怎样的女孩子，我也会问他后来他们有没有在一起，我会想知道他的过往，以及他们的未来。有时候他会笑着说她做饭很好吃，有时候他会哭着说他好像失去她了，有时候我会陪着他发呆，有时候他的故事说完了我会难受就像失去了一个老友。\n" +
-                "\n" +
-                "    你都如何回忆我，带着笑或是很沉默。\n");
+        StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(this);
+        mContent.setText(storyDateBaseHelper.getContent(mCardInfo.getStoryId()));
 
         //整个布局的滚动控件
         mScrollView = (IScrollView) findViewById(R.id.story_detail_list_view);
         mScrollView.setOnScrollListener(scrollListener);
 
+        //位置信息
+        mLocationLayout = findViewById(R.id.story_detail_location_layout);
+        mLocationText = (TextView) findViewById(R.id.story_detail_location_text);
+        mLocationText.setText(mCardInfo.getLocation());
+
         //app版权
         mLogoLayout = findViewById(R.id.story_detail_logo_layout);
+
 
         //底部栏
         mBottomBar = findViewById(R.id.story_detail_bottom_bar);
@@ -289,7 +293,8 @@ public class StoryDetailActivity extends IBaseActivity {
     private void saveStory2Image() {
         //显示软件版权信息
         mLogoLayout.setVisibility(View.VISIBLE);
-
+        //位置信息
+        // TODO: 2017/1/5 请求服务器获取位置信息
         //
         Bitmap storyImage = compressImage(getBitmapByView(mScrollView));
         Log.i(TAG, "saveStory2Image: 开始保存到本地");
@@ -319,6 +324,7 @@ public class StoryDetailActivity extends IBaseActivity {
             Log.i(TAG, "已经保存");
             //隐藏版权信息
             mLogoLayout.setVisibility(View.GONE);
+
             //提示用户保存完毕
             ToastUtil.Show(StoryDetailActivity.this, R.string.save_screenshot_succeed);
         } catch (FileNotFoundException e) {

@@ -11,7 +11,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.poi.PoiAdapter;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.widget.menu.MenuDialogManager;
-import com.storyshu.storyshu.widget.text.CustomLocationEdit;
+import com.storyshu.storyshu.widget.inputview.CustomLocationEdit;
 
 import java.util.List;
 
@@ -75,7 +75,7 @@ public class PoiDialogManger {
         customLocationEdit.setOnCustomLocationEditListener(new CustomLocationEdit.OnCustomLocationEditListener() {
             @Override
             public void OnCustomLocation(String locationName) {
-                if (mPoiItemList.size() == 0)
+                if (mPoiItemList == null | mPoiItemList.size() == 0)
                     return;
 
                 PoiItem p = mPoiItemList.get(0);

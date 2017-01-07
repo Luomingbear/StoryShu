@@ -72,6 +72,10 @@ public class TitleView extends RelativeLayout implements EventObserver {
          * 返回-标题-插入图片-继续
          */
         BACK_TILE_IMAGE_GO,
+        /**
+         * 返回-标题-列表
+         */
+        BACK_TILE_LIST,
 
     }
 
@@ -190,7 +194,16 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addInsertImageButton();
                 //line
                 addBottomLine();
-
+                break;
+            case BACK_TILE_LIST:
+                //left
+                addLeftButton(R.drawable.menu);
+                //位置
+                addPositionTitle();
+                //right
+                addRightButton(R.drawable.list);
+                //line
+                addBottomLine();
                 break;
         }
     }
@@ -271,7 +284,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mTitleTextView.setLayoutParams(pa);
 
         //设置单行，句尾省略
-        mTitleTextView.setEllipsize(TextUtils.TruncateAt.END);
+        mTitleTextView.setEllipsize(TextUtils.TruncateAt.START);
         mTitleTextView.setSingleLine();
         mTitleTextView.setGravity(Gravity.CENTER);
 

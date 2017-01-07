@@ -82,7 +82,14 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         @Override
         public void onMapLoaded() {
             move2CurrentPosition();
-
+            //显示故事集
+//            Log.i(TAG, "onMapLoaded: 显示故事集");
+//            StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(mAppContext);
+//            List<StoryInfo> storyList = storyDateBaseHelper.getLocalStory();
+//            Log.d(TAG, "onMapLoaded: 故事集的大小：" + storyList.size());
+//            for (StoryInfo storyInfo : storyList) {
+//                mMapManager.showBookIcon(storyInfo.getLatLng(), storyInfo.getTitle(), storyInfo.getDetailPic());
+//            }
             isMapLoaded = true;
         }
     };
@@ -91,8 +98,10 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 开始定位
      */
     public void start() {
-        if (mAppContext == null || mMapView == null)
+        if (mAppContext == null || mMapView == null) {
+            Log.e(TAG, "start: 定位启动失败！");
             return;
+        }
         if (mLocationSever == null)
             mLocationSever = new ILocationSever(mAppContext);
         if (mMapManager == null) {
@@ -148,6 +157,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 获取当前地点的兴趣的列表
      */
     public List<PoiItem> getPoiList() {
+        Log.i(TAG, "getPoiList: " + poiItemList);
         List<PoiItem> list = poiItemList;
         removeDuplicate(list);
         return list;
@@ -174,7 +184,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     @Override
     public void OnClick(Marker marker) {
         if (onLocationMarkerClickListener != null)
-            onLocationMarkerClickListener.OnClick(marker);
+            onLocationMarkerClickListener.OnMarkerClick(marker);
     }
 
     /**
@@ -201,27 +211,33 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     @Override
     public void onLocationChange(AMapLocation aMapLocation) {
         LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+
+
+        /**
+         * 搜索工具,寻找当前位置的兴趣点
+         */
+        if (poiItemList == null || poiItemList.size() == 0)
+            mLocationQueryTool.init(mAmapLocation, onLocationQueryListener).startRegeocodeQuery(mRadius);
+
+
         if (mLatLng.equals(latLng) && isMapLoaded)
             return;
         mLatLng = latLng;
 
         //
-        /**
-         * 设置用户的图标显示
-         */
-        mMapManager.showPersonIcon(latLng);
 
         /**
          * 移动地图的显示
          */
         moveMap(latLng);
-        //更新位置信息
-        mAmapLocation = aMapLocation;
 
         /**
-         * 搜索工具,寻找当前位置的兴趣点
+         * 设置用户的图标显示
          */
-        mLocationQueryTool.init(mAmapLocation, onLocationQueryListener).startRegeocodeQuery(mRadius);
+        mMapManager.showPersonIcon(latLng);
+
+        //更新位置信息
+        mAmapLocation = aMapLocation;
 
         //保存位置信息到本地
         saveLatlngPreference(latLng);
@@ -258,6 +274,6 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 标记点点击回调函数
      */
     public interface OnLocationMarkerClickListener {
-        void OnClick(Marker marker);
+        void OnMarkerClick(Marker marker);
     }
 }

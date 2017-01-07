@@ -3,10 +3,11 @@ package com.storyshu.storyshu.activity.create;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
-import com.storyshu.storyshu.info.StoryBaseInfo;
+import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
@@ -18,6 +19,7 @@ import com.storyshu.storyshu.widget.title.TitleView;
  */
 
 public class CreateStoryActivity extends ChooseImageResultActivity {
+    private static final String TAG = "CreateStoryActivity";
     private TitleView mTitleView; //标题栏
     private RichTextEditor mStoryEdit; //正文编辑栏
     private static final int IMAGE = 1;
@@ -26,7 +28,7 @@ public class CreateStoryActivity extends ChooseImageResultActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_story);
+        setContentView(R.layout.create_story_layout);
         initView();
     }
 
@@ -41,7 +43,8 @@ public class CreateStoryActivity extends ChooseImageResultActivity {
         //正文编辑()
         mStoryEdit = (RichTextEditor) findViewById(R.id.story_edit);
         if (!TextUtils.isEmpty(ISharePreference.getContent(this)))
-            mStoryEdit.setContentDescription(ISharePreference.getContent(this));
+            mStoryEdit.setDataContent(ISharePreference.getContent(this));
+        Log.i(TAG, "initView: Content:" + ISharePreference.getContent(this));
     }
 
     /**
@@ -51,6 +54,7 @@ public class CreateStoryActivity extends ChooseImageResultActivity {
         mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
             public void onLeftClick() {
+                ISharePreference.saveContent(CreateStoryActivity.this, mStoryEdit.getEditString());
                 finish();
             }
 
@@ -66,9 +70,12 @@ public class CreateStoryActivity extends ChooseImageResultActivity {
 
             @Override
             public void onRightClick() {
-                StoryBaseInfo storyBaseInfo = new StoryBaseInfo();
-//              storyBaseInfo.setContent(mStoryEdit.getEditData());
-                ISharePreference.saveExtra(CreateStoryActivity.this, mStoryEdit.getExtract());
+                StoryInfo storyBaseInfo = new StoryInfo();
+                storyBaseInfo.setContent(mStoryEdit.getEditString());
+                storyBaseInfo.setExtract(mStoryEdit.getExtract());
+                storyBaseInfo.setDetailPic(mStoryEdit.getCoverPic());
+                ISharePreference.saveContent(CreateStoryActivity.this, mStoryEdit.getEditString());
+                ISharePreference.saveCoverPic(CreateStoryActivity.this, mStoryEdit.getCoverPic());
                 intentWithParcelable(CreateCoverActivity.class, ParcelableUtil.STORY, storyBaseInfo);
             }
         });
@@ -87,6 +94,10 @@ public class CreateStoryActivity extends ChooseImageResultActivity {
         mStoryEdit.insertImage(imagePath);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onStop() {

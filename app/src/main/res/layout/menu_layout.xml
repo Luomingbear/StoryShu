@@ -10,6 +10,7 @@
         android:layout_height="@dimen/image_small"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/title_height"
+        android:src="@drawable/avatar_superman"
         app:RoundType="circle" />
 
     <TextView
@@ -19,6 +20,8 @@
         android:layout_below="@id/menu_avatar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_small"
+        android:ellipsize="middle"
+        android:singleLine="true"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/font_small" />
 
@@ -27,8 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/menu_nickname"
-        android:layout_marginLeft="@dimen/margin_big"
         android:layout_marginTop="@dimen/margin_big"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <LinearLayout

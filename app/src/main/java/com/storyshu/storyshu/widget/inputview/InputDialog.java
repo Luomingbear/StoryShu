@@ -25,7 +25,6 @@ public class InputDialog extends IBaseDialog {
     private static final String TAG = "InputDialog";
     private EditText mEditText; //输入框
     private View mSend; //发送按钮
-    private InputMethodManager inputMethodManager;
 
     public InputDialog(Context context) {
         this(context, 0);
@@ -95,9 +94,6 @@ public class InputDialog extends IBaseDialog {
         inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
         InputDialog.this.dismiss();
 
-//        inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(), InputMethodManager.SHOW_FORCED);
-//        inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_SHOWN, InputMethodManager.RESULT_HIDDEN);
-
     }
 
     private void initView() {
@@ -118,7 +114,6 @@ public class InputDialog extends IBaseDialog {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 if (onInputChangeListener != null)
                     onInputChangeListener.onTextChange(s, start, before, count);
             }
@@ -127,7 +122,7 @@ public class InputDialog extends IBaseDialog {
             public void afterTextChanged(Editable s) {
                 //由文本的时候按钮高亮,否则就是灰的
                 if (s.length() != 0)
-                    mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorRedPomegranate));
+                    mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorGreenScallionLight));
                 else
                     mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorGrayLight));
             }

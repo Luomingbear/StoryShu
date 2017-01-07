@@ -38,31 +38,38 @@ public class AutoScaleLayout extends RelativeLayout {
         // 调整宽、高度
         float width = getMeasuredWidth();
         float height = getMeasuredHeight();
+        float ratio = height / width; //原始空件的显示比例
 
-        float boxWidth; //最小包围盒宽度
-        float boxHeight; //最小包围盒高度
-//        float side = Math.min(width, height);
-
-        if (mScaleRate >= 1) {
-            boxHeight = height;
-            boxWidth = height / mScaleRate;
-//            height = side;
-//            width = height / mScaleRate;
-        } else {
-            boxWidth = width;
-            boxHeight = width * mScaleRate;
-//            width = side;
-//            height = width * mScaleRate;
-        }
-
-        if (boxWidth > width) {
+        if (ratio < mScaleRate)
+            width = height / mScaleRate;
+        else if (ratio >= mScaleRate)
             height = width * mScaleRate;
-        } else {
-            width = boxWidth;
-        }
 
-        if (boxHeight < height)
-            height = boxHeight;
+//
+//        float boxWidth; //最小包围盒宽度
+//        float boxHeight; //最小包围盒高度
+////        float side = Math.min(width, height);
+//
+//        if (mScaleRate >= 1) {
+//            boxHeight = height;
+//            boxWidth = height / mScaleRate;
+////            height = side;
+////            width = height / mScaleRate;
+//        } else {
+//            boxWidth = width;
+//            boxHeight = width * mScaleRate;
+////            width = side;
+////            height = width * mScaleRate;
+//        }
+//
+//        if (boxWidth > width) {
+//            height = width * mScaleRate;
+//        } else {
+//            width = boxWidth;
+//        }
+//
+//        if (boxHeight < height)
+//            height = boxHeight;
 
         ViewGroup.LayoutParams params = getLayoutParams();
         params.width = (int) width;

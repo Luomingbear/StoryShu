@@ -2,12 +2,17 @@ package com.storyshu.storyshu.widget.marker;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * 标志view
@@ -32,7 +37,7 @@ public class PersonView extends RelativeLayout {
         mWidth = (int) getResources().getDimension(R.dimen.icon_large);
 
         drawBg();
-        drawHeadPic();
+        drawAvatar();
     }
 
     public void init(Bitmap bmp) {
@@ -41,27 +46,50 @@ public class PersonView extends RelativeLayout {
         mHeadPicIV.setImageBitmap(bmp);
     }
 
+    public void init(String imagePath) {
+        if (TextUtils.isEmpty(imagePath))
+            return;
+        mHeadPicIV.setImageBitmap(getLocalBitmap(imagePath));
+    }
+
+    /**
+     * 加载本地图片
+     *
+     * @param url
+     * @return
+     */
+    public static Bitmap getLocalBitmap(String url) {
+        try {
+            FileInputStream fis = new FileInputStream(url);
+            return BitmapFactory.decodeStream(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     /**
      * 背景
      */
     private void drawBg() {
         ImageView bgIV = new ImageView(getContext());
         LayoutParams p = new LayoutParams(mWidth, mWidth);
-//        p.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        p.addRule(RelativeLayout.CENTER_HORIZONTAL);
         bgIV.setLayoutParams(p);
-        bgIV.setBackgroundResource(R.drawable.person_maker_bg);
+        bgIV.setBackgroundResource(R.drawable.person_marker_bg);
         addView(bgIV);
     }
 
     /**
      * 头像
      */
-    private void drawHeadPic() {
+    private void drawAvatar() {
         mHeadPicIV = new RoundImageView(getContext());
         float width = mWidth * 0.78f;
         LayoutParams layoutParams = new LayoutParams((int) width, (int) width);
-        int margin = (int) (mWidth * 0.05f);
-        layoutParams.setMargins(margin * 2, 0, margin * 2, margin);
+        int margin = (int) (mWidth * 0.1f);
+        layoutParams.setMargins(margin, 0, margin, 0);
         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         mHeadPicIV.setLayoutParams(layoutParams);
         mHeadPicIV.setType(RoundImageView.TYPE_CIRCLE);

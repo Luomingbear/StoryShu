@@ -2,6 +2,9 @@ package com.storyshu.storyshu.info;
 
 import android.os.Parcel;
 
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.services.core.LatLonPoint;
+
 import java.util.Date;
 
 /**
@@ -11,6 +14,7 @@ import java.util.Date;
 
 public class StoryInfo extends CardInfo {
     private String Content; //正文
+    private LatLonPoint latLng;
 
     public StoryInfo() {
     }
@@ -19,14 +23,18 @@ public class StoryInfo extends CardInfo {
         Content = content;
     }
 
-    public StoryInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, Date createDate, String content) {
-        super(storyId, detailPic, title, extract, userInfo, createDate);
+    public StoryInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, Date createDate, String content,
+                     String location, LatLonPoint latLng) {
+        super(storyId, detailPic, title, extract, userInfo, createDate, location);
         Content = content;
+        this.latLng = latLng;
     }
 
-    public StoryInfo(int storyId, String detailPic, String title, String extract, String nickname, int userId, String headPortrait, Date createDate, String content) {
-        super(storyId, detailPic, title, extract, nickname, userId, headPortrait, createDate);
+    public StoryInfo(int storyId, String detailPic, String title, String extract, String nickname, int userId, String avatar,
+                     Date createDate, String content, String location, LatLonPoint latLng) {
+        super(storyId, detailPic, title, extract, nickname, userId, avatar, createDate, location);
         Content = content;
+        this.latLng = latLng;
     }
 
     public void setContent(String content) {
@@ -37,6 +45,18 @@ public class StoryInfo extends CardInfo {
         return Content;
     }
 
+    public LatLonPoint getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLonPoint latLng) {
+        this.latLng = latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
+        this.latLng = latLonPoint;
+    }
 
     @Override
     public int describeContents() {
@@ -47,11 +67,13 @@ public class StoryInfo extends CardInfo {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(this.Content);
+        dest.writeParcelable(this.latLng, flags);
     }
 
     protected StoryInfo(Parcel in) {
         super(in);
         this.Content = in.readString();
+        this.latLng = in.readParcelable(LatLng.class.getClassLoader());
     }
 
     public static final Creator<StoryInfo> CREATOR = new Creator<StoryInfo>() {

@@ -9,14 +9,19 @@ import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
+import com.storyshu.storyshu.activity.login.LoginActivity;
 import com.storyshu.storyshu.activity.story.StoryDetailActivity;
 import com.storyshu.storyshu.info.CardInfo;
+import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoriesWindowManager;
 import com.storyshu.storyshu.tool.observable.EventObservable;
 import com.storyshu.storyshu.widget.menu.MenuDialogManager;
 import com.storyshu.storyshu.widget.sift.SiftWindowManager;
 import com.storyshu.storyshu.widget.title.TitleView;
+
+import java.util.List;
 
 
 public class StoryMapActivity extends IBaseActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener, StoriesWindowManager.OnStoryCardListener {
@@ -83,7 +88,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     private MenuDialogManager.OnMenuClickListener onMenuClickListener = new MenuDialogManager.OnMenuClickListener() {
         @Override
         public void OnAvatarClick() {
-//            intentTo(Test.class);
+            intentTo(LoginActivity.class);
         }
 
         @Override
@@ -136,7 +141,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         @Override
         public void onRightClick() {
             Log.i(TAG, "onRightClick: ");
-            SiftWindowManager.getInstance().showSift(StoryMapActivity.this, mTitleView.getRightButton());
+//            SiftWindowManager.getInstance().showSift(StoryMapActivity.this, mTitleView.getRightButton());
         }
     };
 
@@ -204,7 +209,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.story_map_create_story:
                 intentTo(CreateStoryActivity.class);
-//                Toast.makeText(this, R.string.create_story, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, R.string.create_story_layout, Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.story_map_get_position:
@@ -227,23 +232,31 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
      * @param marker
      */
     @Override
-    public void OnClick(Marker marker) {
-        Log.e(TAG, "OnClick: id:" + marker.getId());
+    public void OnMarkerClick(Marker marker) {
+        Log.e(TAG, "OnMarkerClick: id:" + marker.getId());
         if (marker.getId().equals("Marker1")) {
             //点击的个人图标
         } else {
         }
-        showStoryWindow();
+
+        StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(StoryMapActivity.this);
+        List<StoryInfo> storyList = storyDateBaseHelper.getLocalStory();
+
+        showStoryWindow(storyList);
     }
 
     /**
      * 显示故事集弹窗
      */
-    private void showStoryWindow() {
+    private void showStoryWindow(List<StoryInfo> storyList) {
+        if (storyList == null || storyList.size() == 0)
+            return;
+
         mDarkView.setVisibility(View.VISIBLE);
         mCreateStory.setVisibility(View.GONE);
         mGetPosition.setVisibility(View.GONE);
-        StoriesWindowManager.getInstance().showDialog(this, getWindow(), mMapView).setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
+
+        StoriesWindowManager.getInstance().showDialog(this, storyList, getWindow(), mMapView).setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
             @Override
             public void onDismiss() {
                 mDarkView.setVisibility(View.GONE);

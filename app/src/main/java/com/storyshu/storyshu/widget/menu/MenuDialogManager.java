@@ -1,6 +1,9 @@
 package com.storyshu.storyshu.widget.menu;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import com.storyshu.storyshu.widget.imageview.RoundImageView;
  */
 
 public class MenuDialogManager implements View.OnClickListener {
+    private static final String TAG = "MenuDialogManager";
     private static MenuDialogManager instance; //单例对象
     private MenuDialog mMenuDialog; //弹窗对象
     private RoundImageView mAvatar; //用户头像
@@ -58,7 +62,7 @@ public class MenuDialogManager implements View.OnClickListener {
 
     private void initView() {
         mAvatar = (RoundImageView) mMenuDialog.findViewById(R.id.menu_avatar);
-        ImageLoader.getInstance().displayImage(ISharePreference.getUserData(mContext).getAvatar(), mAvatar);
+        setAvatar();
         mAvatar.setOnClickListener(this);
 
         //
@@ -88,6 +92,19 @@ public class MenuDialogManager implements View.OnClickListener {
 
         nightModeView = (ImageView) mMenuDialog.findViewById(R.id.menu_night_mode_view);
         nightModeText = (TextView) mMenuDialog.findViewById(R.id.menu_night_mode_text);
+    }
+
+    private void setAvatar() {
+        String avatar = ISharePreference.getUserData(mContext).getAvatar();
+        if (TextUtils.isEmpty(avatar))
+            mAvatar.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_superman));
+        else if (avatar.contains("/storage/emulated/0"))
+            ImageLoader.getInstance().displayImage("file://" + avatar, mAvatar);
+        else
+            ImageLoader.getInstance().displayImage(avatar, mAvatar);
+
+        Log.i(TAG, "initView:avatar:" + ISharePreference.getUserData(mContext).getAvatar());
+
     }
 
     /**

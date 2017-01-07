@@ -9,6 +9,7 @@ import android.widget.PopupWindow;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.CardInfo;
+import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 import com.storyshu.storyshu.widget.story.StoriesWindow;
@@ -69,7 +70,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
         //点击的不是个人图标
         mStoriesDialog = new StoriesWindow(context);
         mStoriesDialog.init(window);
-        mStoriesDialog.showAtLocation(parent, Gravity.CENTER, 0, 0);
+        mStoriesDialog.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
         mStoriesDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -80,6 +81,40 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
 
         mStoriesAdapterView = (StoriesAdapterView) mStoriesDialog.getContentView().findViewById(R.id.stories_adapter_view);
         addData(context);
+        return this;
+    }
+
+    public StoriesWindowManager showDialog(Context context, List<StoryInfo> storyList, Window window, View parent) {
+//        if (mWindow == null)
+//            return;
+
+        mContext = context;
+
+        //点击的不是个人图标
+        mStoriesDialog = new StoriesWindow(context);
+        mStoriesDialog.init(window);
+        mStoriesDialog.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+        mStoriesDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (onStoryWindowListener != null)
+                    onStoryWindowListener.onDismiss();
+            }
+        });
+
+        mStoriesAdapterView = (StoriesAdapterView) mStoriesDialog.getContentView().findViewById(R.id.stories_adapter_view);
+
+        //addData
+        if (mStoriesAdapterView == null)
+            return this;
+        mCardInfoList = new ArrayList<>();
+        for (StoryInfo storyInfo : storyList) {
+            mCardInfoList.add(new CardInfo(storyInfo));
+        }
+        CardAdapter adapter = new CardAdapter(context, mCardInfoList);
+        mStoriesAdapterView.init(adapter);
+        mStoriesAdapterView.setOnCardSlidingListener(this);
+        mStoriesAdapterView.setOnCardClickListener(this);
         return this;
     }
 
@@ -116,6 +151,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
         }
 
         mCardInfoList.get(1).setDetailPic("https://img3.doubanio.com/lpic/s29059325.jpg");
+        mCardInfoList.get(2).setExtract("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
         mCardInfoList.get(2).setDetailPic("http://img.hb.aicdn.com/493752fbda5ec3a183c39f0bc83d420557f8ac686c71c-kyaXbu_fw658");
         mCardInfoList.get(3).setDetailPic("http://img.hb.aicdn.com/03e819460466cad979f454cb001eb4e2c35f2611580ea-qkBa75_fw658");
         mCardInfoList.get(4).setDetailPic("http://img.hb.aicdn.com/df5dda0532822ab3f1317d6501ac818ee2d83c76685d6-WC54Ra_fw658");

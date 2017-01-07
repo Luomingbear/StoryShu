@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.PopupWindow;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.utils.StatusBarUtil;
 
 /**
  * 故事集的Dialog
@@ -51,7 +52,8 @@ public class StoriesWindow extends PopupWindow {
 
         //设置宽度和高度；
         Display display = window.getWindowManager().getDefaultDisplay();
-        float height = display.getHeight() * 0.6f;
+        float height = display.getHeight() - mContext.getResources().getDimension(R.dimen.title_height)
+                - StatusBarUtil.getHeight(mContext);
         setWidth(display.getWidth());
         setHeight((int) height);
     }

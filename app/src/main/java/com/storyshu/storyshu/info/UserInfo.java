@@ -9,14 +9,17 @@ import android.os.Parcelable;
  */
 
 public class UserInfo implements Parcelable {
+    public static int Visitor = -1; //游客
+
     private String nickname; //昵称
-    private int userId = -1; //用户id 默认游客身份
+    private int userId = Visitor; //用户id 默认游客身份
     private String avatar; //头像
 
-    public UserInfo(String nickname, int userId, String headPortrait) {
+
+    public UserInfo(String nickname, int userId, String avatar) {
         this.nickname = nickname;
         this.userId = userId;
-        this.avatar = headPortrait;
+        this.avatar = avatar;
     }
 
     public String getNickname() {

@@ -17,8 +17,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
 import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
-import com.storyshu.storyshu.info.StoryBaseInfo;
 import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
@@ -43,14 +44,13 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
     private TextView mCreateTime; //创建时间
     private static final int IMAGE = 1;
     private static final int CAMERA = 2;
-    private StoryBaseInfo mBeforeStoryInfo; //获取上个页面传来的数据
     private StoryInfo mStoryInfo; //故事的数据
     private String coverPicPath; //封面图片的地址
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cover_layout);
+        setContentView(R.layout.create_cover_layout);
         //
         initDate();
         //
@@ -75,7 +75,7 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
 
         //摘要
         mExtraTextView = (TextView) findViewById(R.id.cover_extract);
-        mExtraTextView.setText(ISharePreference.getExtra(this));
+        mExtraTextView.setText(mStoryInfo.getExtract());
         mExtraTextView.setOnClickListener(this);
 
         //所在位置
@@ -91,8 +91,9 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
      * 获取故事的正文数据
      */
     private void initDate() {
-        mBeforeStoryInfo = getIntent().getParcelableExtra(ParcelableUtil.STORY);
-        mStoryInfo = new StoryInfo();
+        mStoryInfo = getIntent().getParcelableExtra(ParcelableUtil.STORY);
+//        mStoryInfo = new StoryInfo();
+        coverPicPath = mStoryInfo.getDetailPic();
     }
 
     private void initTitle() {
@@ -116,14 +117,23 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
 
             @Override
             public void onRightClick() {
+
+                StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(CreateCoverActivity.this);
+                //更新故事数据
+                mStoryInfo.setStoryId(storyDateBaseHelper.getLocalStory().size());
                 mStoryInfo.setExtract(mExtraTextView.getText().toString());
                 mStoryInfo.setCreateDate(new Date(System.currentTimeMillis()));
                 mStoryInfo.setDetailPic(coverPicPath);
                 mStoryInfo.setTitle(mTitleTextView.getText().toString());
                 mStoryInfo.setContent(ISharePreference.getContent(CreateCoverActivity.this));
                 mStoryInfo.setUserInfo(ISharePreference.getUserData(CreateCoverActivity.this));
-                // TODO: 2016/12/27 发布故事到服务器 
 
+                //保存到本地数据库
+                storyDateBaseHelper.insertStoryData(mStoryInfo);
+                // TODO: 2016/12/27 发布故事到服务器
+
+
+                //清除本地的小缓存，不是数据库
                 ISharePreference.saveExtra(CreateCoverActivity.this, "");
                 ISharePreference.saveContent(CreateCoverActivity.this, "");
                 ISharePreference.saveCoverPic(CreateCoverActivity.this, "");
@@ -224,6 +234,9 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
             @Override
             public void onChoose(PoiItem choosePoi) {
                 mLocationTextView.setText(choosePoi.getTitle());
+                mStoryInfo.setLatLng(choosePoi.getLatLonPoint());
+                mStoryInfo.setLocation(choosePoi.getTitle());
+
                 Log.i(TAG, "onChoose: PoiItem:" + choosePoi);
                 PoiDialogManger.getInstance().dismissAoiDialog();
             }
@@ -234,7 +247,6 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
      * 设置当前的时间
      */
     private void setCreateTime() {
-
         Date createDate = new Date(System.currentTimeMillis());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
         String str = formatter.format(createDate);
@@ -258,5 +270,23 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
                 chooseAoiLocation();
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ILocationManager.getInstance().stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ILocationManager.getInstance().start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ILocationManager.getInstance().stop();
     }
 }

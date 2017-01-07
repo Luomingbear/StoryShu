@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:padding="1dp"
             android:transitionName="story_pic"
-            app:BorderRadius="@dimen/card_round_size"
+            app:BorderRadius="@dimen/card_border_radius"
             app:RoundType="round_top_left_top_right"
             app:Scale="1.1" />
 
