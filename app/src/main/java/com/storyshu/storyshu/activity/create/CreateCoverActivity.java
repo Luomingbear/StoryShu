@@ -22,6 +22,7 @@ import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.utils.time.ConvertTimeUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.inputview.InputDialog;
 import com.storyshu.storyshu.widget.poilist.PoiDialogManger;
@@ -122,7 +123,7 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
                 //更新故事数据
                 mStoryInfo.setStoryId(storyDateBaseHelper.getLocalStory().size());
                 mStoryInfo.setExtract(mExtraTextView.getText().toString());
-                mStoryInfo.setCreateDate(new Date(System.currentTimeMillis()));
+                mStoryInfo.setCreateDate(ConvertTimeUtil.convert2TimeText(new Date(System.currentTimeMillis())));
                 mStoryInfo.setDetailPic(coverPicPath);
                 mStoryInfo.setTitle(mTitleTextView.getText().toString());
                 mStoryInfo.setContent(ISharePreference.getContent(CreateCoverActivity.this));

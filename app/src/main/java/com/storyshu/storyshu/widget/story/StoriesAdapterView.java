@@ -103,7 +103,6 @@ public class StoriesAdapterView extends AdapterView {
         //
         Log.d(TAG, "onLayout: !!!!!!!!!!!!!!!!!!!");
         isLayout = true;
-        // TODO: 2016/12/4 卡片生成的逻辑
         int count = mAdapter.getCount(); //数据的数量
         removeAllViewsInLayout(); //移除之前加载的卡片，避免重复绘制
 

@@ -2,7 +2,6 @@ package com.storyshu.storyshu.widget.title;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.tool.observable.EventObserver;
+import com.storyshu.storyshu.utils.DipPxConversion;
 
 /**
  * 标题栏
@@ -91,11 +91,12 @@ public class TitleView extends RelativeLayout implements EventObserver {
         super(context, attrs, defStyleAttr);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TitleView);
-        mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, Color.BLACK);
+        mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, getResources().getColor(R.color.colorBlack));
         mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_normal));
         mTitleString = typedArray.getString(R.styleable.TitleView_title_string);
         mTitleMode = TitleMode.values()[typedArray.getInt(R.styleable.TitleView_title_mode, 0)];
         typedArray.recycle();
+
         init();
         initTitle();
     }
@@ -122,6 +123,16 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
         //动态的生成界面
         switch (mTitleMode) {
+            case MENU_POSITION_SIFT:
+                //left
+                addLeftButton(R.drawable.menu);
+                //位置
+                addPositionTitle();
+                //right
+                addRightButton(R.drawable.sift);
+                //line
+                addBottomLine();
+                break;
 
             case BACK_TILE:
                 //left
@@ -139,17 +150,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addRightButton(R.drawable.go);
                 //title
                 addTitle();
-                //line
-                addBottomLine();
-                break;
-
-            case MENU_POSITION_SIFT:
-                //left
-                addLeftButton(R.drawable.menu);
-                //位置
-                addPositionTitle();
-                //right
-                addRightButton(R.drawable.sift);
                 //line
                 addBottomLine();
                 break;
@@ -381,9 +381,10 @@ public class TitleView extends RelativeLayout implements EventObserver {
      */
     private void addBottomLine() {
         View lineView = new View(getContext());
-        LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, 2);
+        LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, DipPxConversion.dip2px(getContext(), 1));
         p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         lineView.setLayoutParams(p);
+//        lineView.setBackgroundResource(R.drawable.shadow_bg);
         lineView.setBackgroundColor(getResources().getColor(R.color.colorGrayLight));
         addView(lineView);
     }
@@ -403,7 +404,9 @@ public class TitleView extends RelativeLayout implements EventObserver {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         LayoutParams p = (LayoutParams) mTitleLayout.getLayoutParams();
-        p.setMargins(mLeftLayout.getWidth(), 0, mRightLayout.getWidth(), 0);
+        int marginLeft = mLeftLayout == null ? 0 : mLeftLayout.getWidth();
+        int marginRight = mRightLayout == null ? 0 : mRightLayout.getWidth();
+        p.setMargins(marginLeft, 0, marginRight, 0);
         mTitleLayout.setLayoutParams(p);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

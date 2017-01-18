@@ -22,10 +22,12 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.more.MoreDialogManager;
 import com.storyshu.storyshu.widget.scrollview.IScrollView;
+import com.storyshu.storyshu.widget.text.RichTextView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.io.ByteArrayInputStream;
@@ -47,7 +49,7 @@ public class StoryDetailActivity extends IBaseActivity {
     private RoundImageView mAvatar; //头像
     private TextView mTitle; //标题
     private TextView mNickname; //用户昵称
-    private TextView mContent; //正文
+    private RichTextView mContentView; //正文
     private IScrollView mScrollView; //滚动控件
     private View mLocationLayout; //位置
     private TextView mLocationText; //
@@ -72,7 +74,7 @@ public class StoryDetailActivity extends IBaseActivity {
      * 初始化数据
      */
     private void init() {
-        mCardInfo = getIntent().getParcelableExtra("story");
+        mCardInfo = getIntent().getParcelableExtra(ParcelableUtil.STORY);
     }
 
     /**
@@ -88,7 +90,7 @@ public class StoryDetailActivity extends IBaseActivity {
         else ImageLoader.getInstance().displayImage(mCardInfo.getUserInfo().getAvatar(), mAvatar);
 
         //昵称
-//        mNickname = (TextView) findViewById(R.id.story_detail_nickname);
+        mNickname = (TextView) findViewById(R.id.story_detail_nickname);
 //        mNickname.setText(mCardInfo.getUserInfo().getNickname());
 
         //标题
@@ -103,10 +105,10 @@ public class StoryDetailActivity extends IBaseActivity {
 
 
         //正文
-        mContent = (TextView) findViewById(R.id.story_detail_content_text);
+        mContentView = (RichTextView) findViewById(R.id.story_detail_content_view);
         // TODO: 2016/12/26 获取正文
         StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(this);
-        mContent.setText(storyDateBaseHelper.getContent(mCardInfo.getStoryId()));
+        mContentView.setData(storyDateBaseHelper.getContent(mCardInfo.getStoryId()));
 
         //整个布局的滚动控件
         mScrollView = (IScrollView) findViewById(R.id.story_detail_list_view);
@@ -137,14 +139,12 @@ public class StoryDetailActivity extends IBaseActivity {
     private IScrollView.OnScrollListener scrollListener = new IScrollView.OnScrollListener() {
         @Override
         public void onScroll(int scrollY) {
-            Log.i(TAG, "onScroll: scrollY:" + scrollY);
 
             float distanceY = scrollY - oldScrollY;
             /**
              * 滑动底部的时候显示标题栏和底部栏
              */
             float scrollHeight = mScrollView.getChildAt(0).getHeight() - mScrollView.getHeight();
-            Log.d(TAG, "onScroll: height:" + scrollHeight);
             if (scrollHeight - scrollY <= 5)
                 animateTitleShow(true);
             /**

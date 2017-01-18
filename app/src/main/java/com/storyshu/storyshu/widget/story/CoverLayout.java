@@ -3,6 +3,7 @@ package com.storyshu.storyshu.widget.story;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.storyshu.storyshu.utils.StatusBarUtil;
@@ -30,11 +31,13 @@ public class CoverLayout extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // 调整宽、高度和屏幕一样大
         float width = getMeasuredWidth();
-        float height = getMeasuredHeight();
+        WindowManager wm = (WindowManager) getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        float height = wm.getDefaultDisplay().getHeight();
 
         ViewGroup.LayoutParams params = getLayoutParams();
         params.width = (int) width;
-        params.height = (int) height + StatusBarUtil.getHeight(getContext());
+        params.height = (int) height - StatusBarUtil.getHeight(getContext());
 //        params.height = (int) height;
         setLayoutParams(params);
     }

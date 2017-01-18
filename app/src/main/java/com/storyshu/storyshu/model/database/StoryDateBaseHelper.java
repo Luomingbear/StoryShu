@@ -4,13 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.info.UserInfo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +27,7 @@ public class StoryDateBaseHelper extends BaseDataHelper {
 
     /**
      * 获取正文
+     *
      * @param storyId
      * @return
      */
@@ -50,7 +51,8 @@ public class StoryDateBaseHelper extends BaseDataHelper {
         List<StoryInfo> storyList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "select * from " + STORY_TABLE + "," + USER_TABLE + " where " + STORY_TABLE
-                + "." + USER_ID + " = " + USER_TABLE + "." + USER_ID;
+                + "." + USER_ID + " = " + USER_TABLE + "." + USER_ID + " order by " + STORY_TABLE +
+                "." + CREATE_DATE + " desc";
         Cursor cursor = db.rawQuery(sql, null);
 
         if (cursor.moveToFirst()) {
@@ -59,7 +61,8 @@ public class StoryDateBaseHelper extends BaseDataHelper {
                 story.setExtract(cursor.getString(cursor.getColumnIndex(EXTRACT)));
                 story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
                 story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
-                story.setCreateDate(new Date(cursor.getString(cursor.getColumnIndex(CREATE_DATE))));
+                story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
+                Log.i("数据库", "getLocalStory: 时间：" + cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
                 story.setDetailPic(cursor.getString(cursor.getColumnIndex(COVER_PIC)));
                 story.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
                 story.setStoryId(cursor.getInt(cursor.getColumnIndex(STORY_ID)));
@@ -110,7 +113,7 @@ public class StoryDateBaseHelper extends BaseDataHelper {
         values.put(TITLE, storyInfo.getTitle());
         values.put(EXTRACT, storyInfo.getExtract());
         values.put(CONTENT, storyInfo.getContent());
-        values.put(CREATE_DATE, storyInfo.getCreateDate().toString());
+        values.put(CREATE_DATE, storyInfo.getCreateDate());
         values.put(LOCATION_NAME, storyInfo.getLocation());
         values.put(LAT, storyInfo.getLatLng().getLatitude());
         values.put(LNG, storyInfo.getLatLng().getLongitude());

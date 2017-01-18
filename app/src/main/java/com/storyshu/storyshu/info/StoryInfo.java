@@ -5,8 +5,6 @@ import android.os.Parcel;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 
-import java.util.Date;
-
 /**
  * 故事信息
  * Created by bear on 2016/12/27.
@@ -23,7 +21,7 @@ public class StoryInfo extends CardInfo {
         Content = content;
     }
 
-    public StoryInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, Date createDate, String content,
+    public StoryInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, String createDate, String content,
                      String location, LatLonPoint latLng) {
         super(storyId, detailPic, title, extract, userInfo, createDate, location);
         Content = content;
@@ -31,7 +29,7 @@ public class StoryInfo extends CardInfo {
     }
 
     public StoryInfo(int storyId, String detailPic, String title, String extract, String nickname, int userId, String avatar,
-                     Date createDate, String content, String location, LatLonPoint latLng) {
+                     String createDate, String content, String location, LatLonPoint latLng) {
         super(storyId, detailPic, title, extract, nickname, userId, avatar, createDate, location);
         Content = content;
         this.latLng = latLng;

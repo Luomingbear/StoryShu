@@ -104,10 +104,11 @@ public class WelcomeActivity extends IBaseActivity {
      * 初始化图像加载器
      */
     private void initImageLoader() {
-        FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(200, true, true, false); //设置图片渐显，200毫秒
+        FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(200, true, false, false); //设置图片渐显，200毫秒
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.gray_bg).cacheInMemory(true).displayer(fadeInBitmapDisplayer)
+//                .displayer(fadeInBitmapDisplayer)
+                .showImageOnLoading(R.drawable.gray_bg).cacheInMemory(true)
                 .cacheOnDisk(true).build();
         ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
                 .defaultDisplayImageOptions(options).build();

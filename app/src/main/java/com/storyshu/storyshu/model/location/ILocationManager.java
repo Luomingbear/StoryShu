@@ -81,7 +81,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     private AMap.OnMapLoadedListener onMapLoadedListener = new AMap.OnMapLoadedListener() {
         @Override
         public void onMapLoaded() {
-            move2CurrentPosition();
+            animate2CurrentPosition();
             //显示故事集
 //            Log.i(TAG, "onMapLoaded: 显示故事集");
 //            StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(mAppContext);
@@ -116,7 +116,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         mMapManager.setOnMarkerClickedListener(this);
 
         //移动地图到上一次的地点
-        mMapManager.move2Position(ISharePreference.getLatLngData(mAppContext));
+        mMapManager.animate2Position(ISharePreference.getLatLngData(mAppContext));
         //显示用户图标
         mMapManager.showPersonIcon(ISharePreference.getLatLngData(mAppContext));
     }
@@ -146,11 +146,23 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
             mMapManager = null;
     }
 
+    /**
+     * 动画地移动摄像机到当前的位置
+     */
+    public void animate2CurrentPosition() {
+        if (mMapManager == null)
+            return;
+
+        mMapManager.animate2Position();
+    }
+    /**
+     * 移动摄像机到当前的位置
+     */
     public void move2CurrentPosition() {
         if (mMapManager == null)
             return;
 
-        mMapManager.move2Position();
+        mMapManager.animate2Position();
     }
 
     /**
@@ -248,7 +260,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 移动地图到当前的位置
      */
     private void moveMap(LatLng latLng) {
-        mMapManager.move2Position(latLng);
+        mMapManager.animate2Position(latLng);
         oldLatlng = latLng;
     }
 

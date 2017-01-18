@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:src="@drawable/gray_bg"
             app:BorderRadius="@dimen/card_border_radius"
             app:RoundType="round_top_left_top_right"
             app:Scale="1.25" />
@@ -28,9 +29,9 @@
             android:layout_alignBottom="@id/card_view_detail_pic"
             android:layout_marginBottom="@dimen/margin_small"
             android:layout_marginLeft="@dimen/margin_normal"
+            android:textStyle="bold"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="永恒的时光之旅"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/font_big" />
 
@@ -64,8 +65,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_small"
                     android:singleLine="true"
-                    android:textColor="@color/colorGrayDeep"
-                    android:textSize="@dimen/font_min" />
+                    android:textColor="@color/colorRedPomegranateDeep"
+                    android:textSize="@dimen/font_small" />
 
             </LinearLayout>
 

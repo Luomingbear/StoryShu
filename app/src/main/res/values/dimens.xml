@@ -25,7 +25,7 @@
     <dimen name="image_normal">98dp</dimen>
 
     <!--字体大小-->
-    <dimen name="font_min">12dp</dimen>
+    <dimen name="font_min">11dp</dimen>
     <dimen name="font_small">15dp</dimen>
     <dimen name="font_normal">18dp</dimen>
     <dimen name="font_big">28dp</dimen>

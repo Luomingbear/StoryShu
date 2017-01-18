@@ -406,8 +406,8 @@ public class RichTextEditor extends ScrollView {
     }
 
     //类型标签
-    private static String TAG_TXT = "txt";
-    private static String TAG_IMG = "img";
+    public static String TAG_TXT = "txt";
+    public static String TAG_IMG = "img";
 
     /**
      * 设置故事的数据

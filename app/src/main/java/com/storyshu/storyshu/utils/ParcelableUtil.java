@@ -7,4 +7,5 @@ package com.storyshu.storyshu.utils;
 
 public class ParcelableUtil {
     public static String STORY = "story";
+    public static String USER = "user";
 }

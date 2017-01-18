@@ -93,6 +93,20 @@ public class PersonMarker extends IMarker {
     }
 
     /**
+     * 动画地移动marker
+     *
+     * @param latLng
+     */
+    public void animate(LatLng latLng) {
+        Animation animation = new TranslateAnimation(latLng);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setDuration(2000);
+
+        mMarker.setAnimation(animation);
+        mMarker.startAnimation();
+    }
+
+    /**
      * 移动marker
      *
      * @param latLng
@@ -100,7 +114,6 @@ public class PersonMarker extends IMarker {
     public void move(LatLng latLng) {
         Animation animation = new TranslateAnimation(latLng);
         animation.setInterpolator(new LinearInterpolator());
-        animation.setDuration(2000);
 
         mMarker.setAnimation(animation);
         mMarker.startAnimation();

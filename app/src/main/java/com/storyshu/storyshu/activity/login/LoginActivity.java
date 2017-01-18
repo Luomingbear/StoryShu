@@ -15,7 +15,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
 import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
 import com.storyshu.storyshu.info.UserInfo;
-import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.number.PhoneFormatCheckUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -32,9 +32,17 @@ import java.util.TimerTask;
 public class LoginActivity extends ChooseImageResultActivity implements View.OnClickListener {
     private RoundImageView mAvatar; //头像
     private EditText mPhoneNumberEdit; //输入电话号码
+    private EditText mPasswordEdit; //输入密码
+    private View mVerfiyLayout; //验证码的布局
     private EditText mVerifyEdit; //输入验证码
     private TextView mCountdown; //倒计时
+    private TextView mLoginButton; //登录按钮
+    private View mForgotPassword; //忘记密码
+    private TextView mFreeRigister; //免费注册
+
+
     private Timer mTimer; //定时器
+    private boolean isLoginLayout = true; //是否是登录界面
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +62,12 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
         //手机号码
         mPhoneNumberEdit = (EditText) findViewById(R.id.login_phone_number);
 
+        //密码
+        mPasswordEdit = (EditText) findViewById(R.id.login_password);
+
+        //验证码布局
+        mVerfiyLayout = findViewById(R.id.login_verify_layout);
+
         //验证码
         mVerifyEdit = (EditText) findViewById(R.id.login_verify_number);
 
@@ -62,8 +76,15 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
         mCountdown = (TextView) findViewById(R.id.login_countdown);
 
         //登录
-        findViewById(R.id.login_login).setOnClickListener(this);
+        mLoginButton = (TextView) findViewById(R.id.login_login_button);
+        mLoginButton.setOnClickListener(this);
 
+        //忘记密码
+        mForgotPassword = findViewById(R.id.login_forgot_password);
+
+        //免费注册
+        mFreeRigister = (TextView) findViewById(R.id.login_free_register);
+        mFreeRigister.setOnClickListener(this);
         //侧试
 //        findViewById(R.id.test).setOnClickListener(this);
     }
@@ -78,10 +99,13 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
                 getVerifyCode();
                 break;
 
-            case R.id.login_login:
+            case R.id.login_login_button:
                 login();
                 break;
 
+            case R.id.login_free_register:
+                changeLayout();
+                break;
             case R.id.test:
                 intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 break;
@@ -144,12 +168,12 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
         //如果输入的值正确则登录
         if (checkInput()) {
             // TODO: 2016/12/30 请求服务器注册账号，登录账号跳转页面
-            //保存本地数据
             ISharePreference.saveUserData(this, new UserInfo(mPhoneNumberEdit.getText().toString(), 1, mAvatarPath));
-            StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(LoginActivity.this);
-            storyDateBaseHelper.insertUserData(new UserInfo(mPhoneNumberEdit.getText().toString(), 1, mAvatarPath));
             //跳转页面
-            intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (isLoginLayout)
+                intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            else
+                intentWithParcelable(ImproveUserDataActivity.class, ParcelableUtil.USER, new UserInfo("", 1, mAvatarPath));
         }
     }
 
@@ -169,13 +193,14 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
         }
 
         //验证码
-        if (TextUtils.isEmpty(mVerifyEdit.getText())) {
-            ToastUtil.Show(this, R.string.login_verify_number_empty);
-            return false;
-        } else if (!isVerifyLegal()) {
-            ToastUtil.Show(this, R.string.login_verify_number_illegal);
-            return false;
-        }
+        if (!isLoginLayout)
+            if (TextUtils.isEmpty(mVerifyEdit.getText())) {
+                ToastUtil.Show(this, R.string.login_verify_number_empty);
+                return false;
+            } else if (!isVerifyLegal()) {
+                ToastUtil.Show(this, R.string.login_verify_number_illegal);
+                return false;
+            }
 
         //头像
 //        if (TextUtils.isEmpty(mAvatarPath)) {
@@ -196,6 +221,26 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
             return true;
         return false;
     }
+
+    /**
+     * 在注册与登录之间切换
+     */
+    private void changeLayout() {
+        if (isLoginLayout) {
+            mVerfiyLayout.setVisibility(View.VISIBLE);
+            mLoginButton.setText(R.string.register);
+            mForgotPassword.setVisibility(View.GONE);
+            mFreeRigister.setText(R.string.already_register);
+            isLoginLayout = false;
+        } else {
+            mVerfiyLayout.setVisibility(View.GONE);
+            mLoginButton.setText(R.string.login);
+            mForgotPassword.setVisibility(View.VISIBLE);
+            mFreeRigister.setText(R.string.free_register);
+            isLoginLayout = true;
+        }
+    }
+
 
     private String mAvatarPath; //头像地址
 

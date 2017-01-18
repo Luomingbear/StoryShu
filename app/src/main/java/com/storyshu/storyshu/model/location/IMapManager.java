@@ -30,7 +30,7 @@ public class IMapManager {
     private UiSettings mUiSettings; //地图ui设置
     private boolean isFirstZoom = true; //是否首次启动地图
 
-    private int mScaleLevel = 17; //默认的地图缩放比例
+    private int mZoomLevel = 17; //默认的地图缩放比例
     private PersonMarker mPersonMarker; //个人位置点图标
     private List<BookMarker> bookMarkerList; //故事集图标列表
 
@@ -111,16 +111,16 @@ public class IMapManager {
         if (mPersonMarker == null)
             mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
         else
-            mPersonMarker.move(personLatLng);
+            mPersonMarker.animate(personLatLng);
     }
 
     /**
      * 显示故事集图标
      */
-    public void showBookIcon(LatLonPoint latLonPoint, String title,String bgPath) {
+    public void showBookIcon(LatLonPoint latLonPoint, String title, String bgPath) {
         BookMarker bookMarker = new BookMarker(mContext, mAMap,
                 new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
-        bookMarker.init(title,bgPath);
+        bookMarker.init(title, bgPath);
         //添加到故事集列表
         bookMarkerList.add(bookMarker);
     }
@@ -136,12 +136,12 @@ public class IMapManager {
     /**
      * 移动地图到当前位置
      */
-    public void move2Position() {
+    public void animate2Position() {
         if (mAMap == null)
             return;
         if (mLatLng == null)
             mLatLng = ISharePreference.getLatLngData(mContext);
-        move2Position(mLatLng);
+        animate2Position(mLatLng);
     }
 
     /**
@@ -149,13 +149,13 @@ public class IMapManager {
      *
      * @param latLng
      */
-    public void move2Position(LatLng latLng) {
+    public void animate2Position(LatLng latLng) {
         if (mAMap == null)
             return;
         mLatLng = latLng;
         mAMap.animateCamera(CameraUpdateFactory.newCameraPosition(
                 new CameraPosition(latLng,
-                        mScaleLevel, //新的缩放级别
+                        mZoomLevel, //新的缩放级别
                         0, //俯仰角0°~45°（垂直与地图时为0）
                         0)),  //偏航角 0~360° (正北方为0)
                 750, //移动时间 豪秒
@@ -172,6 +172,30 @@ public class IMapManager {
                         //移动取消
                     }
                 });
+    }
+
+    /**
+     * 移动摄像机到当前的位置
+     */
+    public void move2Position() {
+        move2Position(mLatLng);
+    }
+
+    /**
+     * 马上移动摄像机到指定位置
+     *
+     * @param latLng
+     */
+    public void move2Position(LatLng latLng) {
+        if (mAMap == null)
+            return;
+        mLatLng = latLng;
+        mAMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                mLatLng,
+                mZoomLevel,
+                0,
+                0
+        )));
     }
 
     private OnMarkerClickedListener onMarkerClickedListener;

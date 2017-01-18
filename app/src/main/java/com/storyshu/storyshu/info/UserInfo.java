@@ -46,6 +46,9 @@ public class UserInfo implements Parcelable {
         this.avatar = avatar;
     }
 
+    public UserInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -58,16 +61,13 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.avatar);
     }
 
-    public UserInfo() {
-    }
-
     protected UserInfo(Parcel in) {
         this.nickname = in.readString();
         this.userId = in.readInt();
         this.avatar = in.readString();
     }
 
-    public static final Parcelable.Creator<UserInfo> CREATOR = new Parcelable.Creator<UserInfo>() {
+    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
         @Override
         public UserInfo createFromParcel(Parcel source) {
             return new UserInfo(source);

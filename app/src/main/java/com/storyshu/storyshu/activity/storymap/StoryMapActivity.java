@@ -10,18 +10,15 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
+import com.storyshu.storyshu.activity.my.MyStoryActivity;
 import com.storyshu.storyshu.activity.story.StoryDetailActivity;
 import com.storyshu.storyshu.info.CardInfo;
-import com.storyshu.storyshu.info.StoryInfo;
-import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoriesWindowManager;
 import com.storyshu.storyshu.tool.observable.EventObservable;
 import com.storyshu.storyshu.widget.menu.MenuDialogManager;
 import com.storyshu.storyshu.widget.sift.SiftWindowManager;
 import com.storyshu.storyshu.widget.title.TitleView;
-
-import java.util.List;
 
 
 public class StoryMapActivity extends IBaseActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener, StoriesWindowManager.OnStoryCardListener {
@@ -93,7 +90,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
 
         @Override
         public void OnMyStoriesClick() {
-
+            intentTo(MyStoryActivity.class);
         }
 
         @Override
@@ -239,31 +236,26 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         } else {
         }
 
-        StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(StoryMapActivity.this);
-        List<StoryInfo> storyList = storyDateBaseHelper.getLocalStory();
-
-        showStoryWindow(storyList);
+        showStoryWindow();
     }
 
     /**
      * 显示故事集弹窗
      */
-    private void showStoryWindow(List<StoryInfo> storyList) {
-        if (storyList == null || storyList.size() == 0)
-            return;
-
+    private void showStoryWindow() {
         mDarkView.setVisibility(View.VISIBLE);
         mCreateStory.setVisibility(View.GONE);
         mGetPosition.setVisibility(View.GONE);
 
-        StoriesWindowManager.getInstance().showDialog(this, storyList, getWindow(), mMapView).setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
-            @Override
-            public void onDismiss() {
-                mDarkView.setVisibility(View.GONE);
-                mCreateStory.setVisibility(View.VISIBLE);
-                mGetPosition.setVisibility(View.VISIBLE);
-            }
-        });
+        StoriesWindowManager.getInstance().showDialog(this, getWindow(), mMapView)
+                .setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
+                    @Override
+                    public void onDismiss() {
+                        mDarkView.setVisibility(View.GONE);
+                        mCreateStory.setVisibility(View.VISIBLE);
+                        mGetPosition.setVisibility(View.VISIBLE);
+                    }
+                });
 
         /**
          * 设置点击响应的接口

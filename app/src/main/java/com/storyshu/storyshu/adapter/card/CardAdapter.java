@@ -2,7 +2,6 @@ package com.storyshu.storyshu.adapter.card;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.base.IBaseAdapter;
 import com.storyshu.storyshu.info.CardInfo;
+import com.storyshu.storyshu.utils.BitmapUtil;
 import com.storyshu.storyshu.utils.time.ConvertTimeUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 
@@ -34,29 +34,30 @@ public class CardAdapter extends IBaseAdapter {
     /**
      * 故事说明图的加载监听
      */
-    private ImageLoadingListener detailPicLoadListener = new ImageLoadingListener() {
+    private ImageLoadingListener coverLoadListener = new ImageLoadingListener() {
         @Override
         public void onLoadingStarted(String imageUri, View view) {
-//            viewHolder.storyPic
+//            viewHolder.cover
+            Log.i(TAG, "onLoadingStarted: ");
         }
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            switch (failReason.getType()) {
-                case UNKNOWN:
-                    viewHolder.storyPic.setImageBitmap(BitmapFactory.decodeFile(imageUri));
-                    break;
+            Log.i(TAG, "onLoadingFailed: " + failReason.getType());
+            if (failReason.getType() == FailReason.FailType.UNKNOWN) {
+                viewHolder.cover.setImageBitmap(BitmapUtil.getScaledBitmap(imageUri, 400));
             }
         }
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            viewHolder.storyPic.setImageBitmap(loadedImage);
+            Log.i(TAG, "onLoadingComplete: ");
+            viewHolder.cover.setImageBitmap(loadedImage);
         }
 
         @Override
         public void onLoadingCancelled(String imageUri, View view) {
-
+            Log.i(TAG, "onLoadingCancelled: ");
         }
     };
 
@@ -71,11 +72,7 @@ public class CardAdapter extends IBaseAdapter {
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            Log.i(TAG, "onLoadingFailed: fail:" + failReason.getType());
-            switch (failReason.getType()) {
-                case UNKNOWN:
-                    break;
-            }
+
         }
 
         @Override
@@ -96,7 +93,7 @@ public class CardAdapter extends IBaseAdapter {
 
             viewHolder = new ViewHolder();
 
-            viewHolder.storyPic = (RoundImageView) convertView.findViewById(R.id.card_view_detail_pic);
+            viewHolder.cover = (RoundImageView) convertView.findViewById(R.id.card_view_detail_pic);
             viewHolder.title = (TextView) convertView.findViewById(R.id.card_view_title);
             viewHolder.avatar = (RoundImageView) convertView.findViewById(R.id.card_view_head_portrait);
             viewHolder.nickName = (TextView) convertView.findViewById(R.id.card_view_username);
@@ -109,16 +106,20 @@ public class CardAdapter extends IBaseAdapter {
         CardInfo cardInfo = (CardInfo) getItem(position);
         if (cardInfo == null)
             return convertView;
-        Log.i(TAG, "getView: avatar:" + cardInfo.getUserInfo().getAvatar());
-        if (cardInfo.getDetailPic().contains("/storage/emulated/"))
-            ImageLoader.getInstance().displayImage("file://" + cardInfo.getDetailPic(), viewHolder.storyPic, detailPicLoadListener);
-        else
-            ImageLoader.getInstance().displayImage(cardInfo.getDetailPic(), viewHolder.storyPic, detailPicLoadListener);
+        //显示本地图片的时候会出现闪烁
+//        if (cardInfo.getDetailPic().contains("/storage/emulated/"))
+        viewHolder.cover.setImageBitmap(BitmapUtil.getScaledBitmap(cardInfo.getDetailPic(), 280));
+//        else
+//        ImageLoader.getInstance().loadImage(cardInfo.getDetailPic(), coverLoadListener);
+
         viewHolder.title.setText(cardInfo.getTitle());
+        //
+//        Log.i(TAG, "getView: avatar:" + cardInfo.getUserInfo().getAvatar());
         if (cardInfo.getUserInfo().getAvatar().contains("/storage/emulated/"))
-            ImageLoader.getInstance().displayImage("file://" + cardInfo.getUserInfo().getAvatar(), viewHolder.avatar, avatarLoadListener);
+            ImageLoader.getInstance().displayImage("file://" + cardInfo.getUserInfo().getAvatar(), viewHolder.avatar);
         else
-            ImageLoader.getInstance().displayImage(cardInfo.getUserInfo().getAvatar(), viewHolder.avatar, avatarLoadListener);
+            ImageLoader.getInstance().loadImage(cardInfo.getUserInfo().getAvatar(), avatarLoadListener);
+        //
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
         viewHolder.extract.setText(cardInfo.getExtract());
         viewHolder.createDate.setText(ConvertTimeUtil.convertCurrentTime(cardInfo.getCreateDate()));
@@ -128,7 +129,7 @@ public class CardAdapter extends IBaseAdapter {
     private ViewHolder viewHolder;
 
     private class ViewHolder {
-        RoundImageView storyPic; //故事的详情图
+        RoundImageView cover; //故事的详情图
         TextView title; //故事标题
         RoundImageView avatar; //用户头像
         TextView nickName; //用户昵称

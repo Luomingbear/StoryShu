@@ -3,8 +3,6 @@ package com.storyshu.storyshu.info;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * 故事卡片信息类
  * Created by bear on 2016/12/4.
@@ -16,7 +14,7 @@ public class CardInfo implements Parcelable {
     private String title; //故事的标题
     private String extract; //故事的摘要
     private UserInfo userInfo; //用户信息
-    private Date createDate; //发布时间
+    private String createDate; //发布时间
     private String location;
 
     public CardInfo() {
@@ -32,7 +30,7 @@ public class CardInfo implements Parcelable {
         this.location = storyInfo.getLocation();
     }
 
-    public CardInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, Date createDate, String location) {
+    public CardInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, String createDate, String location) {
         this.storyId = storyId;
         this.detailPic = detailPic;
         this.title = title;
@@ -43,7 +41,7 @@ public class CardInfo implements Parcelable {
     }
 
     public CardInfo(int storyId, String detailPic, String title, String extract, String nickname, int userId, String headPortrait,
-                    Date createDate, String location) {
+                    String createDate, String location) {
         this.storyId = storyId;
         this.detailPic = detailPic;
         this.title = title;
@@ -93,11 +91,11 @@ public class CardInfo implements Parcelable {
         this.userInfo = userInfo;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
@@ -108,7 +106,6 @@ public class CardInfo implements Parcelable {
     public void setLocation(String location) {
         this.location = location;
     }
-
 
     @Override
     public int describeContents() {
@@ -122,7 +119,7 @@ public class CardInfo implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.extract);
         dest.writeParcelable(this.userInfo, flags);
-        dest.writeLong(this.createDate != null ? this.createDate.getTime() : -1);
+        dest.writeString(this.createDate);
         dest.writeString(this.location);
     }
 
@@ -132,8 +129,7 @@ public class CardInfo implements Parcelable {
         this.title = in.readString();
         this.extract = in.readString();
         this.userInfo = in.readParcelable(UserInfo.class.getClassLoader());
-        long tmpCreateDate = in.readLong();
-        this.createDate = tmpCreateDate == -1 ? null : new Date(tmpCreateDate);
+        this.createDate = in.readString();
         this.location = in.readString();
     }
 

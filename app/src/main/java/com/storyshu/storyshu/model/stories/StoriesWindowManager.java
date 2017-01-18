@@ -11,11 +11,12 @@ import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.info.UserInfo;
+import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 import com.storyshu.storyshu.widget.story.StoriesWindow;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,7 +64,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
      */
     public StoriesWindowManager showDialog(Context context, Window window, View parent) {
 //        if (mWindow == null)
-//            return;
+//            return this;
 
         mContext = context;
 
@@ -80,7 +81,29 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
         });
 
         mStoriesAdapterView = (StoriesAdapterView) mStoriesDialog.getContentView().findViewById(R.id.stories_adapter_view);
-        addData(context);
+
+        /**
+         * 获取本地的数据
+         */
+        StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(mContext);
+        List<StoryInfo> storyList = storyDateBaseHelper.getLocalStory();
+
+        if (storyList == null || storyList.size() == 0) {
+            ToastUtil.Show(mContext, R.string.nearly_no_story);
+            return this;
+        }
+
+        mCardInfoList = new ArrayList<>();
+        for (StoryInfo storyInfo : storyList) {
+            CardInfo cardInfo = new CardInfo(storyInfo);
+            mCardInfoList.add(cardInfo);
+        }
+
+        /**
+         * 显示卡片数据
+         */
+        showCards(mCardInfoList);
+
         return this;
     }
 
@@ -111,11 +134,18 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
         for (StoryInfo storyInfo : storyList) {
             mCardInfoList.add(new CardInfo(storyInfo));
         }
-        CardAdapter adapter = new CardAdapter(context, mCardInfoList);
+        showCards(mCardInfoList);
+        return this;
+    }
+
+    /**
+     * 显示卡片数据
+     */
+    public void showCards(List<CardInfo> cardList) {
+        CardAdapter adapter = new CardAdapter(mContext, cardList);
         mStoriesAdapterView.init(adapter);
         mStoriesAdapterView.setOnCardSlidingListener(this);
         mStoriesAdapterView.setOnCardClickListener(this);
-        return this;
     }
 
     /**
@@ -139,10 +169,8 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
             cardInfo.setTitle("路人三千");
             cardInfo.setDetailPic("http://img.hb.aicdn.com/61588dbae333304cfe8510ac5183a33d30c922bf2ad93-kn7LXO_fw658");
             cardInfo.setExtract("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
-            Date date = new Date(System.currentTimeMillis());
-            date.setHours(date.getHours() - i);
 
-            cardInfo.setCreateDate(date);
+//            cardInfo.setCreateDate(ConvertTimeUtil.convertCurrentTime(new Date()));
             UserInfo userInfo = new UserInfo();
             userInfo.setAvatar("http://img4.duitang.com/uploads/item/201512/01/20151201084252_BmJzQ.jpeg");
             userInfo.setNickname("钟无艳");

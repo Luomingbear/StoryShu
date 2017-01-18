@@ -75,7 +75,7 @@ public class PoiDialogManger {
         customLocationEdit.setOnCustomLocationEditListener(new CustomLocationEdit.OnCustomLocationEditListener() {
             @Override
             public void OnCustomLocation(String locationName) {
-                if (mPoiItemList == null | mPoiItemList.size() == 0)
+                if (mPoiItemList == null || mPoiItemList.size() == 0)
                     return;
 
                 PoiItem p = mPoiItemList.get(0);

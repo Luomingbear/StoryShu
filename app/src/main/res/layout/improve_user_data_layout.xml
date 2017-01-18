@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin_normal"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/nickname_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/selector_height"
+        android:hint="@string/input_nickname" />
+
+    <TextView
+        android:id="@+id/next"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@drawable/button_red_bg"
+        android:gravity="center"
+        android:text="Next"
+        android:textColor="@color/colorWhite" />
+</LinearLayout>
