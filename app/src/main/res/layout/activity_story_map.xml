@@ -49,12 +49,7 @@
 
     </RelativeLayout>
 
-    <View
-        android:id="@+id/story_map_dark_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorTranslateDark"
-        android:visibility="gone" />
+
 
     <!--标题栏 -->
     <com.storyshu.storyshu.widget.title.TitleView

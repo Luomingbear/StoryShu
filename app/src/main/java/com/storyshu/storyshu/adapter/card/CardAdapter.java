@@ -108,7 +108,7 @@ public class CardAdapter extends IBaseAdapter {
             return convertView;
         //显示本地图片的时候会出现闪烁
 //        if (cardInfo.getDetailPic().contains("/storage/emulated/"))
-        viewHolder.cover.setImageBitmap(BitmapUtil.getScaledBitmap(cardInfo.getDetailPic(), 280));
+//        viewHolder.cover.setImageBitmap(BitmapUtil.getScaledBitmap(cardInfo.getDetailPic(), 280));
 //        else
 //        ImageLoader.getInstance().loadImage(cardInfo.getDetailPic(), coverLoadListener);
 

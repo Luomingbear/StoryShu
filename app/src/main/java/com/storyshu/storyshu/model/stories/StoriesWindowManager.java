@@ -27,6 +27,7 @@ import java.util.List;
 public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingListener, StoriesAdapterView.OnCardClickListener {
     private static StoriesWindowManager instance;
     private StoriesWindow mStoriesDialog; //故事集dialog
+    private View mDarkView; //黑色的背景
     private StoriesAdapterView mStoriesAdapterView; //故事适配器控件
     private Window mWindow; //窗口
     private Context mContext;
@@ -82,6 +83,27 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
 
         mStoriesAdapterView = (StoriesAdapterView) mStoriesDialog.getContentView().findViewById(R.id.stories_adapter_view);
 
+
+        /**
+         * 显示卡片数据
+         */
+//        showCards();
+
+        runnable.run();
+        return this;
+    }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            showCards();
+        }
+    };
+
+    /**
+     * 显示卡片数据
+     */
+    public void showCards() {
         /**
          * 获取本地的数据
          */
@@ -90,7 +112,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
 
         if (storyList == null || storyList.size() == 0) {
             ToastUtil.Show(mContext, R.string.nearly_no_story);
-            return this;
+            return;
         }
 
         mCardInfoList = new ArrayList<>();
@@ -99,50 +121,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
             mCardInfoList.add(cardInfo);
         }
 
-        /**
-         * 显示卡片数据
-         */
-        showCards(mCardInfoList);
-
-        return this;
-    }
-
-    public StoriesWindowManager showDialog(Context context, List<StoryInfo> storyList, Window window, View parent) {
-//        if (mWindow == null)
-//            return;
-
-        mContext = context;
-
-        //点击的不是个人图标
-        mStoriesDialog = new StoriesWindow(context);
-        mStoriesDialog.init(window);
-        mStoriesDialog.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        mStoriesDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                if (onStoryWindowListener != null)
-                    onStoryWindowListener.onDismiss();
-            }
-        });
-
-        mStoriesAdapterView = (StoriesAdapterView) mStoriesDialog.getContentView().findViewById(R.id.stories_adapter_view);
-
-        //addData
-        if (mStoriesAdapterView == null)
-            return this;
-        mCardInfoList = new ArrayList<>();
-        for (StoryInfo storyInfo : storyList) {
-            mCardInfoList.add(new CardInfo(storyInfo));
-        }
-        showCards(mCardInfoList);
-        return this;
-    }
-
-    /**
-     * 显示卡片数据
-     */
-    public void showCards(List<CardInfo> cardList) {
-        CardAdapter adapter = new CardAdapter(mContext, cardList);
+        CardAdapter adapter = new CardAdapter(mContext, mCardInfoList);
         mStoriesAdapterView.init(adapter);
         mStoriesAdapterView.setOnCardSlidingListener(this);
         mStoriesAdapterView.setOnCardClickListener(this);
@@ -227,6 +206,11 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
     public void OnCardClick(int cardIndex) {
         if (onStoryCardListener != null)
             onStoryCardListener.onCardClick(cardIndex, mCardInfoList.get(cardIndex));
+    }
+
+    @Override
+    public void onDismissClick() {
+        dismissDialog();
     }
 
     /**

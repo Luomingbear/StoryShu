@@ -28,7 +28,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     private MapView mMapView; //地图
     private View mCreateStory; //写故事按钮
     private View mGetPosition; //定位到当前位置的按钮
-    private View mDarkView; //半透明的黑色背景
     private boolean isSiftShow = false; //筛选栏是否显示
     private long getPositionTime; //获取定位的时间
     private int minLocationIntervalTime = 10 * 1000;// 最小的获取定位的间隔时间，单位毫秒
@@ -67,10 +66,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         mCreateStory = findViewById(R.id.story_map_create_story);
         mCreateStory.setOnClickListener(this);
 
-        /**
-         * 黑色的背景
-         */
-        mDarkView = findViewById(R.id.story_map_dark_view);
 
         /**
          * 获取当前的定位并且移动地图
@@ -243,7 +238,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
      * 显示故事集弹窗
      */
     private void showStoryWindow() {
-        mDarkView.setVisibility(View.VISIBLE);
         mCreateStory.setVisibility(View.GONE);
         mGetPosition.setVisibility(View.GONE);
 
@@ -251,7 +245,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
                 .setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
                     @Override
                     public void onDismiss() {
-                        mDarkView.setVisibility(View.GONE);
                         mCreateStory.setVisibility(View.VISIBLE);
                         mGetPosition.setVisibility(View.VISIBLE);
                     }
