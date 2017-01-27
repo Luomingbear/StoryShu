@@ -122,7 +122,7 @@ public class InputDialog extends IBaseDialog {
             public void afterTextChanged(Editable s) {
                 //由文本的时候按钮高亮,否则就是灰的
                 if (s.length() != 0)
-                    mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorGreenScallionLight));
+                    mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorRedPomegranateLight));
                 else
                     mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorGrayLight));
             }

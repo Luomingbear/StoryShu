@@ -10,15 +10,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
-import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
+import com.storyshu.storyshu.activity.base.IBaseActivity;
+import com.storyshu.storyshu.activity.story.StoryMapActivity;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.number.PhoneFormatCheckUtils;
-import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 
 import java.util.Timer;
@@ -29,7 +27,7 @@ import java.util.TimerTask;
  * Created by bear on 2016/12/30.
  */
 
-public class LoginActivity extends ChooseImageResultActivity implements View.OnClickListener {
+public class LoginActivity extends IBaseActivity implements View.OnClickListener {
     private RoundImageView mAvatar; //头像
     private EditText mPhoneNumberEdit; //输入电话号码
     private EditText mPasswordEdit; //输入密码
@@ -93,7 +91,6 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_avatar:
-                chooseImage();
                 break;
             case R.id.login_get_verify_number:
                 getVerifyCode();
@@ -105,9 +102,6 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
 
             case R.id.login_free_register:
                 changeLayout();
-                break;
-            case R.id.test:
-                intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 break;
         }
     }
@@ -168,12 +162,11 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
         //如果输入的值正确则登录
         if (checkInput()) {
             // TODO: 2016/12/30 请求服务器注册账号，登录账号跳转页面
-            ISharePreference.saveUserData(this, new UserInfo(mPhoneNumberEdit.getText().toString(), 1, mAvatarPath));
             //跳转页面
             if (isLoginLayout)
                 intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             else
-                intentWithParcelable(ImproveUserDataActivity.class, ParcelableUtil.USER, new UserInfo("", 1, mAvatarPath));
+                intentWithParcelable(ImproveUserDataActivity.class, ParcelableUtil.USER, new UserInfo("", 1, ""));
         }
     }
 
@@ -192,8 +185,8 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
             return false;
         }
 
-        //验证码
-        if (!isLoginLayout)
+        if (!isLoginLayout) {
+            //验证码
             if (TextUtils.isEmpty(mVerifyEdit.getText())) {
                 ToastUtil.Show(this, R.string.login_verify_number_empty);
                 return false;
@@ -201,12 +194,11 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
                 ToastUtil.Show(this, R.string.login_verify_number_illegal);
                 return false;
             }
+        } else {
+            ToastUtil.Show(this, R.string.login_password_illegal);
+            return false;
+        }
 
-        //头像
-//        if (TextUtils.isEmpty(mAvatarPath)) {
-//            ToastUtil.Show(this, R.string.login_avatar_empty);
-//            return false;
-//        }
         return true;
     }
 
@@ -241,12 +233,9 @@ public class LoginActivity extends ChooseImageResultActivity implements View.OnC
         }
     }
 
-
-    private String mAvatarPath; //头像地址
-
     @Override
-    public void onResult(String imagePath) {
-        mAvatarPath = imagePath;
-        ImageLoader.getInstance().displayImage("file://" + imagePath, mAvatar);
+    protected void onStop() {
+
+        super.onStop();
     }
 }

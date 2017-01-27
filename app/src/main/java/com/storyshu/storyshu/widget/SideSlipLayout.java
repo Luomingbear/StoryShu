@@ -45,8 +45,8 @@ public class SideSlipLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SideSlipLayout);
-        mHomeLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_homeLayout, R.layout.story_map_layout);
-        mSideLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_SideLayout, R.layout.menu_layout);
+        mHomeLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_homeLayout, R.layout.activity_story_map_layout);
+        mSideLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_SideLayout, R.layout.activity_menu_layout);
         typedArray.recycle();
         init();
     }
@@ -91,6 +91,11 @@ public class SideSlipLayout extends FrameLayout {
         mSideLayout.layout(-mSideWidth, top, 0, bottom);
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+
+        return super.onInterceptTouchEvent(ev);
+    }
 
     private float mTouchDownX; //手指按下的x坐标
     private float mOldMoveX; //手指移动的上一个x坐标
@@ -220,6 +225,9 @@ public class SideSlipLayout extends FrameLayout {
 
         scaleX.start();
         scaleY.start();
+
+        //
+        mHomeLayout.setFocusableInTouchMode(false);
     }
 
     /**

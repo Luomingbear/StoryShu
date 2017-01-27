@@ -10,7 +10,6 @@ import com.amap.api.services.core.PoiItem;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.poi.PoiAdapter;
 import com.storyshu.storyshu.model.location.ILocationManager;
-import com.storyshu.storyshu.widget.menu.MenuDialogManager;
 import com.storyshu.storyshu.widget.inputview.CustomLocationEdit;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class PoiDialogManger {
 
     public static PoiDialogManger getInstance() {
         if (instance == null) {
-            synchronized (MenuDialogManager.class) {
+            synchronized (PoiDialogManger.class) {
                 if (instance == null)
                     instance = new PoiDialogManger();
             }

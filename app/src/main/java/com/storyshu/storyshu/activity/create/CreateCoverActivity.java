@@ -16,7 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
-import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
+import com.storyshu.storyshu.activity.story.StoryMapActivity;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.model.location.ILocationManager;
@@ -51,7 +51,7 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_cover_layout);
+        setContentView(R.layout.activity_create_cover_layout);
         //
         initDate();
         //

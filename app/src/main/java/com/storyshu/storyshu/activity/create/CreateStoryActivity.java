@@ -28,7 +28,7 @@ public class CreateStoryActivity extends ChooseImageResultActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_story_layout);
+        setContentView(R.layout.activity_create_story_layout);
         initView();
     }
 

@@ -93,7 +93,6 @@ public class PersonView extends RelativeLayout {
         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         mHeadPicIV.setLayoutParams(layoutParams);
         mHeadPicIV.setType(RoundImageView.TYPE_CIRCLE);
-//        mHeadPicIV.setBackgroundResource(R.drawable.person_location);
 
         addView(mHeadPicIV);
     }
@@ -101,8 +100,11 @@ public class PersonView extends RelativeLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        setLayoutParams(params);
         mWidth = (int) getResources().getDimension(R.dimen.icon_large);
-        setMeasuredDimension(mWidth, mWidth);
+//        setMeasuredDimension(mWidth, mWidth);
+        super.onMeasure(mWidth, mWidth);
+
     }
 }

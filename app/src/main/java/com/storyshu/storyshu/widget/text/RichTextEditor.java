@@ -62,7 +62,6 @@ public class RichTextEditor extends ScrollView {
         // 1. 初始化allLayout
         allLayout = new LinearLayout(context);
         allLayout.setOrientation(LinearLayout.VERTICAL);
-        allLayout.setBackgroundColor(Color.WHITE);
         setupLayoutTransitions();
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);

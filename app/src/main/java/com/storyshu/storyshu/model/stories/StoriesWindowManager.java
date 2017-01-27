@@ -59,6 +59,17 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
     }
 
     /**
+     * 得到当前的卡片view
+     *
+     * @return
+     */
+    public View getStoryView() {
+        if (mStoriesAdapterView == null)
+            return null;
+        return mStoriesAdapterView.getSelectedView();
+    }
+
+    /**
      * 显示故事集dialog
      *
      * @param context
@@ -194,7 +205,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
     }
 
     @Override
-    public void onCardLayouted(int position) {
+    public void onCenterIndex(int position) {
         mStoriesAdapterView.requestLayout();
     }
 

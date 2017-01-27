@@ -3,6 +3,7 @@ package com.storyshu.storyshu.activity.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 
 /**
@@ -36,6 +37,14 @@ public class IBaseActivity extends FragmentActivity {
         intent.setClass(this, cls);
         intent.putExtra(name, parcelable);
         startActivity(intent);
+
+    }
+
+    public void intentWithParcelable(Class<?> cls, ActivityOptionsCompat options, String name, Parcelable parcelable) {
+        Intent intent = new Intent();
+        intent.setClass(this, cls);
+        intent.putExtra(name, parcelable);
+        startActivity(intent, options.toBundle());
 
     }
 

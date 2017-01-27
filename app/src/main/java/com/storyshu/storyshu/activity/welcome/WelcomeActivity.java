@@ -17,7 +17,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
-import com.storyshu.storyshu.activity.storymap.StoryMapActivity;
+import com.storyshu.storyshu.activity.story.StoryMapActivity;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
@@ -39,7 +39,7 @@ public class WelcomeActivity extends IBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.welcome_layout);
+        setContentView(R.layout.activity_welcome_layout);
         initView();
         initImageLoader();
 //        initUSerData();

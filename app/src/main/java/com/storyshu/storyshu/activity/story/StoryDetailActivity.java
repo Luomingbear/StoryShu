@@ -63,7 +63,7 @@ public class StoryDetailActivity extends IBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.story_detail_layout);
+        setContentView(R.layout.activity_story_detail_layout);
 
         init();
 
@@ -91,7 +91,7 @@ public class StoryDetailActivity extends IBaseActivity {
 
         //昵称
         mNickname = (TextView) findViewById(R.id.story_detail_nickname);
-//        mNickname.setText(mCardInfo.getUserInfo().getNickname());
+        mNickname.setText(mCardInfo.getUserInfo().getNickname());
 
         //标题
         mTitle = (TextView) findViewById(R.id.story_detail_title);
@@ -126,8 +126,6 @@ public class StoryDetailActivity extends IBaseActivity {
         //底部栏
         mBottomBar = findViewById(R.id.story_detail_bottom_bar);
 
-        animateTitleShow(false);
-
     }
 
 
@@ -141,17 +139,25 @@ public class StoryDetailActivity extends IBaseActivity {
         public void onScroll(int scrollY) {
 
             float distanceY = scrollY - oldScrollY;
+
+            /**
+             * 如果手指的移动距离过小就不运行动画
+             */
+            if (Math.abs(distanceY) <= 1)
+                return;
+
+            /**
+             * 滑动的时候显示标题和底部栏
+             */
+            mTitleView.setVisibility(View.VISIBLE);
+            mBottomBar.setVisibility(View.VISIBLE);
+
             /**
              * 滑动底部的时候显示标题栏和底部栏
              */
             float scrollHeight = mScrollView.getChildAt(0).getHeight() - mScrollView.getHeight();
             if (scrollHeight - scrollY <= 5)
                 animateTitleShow(true);
-            /**
-             * 如果手指的移动距离过小就不运行动画
-             */
-            if (Math.abs(distanceY) <= 1)
-                return;
 
             /**
              * 手指上滑或者滚动至0的位置 隐藏标题栏

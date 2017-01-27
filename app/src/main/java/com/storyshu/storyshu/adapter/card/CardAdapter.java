@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -89,7 +90,7 @@ public class CardAdapter extends IBaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = getInflater().inflate(R.layout.card_view_layout2, null);
+            convertView = getInflater().inflate(R.layout.card_view_layout, null);
 
             viewHolder = new ViewHolder();
 
@@ -108,7 +109,8 @@ public class CardAdapter extends IBaseAdapter {
             return convertView;
         //显示本地图片的时候会出现闪烁
 //        if (cardInfo.getDetailPic().contains("/storage/emulated/"))
-//        viewHolder.cover.setImageBitmap(BitmapUtil.getScaledBitmap(cardInfo.getDetailPic(), 280));
+//        displayPic(viewHolder.cover, cardInfo.getDetailPic());
+        viewHolder.cover.setImageBitmap(BitmapUtil.getScaledBitmap(cardInfo.getDetailPic(), 280));
 //        else
 //        ImageLoader.getInstance().loadImage(cardInfo.getDetailPic(), coverLoadListener);
 
@@ -124,6 +126,27 @@ public class CardAdapter extends IBaseAdapter {
         viewHolder.extract.setText(cardInfo.getExtract());
         viewHolder.createDate.setText(ConvertTimeUtil.convertCurrentTime(cardInfo.getCreateDate()));
         return convertView;
+    }
+
+
+    /**
+     * 显示图片
+     *
+     * @param imageView
+     * @param url
+     */
+    private void displayPic(final ImageView imageView, String url) {
+        final String imgUrl = url;
+
+        final Thread trThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setImageBitmap(BitmapUtil.getScaledBitmap(imgUrl, 300));
+
+            }
+        });
+
+        trThread.run();
     }
 
     private ViewHolder viewHolder;

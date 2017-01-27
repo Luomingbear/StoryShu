@@ -87,7 +87,7 @@ public class IMapManager {
         //移动
 //        mUiSettings.setScrollGesturesEnabled(false);
         //
-
+        //
         mUiSettings.setIndoorSwitchEnabled(false);
     }
 
