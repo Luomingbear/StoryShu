@@ -371,7 +371,7 @@ public class StoriesAdapterView extends AdapterView {
          * 计算中心卡片的下标
          */
         int changIndex = Math.abs(acceleration) > 0.7f ? 1 : 0; //手指滑动的加速度大于0.7就可以改变中心卡片的下标
-        if (changIndex == 0)
+        if (acceleration <= 0.7)
             changIndex = Math.abs(moveDistance) > mCenterWidth / 4 ? 1 : 0; //手指滑动的距离大于卡片的宽度的1／4就可以改变中心卡片的下标
 
         centerCardIndex = centerCardIndex + changIndex * symbol; //之前的中心卡片下标加上手指滑动的卡片数量，乘以符号是判断滑动的方向
@@ -380,11 +380,12 @@ public class StoriesAdapterView extends AdapterView {
 
         Log.e(TAG, "animationMoveCards: centerIndex:" + centerCardIndex);
         Log.e(TAG, "animationMoveCards: rightIndex:" + rightCardIndex);
+
         /**
          * 计算移动的距离
          */
         if (oldCenterCardIndex != centerCardIndex) {
-            if (acceleration <= 0.7f) { //移动的距离小于卡片的1／4则弹回去
+            if (changIndex == 0) { //移动的距离小于卡片的1／4则弹回去
                 minDistance = -moveDistance;
             } else if (Math.abs(moveDistance) > mCenterWidth / 4 && Math.abs(moveDistance) <= mCenterWidth) {  //移动的距离小于卡片的宽度并且大于1／4
                 minDistance = -(mCenterWidth - Math.abs(moveDistance)) * symbol;
