@@ -72,10 +72,16 @@ public class TitleView extends RelativeLayout implements EventObserver {
          * 返回-标题-插入图片-继续
          */
         BACK_TILE_IMAGE_GO,
+
         /**
          * 返回-标题-列表
          */
-        BACK_TILE_LIST,
+        MENU_TILE_LIST,
+
+        /**
+         * 返回-标题-地图
+         */
+        MENU_TILE_MAP,
 
     }
 
@@ -91,7 +97,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         super(context, attrs, defStyleAttr);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TitleView);
-        mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, getResources().getColor(R.color.colorBlack));
+        mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, getResources().getColor(R.color.colorGrayDeep));
         mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_normal));
         mTitleString = typedArray.getString(R.styleable.TitleView_title_string);
         mTitleMode = TitleMode.values()[typedArray.getInt(R.styleable.TitleView_title_mode, 0)];
@@ -136,7 +142,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE:
                 //left
-                addLeftButton(R.drawable.back);
+//                addLeftButton(R.drawable.back);
+                addBackButton();
                 //title
                 addTitle();
                 //line
@@ -145,7 +152,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE_GO:
                 //left
-                addLeftButton(R.drawable.back);
+                addBackButton();
                 //go
                 addRightButton(R.drawable.go);
                 //title
@@ -156,7 +163,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE_SHOT:
                 //left
-                addLeftButton(R.drawable.back);
+                addBackButton();
                 //screenShot
                 addRightButton(R.drawable.screenshot);
                 //title
@@ -165,7 +172,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE_SEND:
                 //left
-                addLeftButton(R.drawable.back);
+                addBackButton();
                 //send
                 addRightButton(R.drawable.send);
                 //title
@@ -176,7 +183,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE_MORE:
                 //left
-                addLeftButton(R.drawable.back);
+                addBackButton();
                 //more
                 addRightButton(R.drawable.more);
                 //title
@@ -185,7 +192,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE_IMAGE_GO:
                 //left
-                addLeftButton(R.drawable.back);
+                addBackButton();
                 //title
                 addTitle();
                 //go
@@ -195,13 +202,23 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //line
                 addBottomLine();
                 break;
-            case BACK_TILE_LIST:
+            case MENU_TILE_LIST:
                 //left
                 addLeftButton(R.drawable.menu);
                 //位置
                 addPositionTitle();
                 //right
                 addRightButton(R.drawable.list);
+                //line
+                addBottomLine();
+                break;
+            case MENU_TILE_MAP:
+                //left
+                addLeftButton(R.drawable.menu);
+                //位置
+                addPositionTitle();
+                //right
+                addRightButton(R.drawable.map);
                 //line
                 addBottomLine();
                 break;
@@ -218,11 +235,57 @@ public class TitleView extends RelativeLayout implements EventObserver {
     }
 
     /**
+     * 添加返回键
+     */
+    private void addBackButton() {
+        mLeftLayout = new RelativeLayout(getContext());
+        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        mLeftLayout.setLayoutParams(params);
+
+        //
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        lp.setMargins((int) (getResources().getDimension(R.dimen.margin_small)), 0, 0, 0);
+        linearLayout.setLayoutParams(lp);
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setGravity(Gravity.CENTER_VERTICAL);
+        mLeftLayout.addView(linearLayout);
+
+        //
+        ImageView imageView = newImageView(R.drawable.back);
+        LayoutParams p = new LayoutParams(mIconWidth, mIconWidth);
+        p.setMargins(mTitleViewHeight - mIconWidth, 0,
+                (int) getResources().getDimension(R.dimen.margin_min), 0);
+        imageView.setLayoutParams(p);
+        linearLayout.addView(imageView);
+
+        //
+        TextView textView = new TextView(getContext());
+        LayoutParams tp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(tp);
+        textView.setText(R.string.back);
+        textView.setTextColor(getResources().getColor(R.color.colorGrayDeep));
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
+        linearLayout.addView(textView);
+
+        //add
+        addView(mLeftLayout);
+        mLeftLayout.setId(mLeftLayout.hashCode());
+
+        //listener
+        mLeftLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onTitleClickListener != null)
+                    onTitleClickListener.onLeftClick();
+            }
+        });
+    }
+
+    /**
      * 添加中间的标题
      */
     private void addPositionTitle() {
-//        if (TextUtils.isEmpty(mTitleString))
-//            return;
 
         mTitleLayout = new LinearLayout(getContext());
         LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -235,14 +298,12 @@ public class TitleView extends RelativeLayout implements EventObserver {
         /**
          * 添加位置图标
          */
-//        ImageView locationIcon = newImageView(R.drawable.location, mTitleSize, mTitleSize);
         ImageView imageView = new ImageView(getContext());
         imageView.setBackgroundResource(R.drawable.location);
         LayoutParams pl = new LayoutParams((int) getResources().getDimension(R.dimen.icon_min),
                 (int) getResources().getDimension(R.dimen.icon_min));
         imageView.setLayoutParams(pl);
 
-//        locationIcon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         mTitleLayout.addView(imageView);
 
         mTitleLayout.addView(newTitle());
