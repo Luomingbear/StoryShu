@@ -31,7 +31,6 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_toEndOf="@+id/avatar"
             android:layout_toRightOf="@+id/avatar"
-            android:text="@string/app_name"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/font_small" />
 
@@ -41,7 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/avatar"
-            android:text="2017.1.1"
             android:textColor="@color/colorGrayDeep"
             android:textSize="@dimen/font_small" />
 
@@ -94,8 +92,7 @@
         android:layout_marginRight="@dimen/margin_normal"
         android:layout_marginTop="@dimen/margin_small"
         android:singleLine="true"
-        android:text="路人三千"
-        android:textColor="@color/colorRedPomegranateDeep"
+        android:textColor="@color/colorRedPomegranateLight"
         android:textSize="@dimen/font_small" />
 
     <TextView

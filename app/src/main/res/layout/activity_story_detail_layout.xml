@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <com.storyshu.storyshu.widget.scrollview.IScrollView
+        android:id="@+id/story_detail_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.storyshu.storyshu.widget.story.CoverLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/title_height">
+
+                <com.storyshu.storyshu.widget.imageview.RoundImageView
+                    android:id="@+id/story_detail_avatar"
+                    android:layout_width="@dimen/image_small"
+                    android:layout_height="@dimen/image_small"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:RoundType="circle" />
+
+                <TextView
+                    android:id="@+id/story_detail_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/story_detail_avatar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorRedPomegranateLight"
+                    android:textSize="@dimen/font_normal" />
+
+                <LinearLayout
+                    android:id="@+id/story_detail_location_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/story_detail_nickname"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/margin_cover"
+                    android:layout_marginRight="@dimen/margin_cover"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/font_small"
+                        android:layout_height="@dimen/font_small"
+                        android:src="@drawable/location" />
+
+                    <TextView
+                        android:id="@+id/story_detail_location_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="start"
+                        android:singleLine="true"
+                        android:textColor="@color/colorGrayDeep"
+                        android:textSize="@dimen/font_small" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/story_detail_location_layout"
+                    android:layout_marginTop="@dimen/margin_normal">
+
+                    <com.storyshu.storyshu.widget.imageview.RoundImageView
+                        android:id="@+id/story_detail_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/margin_cover"
+                        android:layout_marginRight="@dimen/margin_cover"
+                        android:background="@color/colorGrayLight"
+                        android:transitionName="cover_pic"
+                        app:BorderRadius="0dp"
+                        app:Scale="1" />
+
+                    <View
+                        android:layout_width="@dimen/image_small"
+                        android:layout_height="2dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@color/colorGrayLight" />
+                </RelativeLayout>
+
+            </com.storyshu.storyshu.widget.story.CoverLayout>
+
+            <TextView
+                android:id="@+id/story_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="@string/edit_title"
+                android:textColor="@color/colorGrayDeep"
+                android:textSize="@dimen/font_big"
+                android:textStyle="bold" />
+
+
+            <com.storyshu.storyshu.widget.text.RichTextView
+                android:id="@+id/story_detail_content_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:lineSpacingExtra="@dimen/line_space"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_small" />
+
+            <RelativeLayout
+                android:id="@+id/story_detail_logo_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:visibility="invisible">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorGrayLight" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:gravity="right"
+                    android:text="@string/app_version"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_small" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </com.storyshu.storyshu.widget.scrollview.IScrollView>
+
+    <com.storyshu.storyshu.widget.title.TitleView
+        android:id="@id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        app:title_mode="BackTitleMore"
+        app:title_size="@dimen/font_normal">
+
+    </com.storyshu.storyshu.widget.title.TitleView>
+
+    <!--底部导航栏-->
+    <RelativeLayout
+        android:id="@+id/story_detail_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:visibility="invisible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGrayLight" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_min"
+                    android:layout_height="@dimen/icon_min"
+                    android:src="@drawable/collection" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_min"
+                    android:gravity="center"
+                    android:text="@string/collect"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_min" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_min"
+                    android:layout_height="@dimen/icon_min"
+                    android:src="@drawable/inbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_min"
+                    android:gravity="center"
+                    android:text="@string/communicate"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_min" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_min"
+                    android:layout_height="@dimen/icon_min"
+                    android:src="@drawable/like" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_min"
+                    android:gravity="center"
+                    android:text="@string/like"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_min" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
