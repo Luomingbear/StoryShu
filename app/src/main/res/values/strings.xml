@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">故事鼠</string>
+    <string name="back">返回</string>
 
     <!--欢迎页-->
     <string name="skip">跳过>></string>
@@ -22,12 +23,14 @@
     <string name="already_register">已有账号</string>
     <string name="login_phone_number_empty">请输入手机号码</string>
     <string name="login_phone_number_illegal">请输入正确的手机号码</string>
+    <string name="login_password_illegal">密码错误</string>
     <string name="login_verify_number_empty">请输入验证码</string>
     <string name="login_verify_number_illegal">验证码错误</string>
     <string name="login_avatar_empty">请先设置头像</string>
 
     <!--完善信息-->
     <string name="improve_data">完善用户信息</string>
+    <string name="select_avatar">请选择头像</string>
     <string name="input_nickname">请输入昵称</string>
 
     <!--菜单-->

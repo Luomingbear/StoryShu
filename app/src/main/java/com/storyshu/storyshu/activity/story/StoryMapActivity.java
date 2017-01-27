@@ -1,22 +1,29 @@
-package com.storyshu.storyshu.activity.storymap;
+package com.storyshu.storyshu.activity.story;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.Marker;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
 import com.storyshu.storyshu.activity.my.MyStoryActivity;
-import com.storyshu.storyshu.activity.story.StoryDetailActivity;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoriesWindowManager;
 import com.storyshu.storyshu.tool.observable.EventObservable;
-import com.storyshu.storyshu.widget.menu.MenuDialogManager;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.widget.SideSlipLayout;
+import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.sift.SiftWindowManager;
 import com.storyshu.storyshu.widget.title.TitleView;
 
@@ -24,10 +31,23 @@ import com.storyshu.storyshu.widget.title.TitleView;
 public class StoryMapActivity extends IBaseActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener, StoriesWindowManager.OnStoryCardListener {
     private static final String TAG = "StoryMapActivity";
 
+    private SideSlipLayout mSideSlipLayout; //侧滑布局
+    private View mHomeLayout; //主界面
+    private View mSideLayout; //侧滑界面
+
+    //主界面
     private TitleView mTitleView; //标题栏
     private MapView mMapView; //地图
     private View mCreateStory; //写故事按钮
     private View mGetPosition; //定位到当前位置的按钮
+
+    //侧边栏
+    private RoundImageView mAvatar; //用户头像
+    private TextView mNickName; //昵称
+    private ImageView nightModeView; //夜间模式的图标
+    private TextView nightModeText; //夜间模式的文字
+
+    //
     private boolean isSiftShow = false; //筛选栏是否显示
     private long getPositionTime; //获取定位的时间
     private int minLocationIntervalTime = 10 * 1000;// 最小的获取定位的间隔时间，单位毫秒
@@ -38,7 +58,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_story_map);
+        setContentView(R.layout.activity_home_layout);
 
         initView(savedInstanceState);
 //        initImageLoader();
@@ -47,67 +67,75 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     private void initView(Bundle savedInstanceState) {
 
         /**
-         * 地图
+         * 整体布局
          */
+        mSideSlipLayout = (SideSlipLayout) findViewById(R.id.sideSlipLayout);
 
-        mMapView = (MapView) findViewById(R.id.story_map_map_view);
+        mHomeLayout = mSideSlipLayout.getHomeLayout();
+        mSideLayout = mSideSlipLayout.getSideLayout();
+
+        /**
+         * 主界面
+         */
+        //地图
+        mMapView = (MapView) mHomeLayout.findViewById(R.id.story_map_map_view);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
         ILocationManager.getInstance().init(getApplicationContext(), mMapView);
 
-        /**
-         * 标题栏
-         */
+        //标题栏
         initTitle();
 
-        /**
-         * 写故事
-         */
-        mCreateStory = findViewById(R.id.story_map_create_story);
+        //写故事
+        mCreateStory = mHomeLayout.findViewById(R.id.story_map_create_story);
         mCreateStory.setOnClickListener(this);
 
 
-        /**
-         * 获取当前的定位并且移动地图
-         */
-        mGetPosition = findViewById(R.id.story_map_get_position);
+        //获取当前的定位并且移动地图
+        mGetPosition = mHomeLayout.findViewById(R.id.story_map_get_position);
         mGetPosition.setOnClickListener(this);
+
+
+        /**
+         * 侧边栏
+         */
+        mAvatar = (RoundImageView) mSideSlipLayout.getSideLayout().findViewById(R.id.menu_avatar);
+        setAvatar();
+        mAvatar.setOnClickListener(this);
+
+        //
+        mNickName = (TextView) mSideSlipLayout.getSideLayout().findViewById(R.id.menu_nickname);
+        mNickName.setText(ISharePreference.getUserData(this).getNickname());
+        mNickName.setOnClickListener(this);
+
+        //
+        View myStories = mSideSlipLayout.getSideLayout().findViewById(R.id.menu_my_stories);
+        myStories.setOnClickListener(this);
+
+        //
+        View inbox = mSideSlipLayout.getSideLayout().findViewById(R.id.menu_inbox);
+        inbox.setOnClickListener(this);
+
+        //
+        View collection = mSideSlipLayout.getSideLayout().findViewById(R.id.menu_collection);
+        collection.setOnClickListener(this);
+
+        //
+        View setting = mSideSlipLayout.getSideLayout().findViewById(R.id.menu_setting);
+        setting.setOnClickListener(this);
+
+        //
+        View nightMode = mSideSlipLayout.getSideLayout().findViewById(R.id.menu_night_mode);
+        nightMode.setOnClickListener(this);
+
+        nightModeView = (ImageView) mSideSlipLayout.getSideLayout().findViewById(R.id.menu_night_mode_view);
+        nightModeText = (TextView) mSideSlipLayout.getSideLayout().findViewById(R.id.menu_night_mode_text);
     }
 
     /**
      * 侧边菜单点击响应
      */
-    private MenuDialogManager.OnMenuClickListener onMenuClickListener = new MenuDialogManager.OnMenuClickListener() {
-        @Override
-        public void OnAvatarClick() {
-            intentTo(LoginActivity.class);
-        }
-
-        @Override
-        public void OnMyStoriesClick() {
-            intentTo(MyStoryActivity.class);
-        }
-
-        @Override
-        public void OnInBoxClick() {
-
-        }
-
-        @Override
-        public void OnCollectionClick() {
-
-        }
-
-        @Override
-        public void OnSettingClick() {
-
-        }
-
-        @Override
-        public void OnNightModeClick() {
-
-        }
-    };
+    // TODO: 2017/1/26
 
     /**
      * 标题栏点击响应事件
@@ -116,8 +144,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         @Override
         public void onLeftClick() {
             Log.i(TAG, "onLeftClick: ");
-//            StoriesWindowManager.getInstance().showDialog(StoryMapActivity.this);
-            MenuDialogManager.getInstance().setOnMenuClickListener(onMenuClickListener).showMenu(StoryMapActivity.this);
+            mSideSlipLayout.autoShowSide();
         }
 
         @Override
@@ -133,7 +160,8 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         @Override
         public void onRightClick() {
             Log.i(TAG, "onRightClick: ");
-//            SiftWindowManager.getInstance().showSift(StoryMapActivity.this, mTitleView.getRightButton());
+//            intentWithFlag(StoryListActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intentTo(StoryListActivity.class);
         }
     };
 
@@ -141,9 +169,26 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
      * 标题栏
      */
     private void initTitle() {
-        mTitleView = (TitleView) findViewById(R.id.title_view);
+        mTitleView = (TitleView) mHomeLayout.findViewById(R.id.title_view);
         mTitleView.setOnTitleClickListener(onTitleClickListener);
         EventObservable.getInstance().addObserver(mTitleView);
+    }
+
+    /**
+     * 设置头像
+     */
+    private void setAvatar() {
+        String avatar = ISharePreference.getUserData(this).getAvatar();
+        Log.i(TAG, "setAvatar: " + avatar);
+        if (TextUtils.isEmpty(avatar))
+            mAvatar.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.avatar_superman));
+        else if (avatar.contains("/storage/"))
+            ImageLoader.getInstance().displayImage("file://" + avatar, mAvatar);
+        else
+            ImageLoader.getInstance().displayImage(avatar, mAvatar);
+
+        Log.i(TAG, "initView:avatar:" + ISharePreference.getUserData(this).getAvatar());
+
     }
 
     /**
@@ -199,13 +244,45 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            //写故事
             case R.id.story_map_create_story:
                 intentTo(CreateStoryActivity.class);
-//                Toast.makeText(this, R.string.create_story_layout, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, R.string.activity_create_story_layout, Toast.LENGTH_SHORT).show();
                 break;
 
+            //移动到当前位置
             case R.id.story_map_get_position:
                 move2Position();
+                break;
+
+            //菜单的头像
+            case R.id.menu_avatar:
+                intentTo(LoginActivity.class);
+                break;
+
+            //菜单的用户名
+            case R.id.menu_nickname:
+                break;
+
+            //菜单的用户名
+            case R.id.menu_my_stories:
+                intentTo(MyStoryActivity.class);
+                break;
+
+            //菜单的用户名
+            case R.id.menu_inbox:
+                break;
+
+            //菜单的用户名
+            case R.id.menu_collection:
+                break;
+
+            //菜单的用户名
+            case R.id.menu_setting:
+                break;
+
+            //菜单的用户名
+            case R.id.menu_night_mode:
                 break;
         }
     }
@@ -262,7 +339,12 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
      */
     @Override
     public void onCardClick(int position, CardInfo clickCardInfo) {
-        intentWithParcelable(StoryDetailActivity.class, "story", clickCardInfo);
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(StoryMapActivity.this,
+                        StoriesWindowManager.getInstance().getStoryView().findViewById(R.id.card_view_detail_pic), "cover_pic");
+
+
+        intentWithParcelable(StoryDetailActivity.class, options, "story", clickCardInfo);
         overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
     }
 
@@ -276,8 +358,8 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
          */
         if (StoriesWindowManager.getInstance().isShowing()) {
             StoriesWindowManager.getInstance().dismissDialog();
-        } else if (MenuDialogManager.getInstance().isShowing()) {
-            MenuDialogManager.getInstance().dismissMenu();
+        } else if (mSideSlipLayout.isShowingSide()) {
+            mSideSlipLayout.autoHideSide();
         } else if (SiftWindowManager.getInstance().isShowing())
             SiftWindowManager.getInstance().dismissSift();
         else

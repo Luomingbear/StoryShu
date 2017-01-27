@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorRedPomegranateLight">#e40200</color>
-    <color name="colorRedPomegranateDeep">#940000</color>
+    <color name="colorRedPomegranateLight">#ff1210</color>
+    <color name="colorRedPomegranateDeep">#b60d0d</color>
     <color name="colorGreenScallionLight">#bed500</color>
     <color name="colorGreenScallionDeep">#0aa344</color>
 
     <color name="colorWhite">#ffffff</color>
     <color name="colorGrayLight">#dad8df</color>
     <color name="colorGrayDeep">#696766</color>
-    <color name="colorTranslateDark">#5e000000</color>
+    <color name="colorTranslateDark">#845e5e5e</color>
     <color name="colorBlack">#1e1d1d</color>
 </resources>

@@ -39,7 +39,10 @@
         </activity>
 
         <activity
-            android:name="com.storyshu.storyshu.activity.storymap.StoryMapActivity"
+            android:name="com.storyshu.storyshu.activity.story.StoryMapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.storyshu.storyshu.activity.story.StoryListActivity"
             android:screenOrientation="portrait" />
 
         <activity

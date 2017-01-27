@@ -6,6 +6,10 @@
     <!--标题栏的高度 -->
     <dimen name="title_height">58dp</dimen>
 
+    <!--厚度-->
+    <dimen name="height_small">5dp</dimen>
+    <dimen name="height_normal">8dp</dimen>
+    <dimen name="height_big">12dp</dimen>
 
     <!--筛选的宽度-->
     <dimen name="sift_window_width">110dp</dimen>
