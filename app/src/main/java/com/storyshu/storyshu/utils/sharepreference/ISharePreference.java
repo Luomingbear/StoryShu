@@ -59,7 +59,6 @@ public class ISharePreference {
     }
 
     public static UserInfo getUserData(Context context) {
-
         SharedPreferences sp = context.getSharedPreferences(USER_DATA,
                 Activity.MODE_PRIVATE);
         UserInfo userInfo = new UserInfo();

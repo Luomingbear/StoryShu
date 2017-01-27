@@ -62,7 +62,6 @@ public class StoryDateBaseHelper extends BaseDataHelper {
                 story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
                 story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
                 story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
-                Log.i("数据库", "getLocalStory: 时间：" + cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
                 story.setDetailPic(cursor.getString(cursor.getColumnIndex(COVER_PIC)));
                 story.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
                 story.setStoryId(cursor.getInt(cursor.getColumnIndex(STORY_ID)));
@@ -90,11 +89,16 @@ public class StoryDateBaseHelper extends BaseDataHelper {
     public void insertUserData(UserInfo userInfo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(USER_ID, userInfo.getUserId());
-        values.put(NICK_NAME, userInfo.getNickname());
-        values.put(AVATAR, userInfo.getAvatar());
+        try {
 
-        db.insert(USER_TABLE, null, values);
+            values.put(USER_ID, userInfo.getUserId());
+            values.put(NICK_NAME, userInfo.getNickname());
+            values.put(AVATAR, userInfo.getAvatar());
+
+            db.insert(USER_TABLE, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         db.close();
     }
 
@@ -106,19 +110,24 @@ public class StoryDateBaseHelper extends BaseDataHelper {
     public void insertStoryData(StoryInfo storyInfo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(STORY_ID, storyInfo.getStoryId());
-        values.put(USER_ID, storyInfo.getUserInfo().getUserId());
+        try {
+            values.put(STORY_ID, storyInfo.getStoryId());
+            values.put(USER_ID, storyInfo.getUserInfo().getUserId());
 
-        values.put(COVER_PIC, storyInfo.getDetailPic());
-        values.put(TITLE, storyInfo.getTitle());
-        values.put(EXTRACT, storyInfo.getExtract());
-        values.put(CONTENT, storyInfo.getContent());
-        values.put(CREATE_DATE, storyInfo.getCreateDate());
-        values.put(LOCATION_NAME, storyInfo.getLocation());
-        values.put(LAT, storyInfo.getLatLng().getLatitude());
-        values.put(LNG, storyInfo.getLatLng().getLongitude());
+            values.put(COVER_PIC, storyInfo.getDetailPic());
+            values.put(TITLE, storyInfo.getTitle());
+            values.put(EXTRACT, storyInfo.getExtract());
+            values.put(CONTENT, storyInfo.getContent());
+            values.put(CREATE_DATE, storyInfo.getCreateDate());
+            values.put(LOCATION_NAME, storyInfo.getLocation());
+            values.put(LAT, storyInfo.getLatLng().getLatitude());
+            values.put(LNG, storyInfo.getLatLng().getLongitude());
 
-        db.insert(STORY_TABLE, null, values);
+            db.insert(STORY_TABLE, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         db.close();
     }
 }
