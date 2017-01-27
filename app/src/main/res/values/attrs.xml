@@ -79,6 +79,10 @@
 
     <declare-styleable name="SideSlipLayout">
         <attr name="homeLayout" format="reference" />
-        <attr name="SideLayout" format="reference" />
+        <attr name="sideLayout" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="BlurRelativeLayout">
+        <attr name="blurDrawable" format="reference" />
     </declare-styleable>
 </resources>
