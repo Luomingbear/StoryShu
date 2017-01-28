@@ -8,10 +8,10 @@
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/margin_normal"
         android:background="@drawable/card_view_bg"
-        app:scaleRate="1.4"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        app:scaleRate="1.4">
 
         <com.storyshu.storyshu.widget.imageview.RoundImageView
             android:id="@+id/card_view_detail_pic"
