@@ -14,7 +14,7 @@
         android:src="@drawable/avatar_superman"
         app:RoundType="circle" />
 
-    <TextView
+    <com.storyshu.storyshu.widget.text.StorkTextView
         android:id="@+id/menu_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                 android:layout_height="@dimen/font_normal"
                 android:src="@drawable/story" />
 
-            <TextView
+            <com.storyshu.storyshu.widget.text.StorkTextView
                 android:id="@+id/menu_my_stories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 android:layout_height="@dimen/font_normal"
                 android:src="@drawable/inbox" />
 
-            <TextView
+            <com.storyshu.storyshu.widget.text.StorkTextView
                 android:id="@+id/menu_inbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                 android:layout_height="@dimen/font_normal"
                 android:src="@drawable/collection" />
 
-            <TextView
+            <com.storyshu.storyshu.widget.text.StorkTextView
                 android:id="@+id/menu_collection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
                 android:layout_height="@dimen/font_normal"
                 android:src="@drawable/set" />
 
-            <TextView
+            <com.storyshu.storyshu.widget.text.StorkTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_small"
@@ -178,7 +178,7 @@
                 android:layout_height="@dimen/font_normal"
                 android:background="@drawable/night" />
 
-            <TextView
+            <com.storyshu.storyshu.widget.text.StorkTextView
                 android:id="@+id/menu_night_mode_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

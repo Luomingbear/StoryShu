@@ -85,4 +85,8 @@
     <declare-styleable name="BlurRelativeLayout">
         <attr name="blurDrawable" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="StorkTextView">
+        <attr name="storkColor" format="color" />
+    </declare-styleable>
 </resources>
