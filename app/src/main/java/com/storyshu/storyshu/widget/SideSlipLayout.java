@@ -99,8 +99,10 @@ public class SideSlipLayout extends BlurRelativeLayout {
             params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
         params.width = mSideWidth;
+        params.height = (int) (bottom * mHomeLayoutScaleRatio);
         mSideLayout.setLayoutParams(params);
-        mSideLayout.layout(-mSideWidth, top, 0, bottom);
+        mSideLayout.layout(-mSideWidth, (int) ((1 - mHomeLayoutScaleRatio) / 2.0f * bottom), 0,
+                (int) ((1 + mHomeLayoutScaleRatio) / 2 * bottom));
 
     }
 

@@ -10,7 +10,6 @@
         android:layout_width="@dimen/image_small"
         android:layout_height="@dimen/image_small"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/title_height"
         android:src="@drawable/avatar_superman"
         app:RoundType="circle" />
 
@@ -138,7 +137,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/selector_height"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/title_height"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
