@@ -56,5 +56,6 @@ public class StoriesWindow extends PopupWindow {
                 - StatusBarUtil.getHeight(mContext);
         setWidth(display.getWidth());
         setHeight((int) height);
+
     }
 }

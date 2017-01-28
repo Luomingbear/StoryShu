@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -41,9 +42,9 @@ public class WelcomeActivity extends IBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_layout);
         initView();
-        initImageLoader();
-//        initUSerData();
-        initTimer();
+
+        startInitThread();
+
     }
 
     private void initView() {
@@ -72,6 +73,35 @@ public class WelcomeActivity extends IBaseActivity {
         userInfo.setAvatar("https://imgsa.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=2b7f34583da85edfee81f671283d6246/f703738da97739122455d869f1198618367ae243.jpg");
         userInfo.setNickname("翻船");
         ISharePreference.saveUserData(this, userInfo);
+    }
+
+    private android.os.Handler handler = new android.os.Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    initImageLoader();
+//        initUSerData();
+                    initTimer();
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 开启线程进行数据的初始化
+     */
+    private void startInitThread() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
+            }
+        });
+        thread.start();
     }
 
     /**

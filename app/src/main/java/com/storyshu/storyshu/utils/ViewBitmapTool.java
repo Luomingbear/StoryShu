@@ -13,8 +13,8 @@ public class ViewBitmapTool {
     public static Bitmap convertViewToBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        view.buildDrawingCache();
-        Bitmap bitmap = view.getDrawingCache();
-        return bitmap;
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache(true);
+        return view.getDrawingCache();
     }
 }

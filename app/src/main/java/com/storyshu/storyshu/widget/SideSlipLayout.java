@@ -1,24 +1,31 @@
 package com.storyshu.storyshu.widget;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.widget.blurRelativeLayout.BlurRelativeLayout;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 侧滑布局
  * Created by bear on 2017/1/26.
  */
 
-public class SideSlipLayout extends FrameLayout {
+public class SideSlipLayout extends BlurRelativeLayout {
     private static final String TAG = "SideSlipLayout";
     private View mHomeLayout; //主界面
     private View mSideLayout; //侧边界面
@@ -27,6 +34,8 @@ public class SideSlipLayout extends FrameLayout {
 
     private int mLayoutWidth; //布局的宽度
     private int mSideWidth; //侧边栏的宽度
+    private long mTouchTime; //手指按下的时间
+    private long mSpendTime; //手指在屏幕上停留的时间
 
     private boolean isShowingSide = false; //侧边栏是否正显示
 
@@ -46,7 +55,7 @@ public class SideSlipLayout extends FrameLayout {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SideSlipLayout);
         mHomeLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_homeLayout, R.layout.activity_story_map_layout);
-        mSideLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_SideLayout, R.layout.activity_menu_layout);
+        mSideLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_sideLayout, R.layout.activity_menu_layout);
         typedArray.recycle();
         init();
     }
@@ -65,6 +74,9 @@ public class SideSlipLayout extends FrameLayout {
         //
         addView(mSideLayout);
         addView(mHomeLayout);
+
+        //增加实时模糊
+        realtimeBlur();
     }
 
     @Override
@@ -89,11 +101,55 @@ public class SideSlipLayout extends FrameLayout {
         params.width = mSideWidth;
         mSideLayout.setLayoutParams(params);
         mSideLayout.layout(-mSideWidth, top, 0, bottom);
+
     }
 
+
+    private float interceptDownX; //拦截触摸事件的手指按下的x坐标
+    private float interceptDownY;
+
+    /**
+     * 更具情况拦截手指的触摸事件
+     *
+     * @param ev
+     * @return
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                interceptDownX = ev.getX();
+                interceptDownY = ev.getY();
+                mTouchTime = System.currentTimeMillis();
+                break;
 
+            case MotionEvent.ACTION_MOVE:
+                float x = ev.getX();
+                /**
+                 * 手指按下的时候在左边则拦截滑动事件
+                 */
+                if (!isShowingSide() && interceptDownX < mSideWidth / 4) {
+                    if (Math.abs(x - interceptDownX) > 5) {
+                        return true;
+                    }
+                } else if (isShowingSide()) {
+                    if (Math.abs(x - interceptDownX) > 5) {
+                        return true;
+                    } else if (x >= mSideWidth && Math.abs(x - interceptDownX) < 5)
+                        return true;
+                }
+                break;
+
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                float upX = ev.getX();
+                float upY = ev.getY();
+                if (isShowingSide() && upX >= mSideWidth)
+                    if (Math.abs(upX - interceptDownX) < 5 &&
+                            Math.abs(upY - interceptDownY) < 5)
+                        return true;
+                break;
+        }
         return super.onInterceptTouchEvent(ev);
     }
 
@@ -118,7 +174,7 @@ public class SideSlipLayout extends FrameLayout {
 
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                autoMove(event.getX());
+                autoMove(event.getX() - interceptDownX);
                 break;
         }
         return true;
@@ -162,6 +218,7 @@ public class SideSlipLayout extends FrameLayout {
      * 自动移动布局
      */
     private void autoMove(float upX) {
+        mSpendTime = System.currentTimeMillis() - mTouchTime;
         if (isAutoShow(upX)) {
             autoShowSide();
         } else autoHideSide();
@@ -174,7 +231,13 @@ public class SideSlipLayout extends FrameLayout {
      */
     private boolean isAutoShow(float upX) {
         float x = mHomeLayout.getX();
-        if (x < mSideWidth && x >= mSideWidth / 2)
+        float a = upX / mSpendTime;
+        Log.i(TAG, "isAutoShow: a:" + a);
+        if (a > 0.7)
+            return true;
+        else if (a < 0.7)
+            return false;
+        else if (x < mSideWidth && x >= mSideWidth / 2)
             return true;
         else return false;
     }
@@ -222,6 +285,7 @@ public class SideSlipLayout extends FrameLayout {
          */
         translationHome.start();
         translationSide.start();
+//        realtimeBlur();
 
         scaleX.start();
         scaleY.start();
@@ -270,6 +334,28 @@ public class SideSlipLayout extends FrameLayout {
         /**
          * 开始动画
          */
+        translationHome.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+//                realtimeBlur();
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+//                timer.cancel();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+//                timer.cancel();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+//                timer.cancel();
+//                realtimeBlur();
+            }
+        });
         translationHome.start();
         translationSide.start();
 
@@ -302,5 +388,46 @@ public class SideSlipLayout extends FrameLayout {
      */
     public boolean isShowingSide() {
         return isShowingSide;
+    }
+
+    /**
+     * 获取当前的主界面的位置比例
+     *
+     * @return
+     */
+    public float getSlipRatio() {
+        return mHomeLayout.getX() / (float) mSideWidth;
+    }
+
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    setBlurRatio(getSlipRatio());
+
+                    break;
+            }
+        }
+    };
+
+    private Timer timer;
+
+    /**
+     * 设置背景模糊实时显示
+     */
+    private void realtimeBlur() {
+        timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 1;
+                handler.sendMessage(msg);
+            }
+        }, 0, 35);
     }
 }

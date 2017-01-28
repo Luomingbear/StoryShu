@@ -23,7 +23,6 @@ import com.storyshu.storyshu.model.stories.StoriesWindowManager;
 import com.storyshu.storyshu.tool.observable.EventObservable;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.SideSlipLayout;
-import com.storyshu.storyshu.widget.blurRelativeLayout.BlurRelativeLayout;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.sift.SiftWindowManager;
 import com.storyshu.storyshu.widget.title.TitleView;
@@ -199,9 +198,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
      * 使用用户的头像进行高斯模糊
      */
     private void initMenuBg() {
-//        Thread thread = new Thread();
-//        thread.run();
-        ((BlurRelativeLayout) findViewById(R.id.home_blur_layout)).setLocalBlurBitmap(ISharePreference.getUserData(this).getAvatar());
+        mSideSlipLayout.setLocalBlurBitmap(ISharePreference.getUserData(this).getAvatar());
     }
 
     /**
@@ -330,7 +327,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         mCreateStory.setVisibility(View.GONE);
         mGetPosition.setVisibility(View.GONE);
 
-        StoriesWindowManager.getInstance().showDialog(this, this.getWindow(), mMapView)
+        StoriesWindowManager.getInstance().showDialog(this, this.getWindow(), mHomeLayout)
                 .setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
                     @Override
                     public void onDismiss() {

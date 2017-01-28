@@ -3,6 +3,10 @@ package com.storyshu.storyshu.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
@@ -31,6 +35,38 @@ public class BitmapUtil {
     }
 
     /**
+     * Drawable 转Bitmap
+     *
+     * @param drawable
+     * @return
+     */
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        int w = drawable.getIntrinsicWidth();
+        int h = drawable.getIntrinsicHeight();
+        Bitmap.Config config =
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                        : Bitmap.Config.RGB_565;
+        Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+        //注意，下面三行代码要用到，否在在View或者surfaceview里的canvas.drawBitmap会看不到图
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, w, h);
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
+
+    /**
+     * Drawable 转Bitmap
+     *
+     * @param drawable
+     */
+    public static Bitmap drawable2Bitamp(Drawable drawable) {
+        BitmapDrawable bd = (BitmapDrawable) drawable;
+        return bd.getBitmap();
+    }
+
+
+    /**
      * 生成模糊的图片
      *
      * @param bitmap  需要模糊的图片
@@ -38,7 +74,8 @@ public class BitmapUtil {
      * @return 模糊的图片
      */
     public static Bitmap blurBitmap(Bitmap bitmap, Context context, float blurRadius) {
-
+        if (bitmap == null)
+            return null;
         // 用需要创建高斯模糊bitmap创建一个空的bitmap
         Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
@@ -64,7 +101,7 @@ public class BitmapUtil {
         allOut.copyTo(outBitmap);
 
         // recycle the original bitmap
-        bitmap.recycle();
+//        bitmap.recycle();
 
         // After finishing everything, we destroy the Renderscript.
         rs.destroy();
