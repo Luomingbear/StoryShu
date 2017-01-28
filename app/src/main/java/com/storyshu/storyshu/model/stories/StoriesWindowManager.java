@@ -1,6 +1,9 @@
 package com.storyshu.storyshu.model.stories;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +16,7 @@ import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.utils.ToastUtil;
+import com.storyshu.storyshu.widget.blurRelativeLayout.BlurRelativeLayout;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 import com.storyshu.storyshu.widget.story.StoriesWindow;
 
@@ -26,10 +30,9 @@ import java.util.List;
 
 public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingListener, StoriesAdapterView.OnCardClickListener {
     private static StoriesWindowManager instance;
+    private View bgView; //背景view
     private StoriesWindow mStoriesDialog; //故事集dialog
-    private View mDarkView; //黑色的背景
     private StoriesAdapterView mStoriesAdapterView; //故事适配器控件
-    private Window mWindow; //窗口
     private Context mContext;
     private List<CardInfo> mCardInfoList; //数据源，卡片数据列表
 
@@ -50,11 +53,9 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
     /**
      * 初始化，设置windowmanager
      *
-     * @param window
      * @return
      */
-    public StoriesWindowManager init(Window window) {
-        mWindow = window;
+    public StoriesWindowManager init() {
         return this;
     }
 
@@ -79,8 +80,9 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
 //            return this;
 
         mContext = context;
+        bgView = parent;
 
-        //点击的不是个人图标
+        //显示
         mStoriesDialog = new StoriesWindow(context);
         mStoriesDialog.init(window);
         mStoriesDialog.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
@@ -98,16 +100,45 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
         /**
          * 显示卡片数据
          */
-//        showCards();
 
-        runnable.run();
+        Thread cardThread = new Thread(cardsRunnable);
+        cardThread.start();
+        Thread bgThread = new Thread(bgRunnable);
+        bgThread.start();
         return this;
     }
 
-    private Runnable runnable = new Runnable() {
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    showCards();
+                    break;
+
+                case 2:
+                    setBlurBg();
+                    break;
+
+            }
+        }
+    };
+    private Runnable cardsRunnable = new Runnable() {
         @Override
         public void run() {
-            showCards();
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+        }
+    };
+
+    private Runnable bgRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Message message = new Message();
+            message.what = 2;
+            handler.sendMessage(message);
         }
     };
 
@@ -139,6 +170,15 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
     }
 
     /**
+     * 设置模糊的背景
+     */
+    private void setBlurBg() {
+        Bitmap viewBmp = bgView.getDrawingCache();
+        BlurRelativeLayout blurRelativeLayout = (BlurRelativeLayout) mStoriesDialog.getContentView().findViewById(R.id.blur_window);
+        blurRelativeLayout.setBlurBitmap(viewBmp);
+    }
+
+    /**
      * 使故事集消失
      */
     public void dismissDialog() {
@@ -147,7 +187,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
     }
 
     /**
-     * 添加数据
+     * 添加测试数据
      */
     private void addData(Context context) {
         if (mStoriesAdapterView == null)
