@@ -228,8 +228,8 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         /**
          * 搜索工具,寻找当前位置的兴趣点
          */
-        if (poiItemList == null || poiItemList.size() == 0)
-            mLocationQueryTool.init(mAmapLocation, onLocationQueryListener).startRegeocodeQuery(mRadius);
+//        if (poiItemList == null || poiItemList.size() == 0)
+//            mLocationQueryTool.init(mAmapLocation, onLocationQueryListener).startRegeocodeQuery(mRadius);
 
 
         if (mLatLng.equals(latLng) && isMapLoaded)

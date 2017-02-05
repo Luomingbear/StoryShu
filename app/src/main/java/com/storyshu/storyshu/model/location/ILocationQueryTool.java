@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.GeocodeQuery;
@@ -82,7 +83,7 @@ public class ILocationQueryTool {
     };
 
     /**
-     * 开始指定坐标的搜索
+     * 开始指定坐标的搜索，需要先执行init函数
      *
      * @param radius 搜索的半径 单位米
      */
@@ -91,6 +92,24 @@ public class ILocationQueryTool {
             return;
         mGeocodeSearch.setOnGeocodeSearchListener(onGeocodeSearchListener);
         LatLonPoint latLonPoint = new LatLonPoint(mAmapLocation.getLatitude(), mAmapLocation.getLongitude());
+        //最小的搜索范围 10米
+        if (radius < 10)
+            radius = 10;
+        RegeocodeQuery geocodeQuery = new RegeocodeQuery(latLonPoint, radius, GeocodeSearch.AMAP);
+        mGeocodeSearch.getFromLocationAsyn(geocodeQuery);
+    }
+
+    /**
+     * 开始指定坐标的搜索
+     *
+     * @param latLng 搜索的坐标 单位米
+     * @param radius 搜索的半径 单位米
+     */
+    public void startRegeocodeQuery(Context context, LatLng latLng, int radius) {
+        mGeocodeSearch = new GeocodeSearch(context);
+
+        LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
+        mGeocodeSearch.setOnGeocodeSearchListener(onGeocodeSearchListener);
         //最小的搜索范围 10米
         if (radius < 10)
             radius = 10;

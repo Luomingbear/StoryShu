@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -20,6 +22,7 @@ import com.storyshu.storyshu.activity.story.StoryMapActivity;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.model.location.ILocationManager;
+import com.storyshu.storyshu.model.location.ILocationQueryTool;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.utils.time.ConvertTimeUtil;
@@ -30,6 +33,7 @@ import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 封面设置
@@ -47,6 +51,9 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
     private static final int CAMERA = 2;
     private StoryInfo mStoryInfo; //故事的数据
     private String coverPicPath; //封面图片的地址
+    private List<PoiItem> poiItemList; //搜索的结果的列表
+    private int raduis = 10; //搜索的半径
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +93,22 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
         //创建时间
         mCreateTime = (TextView) findViewById(R.id.cover_date);
         setCreateTime();
+
+        //搜索位置
+        ILocationQueryTool queryTool = new ILocationQueryTool();
+        queryTool.startRegeocodeQuery(this, ISharePreference.getLatLngData(CreateCoverActivity.this), raduis);
+        queryTool.setOnLocationQueryListener(new ILocationQueryTool.OnLocationQueryListener() {
+            @Override
+            public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
+                poiItemList = regeocodeAddress.getPois();
+                Log.i(TAG, "onRegeocodeSearched: list:" + poiItemList);
+            }
+
+            @Override
+            public void onGeocodeSearched(List<GeocodeAddress> geocodeAddressList) {
+
+            }
+        });
     }
 
     /**
@@ -231,7 +254,7 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
      * 选择当前的位置
      */
     private void chooseAoiLocation() {
-        PoiDialogManger.getInstance().showAoiDialog(this).setOnPoiChooseListener(new PoiDialogManger.OnPoiChooseListener() {
+        PoiDialogManger.getInstance().showAoiDialog(this, poiItemList).setOnPoiChooseListener(new PoiDialogManger.OnPoiChooseListener() {
             @Override
             public void onChoose(PoiItem choosePoi) {
                 mLocationTextView.setText(choosePoi.getTitle());

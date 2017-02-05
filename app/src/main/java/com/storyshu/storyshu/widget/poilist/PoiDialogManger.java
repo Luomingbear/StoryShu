@@ -9,7 +9,6 @@ import android.widget.ListView;
 import com.amap.api.services.core.PoiItem;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.poi.PoiAdapter;
-import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.widget.inputview.CustomLocationEdit;
 
 import java.util.List;
@@ -46,7 +45,7 @@ public class PoiDialogManger {
      *
      * @param context
      */
-    public PoiDialogManger showAoiDialog(Context context) {
+    public PoiDialogManger showAoiDialog(Context context, List<PoiItem> poiItems) {
         if (mPoiDialog != null && mPoiDialog.isShowing()) {
             return this;
         }
@@ -55,18 +54,17 @@ public class PoiDialogManger {
         mPoiDialog = new PoiDialog(context);
         mPoiDialog.setContentView(R.layout.choose_poi_layout);
         mPoiDialog.show();
-        initView();
+        initView(poiItems);
         return this;
     }
 
-    private void initView() {
+    private void initView(final List<PoiItem> list) {
         mPoiListView = (ListView) mPoiDialog.findViewById(R.id.choose_location_list);
 
         /**
          * 开始搜索
          */
-        final List<PoiItem> mPoiItemList = ILocationManager.getInstance().getPoiList();
-        PoiAdapter aoiAdapter = new PoiAdapter(mContext, mPoiItemList);
+        PoiAdapter aoiAdapter = new PoiAdapter(mContext, list);
         mPoiListView.setAdapter(aoiAdapter);
 
         CustomLocationEdit customLocationEdit = new CustomLocationEdit(mContext);
@@ -74,10 +72,10 @@ public class PoiDialogManger {
         customLocationEdit.setOnCustomLocationEditListener(new CustomLocationEdit.OnCustomLocationEditListener() {
             @Override
             public void OnCustomLocation(String locationName) {
-                if (mPoiItemList == null || mPoiItemList.size() == 0)
+                if (list == null || list.size() == 0)
                     return;
 
-                PoiItem p = mPoiItemList.get(0);
+                PoiItem p = list.get(0);
                 PoiItem poi = new PoiItem(p.getPoiId(), p.getLatLonPoint(), locationName, p.getSnippet());
                 if (onPoiChooseListener != null)
                     onPoiChooseListener.onChoose(poi);
@@ -92,7 +90,7 @@ public class PoiDialogManger {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "onItemClick: choose position:" + position);
                 if (onPoiChooseListener != null)
-                    onPoiChooseListener.onChoose(mPoiItemList.get(position));
+                    onPoiChooseListener.onChoose(list.get(position));
             }
         });
     }
