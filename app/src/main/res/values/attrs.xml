@@ -89,4 +89,9 @@
     <declare-styleable name="StorkTextView">
         <attr name="storkColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="RoundTextView">
+        <attr name="roundSize" format="dimension" />
+        <attr name="bgColor" format="color" />
+    </declare-styleable>
 </resources>

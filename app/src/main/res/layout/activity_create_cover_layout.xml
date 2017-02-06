@@ -42,7 +42,7 @@
                     android:layout_marginLeft="0.5dp"
                     android:layout_marginRight="0.5dp"
                     android:layout_marginTop="0.5dp"
-                    app:BorderRadius="@dimen/card_border_radius"
+                    app:BorderRadius="@dimen/border_radius_big"
                     app:RoundType="round_top_left_top_right"
                     app:Scale="1.24" />
 

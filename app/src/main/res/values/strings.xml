@@ -33,6 +33,8 @@
     <string name="select_avatar">请选择头像</string>
     <string name="input_nickname">请输入昵称</string>
 
+    <string name="ok">完成</string>
+
     <!--菜单-->
     <string name="my_stories">我的故事</string>
     <string name="my_fans">喜欢我的</string>

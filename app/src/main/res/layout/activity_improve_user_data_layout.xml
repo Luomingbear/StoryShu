@@ -5,34 +5,56 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/margin_normal"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="@dimen/title_height">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/select_avatar"
-        android:textColor="@color/colorGrayDeep" />
+        android:textColor="@color/colorGrayLight"
+        android:textSize="@dimen/font_normal"
+        android:visibility="gone" />
 
-    <com.storyshu.storyshu.widget.imageview.RoundImageView
-        android:id="@+id/select_avatar"
+    <RelativeLayout
         android:layout_width="@dimen/image_small"
-        android:layout_height="@dimen/image_small"
-        android:src="@drawable/avatar_superman"
-        app:RoundType="circle" />
+        android:layout_height="@dimen/image_small">
+
+        <com.storyshu.storyshu.widget.imageview.RoundImageView
+            android:id="@+id/select_avatar"
+            android:layout_width="@dimen/image_small"
+            android:layout_height="@dimen/image_small"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_launcher"
+            app:RoundType="circle" />
+
+        <com.storyshu.storyshu.widget.imageview.RoundImageView
+            android:layout_width="@dimen/image_small"
+            android:layout_height="@dimen/image_small"
+            android:layout_centerInParent="true"
+            android:src="@drawable/add"
+            app:RoundType="circle" />
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/nickname_edit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/selector_height"
         android:layout_marginTop="@dimen/margin_normal"
-        android:hint="@string/input_nickname" />
+        android:background="@drawable/text_edit_bg"
+        android:hint="@string/input_nickname"
+        android:paddingLeft="@dimen/margin_small"
+        android:textColorHint="@color/colorGrayLight"
+        android:textSize="@dimen/font_normal" />
 
-    <TextView
+    <com.storyshu.storyshu.widget.text.RoundTextView
         android:id="@+id/next"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
+        android:layout_height="@dimen/selector_height"
+        android:layout_marginTop="@dimen/margin_normal"
         android:background="@drawable/button_red_bg"
         android:gravity="center"
-        android:text="Next"
-        android:textColor="@color/colorWhite" />
+        android:text="@string/ok"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_big" />
 </LinearLayout>

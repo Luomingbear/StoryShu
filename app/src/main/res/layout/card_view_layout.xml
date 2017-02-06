@@ -23,7 +23,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/gray_bg"
             android:transitionName="cover_pic"
-            app:BorderRadius="@dimen/card_border_radius"
+            app:BorderRadius="@dimen/border_radius_big"
             app:RoundType="round_top_left_top_right"
             app:Scale="1.25" />
 

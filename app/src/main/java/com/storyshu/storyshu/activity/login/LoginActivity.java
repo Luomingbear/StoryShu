@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.number.PhoneFormatCheckUtils;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
+import com.storyshu.storyshu.widget.text.RoundTextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,12 +36,12 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
     private EditText mPasswordEdit; //输入密码
     private View mVerfiyLayout; //验证码的布局
     private EditText mVerifyEdit; //输入验证码
-    private TextView mCountdown; //倒计时
-    private TextView mLoginButton; //登录按钮
+    private RoundTextView mCountdownTextView; //倒计时
+    private RoundTextView mLoginButton; //登录按钮
     private View mForgotPassword; //忘记密码
     private TextView mFreeRigister; //免费注册
 
-
+    private int count = 60; //倒计时
     private Timer mTimer; //定时器
     private boolean isLoginLayout = true; //是否是登录界面
 
@@ -50,6 +53,116 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
     }
 
     /**
+     * 手机号码监听
+     */
+    private TextWatcher mPhoneWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String phone = s.toString();
+            /**
+             * 如果没有点击获取验证码，则会检测输入的手机号码是否符合规范
+             * 符合就会把获取验证码的背景变为红色，否则为灰色
+             *
+             * 如果已经点击了则把背景变为灰色
+             */
+            if (count == 60) {
+                if (PhoneFormatCheckUtils.isPhoneLegal(phone))
+                    mCountdownTextView.setBgColor(R.color.colorRedPomegranateLight);
+                else mCountdownTextView.setBgColor(R.color.colorGrayLight);
+
+            } else {
+                mCountdownTextView.setBgColor(R.color.colorGrayLight);
+            }
+
+            setLoginButtonBg();
+
+        }
+    };
+
+    /**
+     * 验证码监听
+     */
+    private TextWatcher mVerifyNumberWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String num = s.toString();
+
+            if (isLoginLayout) {
+            } else {
+                if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+                        && !TextUtils.isEmpty(mPasswordEdit.getText())
+                        && !TextUtils.isEmpty(num))
+                    mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
+                else
+                    mLoginButton.setBgColor(R.color.colorGrayLight);
+            }
+        }
+
+    };
+
+    /**
+     * 密码监听
+     */
+    private TextWatcher mPasswordWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setLoginButtonBg();
+        }
+
+    };
+
+    /**
+     * 设置登录按钮的背景颜色
+     */
+    private void setLoginButtonBg() {
+        if (isLoginLayout) {
+            if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+                    && !TextUtils.isEmpty(mPasswordEdit.getText()))
+                mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
+            else mLoginButton.setBgColor(R.color.colorGrayLight);
+
+        } else {
+            if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+                    && !TextUtils.isEmpty(mPasswordEdit.getText())
+                    && !TextUtils.isEmpty(mVerifyEdit.getText()))
+                mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
+            else
+                mLoginButton.setBgColor(R.color.colorGrayLight);
+        }
+    }
+
+
+    /**
      * 初始化
      */
     private void initView() {
@@ -59,22 +172,26 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
 
         //手机号码
         mPhoneNumberEdit = (EditText) findViewById(R.id.login_phone_number);
+        mPhoneNumberEdit.addTextChangedListener(mPhoneWatcher);
 
         //密码
         mPasswordEdit = (EditText) findViewById(R.id.login_password);
+        mPasswordEdit.addTextChangedListener(mPasswordWatcher);
 
         //验证码布局
         mVerfiyLayout = findViewById(R.id.login_verify_layout);
 
         //验证码
         mVerifyEdit = (EditText) findViewById(R.id.login_verify_number);
+        mVerifyEdit.addTextChangedListener(mVerifyNumberWatcher);
 
         //获取验证码
-        findViewById(R.id.login_get_verify_number).setOnClickListener(this);
-        mCountdown = (TextView) findViewById(R.id.login_countdown);
+        mCountdownTextView = (RoundTextView) findViewById(R.id.login_get_verify_number);
+        mCountdownTextView.setOnClickListener(this);
+
 
         //登录
-        mLoginButton = (TextView) findViewById(R.id.login_login_button);
+        mLoginButton = (RoundTextView) findViewById(R.id.login_login_button);
         mLoginButton.setOnClickListener(this);
 
         //忘记密码
@@ -83,8 +200,6 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
         //免费注册
         mFreeRigister = (TextView) findViewById(R.id.login_free_register);
         mFreeRigister.setOnClickListener(this);
-        //侧试
-//        findViewById(R.id.test).setOnClickListener(this);
     }
 
     @Override
@@ -110,17 +225,21 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      * 获取验证码
      */
     private void getVerifyCode() {
-        startTimer();
+
+        if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())) {
+            // TODO: 2017/2/6 发送验证码
+            startTimer();
+        } else {
+            ToastUtil.Show(LoginActivity.this, R.string.login_phone_number_illegal);
+        }
     }
 
-
-    int count = 60; //倒计时
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
-                mCountdown.setText(count + "s");
+                mCountdownTextView.setText(count + "s");
                 if (count == 0)
                     stopTimer();
                 count--;
@@ -144,6 +263,7 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
                 handler.sendMessage(msg);
             }
         }, 0, 1000);
+        mCountdownTextView.setBgColor(R.color.colorGrayLight);
     }
 
     /**
@@ -151,7 +271,7 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      */
     private void stopTimer() {
         mTimer.cancel();
-        mCountdown.setText(R.string.get_verify_number);
+        mCountdownTextView.setText(R.string.get_verify_number);
         count = 60;
     }
 
@@ -224,13 +344,25 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
             mForgotPassword.setVisibility(View.GONE);
             mFreeRigister.setText(R.string.already_register);
             isLoginLayout = false;
+
+            //
+            mPhoneNumberEdit.setText("");
+            mPasswordEdit.setText("");
+            mVerifyEdit.setText("");
         } else {
             mVerfiyLayout.setVisibility(View.GONE);
             mLoginButton.setText(R.string.login);
             mForgotPassword.setVisibility(View.VISIBLE);
             mFreeRigister.setText(R.string.free_register);
             isLoginLayout = true;
+
+            //
+            mPhoneNumberEdit.setText("");
+            mPasswordEdit.setText("");
+            mVerifyEdit.setText("");
         }
+
+        mLoginButton.setBgColor(R.color.colorGrayLight);
     }
 
     @Override
