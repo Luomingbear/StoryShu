@@ -27,12 +27,13 @@ public class IMarker {
         this.mLatLng = mLatLng;
     }
 
-    public LatLng getmLatLng() {
-        return mLatLng;
+    public LatLng getLatLng() {
+        return mMarker.getPosition();
     }
 
-    public void setmLatLng(LatLng mLatLng) {
+    public void setLatLng(LatLng mLatLng) {
         this.mLatLng = mLatLng;
+        this.mMarker.setPosition(mLatLng);
     }
 
     /**

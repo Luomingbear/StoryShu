@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
@@ -108,7 +109,8 @@ public class IMapManager {
         if (personLatLng == null)
             return;
         Log.i(TAG, "showPersonIcon: !!!!!!!!!!!!!!!");
-        if (mPersonMarker == null)
+        if (mPersonMarker == null ||
+                AMapUtils.calculateLineDistance(mPersonMarker.getLatLng(), mLatLng) > 200)
             mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
         else
             mPersonMarker.animate(personLatLng);

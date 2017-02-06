@@ -101,7 +101,12 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
             @Override
             public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
                 poiItemList = regeocodeAddress.getPois();
-                Log.i(TAG, "onRegeocodeSearched: list:" + poiItemList);
+                //将列表的第一个名称设置为默认
+                String location = poiItemList.get(0).getTitle();
+                mLocationTextView.setText(location);
+                ISharePreference.saveExtra(CreateCoverActivity.this, location);
+                mStoryInfo.setLocation(location);
+
             }
 
             @Override
@@ -116,7 +121,6 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
      */
     private void initDate() {
         mStoryInfo = getIntent().getParcelableExtra(ParcelableUtil.STORY);
-//        mStoryInfo = new StoryInfo();
         coverPicPath = mStoryInfo.getDetailPic();
     }
 

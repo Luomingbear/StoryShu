@@ -6,8 +6,8 @@
     <color name="colorGreenScallionDeep">#0aa344</color>
 
     <color name="colorWhite">#ffffff</color>
-    <color name="colorGrayLight">#dad8df</color>
-    <color name="colorGrayDeep">#696766</color>
+    <color name="colorGrayLight">#cdcdcd</color>
+    <color name="colorGrayDeep">#707070</color>
     <color name="colorTranslateDark">#845e5e5e</color>
     <color name="colorBlack">#1e1d1d</color>
 </resources>

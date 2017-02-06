@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrayLight"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -40,12 +39,12 @@
                     android:id="@+id/cover_detail_pic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginLeft="0.5dp"
+                    android:layout_marginRight="0.5dp"
+                    android:layout_marginTop="0.5dp"
                     app:BorderRadius="@dimen/card_border_radius"
                     app:RoundType="round_top_left_top_right"
-                    app:Scale="1.25" />
+                    app:Scale="1.24" />
 
                 <ImageView
                     android:id="@+id/cover_add_image"
