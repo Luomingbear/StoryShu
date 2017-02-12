@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">故事鼠</string>
+    <string name="website">storyshu.com</string>
     <string name="back">返回</string>
 
     <!--欢迎页-->
@@ -50,9 +51,13 @@
     <string name="sift_hot">热门</string>
 
     <!--创建故事-->
+    <string name="story_content_too_small">正文文本不得小于60字</string>
     <string name="create_cover">编辑封面</string>
+    <string name="select_cover">请选择封面图片</string>
     <string name="edit_title">添加标题</string>
+    <string name="input_title">请输入标题</string>
     <string name="edit_extra">添加简介</string>
+    <string name="input_extra">请输入简介</string>
     <string name="edit_location">所在位置</string>
     <string name="custom_location">找不到你的位置？</string>
     <string name="custom_location_ok">确定</string>

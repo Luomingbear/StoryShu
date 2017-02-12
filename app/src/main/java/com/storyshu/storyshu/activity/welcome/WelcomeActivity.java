@@ -1,15 +1,11 @@
 package com.storyshu.storyshu.activity.welcome;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -49,7 +45,7 @@ public class WelcomeActivity extends IBaseActivity {
 
     private void initView() {
 
-        startLogoAnimation();
+//        startLogoAnimation();
 
         View skip = findViewById(R.id.welcome_skip);
         skip.setOnClickListener(new View.OnClickListener() {
@@ -110,22 +106,22 @@ public class WelcomeActivity extends IBaseActivity {
     private void startLogoAnimation() {
 
         //logo图片动画
-        View dishu = findViewById(R.id.welcome_dishu);
-        Interpolator dl = new DecelerateInterpolator();
-        ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(dishu, "translationY",
-                getResources().getDimension(R.dimen.image_normal), getResources().getDimension(R.dimen.image_normal) / 3.5f);
-        translationAnimator.setInterpolator(dl);
-        translationAnimator.setDuration(mAnimationTime);
-        translationAnimator.start();
-
-        //logo文字动画
-
-        View name = findViewById(R.id.welcome_logo_text);
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
-        alphaAnimation.setDuration(mAnimationTime + 500);
-        alphaAnimation.setInterpolator(dl);
-        name.setAnimation(alphaAnimation);
-        alphaAnimation.start();
+//        View dishu = findViewById(R.id.welcome_dishu);
+//        Interpolator dl = new DecelerateInterpolator();
+//        ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(dishu, "translationY",
+//                getResources().getDimension(R.dimen.image_normal), getResources().getDimension(R.dimen.image_normal) / 3.5f);
+//        translationAnimator.setInterpolator(dl);
+//        translationAnimator.setDuration(mAnimationTime);
+//        translationAnimator.start();
+//
+//        //logo文字动画
+//
+//        View name = findViewById(R.id.welcome_logo_text);
+//        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+//        alphaAnimation.setDuration(mAnimationTime + 500);
+//        alphaAnimation.setInterpolator(dl);
+//        name.setAnimation(alphaAnimation);
+//        alphaAnimation.start();
 
     }
 
