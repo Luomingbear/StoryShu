@@ -53,7 +53,7 @@ public class BlurRelativeLayout extends FrameLayout {
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), mBlurBitmapRes);
         if (bitmap != null) {
-            setBlur2Bitmap(bitmap);
+            setBlurBitmap(bitmap);
         }
     }
 
@@ -66,9 +66,11 @@ public class BlurRelativeLayout extends FrameLayout {
         if (bmp == null)
             return;
         try {
+            bmp = BitmapUtil.centerSquareScaleBitmap(bmp, 100);
             BitmapDrawable drawable = new BitmapDrawable(bmp);
             setBackgroundDrawable(drawable);
-            Bitmap blurbmp1 = BitmapUtil.blurBitmap(bmp, getContext(), 25);
+            Bitmap blurbmp1 = BitmapUtil.blurBitmap(bmp,
+                    getContext(), 25);
             mBlurImageView.setImageBitmap(blurbmp1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,6 +86,7 @@ public class BlurRelativeLayout extends FrameLayout {
         if (bmp == null)
             return;
         try {
+            bmp = BitmapUtil.centerSquareScaleBitmap(bmp, 100);
             BitmapDrawable drawable = new BitmapDrawable(bmp);
             setBackgroundDrawable(drawable);
             Bitmap blurBmp1 = BitmapUtil.blurBitmap(bmp, getContext(), 25);
@@ -115,7 +118,7 @@ public class BlurRelativeLayout extends FrameLayout {
      */
     public void setLocalBlurBitmap(String blurImgPath) {
         try {
-            setBlur2Bitmap(BitmapFactory.decodeFile(blurImgPath));
+            setBlurBitmap(BitmapFactory.decodeFile(blurImgPath));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,7 +145,7 @@ public class BlurRelativeLayout extends FrameLayout {
 
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    setBlur2Bitmap(loadedImage);
+                    setBlurBitmap(loadedImage);
                 }
 
                 @Override

@@ -12,6 +12,9 @@ import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
 /**
  * bitmap工具
  * Created by bear on 2017/1/17.
@@ -108,4 +111,79 @@ public class BitmapUtil {
 
         return outBitmap;
     }
+
+    /**
+     * 压缩图片
+     *
+     * @param image  需要压缩的图片
+     * @param format 图片的格式
+     * @param maxKb  压缩后最大的大小 ，单位kb
+     * @return 压缩后的图片
+     */
+    public static Bitmap compressImage(Bitmap image, Bitmap.CompressFormat format, int maxKb) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        int options = 100;
+        // 循环判断如果压缩后图片是否大于1024kb,大于继续压缩
+        while (baos.toByteArray().length / 1024 > maxKb) {
+            // 重置baos
+            baos.reset();
+            // 这里压缩options%，把压缩后的数据存放到baos中
+            image.compress(format, options, baos);
+            // 每次都减少10
+            options -= 10;
+            options = Math.max(options, 10);
+        }
+        // 把压缩后的数据baos存放到ByteArrayInputStream中
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+        // 把ByteArrayInputStream数据生成图片
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
+        return bitmap;
+    }
+
+    /**
+     * 截取图片正中心的正方形图片
+     *
+     * @param bitmap     原图
+     * @param edgeLength 希望得到的正方形部分的边长
+     * @return 缩放截取正中部分后的位图。
+     */
+    public static Bitmap centerSquareScaleBitmap(Bitmap bitmap, int edgeLength) {
+        if (null == bitmap || edgeLength <= 0) {
+            return null;
+        }
+
+        Bitmap result = bitmap;
+        int widthOrg = bitmap.getWidth();
+        int heightOrg = bitmap.getHeight();
+
+        if (widthOrg > edgeLength && heightOrg > edgeLength) {
+            //压缩到一个最小长度是edgeLength的bitmap
+            int longerEdge = (int) (edgeLength * Math.max(widthOrg, heightOrg) / Math.min(widthOrg, heightOrg));
+            int scaledWidth = widthOrg > heightOrg ? longerEdge : edgeLength;
+            int scaledHeight = widthOrg > heightOrg ? edgeLength : longerEdge;
+            Bitmap scaledBitmap;
+
+            try {
+                scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
+            } catch (Exception e) {
+                return null;
+            }
+
+            //从图中截取正中间的正方形部分。
+            int xTopLeft = (scaledWidth - edgeLength) / 2;
+            int yTopLeft = (scaledHeight - edgeLength) / 2;
+
+            try {
+                result = Bitmap.createBitmap(scaledBitmap, xTopLeft, yTopLeft, edgeLength, edgeLength);
+                scaledBitmap.recycle();
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        return result;
+    }
+
 }

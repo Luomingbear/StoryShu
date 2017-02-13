@@ -76,7 +76,7 @@ public class SideSlipLayout extends BlurRelativeLayout {
         addView(mHomeLayout);
 
         //增加实时模糊
-        realtimeBlur();
+//        realtimeBlur();
     }
 
     @Override
@@ -103,7 +103,6 @@ public class SideSlipLayout extends BlurRelativeLayout {
         mSideLayout.setLayoutParams(params);
         mSideLayout.layout(-mSideWidth, (int) ((1 - mHomeLayoutScaleRatio) / 2.0f * bottom), 0,
                 (int) ((1 + mHomeLayoutScaleRatio) / 2 * bottom));
-
     }
 
 
