@@ -9,6 +9,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.ParcelableUtil;
+import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
 import com.storyshu.storyshu.widget.title.TitleView;
@@ -48,6 +49,33 @@ public class CreateStoryActivity extends ChooseImageResultActivity {
     }
 
     /**
+     * 检查故事的数据
+     */
+    private void checkStoryData() {
+        //正文少于60字不能发布
+        if (TextUtils.isEmpty(mStoryEdit.getEditString()) ||
+                mStoryEdit.getEditString().length() < 60) {
+            ToastUtil.Show(CreateStoryActivity.this, R.string.story_content_too_small);
+            return;
+        }
+
+        //
+        StoryInfo storyBaseInfo = new StoryInfo();
+        storyBaseInfo.setContent(mStoryEdit.getEditString());
+        if (TextUtils.isEmpty(ISharePreference.getExtra(CreateStoryActivity.this)))
+            ISharePreference.saveExtra(CreateStoryActivity.this, storyBaseInfo.getExtract());
+        storyBaseInfo.setExtract(ISharePreference.getExtra(CreateStoryActivity.this));
+
+        storyBaseInfo.setDetailPic(mStoryEdit.getCoverPic());
+        ISharePreference.saveContent(CreateStoryActivity.this, mStoryEdit.getEditString());
+        if (TextUtils.isEmpty(ISharePreference.getCoverPic(CreateStoryActivity.this)))
+            ISharePreference.saveCoverPic(CreateStoryActivity.this, mStoryEdit.getCoverPic());
+
+        intentWithParcelable(CreateCoverActivity.class, ParcelableUtil.STORY, storyBaseInfo);
+
+    }
+
+    /**
      * 标题栏的设置和响应事件
      */
     private void initTitleView() {
@@ -70,13 +98,8 @@ public class CreateStoryActivity extends ChooseImageResultActivity {
 
             @Override
             public void onRightClick() {
-                StoryInfo storyBaseInfo = new StoryInfo();
-                storyBaseInfo.setContent(mStoryEdit.getEditString());
-                storyBaseInfo.setExtract(mStoryEdit.getExtract());
-                storyBaseInfo.setDetailPic(mStoryEdit.getCoverPic());
-                ISharePreference.saveContent(CreateStoryActivity.this, mStoryEdit.getEditString());
-                ISharePreference.saveCoverPic(CreateStoryActivity.this, mStoryEdit.getCoverPic());
-                intentWithParcelable(CreateCoverActivity.class, ParcelableUtil.STORY, storyBaseInfo);
+                //
+                checkStoryData();
             }
         });
 

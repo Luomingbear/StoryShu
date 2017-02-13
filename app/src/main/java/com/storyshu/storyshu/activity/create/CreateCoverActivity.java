@@ -24,6 +24,7 @@ import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.location.ILocationQueryTool;
 import com.storyshu.storyshu.utils.ParcelableUtil;
+import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.utils.time.ConvertTimeUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
@@ -52,7 +53,7 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
     private StoryInfo mStoryInfo; //故事的数据
     private String coverPicPath; //封面图片的地址
     private List<PoiItem> poiItemList; //搜索的结果的列表
-    private int raduis = 10; //搜索的半径
+    private int radius = 10; //搜索的半径
 
 
     @Override
@@ -83,7 +84,7 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
 
         //摘要
         mExtraTextView = (TextView) findViewById(R.id.cover_extract);
-        mExtraTextView.setText(mStoryInfo.getExtract());
+        mExtraTextView.setText(ISharePreference.getExtra(CreateCoverActivity.this));
         mExtraTextView.setOnClickListener(this);
 
         //所在位置
@@ -96,17 +97,17 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
 
         //搜索位置
         ILocationQueryTool queryTool = new ILocationQueryTool();
-        queryTool.startRegeocodeQuery(this, ISharePreference.getLatLngData(CreateCoverActivity.this), raduis);
+        queryTool.startRegeocodeQuery(this, ISharePreference.getLatLngData(CreateCoverActivity.this), radius);
         queryTool.setOnLocationQueryListener(new ILocationQueryTool.OnLocationQueryListener() {
             @Override
             public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
                 poiItemList = regeocodeAddress.getPois();
                 //将列表的第一个名称设置为默认
-                String location = poiItemList.get(0).getTitle();
-                mLocationTextView.setText(location);
-                ISharePreference.saveExtra(CreateCoverActivity.this, location);
-                mStoryInfo.setLocation(location);
-
+                PoiItem defaultPoi = poiItemList.get(0);
+                mLocationTextView.setText(defaultPoi.getTitle());
+                ISharePreference.saveExtra(CreateCoverActivity.this, defaultPoi.getTitle());
+                mStoryInfo.setLocation(defaultPoi.getTitle());
+                mStoryInfo.setLatLng(defaultPoi.getLatLonPoint());
             }
 
             @Override
@@ -121,15 +122,18 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
      */
     private void initDate() {
         mStoryInfo = getIntent().getParcelableExtra(ParcelableUtil.STORY);
+        mStoryInfo.setExtract(ISharePreference.getExtra(CreateCoverActivity.this));
         coverPicPath = mStoryInfo.getDetailPic();
     }
 
+    /**
+     * 标题栏
+     */
     private void initTitle() {
         TitleView titleView = (TitleView) findViewById(R.id.title_view);
         titleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
             public void onLeftClick() {
-
                 finish();
             }
 
@@ -148,7 +152,6 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
 
                 StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(CreateCoverActivity.this);
                 //更新故事数据
-                mStoryInfo.setStoryId(storyDateBaseHelper.getLocalStory().size());
                 mStoryInfo.setExtract(mExtraTextView.getText().toString());
                 mStoryInfo.setCreateDate(ConvertTimeUtil.convert2TimeText(new Date(System.currentTimeMillis())));
                 mStoryInfo.setDetailPic(coverPicPath);
@@ -158,7 +161,9 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
 
                 //保存到本地数据库
                 storyDateBaseHelper.insertStoryData(mStoryInfo);
+
                 // TODO: 2016/12/27 发布故事到服务器
+                mStoryInfo.setStoryId(storyDateBaseHelper.getLocalStory().size());
 
 
                 //清除本地的小缓存，不是数据库
@@ -167,9 +172,32 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
                 ISharePreference.saveCoverPic(CreateCoverActivity.this, "");
                 ISharePreference.saveTitle(CreateCoverActivity.this, "");
                 //
-                intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                checkStoryData();
             }
         });
+    }
+
+    /**
+     * 检查故事的数据完整性
+     */
+    private void checkStoryData() {
+        if (TextUtils.isEmpty(mStoryInfo.getTitle())) {
+            ToastUtil.Show(CreateCoverActivity.this, R.string.input_title);
+            return;
+        }
+
+        if (TextUtils.isEmpty(mStoryInfo.getExtract())) {
+            ToastUtil.Show(CreateCoverActivity.this, R.string.input_extra);
+            return;
+        }
+
+        if (TextUtils.isEmpty(coverPicPath)) {
+            ToastUtil.Show(CreateCoverActivity.this, R.string.select_cover);
+            return;
+        }
+
+        intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
     }
 
     @Override

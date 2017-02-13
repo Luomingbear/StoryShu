@@ -1,5 +1,6 @@
 package com.storyshu.storyshu.activity.story;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.Marker;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
@@ -60,10 +63,25 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_home_layout);
 
+        initImageLoader();
+
         initView(savedInstanceState);
 
         initMenuBg();
-//        initImageLoader();
+    }
+
+    private void initImageLoader() {
+        if (!ImageLoader.getInstance().isInited()) {
+            DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
+//                .displayer(fadeInBitmapDisplayer)
+                    .showImageOnLoading(R.drawable.gray_bg).cacheInMemory(true)
+                    .cacheOnDisk(true).build();
+            ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
+                    .defaultDisplayImageOptions(options).build();
+
+            ImageLoader.getInstance().init(configuration);
+        }
+
     }
 
     private void initView(Bundle savedInstanceState) {
