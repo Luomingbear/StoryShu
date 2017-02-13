@@ -48,6 +48,12 @@ public class BlurRelativeLayout extends FrameLayout {
         mBlurImageView.setScaleType(ImageView.ScaleType.FIT_XY);
         addView(mBlurImageView);
 
+        //添加黑色半透明view
+        View blackView = new View(getContext());
+        blackView.setLayoutParams(p);
+        blackView.setBackgroundColor(getResources().getColor(R.color.colorTranslateDark));
+        addView(blackView);
+
         if (mBlurBitmapRes == -1)
             return;
 

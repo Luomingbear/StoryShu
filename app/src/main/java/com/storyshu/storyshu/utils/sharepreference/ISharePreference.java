@@ -45,6 +45,7 @@ public class ISharePreference {
      */
     public static final String LOGIN_DATA = "LOGIN_DATA";
     public static final String IS_LOGIN = "isLogin";
+    public static final String IS_NIGHT_MODE = "isNight"; //夜间模式
 
 
     public static void saveUserData(Context context, UserInfo userInfo) {
@@ -232,5 +233,30 @@ public class ISharePreference {
                 Activity.MODE_PRIVATE);
 
         return sp.getBoolean(IS_LOGIN, true);
+    }
+
+    /**
+     * 登录成功
+     */
+    public static void setIsNightMode(Context context, boolean isNightMode) {
+        SharedPreferences sp = context.getSharedPreferences(LOGIN_DATA,
+                Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(IS_NIGHT_MODE, isNightMode);
+
+        editor.apply();
+    }
+
+    /**
+     * 是否完成登录
+     *
+     * @return 经纬度
+     */
+    public static boolean isNightMode(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(LOGIN_DATA,
+                Activity.MODE_PRIVATE);
+
+        return sp.getBoolean(IS_NIGHT_MODE, false);
     }
 }

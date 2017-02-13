@@ -292,25 +292,26 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
             case R.id.menu_nickname:
                 break;
 
-            //菜单的用户名
+            //菜单的我的故事
             case R.id.menu_my_stories:
                 intentTo(MyStoryActivity.class);
                 break;
 
-            //菜单的用户名
+            //菜单的我的收件箱
             case R.id.menu_inbox:
                 break;
 
-            //菜单的用户名
+            //菜单的我的收藏
             case R.id.menu_collection:
                 break;
 
-            //菜单的用户名
+            //菜单的设置
             case R.id.menu_setting:
                 break;
 
-            //菜单的用户名
+            //菜单的夜间模式
             case R.id.menu_night_mode:
+                changDayOrNight();
                 break;
         }
     }

@@ -2,16 +2,50 @@ package com.storyshu.storyshu.activity.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+
+import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * 基本的activity
  * Created by bear on 2016/12/6.
  */
 
-public class IBaseActivity extends FragmentActivity {
+public class IBaseActivity extends AppCompatActivity {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+
+        if (ISharePreference.isNightMode(this))
+            setTheme(R.style.appTheme_night);
+        else
+            setTheme(R.style.appTheme_day);
+
+        super.onCreate(savedInstanceState, persistentState);
+
+    }
+
+    public void changDayOrNight() {
+        ISharePreference.setIsNightMode(this, !ISharePreference.isNightMode(this));
+        recreateOnResume();
+    }
+
+    /**
+     * 等待resume执行完毕再执行recreate
+     */
+    public void recreateOnResume() {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                recreate();
+            }
+        }, 100);
+    }
+
     /**
      * 页面跳转
      *

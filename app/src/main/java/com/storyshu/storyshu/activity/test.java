@@ -27,6 +27,7 @@ public class Test extends FragmentActivity implements View.OnClickListener {
     private void initView() {
 
 
+
 //        findViewById(R.id.add_image).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

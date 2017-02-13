@@ -65,11 +65,15 @@ public class IMapManager {
         if (mAMap == null)
             return;
 
+//        if (ISharePreference.isNightMode(mContext))
+//            setNightMode();
+//        else setDayMode();
+
         /**
          * 显示地图
          */
         LatLng latLng = ISharePreference.getLatLngData(mContext);
-        if (latLng.equals(mLatLng) || latLng == null) {
+        if (latLng == null || latLng.equals(mLatLng)) {
             return;
         }
 

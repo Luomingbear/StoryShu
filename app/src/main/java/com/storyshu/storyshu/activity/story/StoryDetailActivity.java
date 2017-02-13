@@ -3,7 +3,6 @@ package com.storyshu.storyshu.activity.story;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.utils.BitmapUtil;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
@@ -30,8 +30,6 @@ import com.storyshu.storyshu.widget.scrollview.IScrollView;
 import com.storyshu.storyshu.widget.text.RichTextView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -302,7 +300,7 @@ public class StoryDetailActivity extends IBaseActivity {
         //位置信息
         // TODO: 2017/1/5 请求服务器获取位置信息
         //
-        Bitmap storyImage = compressImage(getBitmapByView(mScrollView));
+        Bitmap storyImage = BitmapUtil.compressImage(getBitmapByView(mScrollView), Bitmap.CompressFormat.JPEG, 1200);
         Log.i(TAG, "saveStory2Image: 开始保存到本地");
         /**
          * 保存到指定的路径
@@ -385,36 +383,6 @@ public class StoryDetailActivity extends IBaseActivity {
         final Canvas canvas = new Canvas(bitmap);
         scrollView.draw(canvas);
         Log.i(TAG, "getBitmapByView: bitmap获取结束");
-        return bitmap;
-    }
-
-    /**
-     * 压缩图片
-     *
-     * @param image
-     * @return
-     */
-    public static Bitmap compressImage(Bitmap image) {
-        Log.i(TAG, "compressImage: 开始压缩图片");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        int options = 100;
-        // 循环判断如果压缩后图片是否大于1024kb,大于继续压缩
-        while (baos.toByteArray().length / 1024 > 1024 * 1.5f) {
-            // 重置baos
-            baos.reset();
-            // 这里压缩options%，把压缩后的数据存放到baos中
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
-            // 每次都减少10
-            options -= 10;
-            options = Math.max(options, 10);
-        }
-        // 把压缩后的数据baos存放到ByteArrayInputStream中
-        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
-        // 把ByteArrayInputStream数据生成图片
-        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
-        Log.i(TAG, "compressImage: 压缩完成");
         return bitmap;
     }
 }
