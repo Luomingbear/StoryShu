@@ -20,7 +20,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/appTheme">
+        android:theme="@style/appTheme_day">
 
         <service android:name="com.amap.api.location.APSService" />
 

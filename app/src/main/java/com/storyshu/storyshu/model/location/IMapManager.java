@@ -45,6 +45,20 @@ public class IMapManager {
     }
 
     /**
+     * 设置夜间模式
+     */
+    public void setNightMode() {
+        mAMap.setMapType(AMap.MAP_TYPE_NIGHT);
+    }
+
+    /**
+     * 设置日间模式
+     */
+    public void setDayMode() {
+        mAMap.setMapType(AMap.MAP_TYPE_NORMAL);
+    }
+
+    /**
      * 初始化地图
      */
     public void init() {
@@ -109,10 +123,12 @@ public class IMapManager {
         if (personLatLng == null)
             return;
         Log.i(TAG, "showPersonIcon: !!!!!!!!!!!!!!!");
-        if (mPersonMarker == null ||
-                AMapUtils.calculateLineDistance(mPersonMarker.getLatLng(), mLatLng) > 200)
+        if (mPersonMarker == null)
             mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
-        else
+        if (AMapUtils.calculateLineDistance(mPersonMarker.getLatLng(), mLatLng) > 200) {
+            mPersonMarker.destroy();
+            mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
+        } else
             mPersonMarker.animate(personLatLng);
     }
 

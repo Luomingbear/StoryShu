@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="titleColor" format="reference|color"></attr>
+    <attr name="textColor" format="reference|color"></attr>
 
     <declare-styleable name="TitleView">
         <attr name="title_string" format="string|reference" />
