@@ -37,10 +37,15 @@ public class IMarker {
     }
 
     /**
-     * 清除标记
+     * 清除标记,会留下疤痕
      */
     public void destroy() {
         if (mMarker != null)
             mMarker.destroy();
+    }
+
+    public void remove() {
+        if (mMarker != null)
+            mMarker.remove();
     }
 }

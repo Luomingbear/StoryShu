@@ -96,4 +96,13 @@
         <attr name="roundSize" format="dimension" />
         <attr name="bgColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="IBookView">
+        <attr name="BookLevel" format="enum">
+            <enum name="NORMAL" value="0" />
+            <enum name="COOPER" value="1" />
+            <enum name="SILVER" value="2" />
+            <enum name="GOLD" value="3" />
+        </attr>
+    </declare-styleable>
 </resources>

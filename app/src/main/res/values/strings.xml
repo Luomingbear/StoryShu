@@ -4,7 +4,7 @@
     <string name="back">返回</string>
 
     <!--欢迎页-->
-    <string name="skip">跳过>></string>
+    <string name="skip">跳过</string>
 
     <!--首页 故事地图-->
     <string name="create_story">编辑故事</string>
@@ -58,6 +58,7 @@
     <string name="input_title">请输入标题</string>
     <string name="edit_extra">添加简介</string>
     <string name="input_extra">请输入简介</string>
+    <string name="edit_content">轻输入正文</string>
     <string name="edit_location">所在位置</string>
     <string name="custom_location">找不到你的位置？</string>
     <string name="custom_location_ok">确定</string>

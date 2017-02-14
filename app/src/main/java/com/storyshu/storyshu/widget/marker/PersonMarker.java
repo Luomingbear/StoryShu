@@ -45,7 +45,7 @@ public class PersonMarker extends IMarker {
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
             if (failReason.getType() == FailReason.FailType.UNKNOWN) {
                 mPersonView.init(imageUri);
-                Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(mPersonView);
+                Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(mLatLng);
@@ -53,13 +53,12 @@ public class PersonMarker extends IMarker {
 
                 mMarker = mAMap.addMarker(markerOptions);
             }
-            Log.e(TAG, "onLoadingFailed: 地图上个人头像的图标加载失败");
         }
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
             mPersonView.init(loadedImage);
-            Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(mPersonView);
+            Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);
@@ -80,7 +79,7 @@ public class PersonMarker extends IMarker {
         String url = ISharePreference.getUserData(mContext).getAvatar();
         if (TextUtils.isEmpty(url)) {
             mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_superman));
-            Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(mPersonView);
+            Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);

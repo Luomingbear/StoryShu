@@ -9,12 +9,13 @@ import android.view.View;
  */
 
 public class ViewBitmapTool {
-    //view 转bitmap
-    public static Bitmap convertViewToBitmap(View view) {
+    //布局 转bitmap
+    public static Bitmap convertLayoutToBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache(true);
         return view.getDrawingCache();
     }
+
 }

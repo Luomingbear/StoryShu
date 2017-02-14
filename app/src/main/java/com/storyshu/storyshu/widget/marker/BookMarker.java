@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
@@ -24,7 +26,7 @@ import com.storyshu.storyshu.utils.ViewBitmapTool;
 
 public class BookMarker extends IMarker {
     private static final String TAG = "BookMarker";
-    private BookView mBookView;
+    private IBookView mBookView;
 
     public BookMarker(Context mContext, AMap mAMap, LatLng mLatLng) {
         super(mContext, mAMap, mLatLng);
@@ -39,8 +41,8 @@ public class BookMarker extends IMarker {
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
             if (failReason.getType() == FailReason.FailType.UNKNOWN) {
-                mBookView.init(imageUri);
-                Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(mBookView);
+                mBookView.setCoverBmp(imageUri);
+                Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mBookView);
 
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(mLatLng);
@@ -53,8 +55,8 @@ public class BookMarker extends IMarker {
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            mBookView.init(loadedImage);
-            Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(mBookView);
+            mBookView.setCoverBmp(loadedImage);
+            Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mBookView);
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);
@@ -71,10 +73,14 @@ public class BookMarker extends IMarker {
     };
 
     public void init(String title, String bgPath) {
-        mBookView = new BookView(mContext);
+        mBookView = new IBookView(mContext);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        mBookView.setLayoutParams(params);
+
         if (TextUtils.isEmpty(bgPath)) {
-            mBookView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.book));
-            Bitmap bitmap = ViewBitmapTool.convertViewToBitmap(mBookView);
+            mBookView.setCoverBmp(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.book));
+            Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mBookView);
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);
