@@ -82,10 +82,12 @@ public class ImproveUserDataActivity extends ChooseImageResultActivity implement
     }
 
     @Override
-    public void onResult(String imagePath) {
-        mAvatarPath = imagePath;
-        ImageLoader.getInstance().displayImage("file://" + mAvatarPath, mAvatar);
-        setDoneBg();
+    public void onResult(String imagePath, int requestCode) {
+        if (requestCode == IMAGE) {
+            mAvatarPath = imagePath;
+            ImageLoader.getInstance().displayImage("file://" + mAvatarPath, mAvatar);
+            setDoneBg();
+        }
     }
 
     @Override

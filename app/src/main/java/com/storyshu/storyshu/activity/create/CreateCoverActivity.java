@@ -201,10 +201,12 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
     }
 
     @Override
-    public void onResult(String imagePath) {
-        coverPicPath = imagePath;
-        showImage(coverPicPath);
-        ISharePreference.saveCoverPic(CreateCoverActivity.this, coverPicPath);
+    public void onResult(String imagePath, int requestCode) {
+        if (requestCode == IMAGE) {
+            coverPicPath = imagePath;
+            showImage(coverPicPath);
+            ISharePreference.saveCoverPic(CreateCoverActivity.this, coverPicPath);
+        }
     }
 
     /**

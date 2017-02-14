@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.storyshu.storyshu.widget.marker.IBookView
+        android:id="@+id/IBookView"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        app:BookLevel="NORMAL" />
+
+</LinearLayout>

@@ -144,7 +144,7 @@ public class IMapManager {
                 new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
         bookMarker.init(title, bgPath);
         //添加到故事集列表
-        bookMarkerList.add(bookMarker);
+//        bookMarkerList.add(bookMarker);
     }
 
     /**
@@ -152,6 +152,8 @@ public class IMapManager {
      */
     public void showBookIcons() {
         // TODO: 2016/12/3 获取服务器的数据显示图标
+        LatLonPoint point = new LatLonPoint(mLatLng.latitude + 0.002, mLatLng.longitude);
+        showBookIcon(point, "", "http://img5q.duitang.com/uploads/item/201203/21/20120321202846_xvKHY.jpeg");
     }
 
 

@@ -120,7 +120,8 @@ public class MyStoryAdapter extends RecyclerView.Adapter implements View.OnClick
         viewHolder.title.setText(storyInfo.getTitle());
         viewHolder.extarct.setText(storyInfo.getExtract());
 
-        viewHolder.detailPic.setOnClickListener(new View.OnClickListener() {
+
+        viewHolder.clickLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "onClick: !!!!");

@@ -4,7 +4,6 @@ import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -105,7 +104,7 @@ public class RichTextEditor extends ScrollView {
         LinearLayout.LayoutParams firstEditParam = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         editNormalPadding = dip2px(EDIT_PADDING);
-        EditText firstEdit = createEditText("");
+        EditText firstEdit = createEditText(getResources().getString(R.string.edit_content));
         allLayout.addView(firstEdit, firstEditParam);
         lastFocusEdit = firstEdit;
     }

@@ -9,20 +9,118 @@
         android:id="@id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:layout_alignParentTop="true"
-        app:title_mode="BackTitleImageGo"
+        app:title_mode="BackTitleGo"
         app:title_size="@dimen/font_normal"
         app:title_string="@string/create_story">
 
     </com.storyshu.storyshu.widget.title.TitleView>
 
-    <com.storyshu.storyshu.widget.text.RichTextEditor
-        android:id="@+id/story_edit"
+    <ScrollView
+        android:id="@+id/story_scroll_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal">
+        android:layout_height="match_parent">
 
-    </com.storyshu.storyshu.widget.text.RichTextEditor>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_cover"
+                android:layout_marginRight="@dimen/margin_cover"
+                android:layout_marginTop="@dimen/margin_cover">
+
+                <com.storyshu.storyshu.widget.imageview.RoundImageView
+                    android:id="@+id/cover_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorGrayLight"
+                    app:BorderRadius="0dp"
+                    app:Scale="1" />
+
+                <ImageView
+                    android:layout_width="@dimen/image_normal"
+                    android:layout_height="@dimen/image_normal"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/add" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_cover"
+                android:layout_marginRight="@dimen/margin_cover"
+                android:layout_marginTop="@dimen/margin_big"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_small"
+                    android:layout_height="@dimen/icon_small"
+                    android:src="@drawable/edit1" />
+
+                <EditText
+                    android:id="@+id/cover_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_min"
+                    android:background="@null"
+                    android:hint="@string/edit_title"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_big"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/extra_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_cover"
+                android:layout_marginRight="@dimen/margin_cover"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_small"
+                    android:layout_height="@dimen/icon_small"
+                    android:src="@drawable/edit1" />
+
+                <EditText
+                    android:id="@+id/cover_extract"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_min"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="@string/edit_extra"
+                    android:lineSpacingExtra="@dimen/margin_min"
+                    android:maxLines="3"
+                    android:textColor="@color/colorGrayDeep"
+                    android:textSize="@dimen/font_normal" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_cover"
+                android:background="@color/colorGrayLight" />
+
+
+            <com.storyshu.storyshu.widget.text.RichTextEditor
+                android:id="@+id/story_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:paddingBottom="@dimen/selector_height"
+                android:paddingLeft="@dimen/margin_normal"
+                android:paddingRight="@dimen/margin_normal">
+
+            </com.storyshu.storyshu.widget.text.RichTextEditor>
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

@@ -13,8 +13,9 @@ import android.provider.MediaStore;
 
 public abstract class ChooseImageResultActivity extends IBaseActivity {
 
-    private static final int IMAGE = 1;
-    private static final int CAMERA = 2;
+    public static final int IMAGE = 1;
+    public static final int COVER = IMAGE + 1;
+    public static final int CAMERA = COVER + 1;
     private String imagePath;
 
     /**
@@ -27,6 +28,15 @@ public abstract class ChooseImageResultActivity extends IBaseActivity {
     }
 
     /**
+     * 调用系统相册
+     */
+    public void chooseCover() {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, COVER);
+    }
+
+    /**
      * 调用系统相册返回
      *
      * @param requestCode
@@ -36,8 +46,9 @@ public abstract class ChooseImageResultActivity extends IBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         //获取相册图片
-        if (requestCode == IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == IMAGE || requestCode == COVER && resultCode == Activity.RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
             Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
@@ -45,13 +56,13 @@ public abstract class ChooseImageResultActivity extends IBaseActivity {
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             imagePath = c.getString(columnIndex);
             c.close();
-            onResult(imagePath);
+            onResult(imagePath, requestCode);
         }
     }
 
     /**
      * 获取图片成功后执行
      */
-    public abstract void onResult(String imagePath);
+    public abstract void onResult(String imagePath, int requestCode);
 
 }

@@ -25,7 +25,7 @@
             android:transitionName="cover_pic"
             app:BorderRadius="@dimen/border_radius_big"
             app:RoundType="round_top_left_top_right"
-            app:Scale="1.25" />
+            app:Scale="1.1" />
 
         <com.storyshu.storyshu.widget.text.StorkTextView
             android:id="@+id/card_view_title"
@@ -36,7 +36,6 @@
             android:layout_marginLeft="@dimen/margin_normal"
             android:layout_marginStart="@dimen/margin_normal"
             android:ellipsize="end"
-            android:text="@string/app_name"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/font_big"
             android:textStyle="bold" />
@@ -84,7 +83,7 @@
                 android:layout_marginTop="@dimen/margin_min"
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/margin_min"
-                android:maxLines="3"
+                android:maxLines="2"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/font_normal" />
 

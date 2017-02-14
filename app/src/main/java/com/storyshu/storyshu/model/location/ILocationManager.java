@@ -119,6 +119,8 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         mMapManager.animate2Position(ISharePreference.getLatLngData(mAppContext));
         //显示用户图标
         mMapManager.showPersonIcon(ISharePreference.getLatLngData(mAppContext));
+        //显示故事集图标
+        mMapManager.showBookIcons();
     }
 
     /**
@@ -155,6 +157,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
         mMapManager.animate2Position();
     }
+
     /**
      * 移动摄像机到当前的位置
      */
