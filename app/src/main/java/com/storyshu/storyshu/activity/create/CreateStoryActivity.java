@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -44,7 +45,7 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
     private String mCoverPath; //封面图
     private String mContent; //正文
     private String mTitle; //正文
-    private String mExtarct; //简介
+    private String mExtract; //简介
     private boolean isEditStory = false; //是否在编辑故事文本
 
 
@@ -64,7 +65,7 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
     private void initData() {
         mCoverPath = ISharePreference.getCoverPic(this);
         mTitle = ISharePreference.getTitle(this);
-        mExtarct = ISharePreference.getExtra(this);
+        mExtract = ISharePreference.getExtra(this);
         mContent = ISharePreference.getContent(this);
     }
 
@@ -75,14 +76,28 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
         ImageLoader.getInstance().displayImage("file://" + mCoverPath, mCoverIv);
     }
 
+    /**
+     * 插入tab符在光标位置
+     */
+    private void insertTab() {
+        int index = mStoryEdit.getLastFocusEdit().getSelectionStart();
+        Editable editable = mStoryEdit.getLastFocusEdit().getText();
+        editable.insert(index, "\t\t\t\t");
+    }
+
     private TextToolWindow.OnTextToolClickListener textToolClickListener = new TextToolWindow.OnTextToolClickListener() {
         @Override
         public void FirstClick() {
-
+            mStoryEdit.undoText();
         }
 
         @Override
-        public void SecendClick() {
+        public void SecondClick() {
+            insertTab();
+        }
+
+        @Override
+        public void ThirdClick() {
             chooseImage();
         }
     };
@@ -115,7 +130,7 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
 
         //简介
         mExtractEt = (EditText) findViewById(R.id.cover_extract);
-        mExtractEt.setText(mExtarct);
+        mExtractEt.setText(mExtract);
         mExtractEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -177,12 +192,15 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
                 case 1:
 //                    mStoryScrollView.setScrollY(showBottom);
                     mTextToolWindow.showAtLocation(mStoryEdit, Gravity.BOTTOM, 0, showBottom);
+                    findViewById(R.id.bottom_view).setVisibility(View.VISIBLE);
                     Log.i(TAG, "handleMessage: 显示文本工具");
                     Log.i(TAG, "handleMessage: 滚动距离" + mStoryScrollView.getScrollY());
                     break;
                 case 2:
-                    if (mTextToolWindow != null && mTextToolWindow.isShowing())
+                    if (mTextToolWindow != null && mTextToolWindow.isShowing()) {
                         mTextToolWindow.dismiss();
+                        findViewById(R.id.bottom_view).setVisibility(View.GONE);
+                    }
                     Log.i(TAG, "handleMessage: 隐藏文本工具");
                     break;
             }

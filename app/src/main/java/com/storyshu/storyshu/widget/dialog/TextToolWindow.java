@@ -56,18 +56,25 @@ public class TextToolWindow extends PopupWindow {
         setHeight((int) height);
 
         //
-        view.findViewById(R.id.text_tool_tab).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.text_tool_undo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onTextToolClickListener != null)
                     onTextToolClickListener.FirstClick();
             }
         });
+        view.findViewById(R.id.text_tool_tab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onTextToolClickListener != null)
+                    onTextToolClickListener.SecondClick();
+            }
+        });
         view.findViewById(R.id.text_tool_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onTextToolClickListener != null)
-                    onTextToolClickListener.SecendClick();
+                    onTextToolClickListener.ThirdClick();
             }
         });
 
@@ -89,6 +96,11 @@ public class TextToolWindow extends PopupWindow {
         void FirstClick();
 
         //左边起第二个按钮被点击
-        void SecendClick();
+        void SecondClick();
+
+        //左边起第三个按钮被点击
+        void ThirdClick();
+
+
     }
 }

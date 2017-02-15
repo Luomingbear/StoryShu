@@ -18,7 +18,8 @@
     <ScrollView
         android:id="@+id/story_scroll_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,4 +124,11 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <View
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="@dimen/selector_height"
+        android:background="@color/colorWhite" />
 </LinearLayout>

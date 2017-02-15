@@ -4,7 +4,9 @@ import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -46,6 +48,9 @@ public class RichTextEditor extends ScrollView {
     private LayoutTransition mTransitioner; // 只在图片View添加或remove时，触发transition动画
     private int editNormalPadding = 0; //
     private int disappearingImageIndex = 0;
+
+
+    private ArrayList<TextData> oldStringList = new ArrayList<>(); //上一次的文本信息
 
     public RichTextEditor(Context context) {
         this(context, null);
@@ -105,9 +110,36 @@ public class RichTextEditor extends ScrollView {
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         editNormalPadding = dip2px(EDIT_PADDING);
         EditText firstEdit = createEditText(getResources().getString(R.string.edit_content));
+        firstEdit.addTextChangedListener(mTextWatcher);
         allLayout.addView(firstEdit, firstEditParam);
         lastFocusEdit = firstEdit;
+
     }
+
+    /**
+     * 添加文本变化监听
+     */
+    private TextWatcher mTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            Log.i(TAG, "beforeTextChanged: " + s);
+
+            if (oldStringList.size() == 0) {
+                oldStringList.add(new TextData(s.toString(), start));
+            } else if (!oldStringList.contains(new TextData(s.toString(), start))) {
+                oldStringList.add(new TextData(s.toString(), start));
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
 
     /**
      * 处理软键盘backSpace回退事件
@@ -176,6 +208,8 @@ public class RichTextEditor extends ScrollView {
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_small));
         editText.setBackgroundResource(0);
         editText.setLineSpacing(getResources().getDimension(R.dimen.line_space), 1);
+
+        editText.addTextChangedListener(mTextWatcher);
         return editText;
     }
 
@@ -370,7 +404,6 @@ public class RichTextEditor extends ScrollView {
      * 图片删除的时候，如果上下方都是EditText，则合并处理
      */
     private void mergeEditText() {
-        int i;
         View preView = allLayout.getChildAt(disappearingImageIndex - 1);
         View nextView = allLayout.getChildAt(disappearingImageIndex);
 
@@ -456,6 +489,23 @@ public class RichTextEditor extends ScrollView {
         }
     }
 
+    /**
+     * 返回上一次的编辑内容
+     */
+    public void undoText() {
+        if (oldStringList.size() > 0) {
+            TextData old = oldStringList.get(oldStringList.size() - 1);
+            lastFocusEdit.removeTextChangedListener(mTextWatcher);
+            lastFocusEdit.setText(old.editText);
+            lastFocusEdit.setSelection(old.selectionIndex);
+            oldStringList.remove(old);
+            Log.d(TAG, "undoText: list:" + oldStringList);
+        } else
+            lastFocusEdit.setText("");
+
+        lastFocusEdit.addTextChangedListener(mTextWatcher);
+    }
+
 
     /**
      * 对外提供的接口, 生成编辑数据上传
@@ -519,6 +569,15 @@ public class RichTextEditor extends ScrollView {
     }
 
     /**
+     * 获取当前编辑的editText
+     *
+     * @return
+     */
+    public EditText getLastFocusEdit() {
+        return lastFocusEdit;
+    }
+
+    /**
      * 获取封面
      *
      * @return
@@ -530,5 +589,25 @@ public class RichTextEditor extends ScrollView {
                 return cover = data.getIamgePath();
         }
         return cover;
+    }
+
+    private class TextData {
+        String editText;
+        int selectionIndex;
+
+        TextData() {
+            this.editText = "";
+            this.selectionIndex = 0;
+        }
+
+        TextData(String editText, int selectionIndex) {
+            this.editText = editText;
+            this.selectionIndex = selectionIndex;
+        }
+
+        @Override
+        public String toString() {
+            return "text:" + editText + " ++ index:" + selectionIndex;
+        }
     }
 }
