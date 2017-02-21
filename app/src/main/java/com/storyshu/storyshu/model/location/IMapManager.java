@@ -98,9 +98,9 @@ public class IMapManager {
         //隐藏缩放按钮
         mUiSettings.setZoomControlsEnabled(false);
         //旋转
-        mUiSettings.setRotateGesturesEnabled(true);
+        mUiSettings.setRotateGesturesEnabled(false);
         //缩放
-        mUiSettings.setZoomGesturesEnabled(false);
+//        mUiSettings.setZoomGesturesEnabled(false);
         //倾斜
         mUiSettings.setTiltGesturesEnabled(false);
         //移动
@@ -129,8 +129,9 @@ public class IMapManager {
         Log.i(TAG, "showPersonIcon: !!!!!!!!!!!!!!!");
         if (mPersonMarker == null)
             mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
+
         if (AMapUtils.calculateLineDistance(mPersonMarker.getLatLng(), mLatLng) > 200) {
-            mPersonMarker.destroy();
+            mAMap.clear();
             mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
         } else
             mPersonMarker.animate(personLatLng);
@@ -152,7 +153,8 @@ public class IMapManager {
      */
     public void showBookIcons() {
         // TODO: 2016/12/3 获取服务器的数据显示图标
-        LatLonPoint point = new LatLonPoint(mLatLng.latitude + 0.002, mLatLng.longitude);
+        Log.i(TAG, "showBookIcons: 显示故事集图标");
+        LatLonPoint point = new LatLonPoint(mLatLng.latitude + 0.001, mLatLng.longitude);
         showBookIcon(point, "", "http://img5q.duitang.com/uploads/item/201203/21/20120321202846_xvKHY.jpeg");
     }
 

@@ -18,7 +18,7 @@
     <ScrollView
         android:id="@+id/story_scroll_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
         <LinearLayout
@@ -118,7 +118,8 @@
                 android:background="@color/colorWhite"
                 android:paddingBottom="@dimen/selector_height"
                 android:paddingLeft="@dimen/margin_normal"
-                android:paddingRight="@dimen/margin_normal">
+                android:paddingRight="@dimen/margin_normal"
+                android:paddingTop="@dimen/margin_small">
 
             </com.storyshu.storyshu.widget.text.RichTextEditor>
         </LinearLayout>
@@ -128,7 +129,7 @@
     <View
         android:id="@+id/bottom_view"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="@dimen/selector_height"
-        android:background="@color/colorWhite" />
+        android:background="@color/colorWhite"
+        android:visibility="gone" />
 </LinearLayout>

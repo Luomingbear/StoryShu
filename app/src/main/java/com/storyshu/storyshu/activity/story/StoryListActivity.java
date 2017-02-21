@@ -22,20 +22,20 @@ public class StoryListActivity extends IBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_story_list_layout);
+        setContentView(R.layout.test);
         initView();
     }
 
     private void initView() {
 
         //标题栏
-        mTitleView = (TitleView) findViewById(R.id.title_view);
-
-        //刷新控件
-        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.story_list_refresh);
-
-        //显示故事集的控件
-        mRecyclerView = (RecyclerView) findViewById(R.id.story_list_recycler_view);
+//        mTitleView = (TitleView) findViewById(R.id.title_view);
+//
+//        //刷新控件
+//        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.story_list_refresh);
+//
+//        //显示故事集的控件
+//        mRecyclerView = (RecyclerView) findViewById(R.id.story_list_recycler_view);
 
 
     }

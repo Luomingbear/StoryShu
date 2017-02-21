@@ -2,7 +2,7 @@
 
     <!--日间模式-->
     <style name="appTheme_day" parent="Theme.AppCompat.DayNight.NoActionBar">
-
+        <item name="android:textColor">@color/colorGrayLight</item>
     </style>
 
     <!--夜间模式-->

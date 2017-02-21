@@ -17,6 +17,7 @@
             <enum name="BackTitleImageGo" value="6" />
             <enum name="MenuTitleList" value="7" />
             <enum name="MenuTitleMap" value="8" />
+            <enum name="MenuTitle" value="9" />
         </attr>
     </declare-styleable>
 

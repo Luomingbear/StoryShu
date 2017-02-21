@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -72,51 +71,35 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         this.mAppContext = appContext;
         this.mMapView = mapView;
         this.mLocationQueryTool = new ILocationQueryTool(appContext);
+
+        if (mMapManager == null) {
+            mMapManager = new IMapManager(mAppContext, mMapView);
+        }
+        mMapManager.init();
         return this;
     }
 
-    /**
-     * 地图加载完毕的接口回调
-     */
-    private AMap.OnMapLoadedListener onMapLoadedListener = new AMap.OnMapLoadedListener() {
-        @Override
-        public void onMapLoaded() {
-            animate2CurrentPosition();
-            //显示故事集
-//            Log.i(TAG, "onMapLoaded: 显示故事集");
-//            StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(mAppContext);
-//            List<StoryInfo> storyList = storyDateBaseHelper.getLocalStory();
-//            Log.d(TAG, "onMapLoaded: 故事集的大小：" + storyList.size());
-//            for (StoryInfo storyInfo : storyList) {
-//                mMapManager.showBookIcon(storyInfo.getLatLng(), storyInfo.getTitle(), storyInfo.getDetailPic());
-//            }
-            isMapLoaded = true;
-        }
-    };
 
     /**
      * 开始定位
      */
     public void start() {
+        Log.i(TAG, "start: 定位管家开始服务！！！");
         if (mAppContext == null || mMapView == null) {
             Log.e(TAG, "start: 定位启动失败！");
             return;
         }
         if (mLocationSever == null)
             mLocationSever = new ILocationSever(mAppContext);
-        if (mMapManager == null) {
-            mMapManager = new IMapManager(mAppContext, mMapView);
-        }
-        mMapView.getMap().setOnMapLoadedListener(onMapLoadedListener);
-        //
+
+
+        //定位开始
         mLocationSever.start();
         mLocationSever.setOnLocationChange(this);
         //
-        mMapManager.init();
         mMapManager.setOnMarkerClickedListener(this);
+        animate2CurrentPosition();
 
-        //移动地图到上一次的地点
-        mMapManager.animate2Position(ISharePreference.getLatLngData(mAppContext));
         //显示用户图标
         mMapManager.showPersonIcon(ISharePreference.getLatLngData(mAppContext));
         //显示故事集图标
@@ -227,19 +210,11 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     public void onLocationChange(AMapLocation aMapLocation) {
         LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
 
-
-        /**
-         * 搜索工具,寻找当前位置的兴趣点
-         */
-//        if (poiItemList == null || poiItemList.size() == 0)
-//            mLocationQueryTool.init(mAmapLocation, onLocationQueryListener).startRegeocodeQuery(mRadius);
-
-
-        if (mLatLng.equals(latLng) && isMapLoaded)
+        //如果与上一次的坐标一致则不做任何操作
+        if (latLng.longitude == mLatLng.longitude &&
+                latLng.latitude == mLatLng.latitude)
             return;
         mLatLng = latLng;
-
-        //
 
         /**
          * 移动地图的显示
@@ -256,7 +231,6 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
         //保存位置信息到本地
         saveLatlngPreference(latLng);
-
     }
 
     /**

@@ -194,7 +194,6 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
                     mTextToolWindow.showAtLocation(mStoryEdit, Gravity.BOTTOM, 0, showBottom);
                     findViewById(R.id.bottom_view).setVisibility(View.VISIBLE);
                     Log.i(TAG, "handleMessage: 显示文本工具");
-                    Log.i(TAG, "handleMessage: 滚动距离" + mStoryScrollView.getScrollY());
                     break;
                 case 2:
                     if (mTextToolWindow != null && mTextToolWindow.isShowing()) {

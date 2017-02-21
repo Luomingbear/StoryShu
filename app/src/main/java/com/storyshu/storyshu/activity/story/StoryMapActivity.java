@@ -3,6 +3,8 @@ package com.storyshu.storyshu.activity.story;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +32,9 @@ import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.sift.SiftWindowManager;
 import com.storyshu.storyshu.widget.title.TitleView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class StoryMapActivity extends IBaseActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener, StoriesWindowManager.OnStoryCardListener {
     private static final String TAG = "StoryMapActivity";
@@ -51,10 +56,8 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     private TextView nightModeText; //夜间模式的文字
 
     //
-    private boolean isSiftShow = false; //筛选栏是否显示
     private long getPositionTime; //获取定位的时间
     private int minLocationIntervalTime = 10 * 1000;// 最小的获取定位的间隔时间，单位毫秒
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +66,134 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_home_layout);
 
-        initImageLoader();
-
         initView(savedInstanceState);
 
-        initMenuBg();
+        initEvents();
     }
 
+    @Override
+    protected void onStart() {
+        Log.d(TAG, "onStart: ");
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+        //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
+        mMapView.onPause();
+        ILocationManager.getInstance().stop();
+
+//        StoriesWindowManager.getInstance().dismissDialog();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+        //在activity执行onResume时执行mMapView.onResume ()，实现地图生命周期管理
+        mMapView.onResume();
+
+        /**
+         * 先移动镜头到上次的位置，这样不会有闪屏的感觉
+         */
+        move2Position();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+        mMapView.onDestroy();
+
+        ILocationManager.getInstance().destroy();
+    }
+
+    /**
+     * 标题栏点击响应事件
+     */
+    private TitleView.OnTitleClickListener onTitleClickListener = new TitleView.OnTitleClickListener() {
+        @Override
+        public void onLeftClick() {
+            mSideSlipLayout.autoShowSide();
+        }
+
+        @Override
+        public void onCenterClick() {
+            move2Position();
+        }
+
+        @Override
+        public void onCenterDoubleClick() {
+        }
+
+        @Override
+        public void onRightClick() {
+            Log.i(TAG, "onRightClick: ");
+//            intentWithFlag(StoryListActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+    };
+
+    /**
+     * 标题栏
+     */
+    private void initTitle() {
+        mTitleView.setOnTitleClickListener(onTitleClickListener);
+        EventObservable.getInstance().addObserver(mTitleView);
+    }
+
+    private Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    setAvatar();
+                    initMenuBg();
+                    break;
+                case 2:
+                    break;
+            }
+
+        }
+    };
+
+    /**
+     * 管理逻辑的异步进行
+     * 先显示布局的框架，然后是地图，接着是地图的图标
+     */
+    private void initEvents() {
+        //新建线程初始化图片加载器
+        Thread imageThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initImageLoader();
+            }
+        });
+        imageThread.start();
+
+        //头像的加载，需要获取本地的缓冲所以新建了进程
+        Thread avatarThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = 1;
+                mhandler.sendMessage(message);
+            }
+        });
+        avatarThread.start();
+
+        //初始化地图管家
+        ILocationManager.getInstance().init(getApplicationContext(), mMapView);
+
+        //获取定位、显示图标
+        getLocation();
+    }
+
+    /**
+     * 如果imageLoader没有初始化则初始化
+     */
     private void initImageLoader() {
         if (!ImageLoader.getInstance().isInited()) {
             DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
@@ -81,11 +205,23 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
 
             ImageLoader.getInstance().init(configuration);
         }
+    }
 
+    /**
+     * 设置头像
+     */
+    private void setAvatar() {
+        String avatar = ISharePreference.getUserData(this).getAvatar();
+        Log.i(TAG, "setAvatar: " + avatar);
+        if (TextUtils.isEmpty(avatar))
+            mAvatar.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.avatar_superman));
+        else if (avatar.contains("/storage/"))
+            ImageLoader.getInstance().displayImage("file://" + avatar, mAvatar);
+        else
+            ImageLoader.getInstance().displayImage(avatar, mAvatar);
     }
 
     private void initView(Bundle savedInstanceState) {
-
         /**
          * 整体布局
          */
@@ -95,32 +231,31 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         mSideLayout = mSideSlipLayout.getSideLayout();
 
         /**
+         * 标题栏
+         */
+        mTitleView = (TitleView) mHomeLayout.findViewById(R.id.title_view);
+        initTitle();
+
+        /**
          * 主界面
          */
         //地图
         mMapView = (MapView) mHomeLayout.findViewById(R.id.story_map_map_view);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
-        ILocationManager.getInstance().init(getApplicationContext(), mMapView);
 
-        //标题栏
-        initTitle();
-
-        //写故事
+        //写故事按钮
         mCreateStory = mHomeLayout.findViewById(R.id.story_map_create_story);
         mCreateStory.setOnClickListener(this);
 
-
         //获取当前的定位并且移动地图
-        mGetPosition = mHomeLayout.findViewById(R.id.story_map_get_position);
-        mGetPosition.setOnClickListener(this);
-
+//        mGetPosition = mHomeLayout.findViewById(R.id.story_map_get_position);
+//        mGetPosition.setOnClickListener(this);
 
         /**
          * 侧边栏
          */
         mAvatar = (RoundImageView) mSideSlipLayout.getSideLayout().findViewById(R.id.menu_avatar);
-        setAvatar();
         mAvatar.setOnClickListener(this);
 
         //
@@ -153,65 +288,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     }
 
     /**
-     * 侧边菜单点击响应
-     */
-    // TODO: 2017/1/26
-
-    /**
-     * 标题栏点击响应事件
-     */
-    private TitleView.OnTitleClickListener onTitleClickListener = new TitleView.OnTitleClickListener() {
-        @Override
-        public void onLeftClick() {
-            Log.i(TAG, "onLeftClick: ");
-            mSideSlipLayout.autoShowSide();
-        }
-
-        @Override
-        public void onCenterClick() {
-            Log.i(TAG, "onCenterClick: ");
-        }
-
-        @Override
-        public void onCenterDoubleClick() {
-            move2Position();
-        }
-
-        @Override
-        public void onRightClick() {
-            Log.i(TAG, "onRightClick: ");
-//            intentWithFlag(StoryListActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intentTo(StoryListActivity.class);
-        }
-    };
-
-    /**
-     * 标题栏
-     */
-    private void initTitle() {
-        mTitleView = (TitleView) mHomeLayout.findViewById(R.id.title_view);
-        mTitleView.setOnTitleClickListener(onTitleClickListener);
-        EventObservable.getInstance().addObserver(mTitleView);
-    }
-
-    /**
-     * 设置头像
-     */
-    private void setAvatar() {
-        String avatar = ISharePreference.getUserData(this).getAvatar();
-        Log.i(TAG, "setAvatar: " + avatar);
-        if (TextUtils.isEmpty(avatar))
-            mAvatar.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.avatar_superman));
-        else if (avatar.contains("/storage/"))
-            ImageLoader.getInstance().displayImage("file://" + avatar, mAvatar);
-        else
-            ImageLoader.getInstance().displayImage(avatar, mAvatar);
-
-        Log.i(TAG, "initView:avatar:" + ISharePreference.getUserData(this).getAvatar());
-
-    }
-
-    /**
      * 初始化菜单栏的背景
      * 使用用户的头像进行高斯模糊
      */
@@ -223,44 +299,15 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
      * 获取位置信息
      */
     private void getLocation() {
-//        ILocationManager.getInstance().stop();
-        ILocationManager.getInstance().setOnLocationMarkerClickListener(this).start();
+        //显示地图上的图标，延时执行，避免卡顿
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ILocationManager.getInstance().setOnLocationMarkerClickListener(StoryMapActivity.this).start();
+            }
+        }, 400);
     }
-
-    @Override
-    protected void onStart() {
-        Log.d(TAG, "onStart: ");
-        super.onStart();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
-        mMapView.onPause();
-        ILocationManager.getInstance().stop();
-
-//        StoriesWindowManager.getInstance().dismissDialog();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d(TAG, "onResume: ");
-        super.onResume();
-        //在activity执行onResume时执行mMapView.onResume ()，实现地图生命周期管理
-        mMapView.onResume();
-        getLocation();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-        mMapView.onDestroy();
-
-        ILocationManager.getInstance().init(getApplicationContext(), mMapView).destroy();
-    }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -307,6 +354,7 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
 
             //菜单的设置
             case R.id.menu_setting:
+                intentTo(StoryListActivity.class);
                 break;
 
             //菜单的夜间模式
@@ -344,14 +392,14 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
      */
     private void showStoryWindow() {
         mCreateStory.setVisibility(View.GONE);
-        mGetPosition.setVisibility(View.GONE);
+//        mGetPosition.setVisibility(View.GONE);
 
         StoriesWindowManager.getInstance().showDialog(this, this.getWindow(), mHomeLayout)
                 .setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
                     @Override
                     public void onDismiss() {
                         mCreateStory.setVisibility(View.VISIBLE);
-                        mGetPosition.setVisibility(View.VISIBLE);
+//                        mGetPosition.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -371,9 +419,8 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
                 ActivityOptionsCompat.makeSceneTransitionAnimation(StoryMapActivity.this,
                         StoriesWindowManager.getInstance().getStoryView().findViewById(R.id.card_view_detail_pic), "cover_pic");
 
-
         intentWithParcelable(StoryDetailActivity.class, options, "story", clickCardInfo);
-        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
+        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out); //渐隐显示
     }
 
     /**

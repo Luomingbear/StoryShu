@@ -6,10 +6,11 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.storyshu.storyshu.widget.marker.IBookView
+    <com.storyshu.storyshu.widget.LocationSelector
         android:id="@+id/IBookView"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
+        android:layout_width="230dp"
+        android:layout_height="200dp"
+        android:background="@color/colorWhite"
         app:BookLevel="NORMAL" />
 
 </LinearLayout>

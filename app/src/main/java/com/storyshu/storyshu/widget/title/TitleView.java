@@ -74,15 +74,19 @@ public class TitleView extends RelativeLayout implements EventObserver {
         BACK_TILE_IMAGE_GO,
 
         /**
-         * 返回-标题-列表
+         * 菜单-标题-列表
          */
         MENU_TILE_LIST,
 
         /**
-         * 返回-标题-地图
+         * 菜单-标题-地图
          */
         MENU_TILE_MAP,
 
+        /**
+         * 菜单-标题
+         */
+        MENU_TILE,
     }
 
     public TitleView(Context context) {
@@ -97,7 +101,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         super(context, attrs, defStyleAttr);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TitleView);
-        mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, getResources().getColor(R.color.colorGrayDeep));
+        mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, getResources().getColor(R.color.colorBlack));
         mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_normal));
         mTitleString = typedArray.getString(R.styleable.TitleView_title_string);
         mTitleMode = TitleMode.values()[typedArray.getInt(R.styleable.TitleView_title_mode, 0)];
@@ -222,6 +226,15 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //line
                 addBottomLine();
                 break;
+
+            case MENU_TILE:
+                //left
+                addLeftButton(R.drawable.menu);
+                //位置
+                addPositionTitle();
+                //line
+                addBottomLine();
+                break;
         }
     }
 
@@ -254,8 +267,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
         //
         ImageView imageView = newImageView(R.drawable.back);
         LayoutParams p = new LayoutParams(mIconWidth, mIconWidth);
-        p.setMargins(mTitleViewHeight - mIconWidth, 0,
-                (int) getResources().getDimension(R.dimen.margin_min), 0);
         imageView.setLayoutParams(p);
         linearLayout.addView(imageView);
 
@@ -264,7 +275,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         LayoutParams tp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         textView.setLayoutParams(tp);
         textView.setText(R.string.back);
-        textView.setTextColor(getResources().getColor(R.color.colorGrayDeep));
+        textView.setTextColor(mTitleColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
         linearLayout.addView(textView);
 
@@ -293,21 +304,20 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mTitleLayout.setLayoutParams(p);
         mTitleLayout.setOrientation(LinearLayout.HORIZONTAL);
         mTitleLayout.setGravity(CENTER_VERTICAL);
-        addView(mTitleLayout);
 
         /**
          * 添加位置图标
          */
         ImageView imageView = new ImageView(getContext());
         imageView.setBackgroundResource(R.drawable.location);
-        LayoutParams pl = new LayoutParams((int) getResources().getDimension(R.dimen.icon_min),
-                (int) getResources().getDimension(R.dimen.icon_min));
+        LayoutParams pl = new LayoutParams((int) mTitleSize, (int) mTitleSize);
         imageView.setLayoutParams(pl);
 
         mTitleLayout.addView(imageView);
 
         mTitleLayout.addView(newTitle());
 
+        addView(mTitleLayout);
     }
 
     /**
@@ -392,7 +402,9 @@ public class TitleView extends RelativeLayout implements EventObserver {
      */
     private RelativeLayout newImageButton(final int gravity, int resId) {
         RelativeLayout relativeLayout = new RelativeLayout(getContext());
-        LayoutParams p = new LayoutParams(mTitleViewHeight, mTitleViewHeight);
+        LayoutParams p = new LayoutParams(mIconWidth, mTitleViewHeight);
+        p.setMargins((int) (getResources().getDimension(R.dimen.margin_normal)), 0,
+                (int) (getResources().getDimension(R.dimen.margin_small)), 0);
         p.addRule(gravity);
         relativeLayout.setLayoutParams(p);
         relativeLayout.setGravity(Gravity.CENTER);
@@ -516,7 +528,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         if (eventId == R.id.title_view) {
             String title = args[0].toString();
             if (TextUtils.isEmpty(title))
-                title = getResources().getString(R.string.in_location);
+                title = getResources().getString(R.string.app_name);
 
             if (!mTitleString.equals(title))
                 mTitleString = title;

@@ -3,7 +3,6 @@ package com.storyshu.storyshu.activity.welcome;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -37,15 +36,13 @@ public class WelcomeActivity extends IBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_layout);
+
         initView();
 
         startInitThread();
-
     }
 
     private void initView() {
-
-//        startLogoAnimation();
 
         View skip = findViewById(R.id.welcome_skip);
         skip.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +52,6 @@ public class WelcomeActivity extends IBaseActivity {
                     mTimer.cancel();
                 //跳转到地图界面
                 intent2Class();
-
             }
         });
 
@@ -71,20 +67,6 @@ public class WelcomeActivity extends IBaseActivity {
         ISharePreference.saveUserData(this, userInfo);
     }
 
-    private android.os.Handler handler = new android.os.Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    initImageLoader();
-//        initUSerData();
-                    initTimer();
-                    break;
-            }
-        }
-    };
-
     /**
      * 开启线程进行数据的初始化
      */
@@ -92,12 +74,12 @@ public class WelcomeActivity extends IBaseActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
+                initImageLoader();
             }
         });
         thread.start();
+
+        initTimer();
     }
 
     /**
@@ -122,7 +104,6 @@ public class WelcomeActivity extends IBaseActivity {
 //        alphaAnimation.setInterpolator(dl);
 //        name.setAnimation(alphaAnimation);
 //        alphaAnimation.start();
-
     }
 
 
@@ -133,12 +114,11 @@ public class WelcomeActivity extends IBaseActivity {
         FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(200, true, false, false); //设置图片渐显，200毫秒
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
-//                .displayer(fadeInBitmapDisplayer)
+                .displayer(fadeInBitmapDisplayer)
                 .showImageOnLoading(R.drawable.gray_bg).cacheInMemory(true)
                 .cacheOnDisk(true).build();
         ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
                 .defaultDisplayImageOptions(options).build();
-
         ImageLoader.getInstance().init(configuration);
     }
 

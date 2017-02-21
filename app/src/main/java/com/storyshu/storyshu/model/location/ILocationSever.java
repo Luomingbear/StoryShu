@@ -21,7 +21,7 @@ public class ILocationSever {
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
-    private int mIntervalTime = 2500; //定位间隔时间毫秒
+    private int mIntervalTime = 3000; //定位间隔时间毫秒
 
     public ILocationSever(Context applicationContext) {
         //初始化定位
@@ -34,8 +34,8 @@ public class ILocationSever {
         public void onLocationChanged(AMapLocation aMapLocation) {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
-                    EventObservable.getInstance().notifyObservers(R.id.title_view, aMapLocation.getAddress());
-                    Log.d(TAG, "onLocationChanged: " + aMapLocation);
+                    EventObservable.getInstance().notifyObservers(R.id.title_view, aMapLocation.getAoiName());
+//                    Log.d(TAG, "onLocationChanged: " + aMapLocation);
 
                     //可在其中解析amapLocation获取相应内容。
                     if (onLocationChange != null)
@@ -105,7 +105,6 @@ public class ILocationSever {
      */
     public void stop() {
         mLocationClient.stopLocation();
-//        mLocationClient.stopAssistantLocation();
     }
 
     /**
