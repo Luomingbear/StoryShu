@@ -1,5 +1,6 @@
 package com.storyshu.storyshu.activity.story;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.activity.base.IBaseActivity;
+import com.storyshu.storyshu.activity.base.IPermissionActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
 import com.storyshu.storyshu.activity.my.MyStoryActivity;
@@ -36,7 +37,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class StoryMapActivity extends IBaseActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener, StoriesWindowManager.OnStoryCardListener {
+public class StoryMapActivity extends IPermissionActivity implements View.OnClickListener, ILocationManager.OnLocationMarkerClickListener, StoriesWindowManager.OnStoryCardListener {
     private static final String TAG = "StoryMapActivity";
 
     private SideSlipLayout mSideSlipLayout; //侧滑布局
@@ -75,6 +76,9 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
     protected void onStart() {
         Log.d(TAG, "onStart: ");
         super.onStart();
+
+        if (checkAndGetPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_PERMISSION))
+            getLocation();
     }
 
     @Override
@@ -84,8 +88,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
         mMapView.onPause();
         ILocationManager.getInstance().stop();
-
-//        StoriesWindowManager.getInstance().dismissDialog();
     }
 
     @Override
@@ -98,7 +100,9 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
         /**
          * 先移动镜头到上次的位置，这样不会有闪屏的感觉
          */
-        move2Position();
+//        move2Position();
+
+        //获取定位、显示图标
     }
 
     @Override
@@ -186,9 +190,6 @@ public class StoryMapActivity extends IBaseActivity implements View.OnClickListe
 
         //初始化地图管家
         ILocationManager.getInstance().init(getApplicationContext(), mMapView);
-
-        //获取定位、显示图标
-        getLocation();
     }
 
     /**

@@ -32,7 +32,7 @@ public class IBaseActivity extends AppCompatActivity {
 
     public void changDayOrNight() {
         ISharePreference.setIsNightMode(this, !ISharePreference.isNightMode(this));
-        recreateOnResume();
+//        recreateOnResume();
     }
 
     /**
