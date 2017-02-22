@@ -77,4 +77,9 @@
     <string name="save_screenshot_succeed">图片保存成功</string>
 
     <!--我的故事-->
+
+    <!--标签控件-->
+    <string name="add_tag">添加标签</string>
+    <string name="delete_tag">删除标签</string>
+
 </resources>

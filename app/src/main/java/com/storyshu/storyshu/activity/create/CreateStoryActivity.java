@@ -23,7 +23,7 @@ import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.StatusBarUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
-import com.storyshu.storyshu.widget.dialog.TextToolWindow;
+import com.storyshu.storyshu.widget.inputview.TextToolWindow;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
 import com.storyshu.storyshu.widget.title.TitleView;
 

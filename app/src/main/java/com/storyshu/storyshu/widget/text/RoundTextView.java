@@ -37,6 +37,29 @@ public class RoundTextView extends TextView {
         init();
     }
 
+    public int getBgColor() {
+        return mBgColor;
+    }
+
+    /**
+     * 设置textView的背景色
+     *
+     * @param BgColorRes
+     */
+    public void setBgColor(int BgColorRes) {
+        this.mBgColor = getResources().getColor(BgColorRes);
+        invalidate();
+    }
+
+    public float getRoundSize() {
+        return mRoundSize;
+    }
+
+    public void setRoundSize(float roundSize) {
+        this.mRoundSize = roundSize;
+        postInvalidate();
+    }
+
     /**
      * 初始化
      */
@@ -51,15 +74,5 @@ public class RoundTextView extends TextView {
         RectF rectF = new RectF(0, 0, getWidth(), getHeight());
         canvas.drawRoundRect(rectF, mRoundSize, mRoundSize, mPaint);
         super.onDraw(canvas);
-    }
-
-    /**
-     * 设置textView的背景色
-     *
-     * @param BgColorRes
-     */
-    public void setBgColor(int BgColorRes) {
-        this.mBgColor = getResources().getColor(BgColorRes);
-        invalidate();
     }
 }

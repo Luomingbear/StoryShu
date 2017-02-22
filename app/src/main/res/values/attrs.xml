@@ -111,4 +111,11 @@
     <declare-styleable name="LocationSelector">
         <attr name="selectRatio" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="TagFrameLayout">
+        <attr name="tagTextSize" format="dimension|reference" />
+        <attr name="tagTextColor" format="color|reference" />
+        <attr name="tagRoundSize" format="dimension|reference" />
+        <attr name="tagInterval" format="dimension|reference" />
+    </declare-styleable>
 </resources>
