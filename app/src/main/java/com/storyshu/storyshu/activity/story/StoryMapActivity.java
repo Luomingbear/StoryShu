@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.Test;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
 import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
@@ -355,7 +356,7 @@ public class StoryMapActivity extends IPermissionActivity implements View.OnClic
 
             //菜单的设置
             case R.id.menu_setting:
-                intentTo(StoryListActivity.class);
+                intentTo(Test.class);
                 break;
 
             //菜单的夜间模式

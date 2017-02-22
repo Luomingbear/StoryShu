@@ -2,6 +2,7 @@
 <resources>
     <attr name="titleColor" format="reference|color"></attr>
     <attr name="textColor" format="reference|color"></attr>
+    <attr name="ratio" format="float" />
 
     <declare-styleable name="TitleView">
         <attr name="title_string" format="string|reference" />
@@ -105,5 +106,9 @@
             <enum name="SILVER" value="2" />
             <enum name="GOLD" value="3" />
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LocationSelector">
+        <attr name="selectRatio" format="float" />
     </declare-styleable>
 </resources>

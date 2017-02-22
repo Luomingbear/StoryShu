@@ -7,9 +7,9 @@
     android:orientation="vertical">
 
     <com.storyshu.storyshu.widget.LocationSelector
-        android:id="@+id/IBookView"
+        android:id="@+id/select_location"
         android:layout_width="230dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         app:BookLevel="NORMAL" />
 
