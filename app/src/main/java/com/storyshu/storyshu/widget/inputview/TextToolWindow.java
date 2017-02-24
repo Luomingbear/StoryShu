@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.widget.dialog;
+package com.storyshu.storyshu.widget.inputview;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;

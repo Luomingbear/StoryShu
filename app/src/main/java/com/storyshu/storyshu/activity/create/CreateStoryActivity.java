@@ -14,18 +14,27 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
 import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.model.location.ILocationQueryTool;
 import com.storyshu.storyshu.utils.StatusBarUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.widget.dialog.SendStoryDialog;
 import com.storyshu.storyshu.widget.inputview.TextToolWindow;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
 import com.storyshu.storyshu.widget.title.TitleView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 写故事的页面啊
@@ -41,11 +50,13 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
     private EditText mExtractEt; //编辑简介栏
     private RichTextEditor mStoryEdit; //正文编辑栏
     private TextToolWindow mTextToolWindow; //键盘上的工具栏
+    private SendStoryDialog sendStoryDialog; //弹窗
 
     private String mCoverPath; //封面图
     private String mContent; //正文
     private String mTitle; //正文
     private String mExtract; //简介
+    private List<PoiItem> mLocationList; //位置列表
     private boolean isEditStory = false; //是否在编辑故事文本
 
 
@@ -67,6 +78,7 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
         mTitle = ISharePreference.getTitle(this);
         mExtract = ISharePreference.getExtra(this);
         mContent = ISharePreference.getContent(this);
+        mLocationList = new ArrayList<>();
     }
 
     /**
@@ -230,6 +242,20 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
         });
     }
 
+    private void showSendStoryDialog() {
+        sendStoryDialog = new SendStoryDialog(CreateStoryActivity.this);
+        sendStoryDialog.init(mLocationList, getWindow());
+        sendStoryDialog.showAtLocation(mStoryScrollView, Gravity.CENTER, 0, 0);
+        findViewById(R.id.dark_view).setVisibility(View.VISIBLE);
+
+        sendStoryDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                findViewById(R.id.dark_view).setVisibility(View.GONE);
+            }
+        });
+    }
+
     /**
      * 检查故事的数据
      */
@@ -253,8 +279,8 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
         if (TextUtils.isEmpty(ISharePreference.getCoverPic(CreateStoryActivity.this)))
             ISharePreference.saveCoverPic(CreateStoryActivity.this, mStoryEdit.getCoverPic());
 
-//        intentWithParcelable(CreateCoverActivity.class, ParcelableUtil.STORY, storyBaseInfo);
-
+        //显示发布的准备弹窗，需要选择必要的地址也可以是默认
+        showSendStoryDialog();
     }
 
     /**
@@ -307,9 +333,31 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
 
     }
 
+    /**
+     * 获取当前的位置信息
+     */
+    private void getLocationList() {
+        ILocationQueryTool queryTool = new ILocationQueryTool(this);
+        queryTool.startRegeocodeQuery(ISharePreference.getLatLngData(this), 20);
+        queryTool.setOnLocationQueryListener(new ILocationQueryTool.OnLocationQueryListener() {
+            @Override
+            public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
+                mLocationList = regeocodeAddress.getPois();
+                Log.i(TAG, "onRegeocodeSearched: 位置是:" + mLocationList);
+            }
+
+            @Override
+            public void onGeocodeSearched(List<GeocodeAddress> geocodeAddressList) {
+
+            }
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+
+        getLocationList();
     }
 
     @Override
@@ -329,5 +377,13 @@ public class CreateStoryActivity extends ChooseImageResultActivity implements Vi
                 chooseCover();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (sendStoryDialog.isShowing())
+            sendStoryDialog.dismiss();
+        else super.onBackPressed();
+
     }
 }

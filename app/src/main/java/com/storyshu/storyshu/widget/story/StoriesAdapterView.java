@@ -66,7 +66,7 @@ public class StoriesAdapterView extends AdapterView {
     private class AdapterDataSetObserver extends DataSetObserver {
         @Override
         public void onChanged() {
-            Log.i(TAG, "onChanged: ");
+            Log.i(TAG, "onDeleteClick: ");
             requestLayout();
         }
 

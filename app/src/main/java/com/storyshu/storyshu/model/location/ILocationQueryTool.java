@@ -27,7 +27,7 @@ public class ILocationQueryTool {
     private AMapLocation mAmapLocation; //位置信息类
     private GeocodeSearch mGeocodeSearch; //搜索实例
 
-    public ILocationQueryTool() {
+    protected ILocationQueryTool() {
     }
 
     public ILocationQueryTool(Context context) {
@@ -105,8 +105,10 @@ public class ILocationQueryTool {
      * @param latLng 搜索的坐标 单位米
      * @param radius 搜索的半径 单位米
      */
-    public void startRegeocodeQuery(Context context, LatLng latLng, int radius) {
-        mGeocodeSearch = new GeocodeSearch(context);
+    public void startRegeocodeQuery(LatLng latLng, int radius) {
+        if (mContext == null)
+            return;
+        mGeocodeSearch = new GeocodeSearch(mContext);
 
         LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
         mGeocodeSearch.setOnGeocodeSearchListener(onGeocodeSearchListener);

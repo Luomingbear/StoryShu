@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.storyshu.storyshu.widget.title.TitleView
-        android:id="@id/title_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        app:title_mode="BackTitleGo"
-        app:title_size="@dimen/font_normal"
-        app:title_string="@string/create_story">
-
-    </com.storyshu.storyshu.widget.title.TitleView>
-
     <ScrollView
         android:id="@+id/story_scroll_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/title_height">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_cover"
                 android:layout_marginRight="@dimen/margin_cover"
-                android:layout_marginTop="@dimen/margin_cover">
+                android:layout_marginTop="@dimen/margin_big">
 
                 <com.storyshu.storyshu.widget.imageview.RoundImageView
                     android:id="@+id/cover_pic"
@@ -127,9 +117,26 @@
     </ScrollView>
 
     <View
+        android:id="@+id/dark_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTranslateDark"
+        android:visibility="gone" />
+
+    <com.storyshu.storyshu.widget.title.TitleView
+        android:id="@id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        app:title_mode="BackTitleGo"
+        app:title_size="@dimen/font_normal"
+        app:title_string="@string/create_story">
+
+    </com.storyshu.storyshu.widget.title.TitleView>
+
+    <View
         android:id="@+id/bottom_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/selector_height"
         android:background="@color/colorWhite"
         android:visibility="gone" />
-</LinearLayout>
+</RelativeLayout>

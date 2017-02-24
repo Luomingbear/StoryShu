@@ -113,18 +113,18 @@ public class TagFrameLayout extends FrameLayout implements TagView.OnTagClickCha
 
         mTagDefText = getResources().getString(R.string.add_tag);
         mbgColor = getResources().getColor(R.color.colorGrayLight);
-
-        for (int i = 0; i < 4; i++) {
-            String s = "";
-            for (int j = 0; j <= i; j++) {
-                s += "标签";
-            }
-            mTagList.add(s);
-        }
-
-        for (String s : mTagList) {
-            addTagView(s);
-        }
+//
+//        for (int i = 0; i < 4; i++) {
+//            String s = "";
+//            for (int j = 0; j <= i; j++) {
+//                s += "标签";
+//            }
+//            mTagList.add(s);
+//        }
+//
+//        for (String s : mTagList) {
+//            addTagView(s);
+//        }
 
         addEditTagView();
 
@@ -181,6 +181,8 @@ public class TagFrameLayout extends FrameLayout implements TagView.OnTagClickCha
         addView(mEditTagView);
     }
 
+    float tagY = 0;
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         //添加"添加标签"按钮
@@ -191,12 +193,12 @@ public class TagFrameLayout extends FrameLayout implements TagView.OnTagClickCha
          * 动态的显示标签，根据标签的内容判断它的位置
          */
         float x = mInterval;
-        float y = 0;
+
 
         for (int i = 0; i < getChildCount(); i++) {
             View tagView = getChildAt(i);
             tagView.setX(x);
-            tagView.setY(y);
+            tagView.setY(tagY);
 
             View nextView = getChildAt(i + 1);
             if (nextView == null)
@@ -205,9 +207,20 @@ public class TagFrameLayout extends FrameLayout implements TagView.OnTagClickCha
             x += tagView.getWidth() + mInterval;
             if (x > right - nextView.getWidth()) {
                 x = mInterval;
-                y += tagView.getHeight() + mInterval * 1.5f;
+                tagY += tagView.getHeight() + mInterval * 1.5f;
             }
         }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
+//        // Children are just made to fill our space.
+//        int childWidthSize = getMeasuredWidth();
+//        widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, MeasureSpec.EXACTLY);
+//        heightMeasureSpec = MeasureSpec.makeMeasureSpec((int) (tagY + getChildAt(0).getHeight()), MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
     }
 
     private void resumeTagView() {
@@ -257,7 +270,6 @@ public class TagFrameLayout extends FrameLayout implements TagView.OnTagClickCha
                     tagView.resumeTagString();
 
                 if (tagView.getId() == tagId) {
-                    tagView.setText("已编辑");
                     if (onTagLayoutClickListener != null)
                         onTagLayoutClickListener.onEditTagClick(tagView);
                 }

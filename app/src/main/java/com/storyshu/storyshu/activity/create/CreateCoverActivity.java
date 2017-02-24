@@ -1,6 +1,5 @@
 package com.storyshu.storyshu.activity.create;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -96,8 +95,8 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
         setCreateTime();
 
         //搜索位置
-        ILocationQueryTool queryTool = new ILocationQueryTool();
-        queryTool.startRegeocodeQuery(this, ISharePreference.getLatLngData(CreateCoverActivity.this), radius);
+        ILocationQueryTool queryTool = new ILocationQueryTool(this);
+        queryTool.startRegeocodeQuery(ISharePreference.getLatLngData(CreateCoverActivity.this), radius);
         queryTool.setOnLocationQueryListener(new ILocationQueryTool.OnLocationQueryListener() {
             @Override
             public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
@@ -244,12 +243,12 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
         /**
          * 当输入框消失的时候把数据保存在本地
          */
-        titleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                ISharePreference.saveTitle(CreateCoverActivity.this, mTitleTextView.getText().toString());
-            }
-        });
+//        titleDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                ISharePreference.saveTitle(CreateCoverActivity.this, mTitleTextView.getText().toString());
+//            }
+//        });
 
         titleDialog.setShowText(mTitleTextView.getText().toString());
     }
@@ -274,12 +273,12 @@ public class CreateCoverActivity extends ChooseImageResultActivity implements Vi
         /**
          * 当输入框消失的时候把数据保存在本地
          */
-        extraDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                ISharePreference.saveExtra(CreateCoverActivity.this, mExtraTextView.getText().toString());
-            }
-        });
+//        extraDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                ISharePreference.saveExtra(CreateCoverActivity.this, mExtraTextView.getText().toString());
+//            }
+//        });
 
         extraDialog.setShowText(mExtraTextView.getText().toString());
     }

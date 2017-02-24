@@ -41,8 +41,8 @@ public class Test extends FragmentActivity implements View.OnClickListener {
 
         locationSelector = (LocationSelector) findViewById(R.id.select_location);
 
-        final ILocationQueryTool locationQueryTool = new ILocationQueryTool();
-        locationQueryTool.startRegeocodeQuery(this, ISharePreference.getLatLngData(this), 20);
+        final ILocationQueryTool locationQueryTool = new ILocationQueryTool(this);
+        locationQueryTool.startRegeocodeQuery(ISharePreference.getLatLngData(this), 20);
         locationQueryTool.setOnLocationQueryListener(new ILocationQueryTool.OnLocationQueryListener() {
             @Override
             public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {

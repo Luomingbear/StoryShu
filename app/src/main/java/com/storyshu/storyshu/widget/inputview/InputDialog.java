@@ -15,6 +15,9 @@ import android.widget.EditText;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.widget.dialog.IBaseDialog;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * 输入框弹窗
@@ -36,9 +39,6 @@ public class InputDialog extends IBaseDialog {
         setContentView(R.layout.input_dialog_layout);
 
         initView();
-
-        autoHideView();
-
     }
 
     @Override
@@ -57,7 +57,6 @@ public class InputDialog extends IBaseDialog {
      */
     public void init(OnInputChangeListener onInputChangeListener) {
         this.show();
-
         showKeyboard();
 
         setOnInputChangeListener(onInputChangeListener);
@@ -76,13 +75,18 @@ public class InputDialog extends IBaseDialog {
      * 显示键盘
      */
     public void showKeyboard() {
-        Log.i(TAG, "showKeyboard: 显示");
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        inputMethodManager.showSoftInput(mEditText, InputMethodManager.SHOW_FORCED);
-
-        boolean isOpen = mEditText.isActivated();
-        Log.i(TAG, "showKeyboard: isOpen:" + isOpen);
+        /***
+         * 由于界面为加载完全而无法弹出软键盘所以延时一段时间弹出键盘
+         */
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+                           public void run() {
+                               InputMethodManager inputMethodManager =
+                                       (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                               inputMethodManager.showSoftInput(mEditText, 0);
+                           }
+                       },
+                180);
     }
 
     /**
@@ -93,7 +97,6 @@ public class InputDialog extends IBaseDialog {
         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
         InputDialog.this.dismiss();
-
     }
 
     private void initView() {

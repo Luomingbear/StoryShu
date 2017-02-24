@@ -82,6 +82,8 @@ public class LocationSelector extends View {
      */
     public void setLocationList(List<PoiItem> locationList) {
         this.mLocationList = locationList;
+        if (locationList == null)
+            return;
         initShowList();
         postInvalidate();
     }
@@ -117,6 +119,8 @@ public class LocationSelector extends View {
     private void initShowList() {
         mPaint.setTextSize(mNormalFontSize);
         mShowTextList.clear();
+        if (mLocationList == null)
+            return;
         for (PoiItem poi : mLocationList) {
             String location = getShowText(poi.getTitle(), mPaint);
             if (!TextUtils.isEmpty(location))
@@ -250,8 +254,12 @@ public class LocationSelector extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        mHeadY = Math.min(0, mHeadY);
-        mHeadY = Math.max(-mSelectRectH * (mLocationList.size() - 1), mHeadY);
+        if (mLocationList == null)
+            mHeadY = 0;
+        else {
+            mHeadY = Math.min(0, mHeadY);
+            mHeadY = Math.max(-mSelectRectH * (mLocationList.size() - 1), mHeadY);
+        }
 //        drawBg(canvas);
 
         drawLocationText(canvas);
