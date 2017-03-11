@@ -2,6 +2,8 @@
 <resources>
     <color name="colorRedPomegranateLight">#ff1210</color>
     <color name="colorRedPomegranateDeep">#b60d0d</color>
+    <color name="colorGoldLight">#ddbf7f</color>
+    <color name="colorGoldDeep">#b1965b</color>
     <color name="colorGreenScallionLight">#bed500</color>
     <color name="colorGreenScallionDeep">#0aa344</color>
 
@@ -14,5 +16,5 @@
     <color name="colorGrayLight">#cdcdcd</color>
     <color name="colorGrayDeep">#707070</color>
     <color name="colorTranslateDark">#845e5e5e</color>
-    <color name="colorBlack">#1e1d1d</color>
+    <color name="colorBlack">#343434</color>
 </resources>

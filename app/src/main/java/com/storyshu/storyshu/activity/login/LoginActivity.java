@@ -1,6 +1,10 @@
 package com.storyshu.storyshu.activity.login;
 
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +21,7 @@ import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.story.StoryMapActivity;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.utils.ParcelableUtil;
+import com.storyshu.storyshu.utils.StatusBarUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.number.PhoneFormatCheckUtils;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
@@ -31,13 +36,14 @@ import java.util.TimerTask;
  */
 
 public class LoginActivity extends IBaseActivity implements View.OnClickListener {
+    private static final String TAG = "LoginActivity";
     private RoundImageView mAvatar; //头像
     private EditText mPhoneNumberEdit; //输入电话号码
     private EditText mPasswordEdit; //输入密码
     private View mVerfiyLayout; //验证码的布局
     private EditText mVerifyEdit; //输入验证码
     private RoundTextView mCountdownTextView; //倒计时
-    private RoundTextView mLoginButton; //登录按钮
+    private TextView mLoginButton; //登录按钮
     private View mForgotPassword; //忘记密码
     private TextView mFreeRigister; //免费注册
 
@@ -45,11 +51,58 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
     private Timer mTimer; //定时器
     private boolean isLoginLayout = true; //是否是登录界面
 
+    private View mMapLineBg; //地图的view
+    private SensorManager sensorManager; //传感器管理
+    private SensorEventListener sensorEventListener;
+    private float mGravityX = 0; //保存上一次 x y z 的坐标
+    private long mGravityTime; //上一次的时间
+    private float MapPosX; //地图的位置变化
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         initView();
+
+    }
+
+    /**
+     * 设置重力感应，使背景的地图移动
+     */
+    private void gravityMap() {
+        //获得传感器服务
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        //得到重力感应服务
+        final Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        //传感器的回调函数
+        sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float x = event.values[SensorManager.DATA_X];
+                //X轴的速度
+                float speedX = (x - mGravityX) / (System.currentTimeMillis() - mGravityTime) * 1000;
+
+                if (Math.abs(speedX) > 1.5f) {
+                    MapPosX = mMapLineBg.getX() - speedX;
+                    if (MapPosX > -mMapLineBg.getWidth() * (0.6 / 1.6f)
+                            && MapPosX < 0) {
+                        //设置地图图片的位置
+                        mMapLineBg.setX(MapPosX);
+                    }
+                }
+                mGravityX = x;
+                mGravityTime = System.currentTimeMillis();
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+
+        //注册listener，第三个参数是检测的精确度
+        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
     }
 
     /**
@@ -107,15 +160,15 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
         public void afterTextChanged(Editable s) {
             String num = s.toString();
 
-            if (isLoginLayout) {
-            } else {
-                if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
-                        && !TextUtils.isEmpty(mPasswordEdit.getText())
-                        && !TextUtils.isEmpty(num))
-                    mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
-                else
-                    mLoginButton.setBgColor(R.color.colorGrayLight);
-            }
+//            if (isLoginLayout) {
+//            } else {
+//                if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+//                        && !TextUtils.isEmpty(mPasswordEdit.getText())
+//                        && !TextUtils.isEmpty(num))
+//                    mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
+//                else
+//                    mLoginButton.setBgColor(R.color.colorGrayLight);
+//            }
         }
 
     };
@@ -145,20 +198,20 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      * 设置登录按钮的背景颜色
      */
     private void setLoginButtonBg() {
-        if (isLoginLayout) {
-            if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
-                    && !TextUtils.isEmpty(mPasswordEdit.getText()))
-                mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
-            else mLoginButton.setBgColor(R.color.colorGrayLight);
-
-        } else {
-            if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
-                    && !TextUtils.isEmpty(mPasswordEdit.getText())
-                    && !TextUtils.isEmpty(mVerifyEdit.getText()))
-                mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
-            else
-                mLoginButton.setBgColor(R.color.colorGrayLight);
-        }
+//        if (isLoginLayout) {
+//            if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+//                    && !TextUtils.isEmpty(mPasswordEdit.getText()))
+//                mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
+//            else mLoginButton.setBgColor(R.color.colorGrayLight);
+//
+//        } else {
+//            if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+//                    && !TextUtils.isEmpty(mPasswordEdit.getText())
+//                    && !TextUtils.isEmpty(mVerifyEdit.getText()))
+//                mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
+//            else
+//                mLoginButton.setBgColor(R.color.colorGrayLight);
+//        }
     }
 
 
@@ -167,8 +220,14 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      */
     private void initView() {
         //头像
-        mAvatar = (RoundImageView) findViewById(R.id.login_avatar);
-        mAvatar.setOnClickListener(this);
+//        mAvatar = (RoundImageView) findViewById(R.id.login_avatar);
+//        mAvatar.setOnClickListener(this);
+
+        //状态栏蓝色
+        StatusBarUtil.setWindowStatusBarColor(this, R.color.colorBlack);
+
+        //地图
+        mMapLineBg = findViewById(R.id.map_line_bg);
 
         //手机号码
         mPhoneNumberEdit = (EditText) findViewById(R.id.login_phone_number);
@@ -191,7 +250,7 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
 
 
         //登录
-        mLoginButton = (RoundTextView) findViewById(R.id.login_login_button);
+        mLoginButton = (TextView) findViewById(R.id.login_login_button);
         mLoginButton.setOnClickListener(this);
 
         //忘记密码
@@ -339,9 +398,10 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      */
     private void changeLayout() {
         if (isLoginLayout) {
-            mVerfiyLayout.setVisibility(View.VISIBLE);
+            mForgotPassword.setVisibility(View.VISIBLE);
+//            mVerfiyLayout.setVisibility(View.VISIBLE);
             mLoginButton.setText(R.string.register);
-            mForgotPassword.setVisibility(View.GONE);
+//            mForgotPassword.setVisibility(View.GONE);
             mFreeRigister.setText(R.string.already_register);
             isLoginLayout = false;
 
@@ -350,9 +410,10 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
             mPasswordEdit.setText("");
             mVerifyEdit.setText("");
         } else {
-            mVerfiyLayout.setVisibility(View.GONE);
+            mForgotPassword.setVisibility(View.GONE);
+//            mVerfiyLayout.setVisibility(View.GONE);
             mLoginButton.setText(R.string.login);
-            mForgotPassword.setVisibility(View.VISIBLE);
+//            mForgotPassword.setVisibility(View.VISIBLE);
             mFreeRigister.setText(R.string.free_register);
             isLoginLayout = true;
 
@@ -362,7 +423,24 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
             mVerifyEdit.setText("");
         }
 
-        mLoginButton.setBgColor(R.color.colorGrayLight);
+//        mLoginButton.setBgColor(R.color.colorGrayLight);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        gravityMap();
+
+    }
+
+    @Override
+    protected void onPause() {
+
+        //注销重力传感器的监听
+        sensorManager.unregisterListener(sensorEventListener);
+
+        super.onPause();
     }
 
     @Override

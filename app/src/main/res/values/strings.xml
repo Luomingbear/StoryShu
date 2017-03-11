@@ -13,14 +13,15 @@
     <string name="need_location_permission">当前应用缺少必要的位置权限，请在\"权限\"—\"权限管理\"打开所需权限</string>
 
     <!--注册-->
-    <string name="input_phone_number">请输入手机号</string>
-    <string name="input_password">请输入密码</string>
+    <string name="input_phone_number">用户名</string>
+    <string name="input_phone_email">邮箱</string>
+    <string name="input_password">密码</string>
     <string name="input_verify_number">请输入验证码</string>
     <string name="get_verify_number">获取验证码</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
-    <string name="forgot_password">忘记密码？</string>
-    <string name="free_register">免费注册</string>
+    <string name="forgot_password">忘记密码</string>
+    <string name="free_register">注册账号</string>
     <string name="already_register">已有账号</string>
     <string name="login_phone_number_empty">请输入手机号码</string>
     <string name="login_phone_number_illegal">请输入正确的手机号码</string>

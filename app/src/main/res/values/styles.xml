@@ -2,12 +2,21 @@
 
     <!--日间模式-->
     <style name="appTheme_day" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:textColor">@color/colorGrayLight</item>
+        <item name="colorPrimaryDark">@color/colorGoldLight</item>
+        <item name="colorPrimary">@color/colorGoldLight</item>
+        <item name="android:textColorPrimary">@color/colorGrayLight</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorGrayDeep</item>
+        <item name="textColor">@color/colorGrayLight</item>
+        <item name="colorAccent">@color/colorGoldLight</item>
+        <item name="colorControlNormal">@color/colorGrayDeep</item>
+        <item name="android:textColorHighlight">@color/colorGrayLight</item>
     </style>
 
     <!--夜间模式-->
     <style name="appTheme_night" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:textColor">@color/colorGrayLight</item>
+        <item name="colorAccent">@color/colorGrayDeep</item>
     </style>
 
     <style name="StoryDialogTheme" parent="Theme.AppCompat.Dialog">
