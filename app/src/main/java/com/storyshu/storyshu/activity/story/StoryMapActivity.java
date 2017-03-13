@@ -21,7 +21,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.Test;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
-import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
 import com.storyshu.storyshu.activity.my.MyStoryActivity;
 import com.storyshu.storyshu.info.CardInfo;
@@ -48,8 +47,6 @@ public class StoryMapActivity extends IPermissionActivity implements View.OnClic
     //主界面
     private TitleView mTitleView; //标题栏
     private MapView mMapView; //地图
-    private View mCreateStory; //写故事按钮
-    private View mGetPosition; //定位到当前位置的按钮
 
     //侧边栏
     private RoundImageView mAvatar; //用户头像
@@ -246,9 +243,6 @@ public class StoryMapActivity extends IPermissionActivity implements View.OnClic
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
 
-        //写故事按钮
-        mCreateStory = mHomeLayout.findViewById(R.id.story_map_create_story);
-        mCreateStory.setOnClickListener(this);
 
         //获取当前的定位并且移动地图
 //        mGetPosition = mHomeLayout.findViewById(R.id.story_map_get_position);
@@ -321,16 +315,6 @@ public class StoryMapActivity extends IPermissionActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            //写故事
-            case R.id.story_map_create_story:
-                intentTo(CreateStoryActivity.class);
-//                Toast.makeText(this, R.string.activity_create_story_layout, Toast.LENGTH_SHORT).show();
-                break;
-
-            //移动到当前位置
-            case R.id.story_map_get_position:
-                move2Position();
-                break;
 
             //菜单的头像
             case R.id.menu_avatar:
@@ -393,14 +377,12 @@ public class StoryMapActivity extends IPermissionActivity implements View.OnClic
      * 显示故事集弹窗
      */
     private void showStoryWindow() {
-        mCreateStory.setVisibility(View.GONE);
 //        mGetPosition.setVisibility(View.GONE);
 
         StoriesWindowManager.getInstance().showDialog(this, this.getWindow(), mHomeLayout)
                 .setOnStoryWindowListener(new StoriesWindowManager.OnStoryWindowListener() {
                     @Override
                     public void onDismiss() {
-                        mCreateStory.setVisibility(View.VISIBLE);
 //                        mGetPosition.setVisibility(View.VISIBLE);
                     }
                 });

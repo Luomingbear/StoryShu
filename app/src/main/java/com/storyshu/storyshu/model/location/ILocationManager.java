@@ -92,6 +92,8 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         if (mLocationSever == null)
             mLocationSever = new ILocationSever(mAppContext);
 
+        //先停止上一次的定位
+        mLocationSever.stop();
 
         //定位开始
         mLocationSever.start();
@@ -103,7 +105,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         //显示用户图标
         mMapManager.showPersonIcon(ISharePreference.getLatLngData(mAppContext));
         //显示故事集图标
-        mMapManager.showBookIcons();
+//        mMapManager.showBookIcons();
     }
 
     /**

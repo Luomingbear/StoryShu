@@ -4,7 +4,8 @@
     <style name="appTheme_day" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimaryDark">@color/colorGoldLight</item>
         <item name="colorPrimary">@color/colorGoldLight</item>
-        <item name="android:textColorPrimary">@color/colorGrayLight</item>
+        <item name="titleTextColor">@color/colorWhite</item>
+        <item name="actionMenuTextColor">@color/colorGoldDeep</item>
         <item name="android:windowBackground">@color/colorWhite</item>
         <item name="android:textColorHint">@color/colorGrayDeep</item>
         <item name="textColor">@color/colorGrayLight</item>

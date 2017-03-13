@@ -6,7 +6,15 @@
     <!--欢迎页-->
     <string name="skip">跳过</string>
 
+    <!--底部导航栏-->
+    <string name="story_map">故事地图</string>
+    <string name="airport">候机厅</string>
+    <string name="message">消息</string>
+    <string name="mine">我的</string>
+
+
     <!--首页 故事地图-->
+    <string name="check_in">签到</string>
     <string name="create_story">编辑故事</string>
     <string name="in_location">正在获取定位</string>
     <string name="nearly_no_story">附近没有故事哦</string>
@@ -24,7 +32,10 @@
     <string name="free_register">注册账号</string>
     <string name="already_register">已有账号</string>
     <string name="login_phone_number_empty">请输入手机号码</string>
+    <string name="login_email_empty">请输入邮箱地址</string>
+    <string name="login_password_empty">请输入密码</string>
     <string name="login_phone_number_illegal">请输入正确的手机号码</string>
+    <string name="login_email_illegal">请输入正确的邮箱地址</string>
     <string name="login_password_illegal">密码错误</string>
     <string name="login_verify_number_empty">请输入验证码</string>
     <string name="login_verify_number_illegal">验证码错误</string>

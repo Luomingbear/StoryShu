@@ -17,13 +17,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.MainActivity;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.activity.story.StoryMapActivity;
 import com.storyshu.storyshu.info.UserInfo;
+import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
 import com.storyshu.storyshu.utils.ParcelableUtil;
+import com.storyshu.storyshu.utils.PhoneFormatCheckUtils;
 import com.storyshu.storyshu.utils.StatusBarUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
-import com.storyshu.storyshu.utils.number.PhoneFormatCheckUtils;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.text.RoundTextView;
 
@@ -38,7 +39,7 @@ import java.util.TimerTask;
 public class LoginActivity extends IBaseActivity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
     private RoundImageView mAvatar; //头像
-    private EditText mPhoneNumberEdit; //输入电话号码
+    private EditText mEmailEdit; //输入电话号码
     private EditText mPasswordEdit; //输入密码
     private View mVerfiyLayout; //验证码的布局
     private EditText mVerifyEdit; //输入验证码
@@ -64,45 +65,6 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
         setContentView(R.layout.login_layout);
         initView();
 
-    }
-
-    /**
-     * 设置重力感应，使背景的地图移动
-     */
-    private void gravityMap() {
-        //获得传感器服务
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        //得到重力感应服务
-        final Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        //传感器的回调函数
-        sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                float x = event.values[SensorManager.DATA_X];
-                //X轴的速度
-                float speedX = (x - mGravityX) / (System.currentTimeMillis() - mGravityTime) * 1000;
-
-                if (Math.abs(speedX) > 1.5f) {
-                    MapPosX = mMapLineBg.getX() - speedX;
-                    if (MapPosX > -mMapLineBg.getWidth() * (0.6 / 1.6f)
-                            && MapPosX < 0) {
-                        //设置地图图片的位置
-                        mMapLineBg.setX(MapPosX);
-                    }
-                }
-                mGravityX = x;
-                mGravityTime = System.currentTimeMillis();
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        };
-
-        //注册listener，第三个参数是检测的精确度
-        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
     }
 
     /**
@@ -162,7 +124,7 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
 
 //            if (isLoginLayout) {
 //            } else {
-//                if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+//                if (PhoneFormatCheckUtils.isPhoneLegal(mEmailEdit.getText().toString())
 //                        && !TextUtils.isEmpty(mPasswordEdit.getText())
 //                        && !TextUtils.isEmpty(num))
 //                    mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
@@ -199,13 +161,13 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      */
     private void setLoginButtonBg() {
 //        if (isLoginLayout) {
-//            if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+//            if (PhoneFormatCheckUtils.isPhoneLegal(mEmailEdit.getText().toString())
 //                    && !TextUtils.isEmpty(mPasswordEdit.getText()))
 //                mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
 //            else mLoginButton.setBgColor(R.color.colorGrayLight);
 //
 //        } else {
-//            if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())
+//            if (PhoneFormatCheckUtils.isPhoneLegal(mEmailEdit.getText().toString())
 //                    && !TextUtils.isEmpty(mPasswordEdit.getText())
 //                    && !TextUtils.isEmpty(mVerifyEdit.getText()))
 //                mLoginButton.setBgColor(R.color.colorRedPomegranateLight);
@@ -230,8 +192,8 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
         mMapLineBg = findViewById(R.id.map_line_bg);
 
         //手机号码
-        mPhoneNumberEdit = (EditText) findViewById(R.id.login_phone_number);
-        mPhoneNumberEdit.addTextChangedListener(mPhoneWatcher);
+        mEmailEdit = (EditText) findViewById(R.id.login_phone_number);
+        mEmailEdit.addTextChangedListener(mPhoneWatcher);
 
         //密码
         mPasswordEdit = (EditText) findViewById(R.id.login_password);
@@ -285,7 +247,7 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      */
     private void getVerifyCode() {
 
-        if (PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())) {
+        if (PhoneFormatCheckUtils.isPhoneLegal(mEmailEdit.getText().toString())) {
             // TODO: 2017/2/6 发送验证码
             startTimer();
         } else {
@@ -343,7 +305,7 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
             // TODO: 2016/12/30 请求服务器注册账号，登录账号跳转页面
             //跳转页面
             if (isLoginLayout)
-                intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             else
                 intentWithParcelable(ImproveUserDataActivity.class, ParcelableUtil.USER, new UserInfo("", 1, ""));
         }
@@ -355,12 +317,12 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      * @return 已经输入的值是否正确
      */
     private boolean checkInput() {
-        //手机号
-        if (TextUtils.isEmpty(mPhoneNumberEdit.getText())) {
-            ToastUtil.Show(this, R.string.login_phone_number_empty);
+        //邮箱
+        if (TextUtils.isEmpty(mEmailEdit.getText())) {
+            ToastUtil.Show(this, R.string.login_email_empty);
             return false;
-        } else if (!PhoneFormatCheckUtils.isPhoneLegal(mPhoneNumberEdit.getText().toString())) {
-            ToastUtil.Show(this, R.string.login_phone_number_illegal);
+        } else if (!EmailFormatCheckUtil.isEmail(mEmailEdit.getText().toString())) {
+            ToastUtil.Show(this, R.string.login_email_illegal);
             return false;
         }
 
@@ -374,7 +336,13 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
                 return false;
             }
         } else {
-            ToastUtil.Show(this, R.string.login_password_illegal);
+            if (TextUtils.isEmpty(mPasswordEdit.getText()))
+                ToastUtil.Show(this, R.string.login_password_empty);
+            else {
+                //todo 验证密码
+                if (mPasswordEdit.getText().toString().equals("0000"))
+                    return true;
+            }
             return false;
         }
 
@@ -398,27 +366,25 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
      */
     private void changeLayout() {
         if (isLoginLayout) {
-            mForgotPassword.setVisibility(View.VISIBLE);
+            mForgotPassword.setVisibility(View.GONE);
 //            mVerfiyLayout.setVisibility(View.VISIBLE);
             mLoginButton.setText(R.string.register);
-//            mForgotPassword.setVisibility(View.GONE);
             mFreeRigister.setText(R.string.already_register);
             isLoginLayout = false;
 
             //
-            mPhoneNumberEdit.setText("");
+            mEmailEdit.setText("");
             mPasswordEdit.setText("");
             mVerifyEdit.setText("");
         } else {
-            mForgotPassword.setVisibility(View.GONE);
+            mForgotPassword.setVisibility(View.VISIBLE);
 //            mVerfiyLayout.setVisibility(View.GONE);
             mLoginButton.setText(R.string.login);
-//            mForgotPassword.setVisibility(View.VISIBLE);
             mFreeRigister.setText(R.string.free_register);
             isLoginLayout = true;
 
             //
-            mPhoneNumberEdit.setText("");
+            mEmailEdit.setText("");
             mPasswordEdit.setText("");
             mVerifyEdit.setText("");
         }
@@ -426,10 +392,50 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
 //        mLoginButton.setBgColor(R.color.colorGrayLight);
     }
 
+    /**
+     * 设置重力感应，使背景的地图移动
+     */
+    private void gravityMap() {
+        //获得传感器服务
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        //得到重力感应服务
+        final Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        //传感器的回调函数
+        sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float x = event.values[SensorManager.DATA_X];
+                //X轴的速度
+                float speedX = (x - mGravityX) / (System.currentTimeMillis() - mGravityTime) * 1000;
+
+                if (Math.abs(speedX) > 1.5f) {
+                    MapPosX = mMapLineBg.getX() - speedX;
+                    if (MapPosX > -mMapLineBg.getWidth() * (0.6 / 1.6f)
+                            && MapPosX < 0) {
+                        //设置地图图片的位置
+                        mMapLineBg.setX(MapPosX);
+                    }
+                }
+                mGravityX = x;
+                mGravityTime = System.currentTimeMillis();
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+
+        //注册listener，第三个参数是检测的精确度
+        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
+        //设置重力感应的地图图片
         gravityMap();
 
     }

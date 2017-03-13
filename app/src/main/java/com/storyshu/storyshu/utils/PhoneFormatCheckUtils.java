@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.utils.number;
+package com.storyshu.storyshu.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
