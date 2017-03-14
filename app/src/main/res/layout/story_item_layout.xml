@@ -94,7 +94,7 @@
         android:layout_marginRight="@dimen/margin_normal"
         android:layout_marginTop="@dimen/margin_small"
         android:singleLine="true"
-        android:textColor="@color/colorRedPomegranateLight"
+        android:textColor="@color/colorRedLight"
         android:textSize="@dimen/font_small" />
 
     <TextView

@@ -101,7 +101,7 @@ public class LocationSelector extends View {
      * 初始化
      */
     private void init() {
-        mSelectedColor = getResources().getColor(R.color.colorRedPomegranateLight);
+        mSelectedColor = getResources().getColor(R.color.colorRedLight);
         mNormalColor = getResources().getColor(R.color.colorGrayLight);
 
         mSelectedFontSize = getResources().getDimension(R.dimen.font_normal);

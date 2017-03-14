@@ -76,6 +76,8 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
             mMapManager = new IMapManager(mAppContext, mMapView);
         }
         mMapManager.init();
+        move2CurrentPosition();
+
         return this;
     }
 
@@ -103,9 +105,9 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         animate2CurrentPosition();
 
         //显示用户图标
-        mMapManager.showPersonIcon(ISharePreference.getLatLngData(mAppContext));
+        mMapManager.showMyPositionIcon(ISharePreference.getLatLngData(mAppContext));
         //显示故事集图标
-//        mMapManager.showBookIcons();
+        mMapManager.showStoriesIcons();
     }
 
     /**
@@ -150,7 +152,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         if (mMapManager == null)
             return;
 
-        mMapManager.animate2Position();
+        mMapManager.move2Position();
     }
 
     /**
@@ -190,18 +192,19 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     /**
      * 位置逆编码
      */
-    private ILocationQueryTool.OnLocationQueryListener onLocationQueryListener = new ILocationQueryTool.OnLocationQueryListener() {
-        @Override
-        public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
-            poiItemList = regeocodeAddress.getPois();
-            Log.d(TAG, "onRegeocodeSearched: poiList Size:" + poiItemList.size());
-        }
+    private ILocationQueryTool.OnLocationQueryListener onLocationQueryListener =
+            new ILocationQueryTool.OnLocationQueryListener() {
+                @Override
+                public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
+                    poiItemList = regeocodeAddress.getPois();
+                    Log.d(TAG, "onRegeocodeSearched: poiList Size:" + poiItemList.size());
+                }
 
-        @Override
-        public void onGeocodeSearched(List<GeocodeAddress> geocodeAddressList) {
+                @Override
+                public void onGeocodeSearched(List<GeocodeAddress> geocodeAddressList) {
 
-        }
-    };
+                }
+            };
 
     /**
      * 定位服务获取到位置时执行
@@ -226,7 +229,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         /**
          * 设置用户的图标显示
          */
-        mMapManager.showPersonIcon(latLng);
+        mMapManager.showMyPositionIcon(latLng);
 
         //更新位置信息
         mAmapLocation = aMapLocation;

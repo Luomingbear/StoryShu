@@ -49,7 +49,7 @@ public class StoryEditView extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.StoryEditView);
         mTextColor = typedArray.getColor(R.styleable.StoryEditView_contentColor, getResources().getColor(R.color.colorBlack));
         mTextSize = typedArray.getDimension(R.styleable.StoryEditView_contentSize, getResources().getDimension(R.dimen.font_small));
-        mLineSpace = (int) typedArray.getDimension(R.styleable.StoryEditView_lineSpace, getResources().getDimension(R.dimen.line_space));
+        mLineSpace = (int) typedArray.getDimension(R.styleable.StoryEditView_lineSpace, getResources().getDimension(R.dimen.line_space_big));
         typedArray.recycle();
         init(context);
     }

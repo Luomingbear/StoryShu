@@ -2,6 +2,7 @@
     <string name="app_name">故事鼠</string>
     <string name="website">storyshu.com</string>
     <string name="back">返回</string>
+    <string name="anonymous">匿名</string>
 
     <!--欢迎页-->
     <string name="skip">跳过</string>
@@ -11,7 +12,6 @@
     <string name="airport">候机厅</string>
     <string name="message">消息</string>
     <string name="mine">我的</string>
-
 
     <!--首页 故事地图-->
     <string name="check_in">签到</string>
@@ -76,6 +76,7 @@
     <string name="custom_location_ok">确定</string>
 
     <!--故事详情-->
+    <string name="story_detail">故事详情</string>
     <string name="report">举报</string>
     <string name="like">喜欢</string>
     <string name="communicate">写信</string>

@@ -211,7 +211,7 @@ public class StoryMapActivity extends IPermissionActivity implements View.OnClic
      */
     private void setAvatar() {
         String avatar = ISharePreference.getUserData(this).getAvatar();
-        Log.i(TAG, "setAvatar: " + avatar);
+        Log.i(TAG, "setAvatarAndShow: " + avatar);
         if (TextUtils.isEmpty(avatar))
             mAvatar.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.avatar_superman));
         else if (avatar.contains("/storage/"))

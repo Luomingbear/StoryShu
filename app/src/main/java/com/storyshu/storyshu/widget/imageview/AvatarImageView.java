@@ -13,18 +13,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.graphics.Palette;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.utils.DipPxConversion;
 
-
 /**
- * 圆角图片,可以指定某个角为圆角，其他不变
- * Created by bear on 2016/10/8.
+ * 匿名的头像
+ * 添加一个背景色
+ * Created by bear on 2017/3/14.
  */
-public class RoundImageView extends ImageView {
+
+public class AvatarImageView extends ImageView {
     /**
      * 图片的类型，圆形、圆角、指定角圆角
      */
@@ -50,6 +52,7 @@ public class RoundImageView extends ImageView {
      * 绘图的Paint
      */
     private Paint mBitmapPaint;
+    private Paint mBgPaint;
     /**
      * 圆角的半径
      */
@@ -68,23 +71,25 @@ public class RoundImageView extends ImageView {
     private int mWidth;
     private RectF mRoundRect;
 
-    public RoundImageView(Context context, AttributeSet attrs) {
+    public AvatarImageView(Context context, AttributeSet attrs) {
 
         super(context, attrs);
         mMatrix = new Matrix();
         mBitmapPaint = new Paint();
         mBitmapPaint.setAntiAlias(true);
+        mBgPaint = new Paint();
+        mBgPaint.setAntiAlias(true);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView);
         if (a != null) {
             mBorderRadius = a.getDimensionPixelSize(R.styleable.RoundImageView_BorderRadius, DipPxConversion.dip2px(context, 9));// 默认为9dp
-            type = a.getInt(R.styleable.RoundImageView_RoundType, TYPE_ROUND);
+            type = a.getInt(R.styleable.RoundImageView_RoundType, TYPE_CIRCLE);
             scale = a.getFloat(R.styleable.RoundImageView_Scale, scale);
             a.recycle();
         }
     }
 
-    public RoundImageView(Context context) {
+    public AvatarImageView(Context context) {
         this(context, null);
     }
 
@@ -147,6 +152,10 @@ public class RoundImageView extends ImageView {
         mBitmapShader.setLocalMatrix(mMatrix);
         // 设置shader
         mBitmapPaint.setShader(mBitmapShader);
+
+        //获取高亮颜色
+        Palette palette = Palette.from(bmp).generate();
+        mBgPaint.setColor(palette.getLightMutedColor(getResources().getColor(R.color.colorWhite)));
     }
 
     @Override
@@ -156,8 +165,10 @@ public class RoundImageView extends ImageView {
         }
         setUpShader();
 
+
         switch (type) {
             case TYPE_CIRCLE:
+                canvas.drawCircle(mRadius, mRadius, mRadius, mBgPaint);
                 canvas.drawCircle(mRadius, mRadius, mRadius, mBitmapPaint);
                 break;
             case TYPE_BOTTOM_LEFT_AND_BOTTOM_RIGHT:
@@ -167,6 +178,7 @@ public class RoundImageView extends ImageView {
                 drawSpecialCorner(canvas);
                 break;
             case TYPE_ROUND:
+                canvas.drawRoundRect(mRoundRect, mBorderRadius, mBorderRadius, mBgPaint);
                 canvas.drawRoundRect(mRoundRect, mBorderRadius, mBorderRadius, mBitmapPaint);
                 break;
         }
@@ -182,10 +194,14 @@ public class RoundImageView extends ImageView {
 
         switch (type) {
             case TYPE_TOP_LEFT_AND_TOP_RIGHT:
+                canvas.drawRect(0, mRoundRect.bottom - mBorderRadius, mBorderRadius, mRoundRect.bottom, mBgPaint);
+                canvas.drawRect(mRoundRect.right - mBorderRadius, mRoundRect.bottom - mBorderRadius, mRoundRect.right, mRoundRect.bottom, mBgPaint);
                 canvas.drawRect(0, mRoundRect.bottom - mBorderRadius, mBorderRadius, mRoundRect.bottom, mBitmapPaint);
                 canvas.drawRect(mRoundRect.right - mBorderRadius, mRoundRect.bottom - mBorderRadius, mRoundRect.right, mRoundRect.bottom, mBitmapPaint);
                 break;
             case TYPE_BOTTOM_LEFT_AND_BOTTOM_RIGHT:
+                canvas.drawRect(mRoundRect.right - mBorderRadius, 0, mRoundRect.right, mBorderRadius, mBgPaint);
+                canvas.drawRect(0, 0, mBorderRadius, mBorderRadius, mBgPaint);
                 canvas.drawRect(mRoundRect.right - mBorderRadius, 0, mRoundRect.right, mBorderRadius, mBitmapPaint);
                 canvas.drawRect(0, 0, mBorderRadius, mBorderRadius, mBitmapPaint);
                 break;

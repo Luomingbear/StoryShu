@@ -38,7 +38,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_small"
                     android:text="@string/app_name"
-                    android:textColor="@color/colorRedPomegranateLight"
+                    android:textColor="@color/colorRedLight"
                     android:textSize="@dimen/font_normal" />
 
                 <LinearLayout
@@ -119,7 +119,7 @@
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:layout_marginLeft="@dimen/margin_normal"
                 android:layout_marginRight="@dimen/margin_normal"
-                android:lineSpacingExtra="@dimen/line_space"
+                android:lineSpacingExtra="@dimen/line_space_big"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/font_small" />
 

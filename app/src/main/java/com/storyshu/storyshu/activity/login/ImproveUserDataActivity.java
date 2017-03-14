@@ -138,7 +138,7 @@ public class ImproveUserDataActivity extends ChooseImageResultActivity implement
     private void setDoneBg() {
         if (!TextUtils.isEmpty(mAvatarPath) &&
                 !TextUtils.isEmpty(mNicknameEdit.getText()))
-            mDoneButton.setBgColor(R.color.colorRedPomegranateLight);
+            mDoneButton.setBgColor(R.color.colorRedLight);
         else mDoneButton.setBgColor(R.color.colorGrayLight);
     }
 }

@@ -4,8 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!--标题栏的高度 -->
-    <dimen name="title_height">58dp</dimen>
-    <dimen name="navigation_height">76dp</dimen>
+    <dimen name="title_height">54dp</dimen>
+    <dimen name="navigation_height">68dp</dimen>
 
     <!--厚度-->
     <dimen name="height_small">5dp</dimen>
@@ -30,9 +30,9 @@
     <dimen name="image_normal">98dp</dimen>
 
     <!--字体大小-->
-    <dimen name="font_min">11dp</dimen>
+    <dimen name="font_min">10dp</dimen>
     <dimen name="font_small">15dp</dimen>
-    <dimen name="font_normal">18dp</dimen>
+    <dimen name="font_normal">19dp</dimen>
     <dimen name="font_big">28dp</dimen>
     <dimen name="font_title">38dp</dimen>
 
@@ -49,5 +49,7 @@
     <dimen name="border_radius_big">15dp</dimen>
 
     <!--文字类-->
-    <dimen name="line_space">12dp</dimen>
+    <dimen name="line_space_small">4dp</dimen>
+    <dimen name="line_space_normal">8dp</dimen>
+    <dimen name="line_space_big">12dp</dimen>
 </resources>

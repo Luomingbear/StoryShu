@@ -14,6 +14,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.marker.BookMarker;
+import com.storyshu.storyshu.widget.marker.MyCircleMarker;
 import com.storyshu.storyshu.widget.marker.PersonMarker;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class IMapManager {
     private boolean isFirstZoom = true; //是否首次启动地图
 
     private int mZoomLevel = 17; //默认的地图缩放比例
-    private PersonMarker mPersonMarker; //个人位置点图标
+    private MyCircleMarker mMyPositionMarker; //个人位置点图标
     private List<BookMarker> bookMarkerList; //故事集图标列表
 
     protected IMapManager() {
@@ -121,29 +122,29 @@ public class IMapManager {
     };
 
     /**
-     * 显示位置的图标
+     * 显示用户自己位置的图标
      */
-    public void showPersonIcon(LatLng personLatLng) {
+    public void showMyPositionIcon(LatLng personLatLng) {
         if (personLatLng == null)
             return;
-        Log.i(TAG, "showPersonIcon: !!!!!!!!!!!!!!!");
-        if (mPersonMarker == null)
-            mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
+        Log.i(TAG, "showMyPositionIcon: !!!!!!!!!!!!!!!");
+        if (mMyPositionMarker == null)
+            mMyPositionMarker = new MyCircleMarker(mContext, mAMap, personLatLng);
 
-        if (AMapUtils.calculateLineDistance(mPersonMarker.getLatLng(), mLatLng) > 200) {
+        if (AMapUtils.calculateLineDistance(mMyPositionMarker.getLatLng(), mLatLng) > 200) {
             mAMap.clear();
-            mPersonMarker = new PersonMarker(mContext, mAMap, personLatLng);
+            mMyPositionMarker = new MyCircleMarker(mContext, mAMap, personLatLng);
         } else
-            mPersonMarker.animate(personLatLng);
+            mMyPositionMarker.animate(personLatLng);
     }
 
     /**
-     * 显示故事集图标
+     * 显示故事图标
      */
-    public void showBookIcon(LatLonPoint latLonPoint, String title, String bgPath) {
-        BookMarker bookMarker = new BookMarker(mContext, mAMap,
+    public void showStoryIcon(LatLonPoint latLonPoint, String content, String avatar) {
+        PersonMarker bookMarker = new PersonMarker(mContext, mAMap,
                 new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
-        bookMarker.init(title, bgPath);
+        bookMarker.setAvatarAndShow(avatar);
         //添加到故事集列表
 //        bookMarkerList.add(bookMarker);
     }
@@ -151,11 +152,11 @@ public class IMapManager {
     /**
      * 显示所有图标
      */
-    public void showBookIcons() {
+    public void showStoriesIcons() {
         // TODO: 2016/12/3 获取服务器的数据显示图标
-        Log.i(TAG, "showBookIcons: 显示故事集图标");
+        Log.i(TAG, "showStoriesIcons: 显示故事集图标");
         LatLonPoint point = new LatLonPoint(mLatLng.latitude + 0.001, mLatLng.longitude);
-        showBookIcon(point, "", "http://img5q.duitang.com/uploads/item/201203/21/20120321202846_xvKHY.jpeg");
+        showStoryIcon(point, "", "");
     }
 
 

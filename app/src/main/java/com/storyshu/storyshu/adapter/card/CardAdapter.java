@@ -2,9 +2,12 @@ package com.storyshu.storyshu.adapter.card;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +19,7 @@ import com.storyshu.storyshu.adapter.base.IBaseAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.BitmapUtil;
 import com.storyshu.storyshu.utils.time.ConvertTimeUtil;
-import com.storyshu.storyshu.widget.imageview.RoundImageView;
+import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
 import java.util.List;
 
@@ -90,16 +93,18 @@ public class CardAdapter extends IBaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = getInflater().inflate(R.layout.card_view_layout, null);
+            convertView = getInflater().inflate(R.layout.card_item_layout, null);
 
             viewHolder = new ViewHolder();
 
-            viewHolder.cover = (RoundImageView) convertView.findViewById(R.id.card_view_detail_pic);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.card_view_title);
-            viewHolder.avatar = (RoundImageView) convertView.findViewById(R.id.card_view_head_portrait);
-            viewHolder.nickName = (TextView) convertView.findViewById(R.id.card_view_username);
-            viewHolder.extract = (TextView) convertView.findViewById(R.id.card_view_extract);
-            viewHolder.createDate = (TextView) convertView.findViewById(R.id.card_view_date);
+            viewHolder.avatar = (AvatarImageView) convertView.findViewById(R.id.avatar);
+            viewHolder.nickName = (TextView) convertView.findViewById(R.id.nickname);
+            viewHolder.like = (CheckBox) convertView.findViewById(R.id.like);
+            viewHolder.oppose = (CheckBox) convertView.findViewById(R.id.oppose);
+            viewHolder.extract = (TextView) convertView.findViewById(R.id.extract);
+            viewHolder.destroyTime = (TextView) convertView.findViewById(R.id.destroy_time);
+            viewHolder.cover = (ImageView) convertView.findViewById(R.id.cover_pic);
+
             convertView.setTag(viewHolder);
         } else
             viewHolder = (ViewHolder) convertView.getTag();
@@ -107,24 +112,22 @@ public class CardAdapter extends IBaseAdapter {
         CardInfo cardInfo = (CardInfo) getItem(position);
         if (cardInfo == null)
             return convertView;
-        //显示本地图片的时候会出现闪烁
-//        if (cardInfo.getDetailPic().contains("/storage/emulated/"))
-//        displayPic(viewHolder.cover, cardInfo.getDetailPic());
-        viewHolder.cover.setImageBitmap(BitmapUtil.getScaledBitmap(cardInfo.getDetailPic(), 280));
-//        else
-//        ImageLoader.getInstance().loadImage(cardInfo.getDetailPic(), coverLoadListener);
 
-        viewHolder.title.setText(cardInfo.getTitle());
-        //
-//        Log.i(TAG, "getView: avatar:" + cardInfo.getUserInfo().getAvatar());
+        if (TextUtils.isEmpty(cardInfo.getUserInfo().getAvatar()))
+            viewHolder.avatar.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.avatar_wolverine));
         if (cardInfo.getUserInfo().getAvatar().contains("/storage/emulated/"))
             ImageLoader.getInstance().displayImage("file://" + cardInfo.getUserInfo().getAvatar(), viewHolder.avatar);
         else
             ImageLoader.getInstance().loadImage(cardInfo.getUserInfo().getAvatar(), avatarLoadListener);
         //
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
+        viewHolder.destroyTime.setText(ConvertTimeUtil.convertCurrentTime(cardInfo.getCreateDate()));
+
         viewHolder.extract.setText(cardInfo.getExtract());
-        viewHolder.createDate.setText(ConvertTimeUtil.convertCurrentTime(cardInfo.getCreateDate()));
+        if (!TextUtils.isEmpty(cardInfo.getDetailPic())) {
+            viewHolder.cover.setVisibility(View.VISIBLE);
+            ImageLoader.getInstance().loadImage(cardInfo.getDetailPic(), coverLoadListener);
+        }
         return convertView;
     }
 
@@ -152,11 +155,14 @@ public class CardAdapter extends IBaseAdapter {
     private ViewHolder viewHolder;
 
     private class ViewHolder {
-        RoundImageView cover; //故事的详情图
-        TextView title; //故事标题
-        RoundImageView avatar; //用户头像
+        AvatarImageView avatar; //用户头像
         TextView nickName; //用户昵称
+        TextView destroyTime; //剩余时间
+
+        CheckBox like; //点赞
+        CheckBox oppose;  //喝倒彩
+
         TextView extract; //故事摘要
-        TextView createDate; //发布时间
+        ImageView cover; //故事的详情图
     }
 }

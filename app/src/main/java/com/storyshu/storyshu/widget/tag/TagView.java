@@ -57,7 +57,7 @@ public class TagView extends RoundTextView implements View.OnClickListener, View
         setOnClickListener(this);
         setOnLongClickListener(this);
 
-        mCheckColor = R.color.colorRedPomegranateLight;
+        mCheckColor = R.color.colorRedLight;
         mDefColor = R.color.colorGrayLight;
 
         tagString = getText().toString();

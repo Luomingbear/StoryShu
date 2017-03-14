@@ -23,15 +23,15 @@ public class StoriesAdapterView extends AdapterView {
     private Adapter mAdapter; //适配器
     private boolean isLayout = false; //是否正在布局
     private View mCenterCard; //中心的卡片
-    private int MaxCardShowNum = 3; //屏幕中缓存的最大的卡片数量
-    private int MaxCardCacheNum = 5; //屏幕中缓存的最大的卡片数量
+    private int MaxCardShowNum = 2; //屏幕中显示的最大的卡片数量
+    private int MaxCardCacheNum = 4; //屏幕中缓存的最大的卡片数量
     private int leftCardIndex = 0; //屏幕上最左边的卡片的下标
     private int centerCardIndex = 0; //屏幕中心的卡片的下标
     private int oldCenterCardIndex = 0; //上一次的屏幕中心的卡片的下标
     private int rightCardIndex = 0; //屏幕上最右边的卡片的下标
     private float minDistance; // 卡片距离中心卡片的最小距离
 
-    private long spendTime = 200; //动画的执行时间
+    private long spendTime = 400; //动画的执行时间
     private float mCardRatio = 1.3f; // 卡片的高宽比；
 
     public StoriesAdapterView(Context context) {
@@ -103,6 +103,8 @@ public class StoriesAdapterView extends AdapterView {
         Log.d(TAG, "onLayout: !!!!!!!!!!!!!!!!!!!");
         isLayout = true;
         int count = mAdapter.getCount(); //数据的数量
+
+
         removeAllViewsInLayout(); //移除之前加载的卡片，避免重复绘制
 
         /**如果卡片数量为0则直接退出
@@ -122,9 +124,6 @@ public class StoriesAdapterView extends AdapterView {
      * 添加故事集
      */
     private void layoutCards(int count) {
-        Log.i(TAG, "layoutCards: LeftIndex:" + leftCardIndex);
-        Log.i(TAG, "layoutCards: CenterIndex:" + centerCardIndex);
-        Log.i(TAG, "layoutCards: RightIndex:" + rightCardIndex);
         int index = leftCardIndex;
         while (index < Math.min(count, leftCardIndex + (centerCardIndex == leftCardIndex ? MaxCardShowNum : MaxCardCacheNum))) {
             addAndMeasureCard(index);
@@ -152,8 +151,8 @@ public class StoriesAdapterView extends AdapterView {
          */
         boolean isNeedMeasure = card.isLayoutRequested();
         if (isNeedMeasure) {
-            int itemWidth = (int) (getWidth() * 0.95f);
-            int itemHeight = (int) (itemWidth * mCardRatio);
+            int itemWidth = (int) (getWidth() * 0.9f);
+            int itemHeight = (int) (getHeight());
             card.measure(MeasureSpec.EXACTLY | itemWidth, MeasureSpec.EXACTLY | itemHeight);
         }
 
@@ -187,8 +186,9 @@ public class StoriesAdapterView extends AdapterView {
         /**
          * 缩放卡片到合适的尺寸
          */
-        float WidthRatio = ratio * (1 - 0.08f);
-        float showWidth = width * WidthRatio; //获取当前卡片缩放之后的宽度
+//        float WidthRatio = ratio * (1 - 0.08f);
+        float WidthRatio = (1 - 0.08f);
+        float showWidth = width * WidthRatio * 1.11f; //获取当前卡片缩放之后的宽度
 
         //
         int left = (int) ((getWidth() - width) / 2 + showWidth * (index - centerCardIndex));
@@ -207,10 +207,10 @@ public class StoriesAdapterView extends AdapterView {
         index = Math.abs(index - centerCardIndex); //
 
         index = Math.min(index, 1); //只有中心的卡片的大小会大一些，其他位置一样的大小
-        ratio = ratio * (1 - 0.15f * index);
+        ratio = ratio * (1 - 0.15f);
 //        Log.e(TAG, "positionCard: Ratio:" + ratio);
-        card.setScaleX(ratio);
-        card.setScaleY(ratio);
+//        card.setScaleX(WidthRatio);
+//        card.setScaleY(WidthRatio);
 
         //记录下当前最小的距离值
         minDistance = mCenterWidth;
@@ -238,7 +238,7 @@ public class StoriesAdapterView extends AdapterView {
                 distanceX = (moveX - oldX);
                 oldX = moveX;
                 moveCards(distanceX);
-                scaleCards();
+//                scaleCards();
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
@@ -253,8 +253,8 @@ public class StoriesAdapterView extends AdapterView {
                             onCardClickListener.onDismissClick();
                         break;
                     }
-                    if (upY < (getHeight() + mCenterCard.getHeight() * mRatio) / 2 &&
-                            upY > (getHeight() - mCenterCard.getHeight() * mRatio) / 2)
+                    if (upY < (getHeight() + mCenterCard.getHeight()) / 2 &&
+                            upY > (getHeight() - mCenterCard.getHeight()) / 2)
                         onCardClick();
                     else {
                         if (onCardClickListener != null)
@@ -335,8 +335,8 @@ public class StoriesAdapterView extends AdapterView {
              * 卡片的回调函数
              */
             if (onCardSlidingListener != null) {
-                onCardSlidingListener.onCenterIndex(centerCardIndex);
-                onCardSlidingListener.onLeftIndex(leftCardIndex);
+                onCardSlidingListener.onAfterSlideCenterIndex(centerCardIndex);
+                onCardSlidingListener.onAfterSlideLeftIndex(leftCardIndex);
             }
 
             isLayout = false;
@@ -422,7 +422,7 @@ public class StoriesAdapterView extends AdapterView {
              */
             //利用指数函数实现,在第一象限,无限接近0，0点的值为1，所以加速度越大，时间越小
             double sTime = Math.pow(0.8, acceleration);
-            sTime = Math.max(sTime, 0.5); //最快也不能小于标准的一半
+            sTime = Math.max(sTime, 0.6); //最快也不能小于标准的0.6
 
             /**
              * 设置位移动画
@@ -459,8 +459,8 @@ public class StoriesAdapterView extends AdapterView {
              * 开始动画
              */
             translationAnimator.start();
-            scaleXAnimator.start();
-            scaleYAnimator.start();
+//            scaleXAnimator.start();
+//            scaleYAnimator.start();
 
             /**
              * 设置动画监听器
@@ -531,10 +531,10 @@ public class StoriesAdapterView extends AdapterView {
     public interface OnCardSlidingListener {
 
         //卡片滑动到正确的位置之后就会调用这个函数，返回的是正中心选中的卡片的下标
-        void onCenterIndex(int position);
+        void onAfterSlideCenterIndex(int position);
 
         //卡片的最左边的下标
-        void onLeftIndex(int leftIndex);
+        void onAfterSlideLeftIndex(int leftIndex);
     }
 
     private OnCardClickListener onCardClickListener;

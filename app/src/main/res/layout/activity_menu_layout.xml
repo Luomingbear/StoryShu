@@ -22,7 +22,7 @@
         android:layout_marginTop="@dimen/margin_small"
         android:ellipsize="middle"
         android:maxLines="1"
-        android:textColor="@color/colorRedPomegranateLight"
+        android:textColor="@color/colorRedLight"
         android:textSize="@dimen/font_small" />
 
 

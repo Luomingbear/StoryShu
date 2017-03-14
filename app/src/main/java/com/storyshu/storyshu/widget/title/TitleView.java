@@ -119,8 +119,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mIconWidth = (int) getResources().getDimension(R.dimen.icon_small);
         mTitleViewHeight = (int) getResources().getDimension(R.dimen.title_height);
         setGravity(Gravity.CENTER_VERTICAL);
-        //设置背景
-        setBackgroundResource(R.color.colorWhite);
 
     }
 

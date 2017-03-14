@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_view_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height">
+
+        <com.storyshu.storyshu.widget.imageview.RoundImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:layout_margin="0.5dp"
+            android:src="?attr/cardTopBg"
+            app:BorderRadius="@dimen/border_radius_normal"
+            app:RoundType="round_top_left_top_right" />
+
+        <com.storyshu.storyshu.widget.imageview.AvatarImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/icon_normal"
+            android:layout_height="@dimen/icon_normal"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:src="@drawable/avatar_wolverine"
+            app:RoundType="circle" />
+
+        <CheckBox
+            android:id="@+id/oppose"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:background="@drawable/button_oppose"
+            android:button="@null" />
+
+        <CheckBox
+            android:id="@+id/like"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_big"
+            android:layout_toLeftOf="@id/oppose"
+            android:background="@drawable/button_like"
+            android:button="@null" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_toLeftOf="@id/like"
+            android:layout_toRightOf="@id/avatar"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/anonymous"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="@dimen/font_small" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/destroy_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/margin_min"
+                android:text="剩余22时56分"
+                android:textColor="?attr/colorAccent"
+                android:textSize="@dimen/font_min" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorWhiteDeep" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_normal">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/extract"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lineSpacingExtra="@dimen/line_space_big"
+            android:maxLines="2"
+            android:textColor="?attr/colorControlNormal"
+            android:textSize="@dimen/font_small" />
+
+        <ImageView
+            android:id="@+id/cover_pic"
+            android:layout_width="@dimen/icon_large"
+            android:layout_height="@dimen/icon_large"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:background="@color/colorGrayLight"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

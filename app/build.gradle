@@ -31,12 +31,11 @@ dependencies {
     compile files('libs/AMap3DMap_4.1.2_AMapSearch_3.6.1_AMapLocation_3.1.0_20161122.jar')
     //图片加载项
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-
     //android依赖
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
-
     //高斯模糊的库
     compile files('libs/renderscript-v8.jar')
+    compile 'com.android.support:palette-v7:24.2.1'
 }

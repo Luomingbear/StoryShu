@@ -54,7 +54,7 @@ public class SideSlipLayout extends BlurRelativeLayout {
         super(context, attrs, defStyleAttr);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SideSlipLayout);
-        mHomeLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_homeLayout, R.layout.activity_story_map_layout);
+        mHomeLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_homeLayout, R.layout.story_map_layout);
         mSideLayoutRes = typedArray.getResourceId(R.styleable.SideSlipLayout_sideLayout, R.layout.activity_menu_layout);
         typedArray.recycle();
         init();

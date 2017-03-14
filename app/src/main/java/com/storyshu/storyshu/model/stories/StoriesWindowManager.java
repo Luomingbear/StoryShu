@@ -245,12 +245,12 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
     }
 
     @Override
-    public void onCenterIndex(int position) {
+    public void onAfterSlideCenterIndex(int position) {
         mStoriesAdapterView.requestLayout();
     }
 
     @Override
-    public void onLeftIndex(int leftIndex) {
+    public void onAfterSlideLeftIndex(int leftIndex) {
     }
 
     @Override

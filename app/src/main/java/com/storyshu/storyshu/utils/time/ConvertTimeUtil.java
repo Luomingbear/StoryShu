@@ -1,5 +1,7 @@
 package com.storyshu.storyshu.utils.time;
 
+import android.text.TextUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +45,9 @@ public class ConvertTimeUtil {
     }
 
     public static String convertCurrentTime(String dateText) {
+        if (TextUtils.isEmpty(dateText))
+            return "Empty!";
+
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {

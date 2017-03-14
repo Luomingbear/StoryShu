@@ -77,7 +77,7 @@ public class MyStoryActivity extends IBaseActivity {
         //下拉刷新
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.my_story_refresh);
         mRefreshLayout.setColorSchemeColors(getResources()
-                .getColor(R.color.colorRedPomegranateLight));
+                .getColor(R.color.colorRedLight));
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -19,7 +19,6 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.utils.ViewBitmapTool;
-import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * 个人的标志
@@ -33,7 +32,6 @@ public class PersonMarker extends IMarker {
 
     public PersonMarker(Context mContext, AMap mAMap, LatLng mLatLng) {
         super(mContext, mAMap, mLatLng);
-        init();
     }
 
     private ImageLoadingListener imageLoadingListener = new ImageLoadingListener() {
@@ -52,6 +50,7 @@ public class PersonMarker extends IMarker {
                 markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
                 mMarker = mAMap.addMarker(markerOptions);
+                mMarker.setInfoWindowEnable(false);
             }
         }
 
@@ -65,6 +64,8 @@ public class PersonMarker extends IMarker {
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
             mMarker = mAMap.addMarker(markerOptions);
+            mMarker.setInfoWindowEnable(false);
+
             Log.i(TAG, "onLoadingComplete: ");
         }
 
@@ -74,11 +75,11 @@ public class PersonMarker extends IMarker {
         }
     };
 
-    private void init() {
+    public void setAvatarAndShow(String avatarPath) {
         mPersonView = new PersonView(mContext);
-        String url = ISharePreference.getUserData(mContext).getAvatar();
-        if (TextUtils.isEmpty(url)) {
-            mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_superman));
+
+        if (TextUtils.isEmpty(avatarPath)) {
+            mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
             Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 
             MarkerOptions markerOptions = new MarkerOptions();
@@ -86,8 +87,10 @@ public class PersonMarker extends IMarker {
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
             mMarker = mAMap.addMarker(markerOptions);
+            mMarker.setInfoWindowEnable(false);
+
         } else
-            ImageLoader.getInstance().loadImage(url, imageLoadingListener);
+            ImageLoader.getInstance().loadImage(avatarPath, imageLoadingListener);
 
     }
 

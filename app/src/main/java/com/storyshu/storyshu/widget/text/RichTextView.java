@@ -102,7 +102,7 @@ public class RichTextView extends LinearLayout {
         params.setMargins(0, margin, 0, 0);
         textview.setLayoutParams(params);
 
-        textview.setLineSpacing(getResources().getDimension(R.dimen.line_space), 1);
+        textview.setLineSpacing(getResources().getDimension(R.dimen.line_space_big), 1);
         textview.setTextColor(getResources().getColor(R.color.colorBlack));
         textview.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_small));
         textview.setText(text);

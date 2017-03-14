@@ -92,7 +92,7 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
              */
             if (count == 60) {
                 if (PhoneFormatCheckUtils.isPhoneLegal(phone))
-                    mCountdownTextView.setBgColor(R.color.colorRedPomegranateLight);
+                    mCountdownTextView.setBgColor(R.color.colorRedLight);
                 else mCountdownTextView.setBgColor(R.color.colorGrayLight);
 
             } else {

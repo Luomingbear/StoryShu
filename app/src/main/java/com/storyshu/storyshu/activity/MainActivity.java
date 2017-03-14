@@ -1,11 +1,14 @@
 package com.storyshu.storyshu.activity;
 
 import android.Manifest;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
 import com.storyshu.storyshu.fragement.AirportFragment;
@@ -25,7 +28,6 @@ public class MainActivity extends IPermissionActivity {
 
     private CreateButton mCreateButton; //创建故事的按钮
 
-    TextView showText;
     private BottomNavigationBar mNavigationBar; //底部导航栏
 
     @Override
@@ -36,8 +38,8 @@ public class MainActivity extends IPermissionActivity {
 
         initView();
 
-        mFragmentManager = getSupportFragmentManager();
-        setSelection(0); //默认显示第一页
+        initEvent();
+
     }
 
 
@@ -106,6 +108,45 @@ public class MainActivity extends IPermissionActivity {
         //底部导航栏
         mNavigationBar = (BottomNavigationBar) findViewById(R.id.navigation_bar);
         mNavigationBar.setNavigationClickListener(navigationClickListener);
+
+        //设置默认显示第一个fragment
+        mFragmentManager = getSupportFragmentManager();
+        setSelection(0); //默认显示第一页
+
+    }
+
+    /**
+     * 如果imageLoader没有初始化则初始化
+     */
+    private void initImageLoader() {
+        //新建线程初始化图片加载器
+        Thread imageThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!ImageLoader.getInstance().isInited()) {
+//                    FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(200, true, false, false);
+                    DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
+//                            .displayer(fadeInBitmapDisplayer)
+                            .showImageOnLoading(R.drawable.gray_bg).cacheInMemory(true)
+                            .cacheOnDisk(true).build();
+
+                    ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(MainActivity.this)
+                            .defaultDisplayImageOptions(options).build();
+
+                    ImageLoader.getInstance().init(configuration);
+                }
+            }
+        });
+        imageThread.start();
+
+    }
+
+    /**
+     * 初始化事件
+     */
+    private void initEvent() {
+        //初始化图片加载器
+        initImageLoader();
 
     }
 

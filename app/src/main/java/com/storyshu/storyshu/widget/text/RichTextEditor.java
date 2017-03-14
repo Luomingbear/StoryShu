@@ -207,7 +207,7 @@ public class RichTextEditor extends ScrollView {
         editText.setOnFocusChangeListener(focusListener);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_small));
         editText.setBackgroundResource(0);
-        editText.setLineSpacing(getResources().getDimension(R.dimen.line_space), 1);
+        editText.setLineSpacing(getResources().getDimension(R.dimen.line_space_big), 1);
 
         editText.addTextChangedListener(mTextWatcher);
         return editText;

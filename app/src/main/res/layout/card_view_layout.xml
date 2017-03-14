@@ -70,7 +70,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_small"
                     android:singleLine="true"
-                    android:textColor="@color/colorRedPomegranateLight"
+                    android:textColor="@color/colorRedLight"
                     android:textSize="@dimen/font_small" />
 
             </LinearLayout>
@@ -97,7 +97,6 @@
                 android:textColor="@color/colorGrayDeep"
                 android:textSize="@dimen/font_min" />
         </RelativeLayout>
-
 
     </com.storyshu.storyshu.widget.card.AutoScaleLayout>
 
