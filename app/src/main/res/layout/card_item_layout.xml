@@ -24,8 +24,7 @@
             android:layout_height="@dimen/icon_normal"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_normal"
-            android:src="@drawable/avatar_wolverine"
-            app:RoundType="circle" />
+            android:src="@drawable/gray_bg" />
 
         <CheckBox
             android:id="@+id/oppose"

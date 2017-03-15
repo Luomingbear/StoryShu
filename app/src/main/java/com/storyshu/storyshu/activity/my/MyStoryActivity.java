@@ -9,11 +9,9 @@ import android.util.Log;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.activity.story.StoryDetailActivity;
 import com.storyshu.storyshu.adapter.MyStoryAdapter;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
-import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.Date;
@@ -115,7 +113,7 @@ public class MyStoryActivity extends IBaseActivity {
     private MyStoryAdapter.OnStoryItemClickListener onStoryItemClickListener = new MyStoryAdapter.OnStoryItemClickListener() {
         @Override
         public void onStoryClick(StoryInfo storyInfo) {
-            intentWithParcelable(StoryDetailActivity.class, ParcelableUtil.STORY, storyInfo);
+//            intentWithParcelable(StoryDetailActivity.class, ParcelableUtil.STORY, storyInfo);
         }
     };
 

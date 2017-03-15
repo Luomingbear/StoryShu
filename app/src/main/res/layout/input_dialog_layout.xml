@@ -41,8 +41,7 @@
 
             <ImageView
                 android:layout_width="@dimen/icon_normal"
-                android:layout_height="@dimen/icon_normal"
-                android:src="@drawable/ok" />
+                android:layout_height="@dimen/icon_normal" />
         </LinearLayout>
     </LinearLayout>
 

@@ -1,6 +1,5 @@
 package com.storyshu.storyshu.activity.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
-import com.storyshu.storyshu.activity.story.StoryMapActivity;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
 import com.storyshu.storyshu.utils.ParcelableUtil;
@@ -128,8 +126,8 @@ public class ImproveUserDataActivity extends ChooseImageResultActivity implement
         mUserInfo.setAvatar(mAvatarPath);
         storyDateBaseHelper.insertUserData(mUserInfo);
         ISharePreference.saveUserData(ImproveUserDataActivity.this, mUserInfo);
-        intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK
-                | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intentWithFlag(StoryMapActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     /**

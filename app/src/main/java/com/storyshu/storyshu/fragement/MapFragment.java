@@ -3,6 +3,7 @@ package com.storyshu.storyshu.fragement;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.story.StoryRoomActivity;
 import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.info.UserInfo;
@@ -150,6 +152,16 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
                 }
             }
         });
+
+        /**
+         * 定位按钮
+         */
+        mViewRoot.findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLocation();
+            }
+        });
     }
 
     @Override
@@ -217,6 +229,9 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
         @Override
         public void OnCardClick(int cardIndex) {
             ToastUtil.Show(getContext(), "Click " + cardIndex);
+            Intent intent = new Intent();
+            intent.setClass(getContext(), StoryRoomActivity.class);
+            startActivity(intent);
         }
 
         @Override
@@ -248,6 +263,7 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
         }
 
         mCardInfoList.get(0).setDetailPic("");
+        mCardInfoList.get(0).setExtract("最初不过你好");
         mCardInfoList.get(1).setDetailPic("https://img3.doubanio.com/lpic/s29059325.jpg");
         mCardInfoList.get(2).setExtract("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
         mCardInfoList.get(2).setDetailPic("");
@@ -255,7 +271,7 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
         mCardInfoList.get(4).setDetailPic("http://img.hb.aicdn.com/df5dda0532822ab3f1317d6501ac818ee2d83c76685d6-WC54Ra_fw658");
         mCardInfoList.get(5).setDetailPic("");
 
-          CardAdapter adapter = new CardAdapter(context, mCardInfoList);
+        CardAdapter adapter = new CardAdapter(context, mCardInfoList);
         mStoryCardWindow.setAdapter(adapter);
         mStoryCardWindow.setOnCardSlidingListener(cardSlidingListener);
         mStoryCardWindow.setOnCardClickListener(cardClickListener);

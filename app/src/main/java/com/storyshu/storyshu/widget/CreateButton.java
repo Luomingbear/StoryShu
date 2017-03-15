@@ -146,7 +146,7 @@ public class CreateButton extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mRotateAngle = (Float) animation.getAnimatedValue();
-                postInvalidate();
+                invalidate(0, 0, getWidth(), getHeight());
             }
         });
     }

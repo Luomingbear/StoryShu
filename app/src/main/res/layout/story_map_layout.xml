@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_story_map"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.storyshu.storyshu.activity.story.StoryMapActivity">
+    android:layout_height="match_parent">
 
     <com.amap.api.maps.MapView
         android:id="@+id/story_map_map_view"
@@ -55,8 +53,18 @@
         android:id="@+id/story_card_window"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:visibility="invisible"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/margin_big" />
+        android:layout_marginBottom="@dimen/margin_big"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/get_location"
+        android:layout_width="@dimen/icon_normal"
+        android:layout_height="@dimen/icon_normal"
+        android:layout_above="@id/story_card_window"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:src="@drawable/get_location" />
 
 </RelativeLayout>

@@ -121,4 +121,16 @@
         <attr name="tagRoundSize" format="dimension|reference" />
         <attr name="tagInterval" format="dimension|reference" />
     </declare-styleable>
+
+    <declare-styleable name="RoundRelativeLayout">
+        <attr name="rBorderColor" format="color|reference" />
+        <attr name="rBorderWidth" format="dimension|reference" />
+        <attr name="rBorderRadius" format="dimension|reference" />
+        <attr name="rBackground" format="color|reference" />
+        <attr name="rType" format="enum">
+            <enum name="round" value="0" />
+            <enum name="top_round" value="1" />
+            <enum name="bottom_round" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>

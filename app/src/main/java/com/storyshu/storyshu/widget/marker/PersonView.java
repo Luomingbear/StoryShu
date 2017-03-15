@@ -103,7 +103,7 @@ public class PersonView extends View {
         mHitColor = getResources().getColor(R.color.colorOrange);
         mDefColor = getResources().getColor(R.color.colorWhite);
         mFrameColor = mDefColor;
-        mShadowColor = getResources().getColor(R.color.colorTranslateDark);
+        mShadowColor = getResources().getColor(R.color.colorGrayLight);
         mWidth = (int) getResources().getDimension(R.dimen.icon_large);
     }
 
@@ -114,12 +114,11 @@ public class PersonView extends View {
         mPaint.setShader(null);
         //画阴影
         mPaint.setColor(mShadowColor);
-        canvas.drawCircle(mCenterX, mCenterY, mWidth / 2, mPaint);
+        canvas.drawCircle(mCenterX, mCenterY, mCenterX - 1, mPaint);
 
         //画白色背景
         mPaint.setColor(mFrameColor);
-        canvas.drawCircle(mCenterX, mCenterY, mWidth / 2 - 2, mPaint);
-
+        canvas.drawCircle(mCenterX, mCenterY, mCenterX - 3, mPaint);
     }
 
     /**

@@ -13,7 +13,6 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
-import com.storyshu.storyshu.widget.marker.BookMarker;
 import com.storyshu.storyshu.widget.marker.MyCircleMarker;
 import com.storyshu.storyshu.widget.marker.PersonMarker;
 
@@ -34,7 +33,7 @@ public class IMapManager {
 
     private int mZoomLevel = 17; //默认的地图缩放比例
     private MyCircleMarker mMyPositionMarker; //个人位置点图标
-    private List<BookMarker> bookMarkerList; //故事集图标列表
+    private List<PersonMarker> bookMarkerList; //故事集图标列表
 
     protected IMapManager() {
     }

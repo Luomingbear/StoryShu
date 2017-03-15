@@ -1,7 +1,4 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!--标题栏的高度 -->
     <dimen name="title_height">54dp</dimen>
@@ -30,9 +27,10 @@
     <dimen name="image_normal">98dp</dimen>
 
     <!--字体大小-->
-    <dimen name="font_min">10dp</dimen>
-    <dimen name="font_small">15dp</dimen>
-    <dimen name="font_normal">19dp</dimen>
+    <dimen name="font_min_min">11dp</dimen>
+    <dimen name="font_min">11dp</dimen>
+    <dimen name="font_small">14dp</dimen>
+    <dimen name="font_normal">18dp</dimen>
     <dimen name="font_big">28dp</dimen>
     <dimen name="font_title">38dp</dimen>
 
@@ -42,7 +40,6 @@
     <dimen name="margin_normal">18dp</dimen>
     <dimen name="margin_big">36dp</dimen>
     <dimen name="margin_big_more">48dp</dimen>
-    <dimen name="margin_cover">35dp</dimen>
 
     <!--卡片的圆角值-->
     <dimen name="border_radius_normal">5dp</dimen>

@@ -21,7 +21,7 @@
     <string name="need_location_permission">当前应用缺少必要的位置权限，请在\"权限\"—\"权限管理\"打开所需权限</string>
 
     <!--注册-->
-    <string name="input_phone_number">用户名</string>
+    <string name="input_phone_number">手机</string>
     <string name="input_phone_email">邮箱</string>
     <string name="input_password">密码</string>
     <string name="input_verify_number">请输入验证码</string>
@@ -63,14 +63,6 @@
     <string name="sift_hot">热门</string>
 
     <!--创建故事-->
-    <string name="story_content_too_small">正文文本不得小于60字</string>
-    <string name="create_cover">编辑封面</string>
-    <string name="select_cover">请选择封面图片</string>
-    <string name="edit_title">添加标题</string>
-    <string name="input_title">请输入标题</string>
-    <string name="edit_extra">添加简介</string>
-    <string name="input_extra">请输入简介</string>
-    <string name="edit_content">轻输入正文</string>
     <string name="edit_location">所在位置</string>
     <string name="custom_location">找不到你的位置？</string>
     <string name="custom_location_ok">确定</string>
@@ -81,13 +73,8 @@
     <string name="like">喜欢</string>
     <string name="communicate">写信</string>
     <string name="collect">收藏</string>
-    <string name="save_long_pic">保存长截图</string>
-    <string name="save_cover">保存封面图</string>
 
     <!--保存故事截图-->
-    <string name="app_version">来自【故事鼠】</string>
-    <string name="save_screenshot_failed">图片保存失败</string>
-    <string name="save_screenshot_succeed">图片保存成功</string>
 
     <!--我的故事-->
 

@@ -36,12 +36,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.story.StoryMapActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.story.StoryListActivity"
@@ -55,19 +51,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Test"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.create.CreateStoryActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.story.StoryDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.create.CreateCoverActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.my.MyStoryActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.story.StoryRoomActivity"></activity>
     </application>
 
 </manifest>

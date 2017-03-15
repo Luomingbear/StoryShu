@@ -133,11 +133,11 @@ public class TitleView extends RelativeLayout implements EventObserver {
         switch (mTitleMode) {
             case MENU_POSITION_SIFT:
                 //left
-                addLeftButton(R.drawable.menu);
+//                addLeftButton(R.drawable.menu);
                 //位置
                 addPositionTitle();
                 //right
-                addRightButton(R.drawable.sift);
+//                addRightButton(R.drawable.sift);
                 //line
                 addBottomLine();
                 break;
@@ -167,7 +167,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //left
                 addBackButton();
                 //screenShot
-                addRightButton(R.drawable.screenshot);
+//                addRightButton(R.drawable.screenshot);
                 //title
                 addTitle();
                 break;
@@ -176,7 +176,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //left
                 addBackButton();
                 //send
-                addRightButton(R.drawable.send);
+//                addRightButton(R.drawable.send);
                 //title
                 addTitle();
                 //line
@@ -187,7 +187,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //left
                 addBackButton();
                 //more
-                addRightButton(R.drawable.more);
+//                addRightButton(R.drawable.more);
                 //title
                 addTitle();
                 break;
@@ -198,7 +198,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //title
                 addTitle();
                 //go
-                addRightButton(R.drawable.ok);
+//                addRightButton(R.drawable.ok);
                 //image
                 addInsertImageButton();
                 //line
@@ -206,7 +206,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 break;
             case MENU_TILE_LIST:
                 //left
-                addLeftButton(R.drawable.menu);
+//                addLeftButton(R.drawable.menu);
                 //位置
                 addPositionTitle();
                 //right
@@ -216,7 +216,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 break;
             case MENU_TILE_MAP:
                 //left
-                addLeftButton(R.drawable.menu);
+//                addLeftButton(R.drawable.menu);
                 //位置
                 addPositionTitle();
                 //right
@@ -227,7 +227,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case MENU_TILE:
                 //left
-                addLeftButton(R.drawable.menu);
+//                addLeftButton(R.drawable.menu);
                 //位置
                 addPositionTitle();
                 //line
@@ -435,7 +435,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         imageLayout.setLayoutParams(p);
         imageLayout.setGravity(Gravity.CENTER);
 
-        imageLayout.addView(newImageView(R.drawable.image));
+//        imageLayout.addView(newImageView(R.drawable.image));
 
         imageLayout.setOnClickListener(new OnClickListener() {
             @Override
