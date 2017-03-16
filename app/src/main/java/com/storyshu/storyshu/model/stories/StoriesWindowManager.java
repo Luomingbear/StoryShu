@@ -200,7 +200,7 @@ public class StoriesWindowManager implements StoriesAdapterView.OnCardSlidingLis
             cardInfo.setDetailPic("http://img.hb.aicdn.com/61588dbae333304cfe8510ac5183a33d30c922bf2ad93-kn7LXO_fw658");
             cardInfo.setExtract("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
 
-//            cardInfo.setCreateDate(ConvertTimeUtil.convertCurrentTime(new Date()));
+//            cardInfo.setCreateDate(TimeConvertUtil.convertCurrentTime(new Date()));
             UserInfo userInfo = new UserInfo();
             userInfo.setAvatar("http://img4.duitang.com/uploads/item/201512/01/20151201084252_BmJzQ.jpeg");
             userInfo.setNickname("钟无艳");

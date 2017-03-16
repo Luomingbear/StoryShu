@@ -23,8 +23,7 @@
             android:layout_width="@dimen/icon_normal"
             android:layout_height="@dimen/icon_normal"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:src="@drawable/gray_bg" />
+            android:layout_marginLeft="@dimen/margin_normal" />
 
         <CheckBox
             android:id="@+id/oppose"
@@ -60,7 +59,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/anonymous"
                 android:textColor="?attr/colorControlNormal"
                 android:textSize="@dimen/font_small" />
 
@@ -70,7 +68,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/margin_min"
-                android:text="剩余22时56分"
                 android:textColor="?attr/colorAccent"
                 android:textSize="@dimen/font_min" />
 

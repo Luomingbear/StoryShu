@@ -39,7 +39,7 @@ public class IMapManager {
     }
 
     public IMapManager(Context context, MapView mMapView) {
-        mContext = context;
+        mContext = context.getApplicationContext();
         this.mAMap = mMapView.getMap();
         mUiSettings = mAMap.getUiSettings();
     }

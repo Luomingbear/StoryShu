@@ -105,6 +105,7 @@ public class MyStoryActivity extends IBaseActivity {
         //设置适配器
         StoryDateBaseHelper dateBaseHelper = new StoryDateBaseHelper(MyStoryActivity.this);
         mStoryList = dateBaseHelper.getLocalStory();
+
         myStoryAdapter = new MyStoryAdapter(this, mStoryList);
         myStoryAdapter.setOnStoryItemClickListener(onStoryItemClickListener);
         mRecyclerView.setAdapter(myStoryAdapter);

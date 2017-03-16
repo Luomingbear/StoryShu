@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.utils;
 
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -13,7 +14,7 @@ import android.widget.ListView;
  */
 
 public class AdapterViewUtil {
-    public static void FixHeight(AdapterView adapterView) {
+    public static void FixHeight(AdapterView adapterView, Context context) {
         Adapter adapter = adapterView.getAdapter();
         if (adapter == null) {
             return;
@@ -22,7 +23,12 @@ public class AdapterViewUtil {
         int totalHeight = 0;
         for (int i = 0; i < adapter.getCount(); i++) {
             View listItem = adapter.getView(i, null, adapterView);
-            listItem.measure(0, 0);
+            //宽度为屏幕宽度
+            int i1 = View.MeasureSpec.makeMeasureSpec(SysUtils.getScreenWidth(context.getApplicationContext()),
+                    View.MeasureSpec.EXACTLY);
+            //根据屏幕宽度计算高度
+            int i2 = View.MeasureSpec.makeMeasureSpec(i1, View.MeasureSpec.UNSPECIFIED);
+            listItem.measure(i1, i2);
             totalHeight += listItem.getMeasuredHeight();
         }
 
@@ -32,4 +38,6 @@ public class AdapterViewUtil {
             params.height = totalHeight + (((ListView) adapterView).getDividerHeight() * adapter.getCount());
         adapterView.setLayoutParams(params);
     }
+
+
 }

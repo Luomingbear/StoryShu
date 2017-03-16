@@ -68,7 +68,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * @param appContext appContext
      */
     public ILocationManager init(Context appContext, MapView mapView) {
-        this.mAppContext = appContext;
+        this.mAppContext = appContext.getApplicationContext();
         this.mMapView = mapView;
         this.mLocationQueryTool = new ILocationQueryTool(appContext);
 

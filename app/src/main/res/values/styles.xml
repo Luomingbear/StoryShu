@@ -17,7 +17,7 @@
         <!--提示文本的颜色-->
         <item name="android:textColorHint">@color/colorGrayDeep</item>
         <!--普通文本的颜色,按级分-->
-        <item name="textColor1">@color/colorRedDeep</item>
+        <item name="textColor1">@color/colorBlack</item>
         <item name="textColor2">@color/colorGrayDeep</item>
         <item name="textColor3">@color/colorGray</item>
         <!--故事正文的颜色-->

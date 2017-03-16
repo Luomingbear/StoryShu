@@ -54,10 +54,10 @@ public class FontTextView extends TextView {
     private Typeface getFontTypeface() {
 
         AssetManager mgr = getContext().getAssets();//得到AssetManager\
-        Typeface tf = Typeface.createFromAsset(mgr, "fonts/HanYiZhongHeiJian.ttf"); //根据路径得到Typeface;
+        Typeface tf = Typeface.createFromAsset(mgr, "fonts/HanYiMeiHei.ttf"); //根据路径得到Typeface;
         switch (mFont) {
             case HanYiZhongHeiJian:
-                tf = Typeface.createFromAsset(mgr, "fonts/HanYiZhongHeiJian.ttf"); //根据路径得到Typeface
+                tf = Typeface.createFromAsset(mgr, "fonts/HanYiMeiHei.ttf"); //根据路径得到Typeface
                 break;
             case HanYiMeiHei:
                 tf = Typeface.createFromAsset(mgr, "fonts/HanYiMeiHei.ttf"); //根据路径得到Typeface

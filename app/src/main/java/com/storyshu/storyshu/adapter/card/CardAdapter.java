@@ -18,7 +18,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.base.IBaseAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.BitmapUtil;
-import com.storyshu.storyshu.utils.time.ConvertTimeUtil;
+import com.storyshu.storyshu.utils.time.TimeConvertUtil;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
 import java.util.List;
@@ -121,7 +121,7 @@ public class CardAdapter extends IBaseAdapter {
             ImageLoader.getInstance().loadImage(cardInfo.getUserInfo().getAvatar(), avatarLoadListener);
         //
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
-        viewHolder.destroyTime.setText(ConvertTimeUtil.convertCurrentTime(cardInfo.getCreateDate()));
+        viewHolder.destroyTime.setText(TimeConvertUtil.convertCurrentTime(cardInfo.getCreateDate()));
 
         viewHolder.extract.setText(cardInfo.getExtract());
         if (!TextUtils.isEmpty(cardInfo.getDetailPic())) {

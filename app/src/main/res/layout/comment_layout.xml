@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_small"
+    android:paddingRight="@dimen/margin_small"
+    android:paddingTop="@dimen/margin_small">
+
+    <com.storyshu.storyshu.widget.imageview.AvatarImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/icon_normal"
+        android:layout_height="@dimen/icon_normal" />
+
+    <TextView
+        android:id="@+id/nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_toRightOf="@id/avatar"
+        android:textColor="?attr/textColor1"
+        android:textSize="@dimen/font_small" />
+
+    <TextView
+        android:id="@+id/create_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_min"
+        android:layout_toRightOf="@id/nickname"
+        android:textColor="?attr/textColor3"
+        android:textSize="@dimen/font_small" />
+
+    <TextView
+        android:id="@+id/floor_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_min"
+        android:layout_toRightOf="@id/create_time"
+        android:textColor="@color/colorRedDeep"
+        android:textSize="@dimen/font_small" />
+
+    <com.storyshu.storyshu.widget.ClickButton
+        android:id="@+id/oppose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/margin_min"
+        app:cDrawableWidth="@dimen/icon_min"
+        app:cType="oppose" />
+
+    <com.storyshu.storyshu.widget.ClickButton
+        android:id="@+id/like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_min"
+        android:layout_toLeftOf="@id/oppose"
+        app:cDrawableWidth="@dimen/icon_min"
+        app:cType="like" />
+
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/create_time"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_toRightOf="@id/avatar"
+        android:textColor="?attr/contentColor"
+        android:textSize="@dimen/font_small" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/comment_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@color/colorGrayLight" />
+</RelativeLayout>

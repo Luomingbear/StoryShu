@@ -27,17 +27,17 @@
     <dimen name="image_normal">98dp</dimen>
 
     <!--字体大小-->
-    <dimen name="font_min_min">11dp</dimen>
-    <dimen name="font_min">11dp</dimen>
+    <dimen name="font_min_min">9dp</dimen>
+    <dimen name="font_min">12dp</dimen>
     <dimen name="font_small">14dp</dimen>
     <dimen name="font_normal">18dp</dimen>
     <dimen name="font_big">28dp</dimen>
     <dimen name="font_title">38dp</dimen>
 
     <!--外边距 -->
-    <dimen name="margin_min">5dp</dimen>
+    <dimen name="margin_min">4dp</dimen>
     <dimen name="margin_small">9dp</dimen>
-    <dimen name="margin_normal">18dp</dimen>
+    <dimen name="margin_normal">17dp</dimen>
     <dimen name="margin_big">36dp</dimen>
     <dimen name="margin_big_more">48dp</dimen>
 

@@ -22,7 +22,6 @@ import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
-import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
 import java.util.ArrayList;
@@ -159,7 +158,7 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
         mViewRoot.findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getLocation();
+                move2Position();
             }
         });
     }
@@ -228,7 +227,6 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
     StoriesAdapterView.OnCardClickListener cardClickListener = new StoriesAdapterView.OnCardClickListener() {
         @Override
         public void OnCardClick(int cardIndex) {
-            ToastUtil.Show(getContext(), "Click " + cardIndex);
             Intent intent = new Intent();
             intent.setClass(getContext(), StoryRoomActivity.class);
             startActivity(intent);
@@ -254,7 +252,7 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
             cardInfo.setDetailPic("http://img.hb.aicdn.com/61588dbae333304cfe8510ac5183a33d30c922bf2ad93-kn7LXO_fw658");
             cardInfo.setExtract("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
 
-//            cardInfo.setCreateDate(ConvertTimeUtil.convertCurrentTime(new Date()));
+//            cardInfo.setCreateDate(TimeConvertUtil.convertCurrentTime(new Date()));
             UserInfo userInfo = new UserInfo();
             userInfo.setAvatar("http://img4.duitang.com/uploads/item/201512/01/20151201084252_BmJzQ.jpeg");
             userInfo.setNickname("钟无艳");
@@ -300,7 +298,7 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
      * 移动地图到当前的位置
      */
     private void move2Position() {
-        ILocationManager.getInstance().move2CurrentPosition();
+        ILocationManager.getInstance().animate2CurrentPosition();
     }
 
 

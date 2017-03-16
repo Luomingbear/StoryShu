@@ -15,7 +15,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.BitmapUtil;
-import com.storyshu.storyshu.utils.time.ConvertTimeUtil;
+import com.storyshu.storyshu.utils.time.TimeConvertUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
  * Created by bear on 2017/1/18.
  */
 
-public class MyStoryAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+public class MyStoryAdapter extends RecyclerView.Adapter {
     private static final String TAG = "MyStoryAdapter";
     private ViewHold viewHolder;
     private Context mContext;
@@ -70,12 +70,12 @@ public class MyStoryAdapter extends RecyclerView.Adapter implements View.OnClick
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            viewHolder.avater.setImageBitmap(BitmapUtil.getScaledBitmap(imageUri, 78));
+            viewHolder.avatar.setImageBitmap(BitmapUtil.getScaledBitmap(imageUri, 78));
         }
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            viewHolder.avater.setImageBitmap(loadedImage);
+            viewHolder.avatar.setImageBitmap(loadedImage);
         }
 
         @Override
@@ -98,7 +98,6 @@ public class MyStoryAdapter extends RecyclerView.Adapter implements View.OnClick
         View view = LayoutInflater.from(mContext).inflate(R.layout.story_item_layout, parent, false);
 
         viewHolder = new ViewHold(view);
-        view.setOnClickListener(this);
         return viewHolder;
     }
 
@@ -116,7 +115,7 @@ public class MyStoryAdapter extends RecyclerView.Adapter implements View.OnClick
         ImageLoader.getInstance().loadImage(storyInfo.getDetailPic(), detailLoaderListener);
         viewHolder.nickname.setText(storyInfo.getUserInfo().getNickname());
         viewHolder.location.setText(storyInfo.getLocation());
-        viewHolder.createDate.setText(ConvertTimeUtil.convertCurrentTime(storyInfo.getCreateDate()));
+        viewHolder.createDate.setText(TimeConvertUtil.convertCurrentTime(storyInfo.getCreateDate()));
         viewHolder.title.setText(storyInfo.getTitle());
         viewHolder.extarct.setText(storyInfo.getExtract());
 
@@ -136,13 +135,8 @@ public class MyStoryAdapter extends RecyclerView.Adapter implements View.OnClick
         return mStoryList == null ? 0 : mStoryList.size();
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
     private class ViewHold extends RecyclerView.ViewHolder {
-        private RoundImageView avater;
+        private RoundImageView avatar;
         private TextView nickname;
         private TextView location;
         private TextView createDate;
@@ -153,7 +147,7 @@ public class MyStoryAdapter extends RecyclerView.Adapter implements View.OnClick
 
         public ViewHold(View itemView) {
             super(itemView);
-            avater = (RoundImageView) itemView.findViewById(R.id.avatar);
+            avatar = (RoundImageView) itemView.findViewById(R.id.avatar);
             nickname = (TextView) itemView.findViewById(R.id.nickname);
             location = (TextView) itemView.findViewById(R.id.location);
             createDate = (TextView) itemView.findViewById(R.id.create_date);

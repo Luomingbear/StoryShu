@@ -31,7 +31,7 @@ public class ILocationQueryTool {
     }
 
     public ILocationQueryTool(Context context) {
-        this.mContext = context;
+        this.mContext = context.getApplicationContext();
     }
 
     public ILocationQueryTool init(AMapLocation aMapLocation, OnLocationQueryListener onLocationQueryListener) {
