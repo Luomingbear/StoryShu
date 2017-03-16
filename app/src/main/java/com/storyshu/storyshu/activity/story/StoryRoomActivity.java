@@ -1,22 +1,22 @@
 package com.storyshu.storyshu.activity.story;
 
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.adapter.CommentListAdapter;
+import com.storyshu.storyshu.adapter.CommentAdapter;
 import com.storyshu.storyshu.info.CommentInfo;
-import com.storyshu.storyshu.utils.AdapterViewUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.time.TimeConvertUtil;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
-import com.storyshu.storyshu.widget.scrollview.IScrollView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.ArrayList;
@@ -38,12 +38,12 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
     private ClickButton mLike, mOppose, mComment; //按钮
     private int isLike = 0; //是否点赞 0:不操作 1：点赞 -1：喝倒彩
 
-    private IScrollView mScrollView; //滚动布局
+    private NestedScrollView mScrollView; //滚动布局
     private SwipeRefreshLayout mRefreshLayout; //下拉刷新控件
-    private ListView mCommentRV; //评论的列表控件
+    private RecyclerView mCommentRV; //评论的列表控件
 
     private ArrayList<CommentInfo> mCommentInfoList; //评论的数据源
-    private CommentListAdapter mCommentAdapter; //评论适配器
+    private CommentAdapter mCommentAdapter; //评论适配器
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +88,9 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
 
 //        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
 
-        mScrollView = (IScrollView) findViewById(R.id.scroll_view);
+        mScrollView = (NestedScrollView) findViewById(R.id.scroll_view);
 
-        mCommentRV = (ListView) findViewById(R.id.comment_list);
+        mCommentRV = (RecyclerView) findViewById(R.id.comment_list);
     }
 
     /**
@@ -142,13 +142,16 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
         mCommentInfoList.get(3).setComment("我赵日天表示不服,你怕了吗？我赵日天表示不服,你怕了吗？我赵日天表示不服,你怕了吗？");
         mCommentInfoList.get(9).setComment("我赵日天表示不服,你怕了吗？我赵日天表示不服,你怕了吗？我赵日天表示不服,你怕了吗？");
 
-        mCommentAdapter = new CommentListAdapter(StoryRoomActivity.this, mCommentInfoList);
+        mCommentAdapter = new CommentAdapter(StoryRoomActivity.this, mCommentInfoList);
+
+        //layoutmanager
+        mCommentRV.setLayoutManager(new LinearLayoutManager(this));
 
         //设置数据
         mCommentRV.setAdapter(mCommentAdapter);
 
         //修复高度问题
-        AdapterViewUtil.FixHeight(mCommentRV, this);
+//        AdapterViewUtil.FixHeight(mCommentRV, this);
         //修复打开页面的自动滚动问题
         mScrollView.post(new Runnable() {
             @Override

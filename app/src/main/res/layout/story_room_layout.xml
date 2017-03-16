@@ -16,7 +16,7 @@
 
     </com.storyshu.storyshu.widget.title.TitleView>
 
-    <com.storyshu.storyshu.widget.scrollview.IScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -200,14 +200,14 @@
 
             </RelativeLayout>
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/comment_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:background="@drawable/card_view_bg">
 
-            </ListView>
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
-    </com.storyshu.storyshu.widget.scrollview.IScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
