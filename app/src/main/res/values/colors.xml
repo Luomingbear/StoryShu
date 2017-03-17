@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorRedLight">#ff1210</color>
-    <color name="colorRedDeep">#df6557</color>
-    <color name="colorGoldLight">#ddbf7f</color>
+    <!--主色-->
+    <color name="colorRedLight">#df6357</color>
+    <color name="colorGoldLight">#ddC080</color>
     <color name="colorGold">#c6ac73</color>
-    <color name="colorGoldDeep">#89784d</color>
-    <color name="colorGreenScallionLight">#bed500</color>
+    <color name="colorGoldDeep">#89774e</color>
 
     <color name="colorOrange">#ff6100</color>
-
+    <!--白色-->
     <color name="colorWhite">#fdfdfd</color>
-    <color name="colorWhiteLight">#f7f7f7</color>
-    <color name="colorWhiteDeep">#e2e2e2</color>
-    <color name="colorGrayLight">#cccccc</color>
-    <color name="colorGray">#898989</color>
-    <color name="colorGrayDeep">#666666</color>
+    <color name="colorWhiteDeep">#f7f7f7</color>
+    <!--灰色-->
+    <color name="colorGrayLight">#e2e2e2</color>
+    <color name="colorGray">#cccccc</color>
+    <color name="colorGrayDeep">#898989</color>
+    <!--黑色-->
     <color name="colorTranslateDark">#7c8c8b89</color>
-    <color name="colorBlack">#343434</color>
+    <color name="colorBlackLight">#666666</color>
+    <color name="colorBlack">#333333</color>
 </resources>

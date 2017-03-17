@@ -8,5 +8,5 @@
         android:width="0.5dp"
         android:color="@color/colorGrayLight" android:dashGap="0dp"/>
 
-    <solid android:color="@color/colorWhiteLight" />
+    <solid android:color="@color/colorWhite" />
 </shape>

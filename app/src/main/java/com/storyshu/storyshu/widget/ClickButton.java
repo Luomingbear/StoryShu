@@ -150,7 +150,7 @@ public class ClickButton extends LinearLayout {
                 break;
             case LIKE:
                 mDrawableRes = R.drawable.button_like;
-                mTextColor = getResources().getColor(R.color.colorRedDeep);
+                mTextColor = getResources().getColor(R.color.colorRedLight);
                 break;
             case OPPOSE:
                 mDrawableRes = R.drawable.button_oppose;

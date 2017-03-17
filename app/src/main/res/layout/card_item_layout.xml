@@ -59,8 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textColor="?attr/colorControlNormal"
-                android:textSize="@dimen/font_small" />
+                android:textColor="?attr/textColor1"
+                android:textSize="@dimen/font_normal" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/destroy_time"
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorWhiteDeep" />
+            android:background="@color/colorGrayLight" />
     </RelativeLayout>
 
     <LinearLayout
@@ -96,7 +96,7 @@
             android:lineSpacingExtra="@dimen/line_space_big"
             android:maxLines="2"
             android:textColor="?attr/colorControlNormal"
-            android:textSize="@dimen/font_small" />
+            android:textSize="@dimen/font_normal" />
 
         <ImageView
             android:id="@+id/cover_pic"

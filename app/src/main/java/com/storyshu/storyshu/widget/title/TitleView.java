@@ -102,7 +102,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TitleView);
         mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, getResources().getColor(R.color.colorBlack));
-        mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_normal));
+        mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_big));
         mTitleString = typedArray.getString(R.styleable.TitleView_title_string);
         mTitleMode = TitleMode.values()[typedArray.getInt(R.styleable.TitleView_title_mode, 0)];
         typedArray.recycle();
@@ -456,7 +456,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         lineView.setLayoutParams(p);
 //        lineView.setBackgroundResource(R.drawable.shadow_bg);
-        lineView.setBackgroundColor(getResources().getColor(R.color.colorGrayLight));
+        lineView.setBackgroundColor(getResources().getColor(R.color.colorGray));
         addView(lineView);
     }
 

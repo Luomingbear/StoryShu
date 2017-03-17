@@ -64,7 +64,7 @@ public class CustomLocationEdit extends LinearLayout {
         okButton.setTextColor(getResources().getColor(R.color.colorWhite));
         okButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_normal));
         okButton.setText(R.string.custom_location_ok);
-        okButton.setBackgroundColor(getResources().getColor(R.color.colorRedDeep));
+        okButton.setBackgroundColor(getResources().getColor(R.color.colorRedLight));
         addView(okButton);
 
         okButton.setOnClickListener(new OnClickListener() {

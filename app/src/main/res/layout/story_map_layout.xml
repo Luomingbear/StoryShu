@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="@dimen/font_big"
-            android:layout_height="@dimen/font_big"
+            android:layout_width="@dimen/font_title"
+            android:layout_height="@dimen/font_title"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_normal"
             android:src="@drawable/logo_line_w" />
@@ -36,7 +36,7 @@
             android:layout_toRightOf="@id/logo"
             android:text="@string/app_name"
             android:textColor="?attr/titleTextColor"
-            android:textSize="@dimen/font_normal" />
+            android:textSize="@dimen/font_big" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:gravity="center"
             android:text="@string/check_in"
             android:textColor="?attr/actionMenuTextColor"
-            android:textSize="@dimen/font_normal" />
+            android:textSize="@dimen/font_big" />
 
         <View
             android:layout_width="match_parent"

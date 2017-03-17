@@ -170,7 +170,7 @@ public class TagFrameLayout extends FrameLayout implements TagView.OnTagClickCha
         mEditTagView.setTextColor(mTextColor);
         mEditTagView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         mEditTagView.setText(R.string.add_tag);
-        mEditTagView.setBgColor(R.color.colorGreenScallionLight);
+        mEditTagView.setBgColor(R.color.colorRedLight);
         mEditTagView.setId(mEditTagView.hashCode()); //设置id
         mEditTagView.setOnClickListener(editTagClickListener);
 

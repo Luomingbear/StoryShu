@@ -20,12 +20,13 @@
         android:layout_marginLeft="@dimen/margin_normal"
         android:layout_toRightOf="@id/avatar"
         android:textColor="?attr/textColor1"
-        android:textSize="@dimen/font_small" />
+        android:textSize="@dimen/font_normal" />
 
     <TextView
         android:id="@+id/create_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/nickname"
         android:layout_marginLeft="@dimen/margin_min"
         android:layout_toRightOf="@id/nickname"
         android:textColor="?attr/textColor3"
@@ -35,9 +36,10 @@
         android:id="@+id/floor_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/create_time"
         android:layout_marginLeft="@dimen/margin_min"
         android:layout_toRightOf="@id/create_time"
-        android:textColor="@color/colorRedDeep"
+        android:textColor="?attr/textColor3"
         android:textSize="@dimen/font_small" />
 
     <com.storyshu.storyshu.widget.ClickButton
@@ -66,13 +68,15 @@
         android:layout_marginLeft="@dimen/margin_normal"
         android:layout_marginTop="@dimen/margin_normal"
         android:layout_toRightOf="@id/avatar"
-        android:textColor="?attr/contentColor"
-        android:textSize="@dimen/font_small" />
+        android:textColor="?attr/textColor2"
+        android:textSize="@dimen/font_normal" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1dp"
         android:layout_below="@id/comment_content"
+        android:layout_marginBottom="@dimen/margin_min"
         android:layout_marginTop="@dimen/margin_small"
-        android:background="@color/colorGrayLight" />
+        android:background="@drawable/divider"
+        android:layerType="software" />
 </RelativeLayout>
