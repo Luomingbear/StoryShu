@@ -14,7 +14,7 @@ import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.info.UserInfo;
-import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.data.StoryDateBaseHelper;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.blurRelativeLayout.BlurRelativeLayout;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/bgColorDeep"
+    tools:context="com.storyshu.storyshu.activity.story.CreateStoryActivity">
+
+    <com.storyshu.storyshu.widget.title.TitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="?attr/colorPrimary"
+        app:title_color="?attr/titleTextColor"
+        app:title_mode="BackTitleSend"
+        app:title_string="@string/create_story" />
+
+    <EditText
+        android:id="@+id/story_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_view"
+        android:background="?attr/bgColorNormal"
+        android:hint="@string/create_story_hint"
+        android:lineSpacingExtra="@dimen/line_space_small"
+        android:padding="@dimen/margin_normal"
+        android:textColor="?attr/textColor2"
+        android:textColorHint="?attr/textColor3"
+        android:textSize="@dimen/font_normal" />
+
+    <GridLayout
+        android:id="@+id/story_pic_gridlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/story_edit"
+        android:background="?attr/bgColorNormal"
+        android:columnCount="4"
+        android:padding="@dimen/margin_small">
+
+        <ImageView
+            android:id="@+id/add_pic"
+            android:layout_width="@dimen/image_small"
+            android:layout_height="@dimen/image_small"
+            android:layout_margin="@dimen/margin_small"
+            android:src="@drawable/add_picture" />
+
+    </GridLayout>
+
+    <RelativeLayout
+        android:id="@+id/location_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/selector_height"
+        android:layout_below="@id/story_pic_gridlayout"
+        android:background="@drawable/button_white_bg"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGray" />
+
+        <ImageView
+            android:id="@+id/location_iv"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:src="@drawable/location" />
+
+        <TextView
+            android:id="@+id/location_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_min"
+            android:layout_toRightOf="@id/location_iv"
+            android:text="浙江传媒学院"
+            android:textColor="?attr/textColor3"
+            android:textSize="@dimen/font_normal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/life_time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/selector_height"
+        android:layout_below="@id/location_layout"
+        android:background="@drawable/button_white_bg"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGray" />
+
+        <ImageView
+            android:id="@+id/life_time_iv"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:src="@drawable/location" />
+
+        <TextView
+            android:id="@+id/life_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_min"
+            android:layout_toRightOf="@id/life_time_iv"
+            android:text="@string/select_life_time_hint"
+            android:textColor="?attr/textColor3"
+            android:textSize="@dimen/font_normal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/anonymous_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/selector_height"
+        android:layout_below="@id/life_time_layout"
+        android:background="@drawable/button_white_bg"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGray" />
+
+        <com.storyshu.storyshu.widget.SlideButton
+            android:id="@+id/slide_button"
+            android:layout_width="@dimen/icon_large"
+            android:layout_height="@dimen/icon_small"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:src="@drawable/location" />
+
+        <TextView
+            android:id="@+id/anonymous_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_min"
+            android:layout_toRightOf="@id/slide_button"
+            android:text="@string/real_name"
+            android:textColor="?attr/textColor3"
+            android:textSize="@dimen/font_normal" />
+    </RelativeLayout>
+
+</RelativeLayout>

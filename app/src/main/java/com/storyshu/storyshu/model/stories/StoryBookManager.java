@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.amap.api.maps.MapView;
 import com.storyshu.storyshu.info.StoryInfo;
-import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.data.StoryDateBaseHelper;
 import com.storyshu.storyshu.model.location.IMapManager;
 
 import java.util.List;

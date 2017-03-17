@@ -24,7 +24,11 @@
         <item name="colorAccent">@color/colorGoldLight</item>
         <!--选中的文字颜色-->
         <item name="android:textColorHighlight">@color/colorGrayLight</item>
+        <!--页面的背景-->
+        <item name="bgColorNormal">@color/colorWhite</item>
+        <item name="bgColorDeep">@color/colorGrayLight</item>
     </style>
+
 
     <!--夜间模式-->
     <style name="appTheme_night" parent="Theme.AppCompat.DayNight.NoActionBar">

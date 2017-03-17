@@ -11,11 +11,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
+import com.storyshu.storyshu.activity.story.CreateStoryActivity;
 import com.storyshu.storyshu.fragement.AirportFragment;
 import com.storyshu.storyshu.fragement.MapFragment;
 import com.storyshu.storyshu.fragement.MessageFragment;
 import com.storyshu.storyshu.fragement.MineFragment;
-import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.CreateButton;
 import com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar;
 
@@ -92,7 +92,7 @@ public class MainActivity extends IPermissionActivity {
     private CreateButton.OnCreateClickListener createClickListener = new CreateButton.OnCreateClickListener() {
         @Override
         public void onClick() {
-            ToastUtil.Show(MainActivity.this, R.string.create_story);
+            intentTo(CreateStoryActivity.class);
         }
     };
 

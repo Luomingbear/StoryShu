@@ -32,6 +32,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
     private RelativeLayout mLeftLayout; //左边的按钮
     private LinearLayout mTitleLayout; //标题 布局
     private RelativeLayout mRightLayout; //右边的按钮
+    private int mButtonTextColor; //按钮的字体颜色
 
     private long oldClickTime; //上一次点击的时间
 
@@ -120,6 +121,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mTitleViewHeight = (int) getResources().getDimension(R.dimen.title_height);
         setGravity(Gravity.CENTER_VERTICAL);
 
+        mButtonTextColor = getResources().getColor(R.color.colorGoldDeep);
     }
 
     /**
@@ -177,6 +179,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addBackButton();
                 //send
 //                addRightButton(R.drawable.send);
+                addRightText(R.string.issue);
                 //title
                 addTitle();
                 //line
@@ -187,7 +190,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //left
                 addBackButton();
                 //more
-//                addRightButton(R.drawable.more);
+//                addRightButton(R.drawable.serch);
                 //title
                 addTitle();
                 break;
@@ -273,7 +276,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         LayoutParams tp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         textView.setLayoutParams(tp);
         textView.setText(R.string.back);
-        textView.setTextColor(mTitleColor);
+        textView.setTextColor(mButtonTextColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
         linearLayout.addView(textView);
 
@@ -339,6 +342,37 @@ public class TitleView extends RelativeLayout implements EventObserver {
     }
 
     /**
+     * 生成文本控件
+     *
+     * @param textColor
+     * @param stringRes
+     * @return
+     */
+    private TextView newTextView(int textColor, int stringRes) {
+        TextView textView = new TextView(getContext());
+        LayoutParams pa = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(pa);
+
+        textView.setGravity(Gravity.CENTER);
+        textView.setText(stringRes);
+        textView.setTextColor(textColor);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
+        return textView;
+    }
+
+    private TextView newTextView(int textColor, String string) {
+        TextView textView = new TextView(getContext());
+        LayoutParams pa = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(pa);
+
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextColor(textColor);
+        textView.setText(string);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
+        return textView;
+    }
+
+    /**
      * 文本标题
      *
      * @return
@@ -348,18 +382,12 @@ public class TitleView extends RelativeLayout implements EventObserver {
          * 添加文本描述
          */
         //生成一个textView并且设置layoutParams
-        mTitleTextView = new TextView(getContext());
-        LayoutParams pa = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        mTitleTextView.setLayoutParams(pa);
+        mTitleTextView = newTextView(mTitleColor, mTitleString);
 
         //设置单行，句尾省略
         mTitleTextView.setEllipsize(TextUtils.TruncateAt.START);
         mTitleTextView.setSingleLine();
-        mTitleTextView.setGravity(Gravity.CENTER);
 
-        mTitleTextView.setText(mTitleString);
-        mTitleTextView.setTextColor(mTitleColor);
-        mTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
 
         //设置点击响应
         mTitleTextView.setOnClickListener(new OnClickListener() {
@@ -381,6 +409,34 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
         });
         return mTitleTextView;
+    }
+
+    /**
+     * 右边的文字按钮
+     *
+     * @param stringRes
+     */
+    private void addRightText(int stringRes) {
+        mRightLayout = new RelativeLayout(getContext());
+        LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT, mTitleViewHeight);
+        p.setMargins((int) (getResources().getDimension(R.dimen.margin_normal)), 0,
+                (int) (getResources().getDimension(R.dimen.margin_normal)), 0);
+        p.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        mRightLayout.setLayoutParams(p);
+        mRightLayout.setGravity(Gravity.CENTER);
+
+        TextView textView = newTextView(mButtonTextColor, stringRes);
+
+        mRightLayout.addView(textView);
+        addView(mRightLayout);
+
+        mRightLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onTitleClickListener != null)
+                    onTitleClickListener.onRightClick();
+            }
+        });
     }
 
     /**

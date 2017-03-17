@@ -1,10 +1,9 @@
-package com.storyshu.storyshu.model.database;
+package com.storyshu.storyshu.data;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.info.StoryInfo;

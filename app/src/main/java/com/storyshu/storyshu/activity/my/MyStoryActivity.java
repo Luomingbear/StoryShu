@@ -11,7 +11,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.adapter.MyStoryAdapter;
 import com.storyshu.storyshu.info.StoryInfo;
-import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.data.StoryDateBaseHelper;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.activity.welcome;
+package com.storyshu.storyshu.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,7 +11,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.activity.MainActivity;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;

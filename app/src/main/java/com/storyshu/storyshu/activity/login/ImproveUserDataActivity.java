@@ -12,7 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.ChooseImageResultActivity;
 import com.storyshu.storyshu.info.UserInfo;
-import com.storyshu.storyshu.model.database.StoryDateBaseHelper;
+import com.storyshu.storyshu.data.StoryDateBaseHelper;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;

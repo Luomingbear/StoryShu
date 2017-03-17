@@ -28,7 +28,7 @@
             android:value="f586be2e1a9562e175e4e96018ed79cc" />
 
         <activity
-            android:name=".activity.welcome.WelcomeActivity"
+            android:name=".activity.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,7 +55,8 @@
         <activity
             android:name=".activity.my.MyStoryActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.story.StoryRoomActivity"></activity>
+        <activity android:name=".activity.story.StoryRoomActivity" />
+        <activity android:name=".activity.story.CreateStoryActivity"></activity>
     </application>
 
 </manifest>

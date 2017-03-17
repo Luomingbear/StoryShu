@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.model.database;
+package com.storyshu.storyshu.data;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
