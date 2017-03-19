@@ -88,7 +88,7 @@ public class PoiDialogManger {
         mPoiListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i(TAG, "onItemClick: choose position:" + position);
+                Log.i(TAG, "onItemClick: choose location:" + position);
                 if (onPoiChooseListener != null)
                     onPoiChooseListener.onChoose(list.get(position));
             }

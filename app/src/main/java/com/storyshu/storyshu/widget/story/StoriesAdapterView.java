@@ -263,7 +263,7 @@ public class StoriesAdapterView extends AdapterView {
             card.measure(MeasureSpec.EXACTLY | itemWidth, MeasureSpec.EXACTLY | itemHeight);
         }
 
-        //position
+        //location
         positionCard(card, index);
 
         /**

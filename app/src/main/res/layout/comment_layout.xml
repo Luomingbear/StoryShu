@@ -10,8 +10,8 @@
 
     <com.storyshu.storyshu.widget.imageview.AvatarImageView
         android:id="@+id/avatar"
-        android:layout_width="@dimen/icon_normal"
-        android:layout_height="@dimen/icon_normal" />
+        android:layout_width="@dimen/image_small"
+        android:layout_height="@dimen/image_small" />
 
     <TextView
         android:id="@+id/nickname"

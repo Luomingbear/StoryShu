@@ -69,7 +69,7 @@ public class BottomNavigationBar extends LinearLayout {
         setOrientation(HORIZONTAL);
         setGravity(Gravity.BOTTOM);
 
-        mTextSize = getResources().getDimension(R.dimen.font_min);
+        mTextSize = getResources().getDimension(R.dimen.font_small);
         mTextColorDef = getResources().getColor(R.color.colorGrayLight);
         mTextColorHit = getResources().getColor(R.color.colorGoldLight);
 

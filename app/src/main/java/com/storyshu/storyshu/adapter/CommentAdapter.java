@@ -46,9 +46,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public void onBindViewHolder(ViewHold holder, int position) {
         viewHolder = holder;
 
-        CommentInfo commentInfo = mCommentList.get(position);
+        final CommentInfo commentInfo = mCommentList.get(position);
 
-        ImageLoader.getInstance().loadImage(commentInfo.getAvatar(), avatarLoaderListener);
+//        ImageLoader.getInstance().loadImage(commentInfo.getAvatar(), avatarLoaderListener);
+        ImageLoader.getInstance().displayImage(commentInfo.getAvatar(), viewHolder.avatar);
+
         viewHolder.nickname.setText(commentInfo.getNickname());
         viewHolder.createTime.setText(commentInfo.getCreateTime());
         viewHolder.tag.setText(commentInfo.getTags());

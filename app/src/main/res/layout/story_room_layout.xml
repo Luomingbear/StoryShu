@@ -44,15 +44,15 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginRight="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:lineSpacingExtra="@dimen/line_space_small"
+                    android:lineSpacingExtra="@dimen/line_space_normal"
                     android:text="出了近铁布施站，沿着铁路径直向西。已经十月了，天气仍闷热难当，地面也很干燥。每当卡车疾驰而过，扬起的尘土极可能会让人又皱眉又揉眼睛。 笹垣润三的脚步说不上轻快。他今天本不必出勤。很久没休假了，还以为今天可以悠游地看点书。"
                     android:textColor="?attr/textColor2"
                     android:textSize="@dimen/font_normal" />
 
                 <ImageView
                     android:id="@+id/story_pic"
-                    android:layout_width="@dimen/image_small"
-                    android:layout_height="@dimen/image_small"
+                    android:layout_width="@dimen/image_big"
+                    android:layout_height="@dimen/image_big"
                     android:layout_below="@id/story_content"
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
@@ -99,13 +99,13 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/navigation_height"
+                    android:layout_height="@dimen/title_height"
                     android:layout_below="@id/location"
                     android:layout_marginTop="@dimen/margin_small">
 
                     <com.storyshu.storyshu.widget.imageview.RoundImageView
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/navigation_height"
+                        android:layout_height="@dimen/title_height"
                         android:layout_margin="1dp"
                         android:src="?attr/cardTopBg"
                         app:BorderRadius="@dimen/border_radius_normal"
@@ -118,8 +118,8 @@
 
                     <com.storyshu.storyshu.widget.imageview.AvatarImageView
                         android:id="@+id/author_avatar"
-                        android:layout_width="@dimen/icon_large"
-                        android:layout_height="@dimen/icon_large"
+                        android:layout_width="@dimen/image_normal"
+                        android:layout_height="@dimen/image_normal"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:src="@drawable/avatar_superman" />

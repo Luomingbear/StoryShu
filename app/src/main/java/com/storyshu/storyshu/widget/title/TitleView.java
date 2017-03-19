@@ -117,7 +117,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
      */
     private void init() {
 
-        mIconWidth = (int) getResources().getDimension(R.dimen.icon_small);
+        mIconWidth = (int) getResources().getDimension(R.dimen.icon_min);
         mTitleViewHeight = (int) getResources().getDimension(R.dimen.title_height);
         setGravity(Gravity.CENTER_VERTICAL);
 
@@ -146,8 +146,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE:
                 //left
-//                addLeftButton(R.drawable.back);
-                addBackButton();
+                addLeftButton(R.drawable.back);
+//                addBackButton();
                 //title
                 addTitle();
                 //line
@@ -156,7 +156,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE_GO:
                 //left
-                addBackButton();
+                addLeftButton(R.drawable.back);
+//                addBackButton();
                 //go
                 addRightButton(R.drawable.go);
                 //title
@@ -176,7 +177,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case BACK_TILE_SEND:
                 //left
-                addBackButton();
+                addLeftButton(R.drawable.back);
                 //send
 //                addRightButton(R.drawable.send);
                 addRightText(R.string.issue);
