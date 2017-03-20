@@ -57,12 +57,10 @@ public class StoryDateBaseHelper extends BaseDataHelper {
         if (cursor.moveToFirst()) {
             do {
                 StoryInfo story = new StoryInfo();
-                story.setExtract(cursor.getString(cursor.getColumnIndex(EXTRACT)));
                 story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
                 story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
                 story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
                 story.setDetailPic(cursor.getString(cursor.getColumnIndex(COVER_PIC)));
-                story.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
                 story.setStoryId(cursor.getInt(cursor.getColumnIndex(STORY_ID)));
                 LatLonPoint latLonPoint = new LatLonPoint(cursor.getFloat(cursor.getColumnIndex(LAT)), cursor.getFloat(cursor.getColumnIndex(LNG)));
                 story.setLatLng(latLonPoint);
@@ -114,8 +112,6 @@ public class StoryDateBaseHelper extends BaseDataHelper {
             values.put(USER_ID, storyInfo.getUserInfo().getUserId());
 
             values.put(COVER_PIC, storyInfo.getDetailPic());
-            values.put(TITLE, storyInfo.getTitle());
-            values.put(EXTRACT, storyInfo.getExtract());
             values.put(CONTENT, storyInfo.getContent());
             values.put(CREATE_DATE, storyInfo.getCreateDate());
             values.put(LOCATION_NAME, storyInfo.getLocation());

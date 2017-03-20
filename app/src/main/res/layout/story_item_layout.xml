@@ -98,7 +98,7 @@
         android:textSize="@dimen/font_small" />
 
     <TextView
-        android:id="@+id/extract"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/story_title"
@@ -116,7 +116,7 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@id/extract"
+        android:layout_below="@id/content"
         android:background="@color/colorGrayLight" />
 
     <View

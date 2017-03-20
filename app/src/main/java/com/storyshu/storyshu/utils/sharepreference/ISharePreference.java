@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.UserInfo;
 
@@ -189,6 +190,25 @@ public class ISharePreference {
         editor.putFloat(LAT, (float) latLng.latitude);
         editor.putFloat(LNG, (float) latLng.longitude);
         editor.apply();
+    }
+
+    /**
+     * 获取上次保存的位置信息
+     *
+     * @return 经纬度
+     */
+    public static LatLonPoint getLatLngPointData(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(LOCATION_DATA,
+                Activity.MODE_PRIVATE);
+        /**
+         * latitude - 地点的纬度，在-90 与90 之间的double 型数值。
+         longitude - 地点的经度，在-180 与180 之间的double 型数值。
+         */
+        LatLonPoint latLng = new LatLonPoint(sp.getFloat(LAT, 360),
+                sp.getFloat(LNG, 360));
+        if (latLng.getLatitude() == 360 && latLng.getLongitude() == 360)
+            return null;
+        return latLng;
     }
 
     /**

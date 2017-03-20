@@ -131,7 +131,8 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
             CommentInfo commentInfo = new CommentInfo();
             commentInfo.setNickname("赵日天");
             commentInfo.setAvatar("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3022635415,3979946006&fm=23&gp=0.jpg");
-            commentInfo.setCreateTime(TimeConvertUtil.convertCurrentTime(new Date(System.currentTimeMillis())));
+            commentInfo.setCreateTime(TimeConvertUtil.convertCurrentTime(getApplicationContext(),
+                    new Date(System.currentTimeMillis())));
             commentInfo.setOpposeNum(23);
             commentInfo.setLikeNum(66);
             commentInfo.setTags(i + "#");

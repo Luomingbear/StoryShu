@@ -115,9 +115,8 @@ public class MyStoryAdapter extends RecyclerView.Adapter {
         ImageLoader.getInstance().loadImage(storyInfo.getDetailPic(), detailLoaderListener);
         viewHolder.nickname.setText(storyInfo.getUserInfo().getNickname());
         viewHolder.location.setText(storyInfo.getLocation());
-        viewHolder.createDate.setText(TimeConvertUtil.convertCurrentTime(storyInfo.getCreateDate()));
-        viewHolder.title.setText(storyInfo.getTitle());
-        viewHolder.extarct.setText(storyInfo.getExtract());
+        viewHolder.createDate.setText(TimeConvertUtil.convertCurrentTime(mContext, storyInfo.getCreateDate()));
+        viewHolder.extarct.setText(storyInfo.getContent());
 
 
         viewHolder.clickLayout.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +152,7 @@ public class MyStoryAdapter extends RecyclerView.Adapter {
             createDate = (TextView) itemView.findViewById(R.id.create_date);
             detailPic = (RoundImageView) itemView.findViewById(R.id.detail_pic);
             title = (TextView) itemView.findViewById(R.id.story_title);
-            extarct = (TextView) itemView.findViewById(R.id.extract);
+            extarct = (TextView) itemView.findViewById(R.id.content);
             clickLayout = itemView.findViewById(R.id.story_click_layout);
         }
     }

@@ -123,18 +123,21 @@ public class IMapManager {
     /**
      * 显示用户自己位置的图标
      */
-    public void showMyPositionIcon(LatLng personLatLng) {
+    public void showMyPositionIcon(LatLonPoint personLatLng) {
         if (personLatLng == null)
             return;
         Log.i(TAG, "showMyPositionIcon: !!!!!!!!!!!!!!!");
         if (mMyPositionMarker == null)
-            mMyPositionMarker = new MyCircleMarker(mContext, mAMap, personLatLng);
+            mMyPositionMarker = new MyCircleMarker(mContext, mAMap,
+                    new LatLng(personLatLng.getLatitude(), personLatLng.getLongitude()));
 
         if (AMapUtils.calculateLineDistance(mMyPositionMarker.getLatLng(), mLatLng) > 200) {
             mAMap.clear();
-            mMyPositionMarker = new MyCircleMarker(mContext, mAMap, personLatLng);
+            mMyPositionMarker = new MyCircleMarker(mContext, mAMap,
+                    new LatLng(personLatLng.getLatitude(), personLatLng.getLongitude()));
         } else
-            mMyPositionMarker.animate(personLatLng);
+            mMyPositionMarker.animate(new LatLng(personLatLng.getLatitude(),
+                    personLatLng.getLongitude()));
     }
 
     /**

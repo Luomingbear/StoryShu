@@ -30,9 +30,7 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     public static String STORY_TABLE = "story_table"; //故事的id
     public static String STORY_ID = "story_id"; //故事的id
     public static String COVER_PIC = "cover_pic"; //故事的说明图
-    public static String TITLE = "title"; //故事的标题
-    public static String EXTRACT = "extract"; //故事的摘要
-    public static String CONTENT = "content"; //故事的摘要
+    public static String CONTENT = "content"; //故事的内容
     public static String CREATE_DATE = "create_date"; //发布时间
 
     /**
@@ -65,8 +63,7 @@ public class BaseDataHelper extends SQLiteOpenHelper {
         String CREATE_STORY_TABLE = "CREATE TABLE " + STORY_TABLE + "("
                 + STORY_ID + " INTEGER PRIMARY KEY NOT NULL, " + USER_ID + " INTEGER NOT NULL,"
                 + LOCATION_ID + " INTEGER, " + LOCATION_NAME + " TEXT NOT NULL, " + LAT + " REAL, " +
-                LNG + " REAL, " + TITLE + " TEXT NOT NULL, " + COVER_PIC + " TEXT NOT NULL, "
-                + EXTRACT + " TEXT NOT NULL, " + CONTENT + " TEXT NOT NULL, "
+                LNG + " REAL," + COVER_PIC + " TEXT NOT NULL, " + CONTENT + " TEXT NOT NULL, "
                 + CREATE_DATE + " TEXT NOT NULL " + ")";
         db.execSQL(CREATE_STORY_TABLE);
 

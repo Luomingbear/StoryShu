@@ -248,9 +248,8 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
         int i;
         for (i = 0; i < 6; i++) {
             CardInfo cardInfo = new CardInfo();
-            cardInfo.setTitle("路人三千");
             cardInfo.setDetailPic("http://img.hb.aicdn.com/61588dbae333304cfe8510ac5183a33d30c922bf2ad93-kn7LXO_fw658");
-            cardInfo.setExtract("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
+            cardInfo.setContent("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
 
 //            cardInfo.setCreateDate(TimeConvertUtil.convertCurrentTime(new Date()));
             UserInfo userInfo = new UserInfo();
@@ -261,9 +260,9 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
         }
 
         mCardInfoList.get(0).setDetailPic("");
-        mCardInfoList.get(0).setExtract("最初不过你好");
+        mCardInfoList.get(0).setContent("最初不过你好");
         mCardInfoList.get(1).setDetailPic("https://img3.doubanio.com/lpic/s29059325.jpg");
-        mCardInfoList.get(2).setExtract("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
+        mCardInfoList.get(2).setContent("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
         mCardInfoList.get(2).setDetailPic("");
         mCardInfoList.get(3).setDetailPic("http://img.hb.aicdn.com/03e819460466cad979f454cb001eb4e2c35f2611580ea-qkBa75_fw658");
         mCardInfoList.get(4).setDetailPic("http://img.hb.aicdn.com/df5dda0532822ab3f1317d6501ac818ee2d83c76685d6-WC54Ra_fw658");

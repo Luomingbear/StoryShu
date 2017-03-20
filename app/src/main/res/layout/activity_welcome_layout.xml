@@ -55,7 +55,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/image_normal"
+        android:layout_height="@dimen/image_big"
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="horizontal"

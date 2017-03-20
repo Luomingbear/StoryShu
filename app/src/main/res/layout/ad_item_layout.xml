@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginLeft="@dimen/margin_normal"
+    android:layout_marginRight="@dimen/margin_normal"
+    android:layout_marginTop="@dimen/margin_small"
+    android:background="@drawable/card_view_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.storyshu.storyshu.widget.imageview.RoundImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ad_image_height"
+            android:scaleType="fitCenter"
+            app:BorderRadius="@dimen/border_radius_normal"
+            app:RoundType="round_top_left_top_right" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/selector_height"
+            android:layout_below="@+id/cover">
+
+            <com.storyshu.storyshu.widget.imageview.RoundImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/selector_height"
+                android:layout_margin="0.5dp"
+                android:src="?attr/cardTopBg"
+                app:BorderRadius="@dimen/border_radius_normal"
+                app:RoundType="round_bottom_left_bottom_right" />
+
+            <TextView
+                android:id="@+id/story_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:text="@string/ad"
+                android:textColor="?attr/textColor2"
+                android:textSize="@dimen/font_small" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="0.5dp"
+                android:layout_height="@dimen/font_small"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_toRightOf="@id/story_type"
+                android:background="?attr/textColor2" />
+
+            <TextView
+                android:id="@+id/destroy_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_toRightOf="@id/line"
+                android:textColor="?attr/textColor2"
+                android:textSize="@dimen/font_small" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

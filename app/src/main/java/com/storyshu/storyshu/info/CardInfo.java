@@ -11,11 +11,14 @@ import android.os.Parcelable;
 public class CardInfo implements Parcelable {
     private int storyId; //故事的id
     private String detailPic; //故事的说明图
-    private String title; //故事的标题
-    private String extract; //故事的摘要
+    private String content; //故事的内容
     private UserInfo userInfo; //用户信息
     private String createDate; //发布时间
-    private String location;
+    private int lifeTime = 24; //保存时间，单位小时
+    private String location; //地点
+
+    private int likeNum = 0; //点赞数量
+    private int opposeNum = 0; //反对数量
 
     public CardInfo() {
     }
@@ -23,32 +26,36 @@ public class CardInfo implements Parcelable {
     public CardInfo(StoryInfo storyInfo) {
         this.storyId = storyInfo.getStoryId();
         this.detailPic = storyInfo.getDetailPic();
-        this.title = storyInfo.getTitle();
-        this.extract = storyInfo.getExtract();
+        this.content = this.getContent();
         this.userInfo = storyInfo.getUserInfo();
         this.createDate = storyInfo.getCreateDate();
         this.location = storyInfo.getLocation();
     }
 
-    public CardInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, String createDate, String location) {
+    public CardInfo(int storyId, String detailPic, String extract, UserInfo userInfo,
+                    String createDate, int lifeTime, String location, int likeNum, int opposeNum) {
         this.storyId = storyId;
         this.detailPic = detailPic;
-        this.title = title;
-        this.extract = extract;
+        this.content = extract;
         this.userInfo = userInfo;
         this.createDate = createDate;
+        this.lifeTime = lifeTime;
         this.location = location;
+        this.likeNum = likeNum;
+        this.opposeNum = opposeNum;
     }
 
-    public CardInfo(int storyId, String detailPic, String title, String extract, String nickname, int userId, String headPortrait,
-                    String createDate, String location) {
+    public CardInfo(int storyId, String detailPic, String extract, String nickname,
+                    int userId, String headPortrait, String createDate, int lifeTime, String location, int likeNum, int opposeNum) {
         this.storyId = storyId;
         this.detailPic = detailPic;
-        this.title = title;
-        this.extract = extract;
+        this.content = extract;
         this.userInfo = new UserInfo(nickname, userId, headPortrait);
         this.createDate = createDate;
+        this.lifeTime = lifeTime;
         this.location = location;
+        this.likeNum = likeNum;
+        this.opposeNum = opposeNum;
     }
 
     public int getStoryId() {
@@ -67,20 +74,12 @@ public class CardInfo implements Parcelable {
         this.detailPic = detailPic;
     }
 
-    public String getTitle() {
-        return title;
+    public String getContent() {
+        return content;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getExtract() {
-        return extract;
-    }
-
-    public void setExtract(String extract) {
-        this.extract = extract;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public UserInfo getUserInfo() {
@@ -97,6 +96,30 @@ public class CardInfo implements Parcelable {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    public int getLifeTime() {
+        return lifeTime;
+    }
+
+    public void setLifeTime(int lifeTime) {
+        this.lifeTime = lifeTime;
+    }
+
+    public int getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(int likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public int getOpposeNum() {
+        return opposeNum;
+    }
+
+    public void setOpposeNum(int opposeNum) {
+        this.opposeNum = opposeNum;
     }
 
     public String getLocation() {
@@ -116,21 +139,25 @@ public class CardInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.storyId);
         dest.writeString(this.detailPic);
-        dest.writeString(this.title);
-        dest.writeString(this.extract);
+        dest.writeString(this.content);
         dest.writeParcelable(this.userInfo, flags);
         dest.writeString(this.createDate);
+        dest.writeInt(this.lifeTime);
         dest.writeString(this.location);
+        dest.writeInt(this.likeNum);
+        dest.writeInt(this.opposeNum);
     }
 
     protected CardInfo(Parcel in) {
         this.storyId = in.readInt();
         this.detailPic = in.readString();
-        this.title = in.readString();
-        this.extract = in.readString();
+        this.content = in.readString();
         this.userInfo = in.readParcelable(UserInfo.class.getClassLoader());
         this.createDate = in.readString();
+        this.lifeTime = in.readInt();
         this.location = in.readString();
+        this.likeNum = in.readInt();
+        this.opposeNum = in.readInt();
     }
 
     public static final Creator<CardInfo> CREATOR = new Creator<CardInfo>() {

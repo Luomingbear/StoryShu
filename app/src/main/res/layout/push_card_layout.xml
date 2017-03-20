@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginLeft="@dimen/margin_normal"
+    android:layout_marginRight="@dimen/margin_normal"
+    android:layout_marginTop="@dimen/margin_small"
     android:background="@drawable/card_view_bg"
     android:orientation="vertical">
 
@@ -25,25 +29,27 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_normal" />
 
-        <CheckBox
+        <com.storyshu.storyshu.widget.ClickButton
             android:id="@+id/oppose"
             android:layout_width="@dimen/icon_small"
-            android:layout_height="@dimen/icon_small"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_normal"
-            android:background="@drawable/button_oppose"
-            android:button="@null" />
+            android:button="@null"
+            app:cGravity="top"
+            app:cType="oppose" />
 
-        <CheckBox
+        <com.storyshu.storyshu.widget.ClickButton
             android:id="@+id/like"
             android:layout_width="@dimen/icon_small"
-            android:layout_height="@dimen/icon_small"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_big"
             android:layout_toLeftOf="@id/oppose"
-            android:background="@drawable/button_like"
-            android:button="@null" />
+            android:button="@null"
+            app:cGravity="top"
+            app:cType="like" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -68,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/margin_min"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?attr/textColor2"
                 android:textSize="@dimen/font_small" />
 
         </LinearLayout>
@@ -81,6 +87,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -107,4 +114,16 @@
             android:scaleType="centerCrop"
             android:visibility="gone" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:ellipsize="start"
+        android:maxLines="1"
+        android:textColor="?attr/colorAccent"
+        android:textSize="@dimen/font_small" />
+
 </LinearLayout>

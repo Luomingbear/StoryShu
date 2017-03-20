@@ -165,6 +165,7 @@ public class MainActivity extends IPermissionActivity {
                     mStoryMapFragment = new MapFragment();
                     transaction.add(R.id.content, mStoryMapFragment);
                 } else transaction.show(mStoryMapFragment);
+
                 break;
 
             case 1:

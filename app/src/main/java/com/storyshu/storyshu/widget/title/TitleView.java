@@ -191,7 +191,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //left
                 addBackButton();
                 //more
-//                addRightButton(R.drawable.serch);
+//                addRightButton(R.drawable.search);
                 //title
                 addTitle();
                 break;

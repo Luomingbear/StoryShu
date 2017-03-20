@@ -101,7 +101,7 @@ public class CardAdapter extends IBaseAdapter {
             viewHolder.nickName = (TextView) convertView.findViewById(R.id.nickname);
             viewHolder.like = (CheckBox) convertView.findViewById(R.id.like);
             viewHolder.oppose = (CheckBox) convertView.findViewById(R.id.oppose);
-            viewHolder.extract = (TextView) convertView.findViewById(R.id.extract);
+            viewHolder.extract = (TextView) convertView.findViewById(R.id.content);
             viewHolder.destroyTime = (TextView) convertView.findViewById(R.id.destroy_time);
             viewHolder.cover = (ImageView) convertView.findViewById(R.id.cover_pic);
 
@@ -121,9 +121,9 @@ public class CardAdapter extends IBaseAdapter {
             ImageLoader.getInstance().loadImage(cardInfo.getUserInfo().getAvatar(), avatarLoadListener);
         //
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
-        viewHolder.destroyTime.setText(TimeConvertUtil.convertCurrentTime(cardInfo.getCreateDate()));
+        viewHolder.destroyTime.setText(TimeConvertUtil.convertCurrentTime(getContext(), cardInfo.getCreateDate()));
 
-        viewHolder.extract.setText(cardInfo.getExtract());
+        viewHolder.extract.setText(cardInfo.getContent());
         if (!TextUtils.isEmpty(cardInfo.getDetailPic())) {
             viewHolder.cover.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().loadImage(cardInfo.getDetailPic(), coverLoadListener);

@@ -8,8 +8,8 @@ import com.amap.api.services.core.LatLonPoint;
  */
 
 public class PoiInfo implements Comparable<PoiInfo> {
-    private String PoiName; //兴趣点名字
     private int PoiId; //兴趣点id
+    private String PoiName; //兴趣点名字
     private LatLonPoint PoiLatLonPoint; //兴趣点的坐标
 
     public PoiInfo() {

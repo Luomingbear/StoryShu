@@ -7,6 +7,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
+import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeAddress;
@@ -105,7 +106,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         animate2CurrentPosition();
 
         //显示用户图标
-        mMapManager.showMyPositionIcon(ISharePreference.getLatLngData(mAppContext));
+        mMapManager.showMyPositionIcon(ISharePreference.getLatLngPointData(mAppContext));
         //显示故事集图标
         mMapManager.showStoriesIcons();
     }
@@ -229,7 +230,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         /**
          * 设置用户的图标显示
          */
-        mMapManager.showMyPositionIcon(latLng);
+        mMapManager.showMyPositionIcon(new LatLonPoint(latLng.latitude, latLng.longitude));
 
         //更新位置信息
         mAmapLocation = aMapLocation;

@@ -2,7 +2,6 @@ package com.storyshu.storyshu.info;
 
 import android.os.Parcel;
 
-import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 
 /**
@@ -12,35 +11,50 @@ import com.amap.api.services.core.LatLonPoint;
 
 public class StoryInfo extends CardInfo {
     private String Content; //正文
-    private LatLonPoint latLng;
+    private LatLonPoint latLng; //坐标
 
     public StoryInfo() {
     }
 
-    public StoryInfo(String content) {
-        Content = content;
-    }
-
-    public StoryInfo(int storyId, String detailPic, String title, String extract, UserInfo userInfo, String createDate, String content,
-                     String location, LatLonPoint latLng) {
-        super(storyId, detailPic, title, extract, userInfo, createDate, location);
+    public StoryInfo(String content, LatLonPoint latLng) {
         Content = content;
         this.latLng = latLng;
     }
 
-    public StoryInfo(int storyId, String detailPic, String title, String extract, String nickname, int userId, String avatar,
-                     String createDate, String content, String location, LatLonPoint latLng) {
-        super(storyId, detailPic, title, extract, nickname, userId, avatar, createDate, location);
+    public StoryInfo(StoryInfo storyInfo, String content, LatLonPoint latLng) {
+        super(storyInfo);
         Content = content;
         this.latLng = latLng;
     }
 
-    public void setContent(String content) {
+    public StoryInfo(int storyId, String detailPic, String extract, UserInfo userInfo, String createDate,
+                     int lifeTime, String location, int likeNum, int opposeNum, String content, LatLonPoint latLng) {
+        super(storyId, detailPic, extract, userInfo, createDate, lifeTime, location, likeNum, opposeNum);
         Content = content;
+        this.latLng = latLng;
     }
 
+    public StoryInfo(int storyId, String detailPic, String extract, String nickname, int userId, String headPortrait,
+                     String createDate, int lifeTime, String location, int likeNum, int opposeNum, String content, LatLonPoint latLng) {
+        super(storyId, detailPic, extract, nickname, userId, headPortrait, createDate, lifeTime, location, likeNum, opposeNum);
+        Content = content;
+        this.latLng = latLng;
+    }
+
+    public StoryInfo(Parcel in, String content, LatLonPoint latLng) {
+        super(in);
+        Content = content;
+        this.latLng = latLng;
+    }
+
+    @Override
     public String getContent() {
         return Content;
+    }
+
+    @Override
+    public void setContent(String content) {
+        Content = content;
     }
 
     public LatLonPoint getLatLng() {
@@ -49,11 +63,6 @@ public class StoryInfo extends CardInfo {
 
     public void setLatLng(LatLonPoint latLng) {
         this.latLng = latLng;
-    }
-
-    public void setLatLng(LatLng latLng) {
-        LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
-        this.latLng = latLonPoint;
     }
 
     @Override
@@ -65,13 +74,11 @@ public class StoryInfo extends CardInfo {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(this.Content);
-        dest.writeParcelable(this.latLng, flags);
     }
 
     protected StoryInfo(Parcel in) {
         super(in);
         this.Content = in.readString();
-        this.latLng = in.readParcelable(LatLng.class.getClassLoader());
     }
 
     public static final Creator<StoryInfo> CREATOR = new Creator<StoryInfo>() {
