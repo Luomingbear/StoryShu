@@ -91,6 +91,13 @@
     <string name="search">搜索</string>
     <string name="ad">广告</string>
 
+    <!--信息-->
+    <string name="like2me">我收到的赞</string>
+    <string name="comment2me">我收到的评论</string>
+    <string name="system2me">系统消息</string>
+    <string name="like_my_story">赞了我的故事</string>
+    <string name="like_my_comment">赞了我的评论</string>
+
     <!--标签控件-->
     <string name="add_tag">添加标签</string>
     <string name="delete_tag">删除标签</string>

@@ -23,7 +23,6 @@ import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
 import com.storyshu.storyshu.utils.ParcelableUtil;
 import com.storyshu.storyshu.utils.PhoneFormatCheckUtils;
-import com.storyshu.storyshu.utils.StatusBarUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 import com.storyshu.storyshu.widget.text.RoundTextView;
@@ -184,9 +183,6 @@ public class LoginActivity extends IBaseActivity implements View.OnClickListener
         //头像
 //        mAvatar = (RoundImageView) findViewById(R.id.login_avatar);
 //        mAvatar.setOnClickListener(this);
-
-        //状态栏蓝色
-        StatusBarUtil.setWindowStatusBarColor(this, R.color.colorBlack);
 
         //地图
         mMapLineBg = findViewById(R.id.map_line_bg);

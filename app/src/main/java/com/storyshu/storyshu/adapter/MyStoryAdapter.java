@@ -15,7 +15,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.BitmapUtil;
-import com.storyshu.storyshu.utils.time.TimeConvertUtil;
+import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
 
 import java.util.List;
@@ -115,7 +115,7 @@ public class MyStoryAdapter extends RecyclerView.Adapter {
         ImageLoader.getInstance().loadImage(storyInfo.getDetailPic(), detailLoaderListener);
         viewHolder.nickname.setText(storyInfo.getUserInfo().getNickname());
         viewHolder.location.setText(storyInfo.getLocation());
-        viewHolder.createDate.setText(TimeConvertUtil.convertCurrentTime(mContext, storyInfo.getCreateDate()));
+        viewHolder.createDate.setText(TimeUtils.convertCurrentTime(mContext, storyInfo.getCreateDate()));
         viewHolder.extarct.setText(storyInfo.getContent());
 
 

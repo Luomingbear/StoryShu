@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/margin_small"
-    android:paddingRight="@dimen/margin_small"
+    android:paddingLeft="@dimen/margin_normal"
+    android:paddingRight="@dimen/margin_normal"
     android:paddingTop="@dimen/margin_small">
 
     <com.storyshu.storyshu.widget.imageview.AvatarImageView
@@ -68,6 +68,7 @@
         android:layout_marginLeft="@dimen/margin_normal"
         android:layout_marginTop="@dimen/margin_normal"
         android:layout_toRightOf="@id/avatar"
+        android:lineSpacingExtra="@dimen/line_space_normal"
         android:textColor="?attr/textColor2"
         android:textSize="@dimen/font_normal" />
 

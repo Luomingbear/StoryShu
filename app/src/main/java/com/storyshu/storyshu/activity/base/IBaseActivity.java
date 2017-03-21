@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
@@ -79,7 +81,6 @@ public class IBaseActivity extends AppCompatActivity {
         intent.setClass(this, cls);
         intent.putExtra(name, parcelable);
         startActivity(intent, options.toBundle());
-
     }
 
     public void intentWithBundle(Class<?> cls, Bundle options) {

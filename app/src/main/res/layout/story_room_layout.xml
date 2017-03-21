@@ -41,9 +41,9 @@
                     android:id="@+id/story_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginRight="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:lineSpacingExtra="@dimen/line_space_normal"
                     android:text="出了近铁布施站，沿着铁路径直向西。已经十月了，天气仍闷热难当，地面也很干燥。每当卡车疾驰而过，扬起的尘土极可能会让人又皱眉又揉眼睛。 笹垣润三的脚步说不上轻快。他今天本不必出勤。很久没休假了，还以为今天可以悠游地看点书。"
                     android:textColor="?attr/textColor2"
@@ -54,7 +54,7 @@
                     android:layout_width="@dimen/image_big"
                     android:layout_height="@dimen/image_big"
                     android:layout_below="@id/story_content"
-                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_small"
                     android:scaleType="centerCrop"
                     android:src="@drawable/test" />
@@ -77,7 +77,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/pic_size"
-                    android:layout_margin="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginRight="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:text="@string/report"
                     android:textColor="?attr/textColor3"
                     android:textSize="@dimen/font_small" />
@@ -88,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/pic_size"
-                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_toLeftOf="@id/report"
                     android:ellipsize="start"
@@ -121,7 +123,7 @@
                         android:layout_width="@dimen/image_normal"
                         android:layout_height="@dimen/image_normal"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_marginLeft="@dimen/margin_normal"
                         android:src="@drawable/avatar_superman" />
 
                     <com.storyshu.storyshu.widget.ClickButton
@@ -130,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_marginLeft="@dimen/margin_normal"
                         android:layout_marginRight="@dimen/margin_normal"
                         app:cGravity="top"
                         app:cType="comment" />

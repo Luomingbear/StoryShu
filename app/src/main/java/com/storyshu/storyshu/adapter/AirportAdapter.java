@@ -2,6 +2,7 @@ package com.storyshu.storyshu.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.AirPortPushInfo;
-import com.storyshu.storyshu.utils.time.TimeConvertUtil;
+import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
@@ -59,7 +60,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         switch (pushInfo.getPushType()) {
             case AirPortPushInfo.TYPE_AD:
                 ImageLoader.getInstance().displayImage(pushInfo.getDetailPic(), holder.cover);
-                holder.destroyTime.setText(TimeConvertUtil.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));
+                holder.destroyTime.setText(TimeUtils.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));
                 break;
 
             case AirPortPushInfo.TYPE_STORY:
@@ -69,12 +70,15 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                 holder.oppose.setNum(pushInfo.getOpposeNum());
                 holder.content.setText(pushInfo.getContent());
                 holder.location.setText(pushInfo.getLocation());
-                holder.cover.setVisibility(View.VISIBLE);
-                ImageLoader.getInstance().displayImage(pushInfo.getDetailPic(), holder.cover);
-                holder.destroyTime.setText(TimeConvertUtil.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));
+
+                if (!TextUtils.isEmpty(pushInfo.getDetailPic())) {
+                    holder.cover.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(pushInfo.getDetailPic(), holder.cover);
+                }
+
+                holder.destroyTime.setText(TimeUtils.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));
                 break;
         }
-
     }
 
 

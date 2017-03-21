@@ -1,0 +1,102 @@
+package com.storyshu.storyshu.mvp.message;
+
+import android.content.Context;
+
+import com.storyshu.storyshu.adapter.MessageExpandableAdapter;
+import com.storyshu.storyshu.adapter.SystemMessageAdapter;
+import com.storyshu.storyshu.info.StoryMessageInfo;
+import com.storyshu.storyshu.info.SystemMessageInfo;
+import com.storyshu.storyshu.model.MessageModel;
+
+import java.util.ArrayList;
+
+/**
+ * mvp模式
+ * 消息页面的代理实现
+ * Created by bear on 2017/3/21.
+ */
+
+public class MessagePresenterIml implements MessagePresenter {
+    private MessageView mMessageView; //消息页面的view
+    private Context mContext;
+    private MessageModel mMessageModel; //信息更新的model
+    private ArrayList<StoryMessageInfo.MessageType> mGroupList; //组别列表
+    private ArrayList<StoryMessageInfo> mLikeList; //喜欢我的列表
+    private ArrayList<StoryMessageInfo> mCommentList; //评论我的列表
+    private ArrayList<SystemMessageInfo> mSystemMessageList; //系统消息的列表
+    private MessageExpandableAdapter mLikeExpandableAdapter; //点赞显示适配器
+    private MessageExpandableAdapter mCommentExpandableAdapter; //评论显示适配器
+    private SystemMessageAdapter mSystemExpandableAdapter; //系统信息显示适配器
+
+    public MessagePresenterIml(Context context, MessageView mMessageView) {
+        this.mContext = context;
+        this.mMessageView = mMessageView;
+        init();
+    }
+
+    private void init() {
+        mGroupList = new ArrayList<>();
+    }
+
+    private MessageModel.OnMessageModelListener messageModelListener = new MessageModel.OnMessageModelListener() {
+        @Override
+        public void onLikeDataGot(ArrayList<StoryMessageInfo> messageInfoList) {
+            mLikeList = messageInfoList;
+            mGroupList.add(StoryMessageInfo.MessageType.LIKE);
+        }
+
+        @Override
+        public void onCommentDataGot(ArrayList<StoryMessageInfo> messageList) {
+            mCommentList = messageList;
+            mGroupList.add(StoryMessageInfo.MessageType.COMMENT);
+        }
+
+        @Override
+        public void onSystemDataGot(ArrayList<SystemMessageInfo> messageList) {
+            mSystemMessageList = messageList;
+            showMessageList();
+        }
+    };
+
+    /**
+     * 获取消息数据
+     */
+    @Override
+    public void getMessageData() {
+        //获取消息列表
+        mMessageModel = new MessageModel(mContext);
+        mMessageModel.updateMessageData(messageModelListener);
+    }
+
+    @Override
+    public void showMessageList() {
+        mLikeExpandableAdapter = new MessageExpandableAdapter(mContext, mLikeList);
+        mMessageView.getLikeMessageList().setAdapter(mLikeExpandableAdapter);
+
+        mCommentExpandableAdapter = new MessageExpandableAdapter(mContext, mCommentList);
+        mMessageView.getCommentMessageList().setAdapter(mCommentExpandableAdapter);
+
+        mSystemExpandableAdapter = new SystemMessageAdapter(mContext, mSystemMessageList);
+        mMessageView.getSystemMessageList().setAdapter(mSystemExpandableAdapter);
+    }
+
+    @Override
+    public void unFoldList(ListType listType) {
+
+    }
+
+    @Override
+    public void FoldList(ListType listType) {
+
+    }
+
+    @Override
+    public void toStoryRoom() {
+
+    }
+
+    @Override
+    public void toComputerMessage() {
+
+    }
+}

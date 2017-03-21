@@ -4,20 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/fake_statusbar_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="?attr/colorPrimary" />
+
     <com.amap.api.maps.MapView
         android:id="@+id/story_map_map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/title_layout">
 
     </com.amap.api.maps.MapView>
 
     <!--顶部的标题-->
     <RelativeLayout
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
+        android:layout_below="@id/fake_statusbar_view"
         android:background="?attr/colorPrimary">
 
         <ImageView

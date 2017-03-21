@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,9 +32,9 @@ import java.util.TimerTask;
  * Created by bear on 2017/3/11.
  */
 
-public class MapFragment extends Fragment implements ILocationManager.OnLocationMarkerClickListener {
+public class MapFragment extends IBaseStatusFragment implements ILocationManager.OnLocationMarkerClickListener {
     private static final String TAG = "MapFragment";
-    private View mViewRoot; //总布局
+//    private View mRootView; //总布局
     private MapView mMapView; //地图
     private StoriesAdapterView mStoryCardWindow; //故事卡片的窗口
     private ArrayList<CardInfo> mCardInfoList; //数据源，卡片数据列表
@@ -48,10 +47,10 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewRoot = inflater.inflate(R.layout.story_map_layout, container, false);
+        mRootView = inflater.inflate(R.layout.story_map_layout, container, false);
         initView(savedInstanceState);
 
-        return mViewRoot;
+        return mRootView;
     }
 
     /**
@@ -119,11 +118,14 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
     };
 
     private void initView(Bundle savedInstanceState) {
-        if (mViewRoot == null)
+        if (mRootView == null)
             return;
 
+        //状态栏
+        setStatusBackgroundColor(R.color.colorGoldLight);
+
         //地图
-        mMapView = (MapView) mViewRoot.findViewById(R.id.story_map_map_view);
+        mMapView = (MapView) mRootView.findViewById(R.id.story_map_map_view);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
 
@@ -132,7 +134,7 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
         ILocationManager.getInstance().init(getContext(), mMapView);
 
         //故事卡片窗口
-        mStoryCardWindow = (StoriesAdapterView) mViewRoot.findViewById(R.id.story_card_window);
+        mStoryCardWindow = (StoriesAdapterView) mRootView.findViewById(R.id.story_card_window);
         addData(getContext());
 
         /**
@@ -155,7 +157,7 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
         /**
          * 定位按钮
          */
-        mViewRoot.findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
+        mRootView.findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 move2Position();
@@ -251,7 +253,7 @@ public class MapFragment extends Fragment implements ILocationManager.OnLocation
             cardInfo.setDetailPic("http://img.hb.aicdn.com/61588dbae333304cfe8510ac5183a33d30c922bf2ad93-kn7LXO_fw658");
             cardInfo.setContent("最初不过你好，只是这世间所有斧砍刀削的相遇都不过起源于你好。");
 
-//            cardInfo.setCreateDate(TimeConvertUtil.convertCurrentTime(new Date()));
+//            cardInfo.setCreateDate(TimeUtils.convertCurrentTime(new Date()));
             UserInfo userInfo = new UserInfo();
             userInfo.setAvatar("http://img4.duitang.com/uploads/item/201512/01/20151201084252_BmJzQ.jpeg");
             userInfo.setNickname("钟无艳");

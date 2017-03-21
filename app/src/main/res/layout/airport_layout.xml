@@ -4,12 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/fake_statusbar_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="@color/colorBlack" />
+
     <!--标题栏-->
     <RelativeLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/colorBlack">
+        android:layout_below="@id/fake_statusbar_view"
+        android:background="@color/colorBlack"
+        android:fitsSystemWindows="true">
 
         <ImageView
             android:id="@+id/search_icon"
@@ -26,8 +34,8 @@
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_marginRight="@dimen/margin_normal"
             android:layout_toRightOf="@id/search_icon"
-            android:gravity="center"
             android:background="@null"
+            android:gravity="center"
             android:hint="@string/search_hint"
             android:textColor="@color/colorGrayLight"
             android:textSize="@dimen/font_normal" />

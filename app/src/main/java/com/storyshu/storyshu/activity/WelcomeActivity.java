@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.UserInfo;
+import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 import java.util.Timer;
@@ -41,6 +42,8 @@ public class WelcomeActivity extends IBaseActivity {
     }
 
     private void initView() {
+        //状态栏
+        StatusBarUtils.setTranslucentForImageView(WelcomeActivity.this, null);
 
         View skip = findViewById(R.id.welcome_skip);
         skip.setOnClickListener(new View.OnClickListener() {
@@ -85,23 +88,6 @@ public class WelcomeActivity extends IBaseActivity {
      */
     private void startLogoAnimation() {
 
-        //logo图片动画
-//        View dishu = findViewById(R.id.welcome_dishu);
-//        Interpolator dl = new DecelerateInterpolator();
-//        ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(dishu, "translationY",
-//                getResources().getDimension(R.dimen.image_normal), getResources().getDimension(R.dimen.image_normal) / 3.5f);
-//        translationAnimator.setInterpolator(dl);
-//        translationAnimator.setDuration(mAnimationTime);
-//        translationAnimator.start();
-//
-//        //logo文字动画
-//
-//        View name = findViewById(R.id.welcome_logo_text);
-//        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
-//        alphaAnimation.setDuration(mAnimationTime + 500);
-//        alphaAnimation.setInterpolator(dl);
-//        name.setAnimation(alphaAnimation);
-//        alphaAnimation.start();
     }
 
 
@@ -144,6 +130,6 @@ public class WelcomeActivity extends IBaseActivity {
 //        if (userInfo.getUserId() == UserInfo.Visitor)
 //            intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 //        else
-            intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }

@@ -5,7 +5,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.utils.StatusBarUtil;
+import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.widget.dialog.IBaseDialog;
 
 /**
@@ -32,7 +32,7 @@ public class PoiDialog extends IBaseDialog {
         Display display = manager.getDefaultDisplay();
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.width = display.getWidth();
-        params.height = display.getHeight() - StatusBarUtil.getHeight(getContext());
+        params.height = display.getHeight() - StatusBarUtils.getStatusBarHeight(getContext());
         getWindow().setAttributes(params);
     }
 }

@@ -15,7 +15,7 @@ import java.util.Date;
  * Created by bear on 2016/12/24.
  */
 
-public class TimeConvertUtil {
+public class TimeUtils {
     public static String convertCurrentTime(Context context, Date date) {
         String current;
         Date currentDate = new Date(System.currentTimeMillis());
@@ -136,5 +136,16 @@ public class TimeConvertUtil {
             destroyTime = context.getResources().getString(R.string.left_day, diff / 60 / 60 / 24);
         }
         return destroyTime;
+    }
+
+    /**
+     * 获得当前的时间，转化为yyyy-MM-dd HH:mm:ss格式
+     *
+     * @return 字符串的当前时间表示
+     */
+    public static String getCurrentTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        return dateFormat.format(date);
     }
 }

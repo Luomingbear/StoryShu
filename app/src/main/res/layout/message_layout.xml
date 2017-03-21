@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrayLight"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/fake_statusbar_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="?attr/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="?attr/colorPrimary"
+        android:gravity="center"
+        android:text="@string/message"
+        android:textColor="?attr/titleTextColor"
+        android:textSize="@dimen/font_big" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.storyshu.storyshu.widget.IExpandableListView
+                android:id="@+id/expand_like_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:background="@drawable/card_view_bg"
+                android:divider="@null"
+                android:groupIndicator="@null">
+
+            </com.storyshu.storyshu.widget.IExpandableListView>
+
+            <com.storyshu.storyshu.widget.IExpandableListView
+                android:id="@+id/expand_comment_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:background="@drawable/card_view_bg"
+                android:divider="@null"
+                android:groupIndicator="@null">
+
+            </com.storyshu.storyshu.widget.IExpandableListView>
+
+            <com.storyshu.storyshu.widget.IExpandableListView
+                android:id="@+id/expand_system_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:background="@drawable/card_view_bg"
+                android:divider="@null"
+                android:groupIndicator="@null">
+
+            </com.storyshu.storyshu.widget.IExpandableListView>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

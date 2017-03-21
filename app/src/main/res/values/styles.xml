@@ -2,8 +2,6 @@
 
     <!--日间模式-->
     <style name="appTheme_day" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!--状态栏颜色-->
-        <item name="colorPrimaryDark">@color/colorGoldLight</item>
         <!--标题栏颜色-->
         <item name="colorPrimary">@color/colorGoldLight</item>
         <!--标题栏文字的颜色-->
