@@ -6,18 +6,13 @@
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/fake_statusbar_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/statusbar_view_height"
-        android:background="@color/colorWhite" />
-
     <ImageView
+        android:id="@+id/ad_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/fake_statusbar_view"
-        android:layout_marginBottom="@dimen/image_normal"
-        android:scaleType="centerCrop" />
+        android:layout_marginBottom="@dimen/image_big"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test" />
 
     <!--跳过-->
     <TextView
@@ -25,8 +20,8 @@
         android:layout_width="70dp"
         android:layout_height="@dimen/font_title"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/fake_statusbar_view"
-        android:layout_margin="@dimen/margin_big"
+        android:layout_marginRight="@dimen/margin_big"
+        android:layout_marginTop="@dimen/image_big"
         android:background="@drawable/button_gold"
         android:gravity="center"
         android:text="@string/skip"
@@ -75,6 +70,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </RelativeLayout>

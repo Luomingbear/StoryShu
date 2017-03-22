@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlack"
+    tools:context="com.storyshu.storyshu.activity.RegisterActivity">
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/colorBlack">
+
+        <RelativeLayout
+            android:layout_width="@dimen/icon_large"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true">
+
+            <ImageView
+                android:layout_width="@dimen/icon_min"
+                android:layout_height="@dimen/icon_min"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:src="@drawable/back"
+                android:tint="@color/colorWhite" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/welcome_register"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_big" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_layout"
+        android:background="@drawable/login_tr_bg" />
+
+    <!--账号的信息-->
+    <LinearLayout
+        android:id="@+id/login_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/email_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_big_more"
+            android:layout_marginRight="@dimen/margin_big_more"
+            android:layout_marginTop="@dimen/margin_big">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/username_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_phone_email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorGoldLight"
+                android:textSize="@dimen/font_big" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_big_more"
+            android:layout_marginRight="@dimen/margin_big_more">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/password_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_password"
+                android:inputType="textPassword"
+                android:textColor="@color/colorGoldLight"
+                android:textSize="@dimen/font_big" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <!--账号信息-->
+    <LinearLayout
+        android:id="@+id/user_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/avatar_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big">
+
+            <com.storyshu.storyshu.widget.imageview.RoundImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/navigation_height"
+                android:layout_height="@dimen/navigation_height"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gray_rectangle"
+                app:RoundType="circle" />
+
+            <LinearLayout
+                android:id="@+id/avatar_hint_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/image_small"
+                    android:layout_height="@dimen/image_small"
+                    android:src="@drawable/image" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_avatar"
+                    android:textColor="@color/colorWhiteDeep"
+                    android:textSize="@dimen/font_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/nickname_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_big_more"
+            android:layout_marginRight="@dimen/margin_big_more"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:textSize="@dimen/font_normal">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/nickname_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_nickname"
+                android:inputType="text"
+                android:textColor="@color/colorGoldLight" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/next_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/selector_height"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/margin_big_more"
+        android:layout_marginRight="@dimen/margin_big_more"
+        android:background="@drawable/button_gold"
+        android:gravity="center"
+        android:text="@string/next"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/font_big" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/next_button"
+        android:layout_marginLeft="@dimen/margin_big_more"
+        android:layout_marginRight="@dimen/margin_big_more">
+
+        <LinearLayout
+            android:id="@+id/step_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_small"
+                android:text="@string/edit_login_info"
+                android:textColor="@color/colorGrayDeep"
+                android:textSize="@dimen/font_normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:text="@string/edit_user_info"
+                android:textColor="@color/colorGrayDeep"
+                android:textSize="@dimen/font_normal" />
+        </LinearLayout>
+
+        <com.storyshu.storyshu.widget.text.RoundTextView
+            android:id="@+id/step_1"
+            android:layout_width="@dimen/font_title"
+            android:layout_height="@dimen/font_title"
+            android:layout_above="@id/step_text"
+            android:layout_alignLeft="@id/step_text"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_big_more"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_big"
+            app:bgColor="@color/colorGoldLight"
+            app:roundSize="@dimen/font_big" />
+
+        <com.storyshu.storyshu.widget.text.RoundTextView
+            android:id="@+id/step_2"
+            android:layout_width="@dimen/font_title"
+            android:layout_height="@dimen/font_title"
+            android:layout_above="@id/step_text"
+            android:layout_alignRight="@id/step_text"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_big_more"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_big"
+            app:bgColor="@color/colorGray"
+            app:roundSize="@dimen/font_big" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="6dp"
+            android:layout_above="@id/step_text"
+            android:layout_alignTop="@id/step_1"
+            android:layout_marginLeft="@dimen/margin_min"
+            android:layout_marginRight="@dimen/margin_min"
+            android:layout_toLeftOf="@id/step_2"
+            android:layout_toRightOf="@id/step_1"
+            android:background="@drawable/dotted_line_big"
+            android:layerType="software" />
+    </RelativeLayout>
+
+</RelativeLayout>

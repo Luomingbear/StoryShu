@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
+import com.storyshu.storyshu.activity.login.LoginActivity;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -127,9 +128,9 @@ public class WelcomeActivity extends IBaseActivity {
      */
     private void intent2Class() {
         UserInfo userInfo = ISharePreference.getUserData(this);
-//        if (userInfo.getUserId() == UserInfo.Visitor)
-//            intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//        else
-        intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if (userInfo.getUserId() == UserInfo.Visitor)
+            intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        else
+            intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }

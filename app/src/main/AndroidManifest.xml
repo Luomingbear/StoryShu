@@ -48,16 +48,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.login.ImproveUserDataActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.Test"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.my.MyStoryActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.story.StoryRoomActivity" />
-        <activity android:name=".activity.story.CreateStoryActivity"></activity>
+        <activity android:name=".activity.story.CreateStoryActivity" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/appTheme_day"></activity>
     </application>
 
 </manifest>

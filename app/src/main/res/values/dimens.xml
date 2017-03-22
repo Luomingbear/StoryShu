@@ -54,4 +54,5 @@
     <dimen name="line_space_small">3dp</dimen>
     <dimen name="line_space_normal">6dp</dimen>
     <dimen name="line_space_big">10dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

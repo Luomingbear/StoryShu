@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
-import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
@@ -21,6 +20,16 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 public class IBaseActivity extends AppCompatActivity {
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (ISharePreference.isNightMode(this))
+            setTheme(R.style.appTheme_night);
+        else
+            setTheme(R.style.appTheme_day);
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
 
         if (ISharePreference.isNightMode(this))
@@ -29,7 +38,6 @@ public class IBaseActivity extends AppCompatActivity {
             setTheme(R.style.appTheme_day);
 
         super.onCreate(savedInstanceState, persistentState);
-
     }
 
     public void changDayOrNight() {
