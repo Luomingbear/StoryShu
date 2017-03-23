@@ -32,7 +32,7 @@ public class StoryDateBaseHelper extends BaseDataHelper {
      */
     public String getContent(int storyId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "select " + CONTENT + " from " + STORY_TABLE + " where " + STORY_ID + " = " + storyId;
+        String sql = "select_text " + CONTENT + " from " + STORY_TABLE + " where " + STORY_ID + " = " + storyId;
         String content = "";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst())
@@ -49,7 +49,7 @@ public class StoryDateBaseHelper extends BaseDataHelper {
     public List<StoryInfo> getLocalStory() {
         List<StoryInfo> storyList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "select * from " + STORY_TABLE + "," + USER_TABLE + " where " + STORY_TABLE
+        String sql = "select_text * from " + STORY_TABLE + "," + USER_TABLE + " where " + STORY_TABLE
                 + "." + USER_ID + " = " + USER_TABLE + "." + USER_ID + " order by " + STORY_TABLE +
                 "." + CREATE_DATE + " desc";
         Cursor cursor = db.rawQuery(sql, null);

@@ -14,8 +14,13 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--读取内存-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--相机-->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name=".utils.IApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -57,8 +62,13 @@
         <activity android:name=".activity.story.CreateStoryActivity" />
         <activity
             android:name=".activity.RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:theme="@style/appTheme_day"></activity>
+            android:label="@string/title_activity_register" />
+
+        <activity android:name=".imagepicker.activity.CaptureConfirmActivity" />
+        <activity android:name=".imagepicker.activity.CaptureTempActivity" />
+        <activity android:name=".imagepicker.activity.CropImageActivity" />
+        <activity android:name=".imagepicker.activity.PhotoPickerActivity" />
+        <activity android:name=".imagepicker.activity.PickerPreviewActivity" />
     </application>
 
 </manifest>

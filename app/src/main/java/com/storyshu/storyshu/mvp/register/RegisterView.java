@@ -43,4 +43,14 @@ public interface RegisterView extends IBaseView {
      * @return
      */
     String getNickname();
+
+    /**
+     * 显示登录信息的布局
+     */
+    void change2StepOne();
+
+    /**
+     * 显示账号信息的布局
+     */
+    void change2StepTwo();
 }

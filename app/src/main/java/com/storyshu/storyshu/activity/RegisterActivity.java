@@ -1,5 +1,6 @@
 package com.storyshu.storyshu.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.widget.TextView;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
+import com.storyshu.storyshu.imagepicker.PickerInfo;
+import com.storyshu.storyshu.imagepicker.SImagePicker;
 import com.storyshu.storyshu.mvp.register.RegisterPresenterIml;
 import com.storyshu.storyshu.mvp.register.RegisterView;
 import com.storyshu.storyshu.utils.StatusBarUtils;
@@ -23,10 +26,12 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
     private RoundImageView mAvatarView; //头像的imageView
 
     private View mLoginInfoLayout;//登录信息的布局
+
     private View mUserInfoLayout;//账号信息的布局
     private View mAvatarHnitLayout; //选择头像的提示布局
 
     private RegisterPresenterIml mRegisterPresenter; //注册账号页面的逻辑实现
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,12 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
         initView();
 
         mRegisterPresenter = new RegisterPresenterIml(RegisterActivity.this, RegisterActivity.this);
+        initEvents();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -59,7 +70,25 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
 
     @Override
     public void chooseAvatar() {
+        SImagePicker
+                .from(RegisterActivity.this)
+                .maxCount(1)
+                .pickMode(PickerInfo.MODE_AVATAR)
+                .rowCount(3)
+                .pickMode(PickerInfo.MODE_IMAGE)
+                .forResult(REQUEST_CODE_IMAGE);
+    }
 
+    @Override
+    public void change2StepOne() {
+        mLoginInfoLayout.setVisibility(View.VISIBLE);
+        mUserInfoLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void change2StepTwo() {
+        mLoginInfoLayout.setVisibility(View.GONE);
+        mUserInfoLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -81,6 +110,7 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
         mAvatarHnitLayout = findViewById(R.id.avatar_hint_layout);
 
         mAvatarView = (RoundImageView) findViewById(R.id.avatar);
+        mAvatarView.setOnClickListener(this);
 
         mNicknameEdit = (TextInputEditText) findViewById(R.id.nickname_edit);
 

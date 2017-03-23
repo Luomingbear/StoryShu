@@ -19,6 +19,8 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 public class IBaseActivity extends AppCompatActivity {
 
+    public final int REQUEST_CODE_IMAGE = 1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (ISharePreference.isNightMode(this))

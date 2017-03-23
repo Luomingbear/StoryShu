@@ -1,15 +1,10 @@
 package com.storyshu.storyshu.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
@@ -38,8 +33,12 @@ public class WelcomeActivity extends IBaseActivity {
         setContentView(R.layout.activity_welcome_layout);
 
         initView();
+    }
 
-        startInitThread();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initTimer();
     }
 
     private void initView() {
@@ -70,41 +69,10 @@ public class WelcomeActivity extends IBaseActivity {
     }
 
     /**
-     * 开启线程进行数据的初始化
-     */
-    private void startInitThread() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initImageLoader();
-            }
-        });
-        thread.start();
-
-        initTimer();
-    }
-
-    /**
      * 播放logo动画
      */
     private void startLogoAnimation() {
 
-    }
-
-
-    /**
-     * 初始化图像加载器
-     */
-    private void initImageLoader() {
-        FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(200, true, false, false); //设置图片渐显，200毫秒
-
-        DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(fadeInBitmapDisplayer)
-                .showImageOnLoading(R.drawable.gray_bg).cacheInMemory(true)
-                .cacheOnDisk(true).build();
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
-                .defaultDisplayImageOptions(options).build();
-        ImageLoader.getInstance().init(configuration);
     }
 
     /**

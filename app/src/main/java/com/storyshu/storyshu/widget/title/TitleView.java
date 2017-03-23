@@ -178,8 +178,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
             case BACK_TILE_SEND:
                 //left
                 addLeftButton(R.drawable.back);
-                //send
-//                addRightButton(R.drawable.send);
+                //select_text
+//                addRightButton(R.drawable.select_text);
                 addRightText(R.string.issue);
                 //title
                 addTitle();

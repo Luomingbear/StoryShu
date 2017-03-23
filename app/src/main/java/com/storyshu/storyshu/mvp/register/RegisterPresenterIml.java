@@ -21,7 +21,13 @@ public class RegisterPresenterIml implements RegisterPresenter {
 
     @Override
     public void nextStep() {
-
+        if (mStep == 1) {
+            mRegisterView.change2StepTwo();
+            mStep = 2;
+        } else if (mStep == 2) {
+            mRegisterView.change2StepOne();
+            mStep = 1;
+        }
     }
 
     @Override

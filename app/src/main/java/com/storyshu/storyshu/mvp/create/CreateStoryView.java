@@ -53,9 +53,14 @@ public interface CreateStoryView extends IBaseView {
     void showLocationDialog();
 
     /**
-     * 显示图篇选择器
+     * 显示图片选择器
      */
     void showPicSelector();
+
+    /**
+     * 添加图片预览到页面
+     */
+    void addPic2Layout();
 
     /**
      * 显示故事保质期选择弹窗

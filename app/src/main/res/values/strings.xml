@@ -107,4 +107,14 @@
     <string name="delete_tag">删除标签</string>
     <string name="title_activity_register">RegisterActivity</string>
 
+    <!--图片选择器-->
+    <string name="cancel">取消</string>
+    <string name="general_ok">确定</string>
+    <string name="select">选择</string>
+    <string name="select_num">选择"%1$d"</string>
+    <string name="general_original">原图</string>
+    <string name="bracket_str">(%1$s)</string>
+    <string name="bracket_num">(%1$d)</string>
+    <string name="error_maximun_nine_photos">最多选择 %1$d 张图片</string>
+    <string name="all_pictures">所有图片</string>
 </resources>

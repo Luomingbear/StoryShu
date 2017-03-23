@@ -48,7 +48,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         final CommentInfo commentInfo = mCommentList.get(position);
 
-//        ImageLoader.getInstance().loadImage(commentInfo.getAvatar(), avatarLoaderListener);
+//        SImageLoader.getInstance().loadImage(commentInfo.getAvatar(), avatarLoaderListener);
         ImageLoader.getInstance().displayImage(commentInfo.getAvatar(), viewHolder.avatar);
 
         viewHolder.nickname.setText(commentInfo.getNickname());
