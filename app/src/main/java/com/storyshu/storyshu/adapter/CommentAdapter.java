@@ -1,20 +1,15 @@
 package com.storyshu.storyshu.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.CommentInfo;
-import com.storyshu.storyshu.utils.BitmapUtil;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
@@ -48,9 +43,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         final CommentInfo commentInfo = mCommentList.get(position);
 
-//        SImageLoader.getInstance().loadImage(commentInfo.getAvatar(), avatarLoaderListener);
-        ImageLoader.getInstance().displayImage(commentInfo.getAvatar(), viewHolder.avatar);
+        Glide.with(mContext).load(commentInfo.getAvatar()).into(holder.avatar);
 
+        if (position == 0)
+            viewHolder.line.setVisibility(View.GONE);
         viewHolder.nickname.setText(commentInfo.getNickname());
         viewHolder.createTime.setText(commentInfo.getCreateTime());
         viewHolder.tag.setText(commentInfo.getTags());
@@ -61,37 +57,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
 
-    /**
-     * 加载头像
-     */
-    private ImageLoadingListener avatarLoaderListener = new ImageLoadingListener() {
-        @Override
-        public void onLoadingStarted(String imageUri, View view) {
-
-        }
-
-        @Override
-        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            viewHolder.avatar.setImageBitmap(BitmapUtil.getScaledBitmap(imageUri, 78));
-        }
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            viewHolder.avatar.setImageBitmap(loadedImage);
-        }
-
-        @Override
-        public void onLoadingCancelled(String imageUri, View view) {
-
-        }
-    };
-
     @Override
     public int getItemCount() {
         return mCommentList == null ? 0 : mCommentList.size();
     }
 
     class ViewHold extends RecyclerView.ViewHolder {
+        private View line; //分割线
         private AvatarImageView avatar;
         private TextView nickname;
         private TextView createTime;
@@ -100,17 +72,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         private ClickButton oppose;
         private TextView comment_content;
 
-        private TextView deathTime;
-        private ClickButton comment;
-        private TextView story;
-        private ImageView story_pic;
-        private TextView pic_size;
-        private TextView location;
-        private View report;
-
         public ViewHold(View itemView) {
             super(itemView);
-
+            line = itemView.findViewById(R.id.line);
             avatar = (AvatarImageView) itemView.findViewById(R.id.avatar);
             nickname = (TextView) itemView.findViewById(R.id.nickname);
             createTime = (TextView) itemView.findViewById(R.id.create_time);

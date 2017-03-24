@@ -39,10 +39,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
     private TitleMode mTitleMode; //按钮的模式
 
     public enum TitleMode {
-        /**
-         * 菜单-位置-筛选
-         */
-        MENU_POSITION_SIFT,
 
         /**
          * 返回-标题
@@ -62,32 +58,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         /**
          * 返回-标题-发布
          */
-        BACK_TILE_SEND,
-
-        /**
-         * 返回-标题-更多
-         */
-        BACK_TILE_MORE,
-
-        /**
-         * 返回-标题-插入图片-继续
-         */
-        BACK_TILE_IMAGE_GO,
-
-        /**
-         * 菜单-标题-列表
-         */
-        MENU_TILE_LIST,
-
-        /**
-         * 菜单-标题-地图
-         */
-        MENU_TILE_MAP,
-
-        /**
-         * 菜单-标题
-         */
-        MENU_TILE,
+        BACK_TILE_SEND
     }
 
     public TitleView(Context context) {
@@ -105,6 +76,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, getResources().getColor(R.color.colorBlack));
         mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_big));
         mTitleString = typedArray.getString(R.styleable.TitleView_title_string);
+        mButtonTextColor = typedArray.getColor(R.styleable.TitleView_button_color, getResources().getColor(R.color.colorGoldDeep));
         mTitleMode = TitleMode.values()[typedArray.getInt(R.styleable.TitleView_title_mode, 0)];
         typedArray.recycle();
 
@@ -120,8 +92,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mIconWidth = (int) getResources().getDimension(R.dimen.icon_min);
         mTitleViewHeight = (int) getResources().getDimension(R.dimen.title_height);
         setGravity(Gravity.CENTER_VERTICAL);
-
-        mButtonTextColor = getResources().getColor(R.color.colorGoldDeep);
     }
 
     /**
@@ -133,16 +103,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
         //动态的生成界面
         switch (mTitleMode) {
-            case MENU_POSITION_SIFT:
-                //left
-//                addLeftButton(R.drawable.menu);
-                //位置
-                addPositionTitle();
-                //right
-//                addRightButton(R.drawable.sift);
-                //line
-                addBottomLine();
-                break;
 
             case BACK_TILE:
                 //left
@@ -151,7 +111,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //title
                 addTitle();
                 //line
-                addBottomLine();
+//                addBottomLine();
                 break;
 
             case BACK_TILE_GO:
@@ -163,7 +123,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //title
                 addTitle();
                 //line
-                addBottomLine();
+//                addBottomLine();
                 break;
 
             case BACK_TILE_SHOT:
@@ -184,59 +144,9 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //title
                 addTitle();
                 //line
-                addBottomLine();
+//                addBottomLine();
                 break;
 
-            case BACK_TILE_MORE:
-                //left
-                addBackButton();
-                //more
-//                addRightButton(R.drawable.search);
-                //title
-                addTitle();
-                break;
-
-            case BACK_TILE_IMAGE_GO:
-                //left
-                addBackButton();
-                //title
-                addTitle();
-                //go
-//                addRightButton(R.drawable.ok);
-                //image
-                addInsertImageButton();
-                //line
-                addBottomLine();
-                break;
-            case MENU_TILE_LIST:
-                //left
-//                addLeftButton(R.drawable.menu);
-                //位置
-                addPositionTitle();
-                //right
-                addRightButton(R.drawable.list);
-                //line
-                addBottomLine();
-                break;
-            case MENU_TILE_MAP:
-                //left
-//                addLeftButton(R.drawable.menu);
-                //位置
-                addPositionTitle();
-                //right
-                addRightButton(R.drawable.map);
-                //line
-                addBottomLine();
-                break;
-
-            case MENU_TILE:
-                //left
-//                addLeftButton(R.drawable.menu);
-                //位置
-                addPositionTitle();
-                //line
-                addBottomLine();
-                break;
         }
     }
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.base.IBaseExpandableListAdapter;
 import com.storyshu.storyshu.info.StoryMessageInfo;
@@ -92,7 +92,7 @@ public class MessageExpandableAdapter extends IBaseExpandableListAdapter {
             else {
                 mChildHolder.line.setBackgroundResource(R.drawable.dotted_line);
             }
-            ImageLoader.getInstance().displayImage(messageInfo.getUserInfo().getAvatar(), mChildHolder.avatar);
+            Glide.with(getContext()).load(messageInfo.getUserInfo().getAvatar()).into(mChildHolder.avatar);
             mChildHolder.nickname.setText(messageInfo.getUserInfo().getNickname());
             mChildHolder.createTime.setText(TimeUtils.convertCurrentTime(getContext(),
                     messageInfo.getCreateTime()));
@@ -113,7 +113,7 @@ public class MessageExpandableAdapter extends IBaseExpandableListAdapter {
             } else {
                 mChildHolder.extract.setVisibility(View.GONE);
                 mChildHolder.cover.setVisibility(View.VISIBLE);
-                ImageLoader.getInstance().displayImage(messageInfo.getCover(), mChildHolder.cover);
+                Glide.with(getContext()).load(messageInfo.getCover()).into(mChildHolder.cover);
             }
         }
         return convertView;

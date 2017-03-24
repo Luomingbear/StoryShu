@@ -8,12 +8,14 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.utils.BitmapUtil;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,6 +55,15 @@ public class PersonView extends View {
 
         mAvatarBmp = Bitmap.createScaledBitmap(bmp, mWidth, mWidth, true);
         bmp.recycle();
+
+        requestLayout();
+    }
+
+    public void init(Drawable bmp) {
+        if (bmp == null)
+            return;
+
+        mAvatarBmp = BitmapUtil.drawable2Bitamp(bmp);
 
         requestLayout();
     }

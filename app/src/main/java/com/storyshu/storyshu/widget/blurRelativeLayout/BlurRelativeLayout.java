@@ -10,9 +10,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.utils.BitmapUtil;
 
@@ -138,25 +139,16 @@ public class BlurRelativeLayout extends FrameLayout {
      */
     public void setNetBlurBitmap(String blurImgPath) {
         try {
-            ImageLoader.getInstance().loadImage(blurImgPath, new ImageLoadingListener() {
+            Glide.with(getContext()).load(blurImgPath).listener(new RequestListener<String, GlideDrawable>() {
                 @Override
-                public void onLoadingStarted(String imageUri, View view) {
-
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    return false;
                 }
 
                 @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    setBlurBitmap(loadedImage);
-                }
-
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
-
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    setBlurBitmap(BitmapUtil.drawable2Bitamp(resource));
+                    return false;
                 }
             });
         } catch (Exception e) {

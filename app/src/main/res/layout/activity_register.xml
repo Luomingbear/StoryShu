@@ -7,40 +7,21 @@
     android:background="@color/colorBlack"
     tools:context="com.storyshu.storyshu.activity.RegisterActivity">
 
-    <RelativeLayout
-        android:id="@+id/title_layout"
+
+    <com.storyshu.storyshu.widget.title.TitleView
+        android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/colorBlack">
+        app:title_color="@color/colorWhite"
+        app:title_mode="BackTitle"
+        app:title_string="@string/welcome_register">
 
-        <RelativeLayout
-            android:layout_width="@dimen/icon_large"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true">
-
-            <ImageView
-                android:layout_width="@dimen/icon_min"
-                android:layout_height="@dimen/icon_min"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_small"
-                android:src="@drawable/back"
-                android:tint="@color/colorWhite" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/welcome_register"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/font_big" />
-    </RelativeLayout>
+    </com.storyshu.storyshu.widget.title.TitleView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_layout"
+        android:layout_below="@id/title_view"
         android:background="@drawable/login_tr_bg" />
 
     <!--账号的信息-->
@@ -48,7 +29,7 @@
         android:id="@+id/login_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_layout"
+        android:layout_below="@id/title_view"
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
@@ -95,7 +76,7 @@
         android:id="@+id/user_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_layout"
+        android:layout_below="@id/title_view"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone">

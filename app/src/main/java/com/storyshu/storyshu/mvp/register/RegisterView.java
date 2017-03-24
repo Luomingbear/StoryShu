@@ -12,6 +12,18 @@ import com.storyshu.storyshu.mvp.view.base.IBaseView;
 
 public interface RegisterView extends IBaseView {
     /**
+     * 点击返回按钮
+     */
+    void onBack();
+
+    /**
+     * 获取头像的地址
+     *
+     * @return
+     */
+    String getAvatar();
+
+    /**
      * 获取用户名
      *
      * @return
@@ -36,6 +48,11 @@ public interface RegisterView extends IBaseView {
      * 选择头像图片
      */
     void chooseAvatar();
+
+    /**
+     * 显示头像
+     */
+    void showAvatar();
 
     /**
      * 获取昵称

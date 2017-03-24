@@ -12,6 +12,7 @@ import com.storyshu.storyshu.info.AirPortPushInfo;
 import com.storyshu.storyshu.mvp.airport.AirportPresenter;
 import com.storyshu.storyshu.mvp.airport.AirportPresenterIml;
 import com.storyshu.storyshu.mvp.airport.AirportView;
+import com.storyshu.storyshu.utils.ToastUtil;
 
 /**
  * 候机厅
@@ -61,6 +62,16 @@ public class AirportFragment extends IBaseStatusFragment implements AirportView 
     @Override
     public void initEvents() {
 
+    }
+
+    @Override
+    public void showToast(String s) {
+        ToastUtil.Show(getContext(), s);
+    }
+
+    @Override
+    public void showToast(int stringRes) {
+        ToastUtil.Show(getContext(), stringRes);
     }
 
     @Override

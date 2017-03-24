@@ -1,14 +1,10 @@
 package com.storyshu.storyshu.activity;
 
 import android.Manifest;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
 import com.storyshu.storyshu.activity.story.CreateStoryActivity;
@@ -125,24 +121,6 @@ public class MainActivity extends IPermissionActivity {
      */
     private void initImageLoader() {
         //新建线程初始化图片加载器
-        Thread imageThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (!ImageLoader.getInstance().isInited()) {
-//                    FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(200, true, false, false);
-                    DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
-//                            .displayer(fadeInBitmapDisplayer)
-                            .showImageOnLoading(R.drawable.gray_bg).cacheInMemory(true)
-                            .cacheOnDisk(true).build();
-
-                    ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(MainActivity.this)
-                            .defaultDisplayImageOptions(options).build();
-
-                    ImageLoader.getInstance().init(configuration);
-                }
-            }
-        });
-        imageThread.start();
 
     }
 

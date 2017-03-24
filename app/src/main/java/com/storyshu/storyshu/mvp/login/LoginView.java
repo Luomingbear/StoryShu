@@ -23,15 +23,6 @@ public interface LoginView extends IBaseView {
      */
     String getPassword();
 
-    /**
-     * 显示错误提示
-     */
-    void showError(String error);
-
-    /**
-     * 显示错误提示
-     */
-    void showError(int errorRes);
 
     /**
      * 显示登录中

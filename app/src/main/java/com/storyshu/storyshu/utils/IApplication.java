@@ -1,21 +1,9 @@
 package com.storyshu.storyshu.utils;
 
 import android.app.Application;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.imagepicker.PickerConfig;
-import com.storyshu.storyshu.imagepicker.SImageLoader;
-import com.storyshu.storyshu.imagepicker.SImagePicker;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.loader.GlideImageLoader;
 
 /**
  * Created by bear on 2017/3/23.
@@ -58,53 +46,23 @@ public class IApplication extends Application {
      * 初始化图像加载器
      */
     private void initImageLoader() {
-        FadeInBitmapDisplayer fadeInBitmapDisplayer = new FadeInBitmapDisplayer(200, true, false, false); //设置图片渐显，200毫秒
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder().bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(fadeInBitmapDisplayer)
-                .showImageOnLoading(R.drawable.gray_bg).cacheInMemory(true)
-                .cacheOnDisk(true).build();
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
-                .defaultDisplayImageOptions(options).build();
-        ImageLoader.getInstance().init(configuration);
     }
 
     private void initImagePicker() {
-        SImagePicker.init(new PickerConfig.Builder().setAppContext(this)
-                .setImageLoader(new SImageLoader() {
-                    @Override
-                    public void bindImage(ImageView imageView, Uri uri, int width, int height) {
-                        com.nostra13.universalimageloader.core.ImageLoader.getInstance()
-                                .displayImage("file://" + uri.getPath(), imageView, new ImageSize(width, height));
-                    }
 
-                    @Override
-                    public void bindImage(ImageView imageView, Uri uri) {
-                        com.nostra13.universalimageloader.core.ImageLoader.getInstance()
-                                .displayImage("file://" + uri.getPath(), imageView);
-                    }
-
-                    @Override
-                    public ImageView createImageView(Context context) {
-                        ImageView view = new ImageView(context);
-                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                                RelativeLayout.LayoutParams.WRAP_CONTENT);
-                        view.setLayoutParams(params);
-                        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        return view;
-                    }
-
-                    @Override
-                    public ImageView createFakeImageView(Context context) {
-                        ImageView view = new ImageView(context);
-                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                                RelativeLayout.LayoutParams.WRAP_CONTENT);
-                        view.setLayoutParams(params);
-                        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        return view;
-                    }
-                })
-                .setToolbaseColor(getResources().getColor(R.color.colorGoldLight))
-                .build());
+        ImagePicker.getInstance()
+                .setImageLoader(new GlideImageLoader())   //设置图片加载器
+                .setFocusWidth(SysUtils.getScreenWidth(getApplicationContext())) //裁剪框的大小
+                .setFocusHeight(SysUtils.getScreenWidth(getApplicationContext()));
+//        imagePicker.setShowCamera(true);  //显示拍照按钮
+//        imagePicker.setCrop(true);        //允许裁剪（单选才有效）
+//        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+//        imagePicker.setSelectLimit(9);    //选中数量限制
+//        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+//        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+//        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+//        imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
+//        imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
     }
 }

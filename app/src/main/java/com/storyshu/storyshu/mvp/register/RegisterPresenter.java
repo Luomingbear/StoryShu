@@ -7,6 +7,12 @@ package com.storyshu.storyshu.mvp.register;
  */
 
 public interface RegisterPresenter {
+
+    /**
+     * 点击了返回按钮
+     */
+    void onBackPressed();
+
     /**
      * 下一步
      */

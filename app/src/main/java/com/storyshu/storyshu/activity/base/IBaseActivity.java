@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
@@ -56,6 +57,14 @@ public class IBaseActivity extends AppCompatActivity {
                 recreate();
             }
         }, 100);
+    }
+
+    /**
+     * 跳转到图片选择的页面
+     */
+    public void intent2ImagePickActivity() {
+        Intent intent = new Intent(this, ImageGridActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_IMAGE);
     }
 
     /**

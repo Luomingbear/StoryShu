@@ -107,8 +107,8 @@
 
         <ImageView
             android:id="@+id/cover_pic"
-            android:layout_width="@dimen/icon_large"
-            android:layout_height="@dimen/icon_large"
+            android:layout_width="@dimen/image_big"
+            android:layout_height="@dimen/image_big"
             android:layout_marginLeft="@dimen/margin_small"
             android:background="@color/colorGrayLight"
             android:scaleType="centerCrop"

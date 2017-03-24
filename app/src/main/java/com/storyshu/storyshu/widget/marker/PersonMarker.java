@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import com.amap.api.maps.AMap;
@@ -14,9 +12,10 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.TranslateAnimation;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.utils.ViewBitmapTool;
 
@@ -34,47 +33,6 @@ public class PersonMarker extends IMarker {
         super(mContext, mAMap, mLatLng);
     }
 
-    private ImageLoadingListener imageLoadingListener = new ImageLoadingListener() {
-        @Override
-        public void onLoadingStarted(String imageUri, View view) {
-        }
-
-        @Override
-        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            if (failReason.getType() == FailReason.FailType.UNKNOWN) {
-                mPersonView.init(imageUri);
-                Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
-
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(mLatLng);
-                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
-
-                mMarker = mAMap.addMarker(markerOptions);
-                mMarker.setInfoWindowEnable(false);
-            }
-        }
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            mPersonView.init(loadedImage);
-            Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
-
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(mLatLng);
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
-
-            mMarker = mAMap.addMarker(markerOptions);
-            mMarker.setInfoWindowEnable(false);
-
-            Log.i(TAG, "onLoadingComplete: ");
-        }
-
-        @Override
-        public void onLoadingCancelled(String imageUri, View view) {
-            Log.i(TAG, "onLoadingCancelled: ");
-        }
-    };
-
     public void setAvatarAndShow(String avatarPath) {
         mPersonView = new PersonView(mContext);
 
@@ -89,8 +47,30 @@ public class PersonMarker extends IMarker {
             mMarker = mAMap.addMarker(markerOptions);
             mMarker.setInfoWindowEnable(false);
 
-        } else
-            ImageLoader.getInstance().loadImage(avatarPath, imageLoadingListener);
+        } else {
+            Glide.with(mContext).load(avatarPath).listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model,
+                                               Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+
+                    mPersonView.init(resource);
+                    Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
+
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(mLatLng);
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+
+                    mMarker = mAMap.addMarker(markerOptions);
+                    mMarker.setInfoWindowEnable(false);
+                    return false;
+                }
+            });
+        }
 
     }
 

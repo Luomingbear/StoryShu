@@ -44,21 +44,21 @@ public class LoginPresenterIml implements LoginPresenter {
     private boolean checkInput() {
         //邮箱
         if (TextUtils.isEmpty(mLoginView.getUsername())) {
-            mLoginView.showError(R.string.login_email_empty);
+            mLoginView.showToast(R.string.login_email_empty);
             return false;
         } else if (!EmailFormatCheckUtil.isEmail(mLoginView.getUsername())) {
-            mLoginView.showError(R.string.login_email_illegal);
+            mLoginView.showToast(R.string.login_email_illegal);
             return false;
         }
         //密码
         if (TextUtils.isEmpty(mLoginView.getPassword()))
-            mLoginView.showError(R.string.login_password_empty);
+            mLoginView.showToast(R.string.login_password_empty);
         else {
             //todo 验证密码
             if (mLoginView.getPassword().equals("0000"))
                 return true;
 
-            mLoginView.showError(R.string.login_password_illegal);
+            mLoginView.showToast(R.string.login_password_illegal);
             return false;
         }
 
@@ -77,6 +77,6 @@ public class LoginPresenterIml implements LoginPresenter {
 
     @Override
     public void forgotPassword() {
-        mLoginView.showError(R.string.forgot_password);
+        mLoginView.showToast(R.string.forgot_password);
     }
 }

@@ -10,7 +10,7 @@
     <string name="before_minute">%1$d分钟前</string>
     <string name="left_day">剩余%1$d天</string>
     <string name="left_hour">剩余%1$d时</string>
-
+    <string name="cancel">取消</string>
 
     <!--欢迎页-->
     <string name="skip">跳过</string>
@@ -108,13 +108,16 @@
     <string name="title_activity_register">RegisterActivity</string>
 
     <!--图片选择器-->
-    <string name="cancel">取消</string>
-    <string name="general_ok">确定</string>
-    <string name="select">选择</string>
-    <string name="select_num">选择"%1$d"</string>
-    <string name="general_original">原图</string>
-    <string name="bracket_str">(%1$s)</string>
-    <string name="bracket_num">(%1$d)</string>
-    <string name="error_maximun_nine_photos">最多选择 %1$d 张图片</string>
-    <string name="all_pictures">所有图片</string>
+    <string name="take_photo">拍摄照片</string>
+    <string name="all_images">全部图片</string>
+    <string name="folder_image_count">共%1$d张</string>
+    <string name="preview_image_count">%1$s/%2$s</string>
+    <string name="select_limit">最多选择%1$d张图片</string>
+    <string name="select_pic">选择图片</string>
+    <string name="complete">完成</string>
+    <string name="select_complete">完成(%1$s/%2$s)</string>
+    <string name="preview_count">预览(%1$s)</string>
+    <string name="photo_crop">图片裁剪</string>
+    <string name="origin">原图</string>
+    <string name="origin_size">原图(%1$s)</string>
 </resources>

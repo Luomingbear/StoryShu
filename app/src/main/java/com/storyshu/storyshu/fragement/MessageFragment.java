@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.mvp.message.MessagePresenterIml;
 import com.storyshu.storyshu.mvp.message.MessageView;
+import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.IExpandableListView;
 
 /**
@@ -57,6 +58,16 @@ public class MessageFragment extends IBaseStatusFragment implements MessageView 
     @Override
     public void initEvents() {
 
+    }
+
+    @Override
+    public void showToast(String s) {
+        ToastUtil.Show(getContext(), s);
+    }
+
+    @Override
+    public void showToast(int stringRes) {
+        ToastUtil.Show(getContext(), stringRes);
     }
 
     @Override

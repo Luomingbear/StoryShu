@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.AirPortPushInfo;
 import com.storyshu.storyshu.utils.time.TimeUtils;
@@ -59,12 +59,12 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         AirPortPushInfo pushInfo = mPushList.get(position);
         switch (pushInfo.getPushType()) {
             case AirPortPushInfo.TYPE_AD:
-                ImageLoader.getInstance().displayImage(pushInfo.getDetailPic(), holder.cover);
+                Glide.with(mContext).load(pushInfo.getDetailPic()).into(holder.cover);
                 holder.destroyTime.setText(TimeUtils.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));
                 break;
 
             case AirPortPushInfo.TYPE_STORY:
-                ImageLoader.getInstance().displayImage(pushInfo.getUserInfo().getAvatar(), holder.avatar);
+                Glide.with(mContext).load(pushInfo.getUserInfo().getAvatar()).into(holder.avatar);
                 holder.nickName.setText(pushInfo.getUserInfo().getNickname());
                 holder.like.setNum(pushInfo.getLikeNum());
                 holder.oppose.setNum(pushInfo.getOpposeNum());
@@ -73,7 +73,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
 
                 if (!TextUtils.isEmpty(pushInfo.getDetailPic())) {
                     holder.cover.setVisibility(View.VISIBLE);
-                    ImageLoader.getInstance().displayImage(pushInfo.getDetailPic(), holder.cover);
+                    Glide.with(mContext).load(pushInfo.getDetailPic()).into(holder.cover);
                 }
 
                 holder.destroyTime.setText(TimeUtils.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));

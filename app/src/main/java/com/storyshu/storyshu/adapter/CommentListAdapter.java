@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.base.IBaseAdapter;
 import com.storyshu.storyshu.info.CommentInfo;
@@ -44,7 +44,7 @@ public class CommentListAdapter extends IBaseAdapter {
 
         CommentInfo commentInfo = (CommentInfo) getItem(position);
 
-        ImageLoader.getInstance().displayImage(commentInfo.getAvatar(), viewHold.avatar);
+        Glide.with(getContext()).load(commentInfo.getAvatar()).into(viewHold.avatar);
         viewHold.nickname.setText(commentInfo.getNickname());
         viewHold.createTime.setText(commentInfo.getCreateTime());
         viewHold.tag.setText(commentInfo.getTags());

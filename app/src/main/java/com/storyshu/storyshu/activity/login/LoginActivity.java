@@ -55,16 +55,6 @@ public class LoginActivity extends IBaseActivity implements LoginView, View.OnCl
     }
 
     @Override
-    public void showError(String error) {
-        ToastUtil.Show(LoginActivity.this, error);
-    }
-
-    @Override
-    public void showError(int errorRes) {
-        ToastUtil.Show(LoginActivity.this, errorRes);
-    }
-
-    @Override
     public void showLoading() {
 
     }
@@ -222,6 +212,16 @@ public class LoginActivity extends IBaseActivity implements LoginView, View.OnCl
     @Override
     public void initEvents() {
 
+    }
+
+    @Override
+    public void showToast(String s) {
+        ToastUtil.Show(this, s);
+    }
+
+    @Override
+    public void showToast(int stringRes) {
+        ToastUtil.Show(this, stringRes);
     }
 
     private SensorManager sensorManager; //传感器管理

@@ -20,13 +20,16 @@ public class RegisterPresenterIml implements RegisterPresenter {
 
 
     @Override
+    public void onBackPressed() {
+        if (mStep == 2)
+            mStep = 1;
+    }
+
+    @Override
     public void nextStep() {
         if (mStep == 1) {
             mRegisterView.change2StepTwo();
             mStep = 2;
-        } else if (mStep == 2) {
-            mRegisterView.change2StepOne();
-            mStep = 1;
         }
     }
 

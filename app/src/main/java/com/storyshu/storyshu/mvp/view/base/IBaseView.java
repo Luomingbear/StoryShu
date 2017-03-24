@@ -20,4 +20,18 @@ public interface IBaseView {
      * 初始化事件
      */
     void initEvents();
+
+    /**
+     * 弹窗显示
+     *
+     * @param s
+     */
+    void showToast(String s);
+
+    /**
+     * 弹窗显示
+     *
+     * @param stringRes
+     */
+    void showToast(int stringRes);
 }

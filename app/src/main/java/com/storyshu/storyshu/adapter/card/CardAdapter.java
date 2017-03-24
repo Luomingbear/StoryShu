@@ -1,23 +1,18 @@
 package com.storyshu.storyshu.adapter.card;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.base.IBaseAdapter;
 import com.storyshu.storyshu.info.CardInfo;
-import com.storyshu.storyshu.utils.BitmapUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
@@ -34,61 +29,6 @@ public class CardAdapter extends IBaseAdapter {
     public CardAdapter(Context context, List<?> mList) {
         super(context, mList);
     }
-
-    /**
-     * 故事说明图的加载监听
-     */
-    private ImageLoadingListener coverLoadListener = new ImageLoadingListener() {
-        @Override
-        public void onLoadingStarted(String imageUri, View view) {
-//            viewHolder.cover
-            Log.i(TAG, "onLoadingStarted: ");
-        }
-
-        @Override
-        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            Log.i(TAG, "onLoadingFailed: " + failReason.getType());
-            if (failReason.getType() == FailReason.FailType.UNKNOWN) {
-                viewHolder.cover.setImageBitmap(BitmapUtil.getScaledBitmap(imageUri, 400));
-            }
-        }
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            Log.i(TAG, "onLoadingComplete: ");
-            viewHolder.cover.setImageBitmap(loadedImage);
-        }
-
-        @Override
-        public void onLoadingCancelled(String imageUri, View view) {
-            Log.i(TAG, "onLoadingCancelled: ");
-        }
-    };
-
-    /**
-     * 用户头像的加载监听
-     */
-    private ImageLoadingListener avatarLoadListener = new ImageLoadingListener() {
-        @Override
-        public void onLoadingStarted(String imageUri, View view) {
-
-        }
-
-        @Override
-        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-        }
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            viewHolder.avatar.setImageBitmap(loadedImage);
-        }
-
-        @Override
-        public void onLoadingCancelled(String imageUri, View view) {
-
-        }
-    };
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -115,10 +55,9 @@ public class CardAdapter extends IBaseAdapter {
 
         if (TextUtils.isEmpty(cardInfo.getUserInfo().getAvatar()))
             viewHolder.avatar.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.avatar_wolverine));
-        if (cardInfo.getUserInfo().getAvatar().contains("/storage/emulated/"))
-            ImageLoader.getInstance().displayImage("file://" + cardInfo.getUserInfo().getAvatar(), viewHolder.avatar);
-        else
-            ImageLoader.getInstance().loadImage(cardInfo.getUserInfo().getAvatar(), avatarLoadListener);
+        else {
+            Glide.with(getContext()).load(cardInfo.getUserInfo().getAvatar()).into(viewHolder.avatar);
+        }
         //
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
         viewHolder.destroyTime.setText(TimeUtils.convertCurrentTime(getContext(), cardInfo.getCreateDate()));
@@ -126,30 +65,9 @@ public class CardAdapter extends IBaseAdapter {
         viewHolder.extract.setText(cardInfo.getContent());
         if (!TextUtils.isEmpty(cardInfo.getDetailPic())) {
             viewHolder.cover.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().loadImage(cardInfo.getDetailPic(), coverLoadListener);
+            Glide.with(getContext()).load(cardInfo.getDetailPic()).into(viewHolder.cover);
         }
         return convertView;
-    }
-
-
-    /**
-     * 显示图片
-     *
-     * @param imageView
-     * @param url
-     */
-    private void displayPic(final ImageView imageView, String url) {
-        final String imgUrl = url;
-
-        final Thread trThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                imageView.setImageBitmap(BitmapUtil.getScaledBitmap(imgUrl, 300));
-
-            }
-        });
-
-        trThread.run();
     }
 
     private ViewHolder viewHolder;

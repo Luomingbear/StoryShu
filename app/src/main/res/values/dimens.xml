@@ -21,15 +21,15 @@
     <dimen name="selector_height">46dp</dimen>
 
     <!--图标的大小-->
-    <dimen name="icon_min">18dp</dimen>
+    <dimen name="icon_min">16dp</dimen>
     <dimen name="icon_small">22dp</dimen>
-    <dimen name="icon_normal">38dp</dimen>
-    <dimen name="icon_large">48dp</dimen>
+    <dimen name="icon_normal">28dp</dimen>
+    <dimen name="icon_large">35dp</dimen>
 
     <!--图片的大小-->
-    <dimen name="image_min">24dp</dimen>
+    <dimen name="image_min">28dp</dimen>
     <dimen name="image_small">32dp</dimen>
-    <dimen name="image_normal">38dp</dimen>
+    <dimen name="image_normal">42dp</dimen>
     <dimen name="image_big">58dp</dimen>
 
     <!--字体大小-->

@@ -55,20 +55,37 @@
         <activity
             android:name=".activity.Test"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.my.MyStoryActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".activity.story.StoryRoomActivity" />
         <activity android:name=".activity.story.CreateStoryActivity" />
         <activity
             android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_register" />
 
-        <activity android:name=".imagepicker.activity.CaptureConfirmActivity" />
-        <activity android:name=".imagepicker.activity.CaptureTempActivity" />
-        <activity android:name=".imagepicker.activity.CropImageActivity" />
-        <activity android:name=".imagepicker.activity.PhotoPickerActivity" />
-        <activity android:name=".imagepicker.activity.PickerPreviewActivity" />
+        <!--图片选择器-->
+        <activity android:name="com.lzy.imagepicker.ui.ImageBaseActivity" />
+        <activity
+            android:name="com.lzy.imagepicker.ui.ImageGridActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/ImagePickerTheme" />
+        <activity
+            android:name="com.lzy.imagepicker.ui.ImageCropActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false"
+            android:theme="@style/ImagePickerTheme" />
+        <activity
+            android:name="com.lzy.imagepicker.ui.ImagePreviewActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/ImagePickerThemeFullScreen" />
+
+        <provider
+            android:name="com.lzy.imagepicker.ImagePickerProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

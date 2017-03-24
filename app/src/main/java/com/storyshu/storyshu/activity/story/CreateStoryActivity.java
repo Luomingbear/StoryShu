@@ -1,10 +1,8 @@
 package com.storyshu.storyshu.activity.story;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -14,15 +12,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.imagepicker.PickerInfo;
-import com.storyshu.storyshu.imagepicker.SImagePicker;
-import com.storyshu.storyshu.imagepicker.activity.PhotoPickerActivity;
 import com.storyshu.storyshu.info.LocationInfo;
 import com.storyshu.storyshu.mvp.create.CreateStoryPresenterImpl;
 import com.storyshu.storyshu.mvp.create.CreateStoryView;
+import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.SlideButton;
 import com.storyshu.storyshu.widget.title.TitleView;
@@ -47,9 +45,9 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     private SlideButton mSlideButton; //匿名的按钮
 
     private String mStoryContent; //故事的内容
-    private ArrayList<String> mOldPicList; //上一次添加的故事的图片列表
-    private ArrayList<String> mPicList; //故事的图片列表
-    private ArrayList<String> mChangePicPathList; //新增加的图片的列表
+    private ArrayList<ImageItem> mOldPicList; //上一次添加的故事的图片列表
+    private ArrayList<ImageItem> mPicList; //故事的图片列表
+    private ArrayList<ImageItem> mChangePicPathList; //新增加的图片的列表
     private int maxPicCount = 9;
     private int maxStoryLength = 140;//故事的文字上线
 
@@ -79,6 +77,9 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
     @Override
     public void initView() {
+        //
+        StatusBarUtils.setColor(this, R.color.colorGoldLight);
+        //
         mTitleView = (TitleView) findViewById(R.id.title_view);
 
         mStoryEdit = (EditText) findViewById(R.id.story_edit);
@@ -171,6 +172,17 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
         mRealName.setOnClickListener(this);
     }
 
+
+    @Override
+    public void showToast(String s) {
+        ToastUtil.Show(this, s);
+    }
+
+    @Override
+    public void showToast(int stringRes) {
+        ToastUtil.Show(this, stringRes);
+    }
+
     @Override
     public String getStoryContent() {
         return mStoryEdit.getText().toString();
@@ -178,7 +190,11 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
     @Override
     public List<String> getStoryPic() {
-        return mPicList;
+        ArrayList<String> list = new ArrayList<>();
+        for (ImageItem imageItem : mPicList) {
+            list.add(imageItem.path);
+        }
+        return list;
     }
 
     @Override
@@ -207,14 +223,14 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
         Log.i(TAG, "showPicSelector: listSize:" + mPicList.size());
         count = Math.max(0, count);
 
-        if (count > 0 && count <= maxPicCount)
-            SImagePicker
-                    .from(CreateStoryActivity.this)
-                    .maxCount(count)
-                    .pickMode(PickerInfo.MODE_IMAGE)
-                    .rowCount(3)
-                    .pickMode(PickerInfo.MODE_IMAGE)
-                    .forResult(REQUEST_CODE_IMAGE);
+        if (count > 0) {
+            ImagePicker.getInstance()
+                    .setMultiMode(true)
+                    .setCrop(false)
+                    .setSelectLimit(count);
+
+            intent2ImagePickActivity();
+        } else ToastUtil.Show(this, getResources().getString(R.string.select_limit, maxPicCount));
     }
 
     @Override
@@ -223,15 +239,15 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
         int margin = (int) getResources().getDimension(R.dimen.margin_normal);
 
         if (mChangePicPathList != null && mChangePicPathList.size() > 0) {
-            for (String path : mChangePicPathList) {
+            for (ImageItem item : mChangePicPathList) {
                 ImageView imageView = new ImageView(CreateStoryActivity.this);
                 RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(width, width);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(p);
                 params.setMargins(margin, margin, 0, 0);
                 imageView.setLayoutParams(params);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                ImageLoader.getInstance().displayImage("file://" + path, imageView);
-                Log.i(TAG, "addPic2Layout: path:" + path);
+                Glide.with(this).load(item.path).into(imageView);
+                Log.i(TAG, "addPic2Layout: path:" + item.path);
 
                 mPicGridLayout.addView(imageView, 0);
             }
@@ -256,14 +272,14 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE) {
+        if (data != null && requestCode == REQUEST_CODE_IMAGE) {
             //保存选择的图片的数据
             mChangePicPathList = null;
-            mChangePicPathList = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION);
+            mChangePicPathList = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
             if (mChangePicPathList != null && mChangePicPathList.size() > 0) {
                 //添加之前没有的
-                for (String s : mChangePicPathList) {
-                    if (!TextUtils.isEmpty(s))
+                for (ImageItem s : mChangePicPathList) {
+                    if (s != null)
                         if (!mPicList.contains(s))
                             mPicList.add(s);
                 }
@@ -271,15 +287,13 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
             //移除上一次已经添加了的
             if (mOldPicList != null && mOldPicList.size() > 0) {
-                for (String s : mOldPicList) {
+                for (ImageItem s : mOldPicList) {
                     if (mChangePicPathList.contains(s))
                         mChangePicPathList.remove(s);
                 }
             }
 
             mOldPicList = mChangePicPathList;
-            final boolean original =
-                    data.getBooleanExtra(PhotoPickerActivity.EXTRA_RESULT_ORIGINAL, false);
 
             addPic2Layout();
         }
