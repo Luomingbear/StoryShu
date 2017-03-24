@@ -209,9 +209,7 @@ public class SideSlipLayout extends BlurRelativeLayout {
      */
     private boolean canMove(float distance) {
         float nowX = mHomeLayout.getX() + distance;
-        if (nowX <= mSideWidth && nowX >= 0)
-            return true;
-        else return false;
+        return nowX <= mSideWidth && nowX >= 0;
     }
 
 
@@ -238,9 +236,7 @@ public class SideSlipLayout extends BlurRelativeLayout {
             return true;
         else if (a < 0.7)
             return false;
-        else if (x < mSideWidth && x >= mSideWidth / 2)
-            return true;
-        else return false;
+        else return x < mSideWidth && x >= mSideWidth / 2;
     }
 
     /**

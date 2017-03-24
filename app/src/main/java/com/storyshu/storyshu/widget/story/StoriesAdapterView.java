@@ -347,10 +347,7 @@ public class StoriesAdapterView extends AdapterView {
                  * 是否是快速的滑动
                  * 快速滑动的话布局时将之前的卡片全部删除
                  */
-                if (System.currentTimeMillis() - mStartTime < 200)
-                    isFastMove = true;
-                else
-                    isFastMove = false;
+                isFastMove = System.currentTimeMillis() - mStartTime < 200;
 
                 mStartTime = System.currentTimeMillis();
                 break;

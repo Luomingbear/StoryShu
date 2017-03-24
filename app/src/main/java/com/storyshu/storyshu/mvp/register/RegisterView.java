@@ -1,7 +1,5 @@
 package com.storyshu.storyshu.mvp.register;
 
-import android.widget.TextView;
-
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 
 /**
@@ -36,13 +34,6 @@ public interface RegisterView extends IBaseView {
      * @return
      */
     String getPassword();
-
-    /**
-     * 获取下一步的按钮
-     *
-     * @return
-     */
-    TextView getNextButton();
 
     /**
      * 选择头像图片

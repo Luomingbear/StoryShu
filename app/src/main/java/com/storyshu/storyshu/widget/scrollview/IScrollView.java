@@ -59,8 +59,6 @@ public class IScrollView extends ScrollView {
 
         }
 
-        ;
-
     };
 
     /**

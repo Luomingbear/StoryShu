@@ -308,10 +308,8 @@ public class SlideButton extends View {
                 /**
                  * 手指按下的时候在圆钮上则可以滑动，否则不可以
                  */
-                if (mDownX >= mCircleX - mCircleRadius - mMargin * 2 &&
-                        mDownX <= mCircleX + mCircleRadius + mMargin * 2)
-                    canMove = true;
-                else canMove = false;
+                canMove = mDownX >= mCircleX - mCircleRadius - mMargin * 2 &&
+                        mDownX <= mCircleX + mCircleRadius + mMargin * 2;
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -336,9 +334,7 @@ public class SlideButton extends View {
                      * 手指抬起的时候在按钮里面则可以进行按钮的状态改变等操作，否则取消刚才的动作
                      */
                     //如果圆心的x坐标超过view一半则属于打开状态
-                    if (mCircleX > mCenterX)
-                        isChecked = true;
-                    else isChecked = false;
+                    isChecked = mCircleX > mCenterX;
 
                     //开始动画
                     setCheckedWithAnimation(isChecked);

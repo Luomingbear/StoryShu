@@ -21,6 +21,7 @@ import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.info.UserInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
+import com.storyshu.storyshu.mvp.storymap.StoryMapView;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
 import java.util.ArrayList;
@@ -32,9 +33,8 @@ import java.util.TimerTask;
  * Created by bear on 2017/3/11.
  */
 
-public class MapFragment extends IBaseStatusFragment implements ILocationManager.OnLocationMarkerClickListener {
-    private static final String TAG = "MapFragment";
-//    private View mRootView; //总布局
+public class StoryMapFragment extends IBaseStatusFragment implements StoryMapView, ILocationManager.OnLocationMarkerClickListener {
+    private static final String TAG = "StoryMapFragment";
     private MapView mMapView; //地图
     private StoriesAdapterView mStoryCardWindow; //故事卡片的窗口
     private ArrayList<CardInfo> mCardInfoList; //数据源，卡片数据列表
@@ -49,6 +49,8 @@ public class MapFragment extends IBaseStatusFragment implements ILocationManager
                              @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.story_map_layout, container, false);
         initView(savedInstanceState);
+
+        initEvents();
 
         return mRootView;
     }
@@ -69,9 +71,9 @@ public class MapFragment extends IBaseStatusFragment implements ILocationManager
         //计算控件的高度
         float height = mStoryCardWindow.getMeasuredHeight() + getResources().getDimension(R.dimen.margin_big);
 
-//        /**
-//         * 标题栏
-//         */
+        /**
+         * 标题栏
+         */
         height = isShow ? height : -height;
 
         DecelerateInterpolator dl = new DecelerateInterpolator();  //减速
@@ -117,53 +119,6 @@ public class MapFragment extends IBaseStatusFragment implements ILocationManager
         }
     };
 
-    private void initView(Bundle savedInstanceState) {
-        if (mRootView == null)
-            return;
-
-        //状态栏
-        setStatusBackgroundColor(R.color.colorGoldLight);
-
-        //地图
-        mMapView = (MapView) mRootView.findViewById(R.id.story_map_map_view);
-        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
-        mMapView.onCreate(savedInstanceState);
-
-
-        //初始化地图管家
-        ILocationManager.getInstance().init(getContext(), mMapView);
-
-        //故事卡片窗口
-        mStoryCardWindow = (StoriesAdapterView) mRootView.findViewById(R.id.story_card_window);
-        addData(getContext());
-
-        /**
-         * 点击和滑动地图就让故事卡片隐藏
-         */
-        mMapView.getMap().setOnMapTouchListener(new AMap.OnMapTouchListener() {
-            @Override
-            public void onTouch(MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                    case MotionEvent.ACTION_UP:
-                        animateStoryShow(false);
-                        break;
-                }
-            }
-        });
-
-        /**
-         * 定位按钮
-         */
-        mRootView.findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                move2Position();
-            }
-        });
-    }
 
     @Override
     public void onDestroy() {
@@ -193,6 +148,78 @@ public class MapFragment extends IBaseStatusFragment implements ILocationManager
         mMapView.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        if (mRootView == null)
+            return;
+
+        //状态栏
+        setStatusBackgroundColor(R.color.colorGoldLight);
+
+        //地图
+        mMapView = (MapView) mRootView.findViewById(R.id.story_map_map_view);
+        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
+        mMapView.onCreate(savedInstanceState);
+
+
+        //初始化地图管家
+        ILocationManager.getInstance().init(getContext(), mMapView);
+
+        //故事卡片窗口
+        mStoryCardWindow = (StoriesAdapterView) mRootView.findViewById(R.id.story_card_window);
+        addData(getContext());
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void initEvents() {
+        /**
+         * 点击和滑动地图就让故事卡片隐藏
+         */
+        mMapView.getMap().setOnMapTouchListener(new AMap.OnMapTouchListener() {
+            @Override
+            public void onTouch(MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                    case MotionEvent.ACTION_UP:
+                        animateStoryShow(false);
+                        break;
+                }
+            }
+        });
+
+        /**
+         * 定位按钮
+         */
+        mRootView.findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                move2Position();
+            }
+        });
+    }
+
+    @Override
+    public void showToast(String s) {
+
+    }
+
+    @Override
+    public void showToast(int stringRes) {
+
+    }
+
     /**
      * 获取位置信息
      */
@@ -202,7 +229,7 @@ public class MapFragment extends IBaseStatusFragment implements ILocationManager
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                ILocationManager.getInstance().setOnLocationMarkerClickListener(MapFragment.this).start();
+                ILocationManager.getInstance().setOnLocationMarkerClickListener(StoryMapFragment.this).start();
             }
         }, 500);
     }
@@ -277,14 +304,6 @@ public class MapFragment extends IBaseStatusFragment implements ILocationManager
     }
 
     /**
-     * 显示故事集弹窗
-     */
-    private void showStoryWindow() {
-//        mStoryCardWindow.setVisibility(View.VISIBLE);
-
-    }
-
-    /**
      * marker点击
      *
      * @param marker
@@ -301,6 +320,4 @@ public class MapFragment extends IBaseStatusFragment implements ILocationManager
     private void move2Position() {
         ILocationManager.getInstance().animate2CurrentPosition();
     }
-
-
 }

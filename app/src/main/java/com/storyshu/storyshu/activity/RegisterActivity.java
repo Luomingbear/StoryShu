@@ -3,7 +3,9 @@ package com.storyshu.storyshu.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
     private TextInputEditText mUsernameEdit; //用户名的编辑框
     private TextInputEditText mPasswordEdit; //密码的编辑框
     private TextInputEditText mNicknameEdit; //昵称的编辑框
+    private int maxNicknameLength = 10;//昵称最多的字符数
     private TextView mNextButton; //下一步按钮
     private RoundTextView mStepOne; //第一步的圆点
     private RoundTextView mStepTwo; //第二步的圆点
@@ -83,11 +86,6 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
     }
 
     @Override
-    public TextView getNextButton() {
-        return mNextButton;
-    }
-
-    @Override
     public String getNickname() {
         return mNicknameEdit.getText().toString();
     }
@@ -96,6 +94,8 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
     public void chooseAvatar() {
         ImagePicker.getInstance()
                 .setMultiMode(false)
+                .setOutPutX(300) //头像保存 的大小
+                .setOutPutY(300)
                 .setCrop(true);
         intent2ImagePickActivity();
     }
@@ -186,6 +186,27 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
         mNextButton.setOnClickListener(this);
 
         mAvatarView.setOnClickListener(this);
+
+        mNicknameEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > maxNicknameLength) {
+                    showToast(getString(R.string.nickname_too_long, maxNicknameLength));
+                    mNicknameEdit.setText(s.subSequence(0, maxNicknameLength));
+                    mNicknameEdit.setSelection(maxNicknameLength);
+                }
+            }
+        });
     }
 
     @Override

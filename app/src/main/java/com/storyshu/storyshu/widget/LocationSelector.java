@@ -279,9 +279,7 @@ public class LocationSelector extends View {
     private boolean isUp() {
 
         float y = mHeadY % mSelectRectH;
-        if (y < mSelectRectH / 2)
-            return true;
-        else return false;
+        return y < mSelectRectH / 2;
     }
 
     private ObjectAnimator anim;

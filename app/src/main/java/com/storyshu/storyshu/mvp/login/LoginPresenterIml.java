@@ -44,10 +44,10 @@ public class LoginPresenterIml implements LoginPresenter {
     private boolean checkInput() {
         //邮箱
         if (TextUtils.isEmpty(mLoginView.getUsername())) {
-            mLoginView.showToast(R.string.login_email_empty);
+            mLoginView.showToast(R.string.login_username_empty);
             return false;
         } else if (!EmailFormatCheckUtil.isEmail(mLoginView.getUsername())) {
-            mLoginView.showToast(R.string.login_email_illegal);
+            mLoginView.showToast(R.string.login_username_illegal);
             return false;
         }
         //密码

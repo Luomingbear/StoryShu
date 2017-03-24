@@ -9,7 +9,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
 import com.storyshu.storyshu.activity.story.CreateStoryActivity;
 import com.storyshu.storyshu.fragement.AirportFragment;
-import com.storyshu.storyshu.fragement.MapFragment;
+import com.storyshu.storyshu.fragement.StoryMapFragment;
 import com.storyshu.storyshu.fragement.MessageFragment;
 import com.storyshu.storyshu.fragement.MineFragment;
 import com.storyshu.storyshu.utils.StatusBarUtils;
@@ -17,7 +17,7 @@ import com.storyshu.storyshu.widget.CreateButton;
 import com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar;
 
 public class MainActivity extends IPermissionActivity {
-    private MapFragment mStoryMapFragment; //地图fragment；
+    private StoryMapFragment mStoryMapFragment; //地图fragment；
     private AirportFragment mAirportFragment; //候机厅fragment；
     private MessageFragment mMessageFragment; //消息fragment；
     private MineFragment mMeFragment; //我的fragment；
@@ -145,7 +145,7 @@ public class MainActivity extends IPermissionActivity {
         switch (index) {
             case 0:
                 if (mStoryMapFragment == null) {
-                    mStoryMapFragment = new MapFragment();
+                    mStoryMapFragment = new StoryMapFragment();
                     transaction.add(R.id.content, mStoryMapFragment);
                 } else transaction.show(mStoryMapFragment);
                 break;
