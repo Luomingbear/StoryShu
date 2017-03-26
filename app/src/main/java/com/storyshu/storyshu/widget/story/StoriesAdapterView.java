@@ -77,6 +77,7 @@ public class StoriesAdapterView extends AdapterView {
      */
     public void setCenterCardIndex(int centerCardIndex) {
         this.centerCardIndex = centerCardIndex;
+        updateIndex();
         requestLayout();
     }
 

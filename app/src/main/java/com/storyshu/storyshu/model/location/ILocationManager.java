@@ -184,6 +184,31 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     }
 
     /**
+     * 显示选中的图标
+     *
+     * @param storyInfo
+     */
+    public void showSelectedIcon(StoryInfo storyInfo) {
+        if (mMapManager == null || storyInfo == null)
+            return;
+        //显示故事集图标
+        mMapManager.showSelectedStoryIcon(storyInfo);
+    }
+
+    /**
+     * 显示普通的图标
+     *
+     * @param storyInfo
+     */
+    public void showDefIcon(StoryInfo storyInfo) {
+        if (mMapManager == null || storyInfo == null)
+            return;
+        //显示故事集图标
+        mMapManager.showStoryIcon(storyInfo.getLatLng(), storyInfo.getContent(),
+                storyInfo.getUserInfo().getAvatar());
+    }
+
+    /**
      * 获取当前地点的兴趣的列表
      */
     public List<PoiItem> getPoiList() {

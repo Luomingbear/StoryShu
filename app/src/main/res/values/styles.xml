@@ -35,7 +35,7 @@
         <item name="colorAccent">@color/colorGrayDeep</item>
     </style>
 
-    <style name="StoryDialogTheme" parent="Theme.AppCompat.Dialog">
+    <style name="TransparentDialogTheme" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 

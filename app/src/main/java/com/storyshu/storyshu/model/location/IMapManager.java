@@ -10,6 +10,7 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.info.StoryInfo;
@@ -33,9 +34,9 @@ public class IMapManager {
     private UiSettings mUiSettings; //地图ui设置
     private boolean isFirstZoom = true; //是否首次启动地图
 
-    private int mZoomLevel = 17; //默认的地图缩放比例
+    private int mZoomLevel = 18; //默认的地图缩放比例
     private MyCircleMarker mMyPositionMarker; //个人位置点图标
-    private List<PersonMarker> bookMarkerList; //故事集图标列表
+    private List<PersonMarker> mPersonMarkerList; //故事集图标列表
 
     protected IMapManager() {
     }
@@ -78,6 +79,8 @@ public class IMapManager {
         if (latLng == null || latLng.equals(mLatLng)) {
             return;
         }
+        //获得最近一次的位置数据
+        mLatLng = ISharePreference.getLatLngData(mContext);
 
         /**
          * 点击事件
@@ -88,6 +91,9 @@ public class IMapManager {
          * ui
          */
         setUI();
+
+        //初始化故事的图标集合
+        mPersonMarkerList = new ArrayList<>();
     }
 
     /**
@@ -99,6 +105,12 @@ public class IMapManager {
 
         //不显示文字
         mAMap.showMapText(false);
+
+        //限制显示的范围
+        LatLng southwestLatLng = new LatLng(mLatLng.latitude - 0.01, mLatLng.longitude - 0.01);
+        LatLng northeastLatLng = new LatLng(mLatLng.latitude + 0.01, mLatLng.longitude + 0.01);
+        LatLngBounds latLngBounds = new LatLngBounds(southwestLatLng, northeastLatLng);
+        mAMap.setMapStatusLimits(latLngBounds);
 
         //隐藏缩放按钮
         mUiSettings.setZoomControlsEnabled(false);
@@ -150,12 +162,44 @@ public class IMapManager {
     /**
      * 显示故事图标
      */
-    public void showStoryIcon(LatLonPoint latLonPoint, String content, String avatar) {
-        PersonMarker personMarker = new PersonMarker(mContext, mAMap,
-                new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
+    public void showStoryIcon(LatLng latLong, String content, String avatar) {
+        if (mPersonMarkerList != null && mPersonMarkerList.size() > 0) {
+            //移除之前的小图标
+            for (PersonMarker personMarker : mPersonMarkerList) {
+                if (personMarker.getLatLng().equals(latLong)) {
+                    personMarker.remove();
+                    mPersonMarkerList.remove(personMarker);
+                    break;
+                }
+            }
+        }
+
+        //显示图标
+        PersonMarker personMarker = new PersonMarker(mContext, mAMap, latLong);
         personMarker.setAvatarAndShow(avatar);
         //添加到故事集列表
-//        bookMarkerList.add(bookMarker);
+        mPersonMarkerList.add(personMarker);
+    }
+
+    /**
+     * 显示选中的故事图标
+     */
+    public void showSelectedStoryIcon(StoryInfo storyInfo) {
+        //移除之前的小图标
+        for (PersonMarker personMarker : mPersonMarkerList) {
+            if (personMarker.getLatLng().equals(storyInfo.getLatLng())) {
+                personMarker.remove();
+                mPersonMarkerList.remove(personMarker);
+                break;
+            }
+        }
+        //添加新的图标
+        PersonMarker personMarker = new PersonMarker(mContext, mAMap, storyInfo.getLatLng());
+        personMarker.setAvatarAndShowSelected(storyInfo.getUserInfo().getAvatar());
+        mPersonMarkerList.add(personMarker);
+
+        //移动摄像机到新的位置
+//        animate2Position(storyInfo.getLatLng());
     }
 
     /**

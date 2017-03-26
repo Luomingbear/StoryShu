@@ -24,7 +24,8 @@ public abstract class IBaseStatusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(getLayoutRes(), container, false);
+        if (getLayoutRes() != 0)
+            mRootView = inflater.inflate(getLayoutRes(), container, false);
         initView(savedInstanceState);
 
         initData();

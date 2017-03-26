@@ -2,6 +2,7 @@ package com.storyshu.storyshu.model.stories;
 
 import android.content.Context;
 
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.info.UserInfo;
@@ -61,18 +62,20 @@ public class StoryModel {
             cardInfo.setLikeNum(2 * i + i);
             cardInfo.setOpposeNum(i + 1);
 
+            //随机坐标
             double lat = ISharePreference.getLatLngPointData(mContext).getLatitude();
             double lng = ISharePreference.getLatLngPointData(mContext).getLongitude();
             lat = lat + Math.random() * 0.001 * (Math.random() > 0.5 ? 1 : -1);
             lng = lng + Math.random() * 0.001 * (Math.random() > 0.5 ? 1 : -1);
 
-            cardInfo.setLatLng(new LatLonPoint(lat, lng));
+            cardInfo.setLatLng(new LatLng(lat, lng));
             list.add(cardInfo);
         }
         list.get(1).getUserInfo().setAvatar("http://img.hb.aicdn.com/29959d9544d6d3d2ca70551a32c1cbfa0f22879a72a0-IrG5Sr_fw658");
         list.get(2).getUserInfo().setAvatar("http://img.hb.aicdn.com/39be071869229a1aaf5a20903e9cbba55df30c281b5c2-RhMK1Y_fw658");
         list.get(3).getUserInfo().setAvatar("http://img.hb.aicdn.com/24b6add9f88748e7208f89d3af85b665cd02e0571325f-XIlpwp_fw658");
         list.get(4).getUserInfo().setAvatar("http://img.hb.aicdn.com/98ec385d465ce72a2e7336892f2a5065a1b342cfe96e-0vRdLP_fw658");
+        list.get(5).getUserInfo().setAvatar("http://img.hb.aicdn.com/c7146db3871385a2d13cafb9fd9295260b8145ad3e2d-emRGXC_fw658");
 
         list.get(1).setCover("http://img.hb.aicdn.com/61742b3ce0bb3346db287b9c475d6c238013ad853387b-Hureyd_fw658");
         list.get(2).setCover("");

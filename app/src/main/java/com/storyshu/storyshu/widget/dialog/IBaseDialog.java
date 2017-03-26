@@ -28,9 +28,10 @@ public abstract class IBaseDialog extends Dialog {
     }
 
     private void init() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //取消标题栏
+
         if (getLayoutRes() != 0)
             setContentView(getLayoutRes()); //设置布局的id
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //取消标题栏
         initView(); //初始化视图
     }
 

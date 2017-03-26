@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.maps.model.LatLng;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.info.UserInfo;
 
@@ -62,7 +62,7 @@ public class StoryDateBaseHelper extends BaseDataHelper {
                 story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
                 story.setCover(cursor.getString(cursor.getColumnIndex(COVER_PIC)));
                 story.setStoryId(cursor.getInt(cursor.getColumnIndex(STORY_ID)));
-                LatLonPoint latLonPoint = new LatLonPoint(cursor.getFloat(cursor.getColumnIndex(LAT)), cursor.getFloat(cursor.getColumnIndex(LNG)));
+                LatLng latLonPoint = new LatLng(cursor.getFloat(cursor.getColumnIndex(LAT)), cursor.getFloat(cursor.getColumnIndex(LNG)));
                 story.setLatLng(latLonPoint);
 
                 UserInfo user = new UserInfo();
@@ -115,8 +115,8 @@ public class StoryDateBaseHelper extends BaseDataHelper {
             values.put(CONTENT, storyInfo.getContent());
             values.put(CREATE_DATE, storyInfo.getCreateDate());
             values.put(LOCATION_NAME, storyInfo.getLocation());
-            values.put(LAT, storyInfo.getLatLng().getLatitude());
-            values.put(LNG, storyInfo.getLatLng().getLongitude());
+            values.put(LAT, storyInfo.getLatLng().latitude);
+            values.put(LNG, storyInfo.getLatLng().longitude);
 
             db.insert(STORY_TABLE, null, values);
         } catch (Exception e) {

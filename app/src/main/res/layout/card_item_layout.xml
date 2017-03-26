@@ -23,7 +23,8 @@
             android:layout_width="@dimen/image_normal"
             android:layout_height="@dimen/image_normal"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_normal" />
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:src="@drawable/gray_rectangle" />
 
         <CheckBox
             android:id="@+id/oppose"

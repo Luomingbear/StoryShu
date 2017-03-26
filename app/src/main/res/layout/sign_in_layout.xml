@@ -28,7 +28,6 @@
             android:layout_below="@id/light_text"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_normal"
-            android:text="@string/sign_in_day"
             android:textColor="@color/colorGrayDeep"
             android:textSize="@dimen/font_big" />
 
@@ -49,7 +48,7 @@
 
     <ImageView
         android:id="@+id/sign_img"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

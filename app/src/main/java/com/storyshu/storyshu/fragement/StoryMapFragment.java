@@ -2,6 +2,7 @@ package com.storyshu.storyshu.fragement;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -15,6 +16,7 @@ import com.storyshu.storyshu.mvp.storymap.StoryMapPresenterIml;
 import com.storyshu.storyshu.mvp.storymap.StoryMapView;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
+import com.storyshu.storyshu.widget.dialog.SignDialog;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
 import java.util.ArrayList;
@@ -80,6 +82,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         setStatusBackgroundColor(R.color.colorGoldLight);
         //签到
         mSinInTv = (TextView) mRootView.findViewById(R.id.sign_in);
+        mSinInTv.setOnClickListener(this);
 
         //地图
         mMapView = (MapView) mRootView.findViewById(R.id.story_map_map_view);
@@ -102,8 +105,15 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     }
 
     @Override
-    public void showSignDialog() {
-
+    public void showSignDialog(final int signDays) {
+        SignDialog signDialog = new SignDialog(getContext(), R.style.TransparentDialogTheme);
+        signDialog.setTextAndShow(getString(R.string.sign_in_day_dialog, signDays));
+        signDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mSinInTv.setText(getString(R.string.sign_in_day, signDays));
+            }
+        });
     }
 
     @Override
@@ -138,7 +148,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
     @Override
     public void intent2StoryRoomActivity(CardInfo cardInfo) {
-        intentWithParcelable(StoryRoomActivity.class, NameUtil.CARD_INFO, cardInfo);
+        intentWithParcelable(StoryRoomActivity.class, NameUtil.STORY_INFO, cardInfo);
     }
 
     @Override

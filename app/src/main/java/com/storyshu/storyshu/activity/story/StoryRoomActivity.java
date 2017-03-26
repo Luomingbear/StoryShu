@@ -6,13 +6,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.CommentAdapter;
 import com.storyshu.storyshu.info.CommentInfo;
+import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
@@ -26,12 +30,12 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
     private static final String TAG = "StoryRoomActivity";
     private TitleView mTitleView; //标题栏
     private TextView mStoryContent; //故事的内容
-    private ImageView mStoryPic; //故事的配图
+    private ImageView mStoryCover; //故事的配图
     private TextView mPicSize; //配图的数量
     private TextView mLocation; //发布位置
     private View mReport; //举报
     private AvatarImageView mAvatar; //作者头像
-    private TextView mUsername; //作者昵称
+    private TextView mNickname; //作者昵称
     private TextView mCreateTime; //发布时间
     private TextView mDeathTime; //剩余时间
 
@@ -42,6 +46,7 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
     private SwipeRefreshLayout mRefreshLayout; //下拉刷新控件
     private RecyclerView mCommentRV; //评论的列表控件
 
+    private StoryInfo mStoryInfo; //故事的数据
     private ArrayList<CommentInfo> mCommentInfoList; //评论的数据源
     private CommentAdapter mCommentAdapter; //评论适配器
 
@@ -55,7 +60,6 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
         initData();
 
         initEvent();
-
     }
 
     /**
@@ -66,7 +70,7 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
 
         mStoryContent = (TextView) findViewById(R.id.story_content);
 
-        mStoryPic = (ImageView) findViewById(R.id.story_pic);
+        mStoryCover = (ImageView) findViewById(R.id.story_pic);
 
         mPicSize = (TextView) findViewById(R.id.pic_size);
 
@@ -76,7 +80,9 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
 
         mAvatar = (AvatarImageView) findViewById(R.id.author_avatar);
 
-        mUsername = (TextView) findViewById(R.id.author_username);
+        mNickname = (TextView) findViewById(R.id.author_username);
+
+        mCreateTime = (TextView) findViewById(R.id.create_time);
 
         mDeathTime = (TextView) findViewById(R.id.destroy_time);
 
@@ -166,7 +172,37 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
      * 初始化数据
      */
     private void initData() {
+        mStoryInfo = getIntent().getParcelableExtra(NameUtil.STORY_INFO);
+        if (mStoryInfo == null)
+            return;
+
+        Glide.with(this).load(mStoryInfo.getUserInfo().getAvatar()).into(mAvatar);
+
+        mStoryContent.setText(mStoryInfo.getContent());
+
+        if (!TextUtils.isEmpty(mStoryInfo.getCover())) {
+            Glide.with(this).load(mStoryInfo.getCover()).into(mStoryCover);
+        } else {
+            mStoryCover.setVisibility(View.GONE);
+            mPicSize.setVisibility(View.GONE);
+        }
+
+        mLocation.setText(mStoryInfo.getLocation());
+
+        mNickname.setText(mStoryInfo.getUserInfo().getNickname());
+
+        mCreateTime.setText(TimeUtils.convertCurrentTime(this, mStoryInfo.getCreateDate()));
+
+        mDeathTime.setText(TimeUtils.destroyTime(this, mStoryInfo.getCreateDate(), mStoryInfo.getLifeTime()));
+
+        mLike.setNum(mStoryInfo.getLikeNum());
+
+        mOppose.setNum(mStoryInfo.getOpposeNum());
+
+        //评论树
         initComments();
+
+        mComment.setNum(mCommentInfoList.size());
     }
 
     /**
@@ -215,7 +251,7 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
     private void initEvent() {
         initTitle();
 
-        mStoryPic.setOnClickListener(this);
+        mStoryCover.setOnClickListener(this);
 
         mReport.setOnClickListener(this);
 

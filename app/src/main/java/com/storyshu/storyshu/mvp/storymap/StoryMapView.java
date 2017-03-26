@@ -23,8 +23,10 @@ public interface StoryMapView extends IBaseFragmentView {
 
     /**
      * 显示签到的弹窗
+     *
+     * @param signDays 累计签到的天数
      */
-    void showSignDialog();
+    void showSignDialog(int signDays);
 
     /**
      * 获得地图控件

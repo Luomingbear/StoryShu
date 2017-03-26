@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.utils.DipPxConversion;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -79,6 +80,17 @@ public class PersonView extends View {
         requestLayout();
     }
 
+    /**
+     * 设置为选中的状态
+     */
+    public void setSelectedMode() {
+        mWidth = (int) getResources().getDimension(R.dimen.image_big);
+        requestLayout();
+
+        mFrameColor = mHitColor;
+        postInvalidate();
+    }
+
     public PersonView(Context context) {
         this(context, null);
     }
@@ -106,7 +118,7 @@ public class PersonView extends View {
 
         mMatrix = new Matrix();
 
-        mFrameWidth = getResources().getDimension(R.dimen.margin_min);
+        mFrameWidth = DipPxConversion.dip2px(getContext(), 4);
         mAvatarBmp = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_wolverine);
 
         mHitColor = getResources().getColor(R.color.colorOrange);
@@ -127,7 +139,7 @@ public class PersonView extends View {
 
         //画白色背景
         mPaint.setColor(mFrameColor);
-        canvas.drawCircle(mCenterX, mCenterY, mCenterX - 3, mPaint);
+        canvas.drawCircle(mCenterX, mCenterY, mCenterX - 2, mPaint);
     }
 
     /**
@@ -137,8 +149,9 @@ public class PersonView extends View {
         mPaint.setColor(mShadowColor);
         canvas.drawCircle(mCenterX, getHeight() - mFrameWidth, mFrameWidth * 0.7f, mPaint);
 
-        mPaint.setColor(mFrameColor);
-        canvas.drawCircle(mCenterX, getHeight() - mFrameWidth, mFrameWidth * 0.7f - 2, mPaint);
+        mPaint.setColor(mHitColor);
+        canvas.drawCircle(mCenterX, getHeight() - mFrameWidth, mFrameWidth * 0.7f
+                - DipPxConversion.dip2px(getContext(), 1), mPaint);
     }
 
     /**
@@ -212,7 +225,8 @@ public class PersonView extends View {
     @Override
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        mWidth = (int) getResources().getDimension(R.dimen.image_normal);
+        if (mWidth == 0)
+            mWidth = (int) getResources().getDimension(R.dimen.image_normal);
         setMeasuredDimension(mWidth, (int) (mWidth * 1.22f));
     }
 }

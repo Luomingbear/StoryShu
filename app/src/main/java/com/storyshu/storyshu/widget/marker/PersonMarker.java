@@ -12,6 +12,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.TranslateAnimation;
+import com.amap.api.services.core.LatLonPoint;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -34,6 +35,15 @@ public class PersonMarker extends IMarker {
         super(mContext, mAMap, mLatLng);
     }
 
+    public PersonMarker(Context mContext, AMap mAMap, LatLonPoint latLng) {
+        super(mContext, mAMap, new LatLng(latLng.getLatitude(), latLng.getLongitude()));
+    }
+
+    /**
+     * 显示普通的图标
+     *
+     * @param avatarPath
+     */
     public void setAvatarAndShow(String avatarPath) {
         mPersonView = new PersonView(mContext);
         this.avatarPath = avatarPath;
@@ -68,7 +78,48 @@ public class PersonMarker extends IMarker {
                     .load(avatarPath)
                     .into(target);
         }
+    }
 
+    /**
+     * 显示选中的图标
+     *
+     * @param avatarPath
+     */
+    public void setAvatarAndShowSelected(String avatarPath) {
+        mPersonView = new PersonView(mContext);
+        mPersonView.setSelectedMode();
+        this.avatarPath = avatarPath;
+
+        if (TextUtils.isEmpty(avatarPath)) {
+            mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
+            Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(mLatLng);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+
+            mMarker = mAMap.addMarker(markerOptions);
+            mMarker.setInfoWindowEnable(false);
+
+        } else {
+            SimpleTarget target = new SimpleTarget<GlideBitmapDrawable>() {
+                @Override
+                public void onResourceReady(GlideBitmapDrawable resource, GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
+                    mPersonView.init(resource);
+                    Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
+
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(mLatLng);
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+
+                    mMarker = mAMap.addMarker(markerOptions);
+                    mMarker.setInfoWindowEnable(false);
+                }
+            };
+            Glide.with(mContext.getApplicationContext())
+                    .load(avatarPath)
+                    .into(target);
+        }
     }
 
     /**
