@@ -11,8 +11,10 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeAddress;
+import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -82,6 +84,21 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         return this;
     }
 
+    /**
+     * 是否初始化了
+     *
+     * @return
+     */
+    public boolean isInit() {
+        if (this.mAppContext == null)
+            return false;
+        if (this.mMapView == null)
+            return false;
+        if (this.mLocationQueryTool == null)
+            return false;
+        return true;
+    }
+
 
     /**
      * 开始定位
@@ -107,8 +124,6 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
         //显示用户图标
         mMapManager.showMyPositionIcon(ISharePreference.getLatLngPointData(mAppContext));
-        //显示故事集图标
-        mMapManager.showStoriesIcons();
     }
 
     /**
@@ -154,6 +169,18 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
             return;
 
         mMapManager.move2Position();
+    }
+
+    /**
+     * 显示故事集图标
+     *
+     * @param storyList
+     */
+    public void showStoriesIcons(ArrayList<StoryInfo> storyList) {
+        if (mMapManager == null || storyList == null)
+            return;
+        //显示故事集图标
+        mMapManager.showStoriesIcons(storyList);
     }
 
     /**

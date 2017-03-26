@@ -21,7 +21,7 @@ import com.storyshu.storyshu.utils.PermissionUtil;
 public class IPermissionActivity extends IBaseActivity {
     private static final String TAG = "IPermissionActivity";
     protected static final int LOCATION_PERMISSION = 0; //定位权限
-    protected static final int PERMISSION_INTENT = 0; //跳转到权限管理
+    protected static final int PERMISSION_INTENT = 1; //跳转到权限管理
     private AlertDialog.Builder dialogBuilder; //显示设置权限的窗
     private String mPermission;
 

@@ -11,6 +11,7 @@ import android.view.Window;
  */
 
 public abstract class IBaseDialog extends Dialog {
+
     public IBaseDialog(Context context) {
         super(context);
         init();
@@ -27,15 +28,29 @@ public abstract class IBaseDialog extends Dialog {
     }
 
     private void init() {
+        if (getLayoutRes() != 0)
+            setContentView(getLayoutRes()); //设置布局的id
         requestWindowFeature(Window.FEATURE_NO_TITLE); //取消标题栏
+        initView(); //初始化视图
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Create();
-
     }
+
+    /**
+     * 设置布局的id
+     *
+     * @return layoutID
+     */
+    public abstract int getLayoutRes();
+
+    /**
+     * 初始化视图
+     */
+    public abstract void initView();
 
     /**
      * 创建的时候初始化，设置大小位置等

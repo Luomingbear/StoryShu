@@ -12,10 +12,12 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.services.core.LatLonPoint;
+import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.marker.MyCircleMarker;
 import com.storyshu.storyshu.widget.marker.PersonMarker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -95,6 +97,9 @@ public class IMapManager {
         if (mUiSettings == null)
             return;
 
+        //不显示文字
+        mAMap.showMapText(false);
+
         //隐藏缩放按钮
         mUiSettings.setZoomControlsEnabled(false);
         //旋转
@@ -108,6 +113,8 @@ public class IMapManager {
         //
         //
         mUiSettings.setIndoorSwitchEnabled(false);
+
+
     }
 
 
@@ -144,9 +151,9 @@ public class IMapManager {
      * 显示故事图标
      */
     public void showStoryIcon(LatLonPoint latLonPoint, String content, String avatar) {
-        PersonMarker bookMarker = new PersonMarker(mContext, mAMap,
+        PersonMarker personMarker = new PersonMarker(mContext, mAMap,
                 new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
-        bookMarker.setAvatarAndShow(avatar);
+        personMarker.setAvatarAndShow(avatar);
         //添加到故事集列表
 //        bookMarkerList.add(bookMarker);
     }
@@ -154,11 +161,11 @@ public class IMapManager {
     /**
      * 显示所有图标
      */
-    public void showStoriesIcons() {
-        // TODO: 2016/12/3 获取服务器的数据显示图标
-        Log.i(TAG, "showStoriesIcons: 显示故事集图标");
-        LatLonPoint point = new LatLonPoint(mLatLng.latitude + 0.001, mLatLng.longitude);
-        showStoryIcon(point, "", "");
+    public void showStoriesIcons(ArrayList<StoryInfo> storyList) {
+        for (StoryInfo storyInfo : storyList) {
+            showStoryIcon(storyInfo.getLatLng(), storyInfo.getContent(),
+                    storyInfo.getUserInfo().getAvatar());
+        }
     }
 
 

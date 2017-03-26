@@ -8,14 +8,13 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
-import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.utils.BitmapUtil;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,11 +58,10 @@ public class PersonView extends View {
         requestLayout();
     }
 
-    public void init(Drawable bmp) {
+    public void init(GlideBitmapDrawable bmp) {
         if (bmp == null)
             return;
-
-        mAvatarBmp = BitmapUtil.drawable2Bitamp(bmp);
+        mAvatarBmp = bmp.getBitmap();
 
         requestLayout();
     }
@@ -115,7 +113,7 @@ public class PersonView extends View {
         mDefColor = getResources().getColor(R.color.colorWhite);
         mFrameColor = mDefColor;
         mShadowColor = getResources().getColor(R.color.colorGrayLight);
-        mWidth = (int) getResources().getDimension(R.dimen.icon_large);
+        mWidth = (int) getResources().getDimension(R.dimen.image_normal);
     }
 
     /**
@@ -214,7 +212,7 @@ public class PersonView extends View {
     @Override
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        mWidth = (int) getResources().getDimension(R.dimen.icon_large);
+        mWidth = (int) getResources().getDimension(R.dimen.image_normal);
         setMeasuredDimension(mWidth, (int) (mWidth * 1.22f));
     }
 }

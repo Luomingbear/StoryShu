@@ -40,10 +40,12 @@ public class AutoScaleLayout extends RelativeLayout {
         float height = getMeasuredHeight();
         float ratio = height / width; //原始空件的显示比例
 
-        if (ratio < mScaleRate)
-            width = height / mScaleRate;
-        else if (ratio >= mScaleRate)
-            height = width * mScaleRate;
+//        if (ratio < mScaleRate)
+//            width = height / mScaleRate;
+//        else if (ratio >= mScaleRate)
+//            height = width * mScaleRate;
+
+        height = width * mScaleRate;
 
 //
 //        float boxWidth; //最小包围盒宽度

@@ -27,6 +27,8 @@
     <string name="in_location">正在获取定位</string>
     <string name="nearly_no_story">附近没有故事哦</string>
     <string name="need_location_permission">当前应用缺少必要的位置权限，请在\"权限\"—\"权限管理\"打开所需权限</string>
+    <string name="sign_in_succeed">签到成功！</string>
+    <string name="sign_in_day">您已签到%1$d天～</string>
 
     <!--注册-->
     <string name="welcome_register">欢迎注册</string>
@@ -63,7 +65,7 @@
     <string name="avatar_empty">请选择头像</string>
 
 
-    <string name="ok">完成</string>
+    <string name="ok">确定</string>
 
     <!--菜单-->
     <string name="my_stories">我的故事</string>

@@ -35,10 +35,11 @@ public class InputDialog extends IBaseDialog {
 
     public InputDialog(Context context, int themeResId) {
         super(context, R.style.MenuDialogTheme);
+    }
 
-        setContentView(R.layout.input_dialog_layout);
-
-        initView();
+    @Override
+    public int getLayoutRes() {
+        return R.layout.input_dialog_layout;
     }
 
     @Override
@@ -99,7 +100,8 @@ public class InputDialog extends IBaseDialog {
         InputDialog.this.dismiss();
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
         //背景不变黑
         Window mWindow = getWindow();
         WindowManager.LayoutParams lp = mWindow.getAttributes();

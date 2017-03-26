@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/card_view_bg">
+
+        <TextView
+            android:id="@+id/light_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:text="@string/sign_in_succeed"
+            android:textColor="@color/colorRedLight"
+            android:textSize="@dimen/font_title" />
+
+        <TextView
+            android:id="@+id/explain_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/light_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:text="@string/sign_in_day"
+            android:textColor="@color/colorGrayDeep"
+            android:textSize="@dimen/font_big" />
+
+        <com.storyshu.storyshu.widget.text.RoundTextView
+            android:id="@+id/ok"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/selector_height"
+            android:layout_below="@id/explain_text"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:text="@string/ok"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_big"
+            app:bgColor="@color/colorGoldLight"
+            app:roundSize="@dimen/border_radius_normal"
+            app:roundType="roundBottom" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/sign_img"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/sign_in" />
+</RelativeLayout>

@@ -43,7 +43,7 @@ public class StoryBookManager {
         StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(mContext);
         List<StoryInfo> storyList = storyDateBaseHelper.getLocalStory();
         for (StoryInfo storyInfo : storyList) {
-            mMapManager.showStoryIcon(storyInfo.getLatLng(), storyInfo.getContent(), storyInfo.getDetailPic());
+            mMapManager.showStoryIcon(storyInfo.getLatLng(), storyInfo.getContent(), storyInfo.getCover());
         }
     }
 

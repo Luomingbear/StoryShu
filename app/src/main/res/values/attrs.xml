@@ -94,6 +94,11 @@
     </declare-styleable>
 
     <declare-styleable name="RoundTextView">
+        <attr name="roundType" format="enum">
+            <enum name="roundRect" value="0" />
+            <enum name="roundTop" value="1" />
+            <enum name="roundBottom" value="2" />
+        </attr>
         <attr name="roundSize" format="dimension" />
         <attr name="bgColor" format="color" />
     </declare-styleable>

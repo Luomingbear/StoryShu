@@ -3,9 +3,7 @@ package com.storyshu.storyshu.fragement;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.AirPortPushInfo;
@@ -24,25 +22,13 @@ public class AirportFragment extends IBaseStatusFragment implements AirportView 
     private RecyclerView mPushCardsRV; //推送故事的列表布局
     private AirportPresenter mAirportPresenterIml; //mvp模式的实现
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        mRootView = inflater.inflate(R.layout.airport_layout, container, false);
-        mAirportPresenterIml = new AirportPresenterIml(getContext(), this);
-
-        initView();
-        initData();
-        return mRootView;
+    public int getLayoutRes() {
+        return R.layout.airport_layout;
     }
 
     @Override
-    public RecyclerView getPushRv() {
-        return mPushCardsRV;
-    }
-
-    @Override
-    public void initView() {
+    public void initView(@Nullable Bundle savedInstanceState) {
         if (mRootView == null)
             return;
 
@@ -52,7 +38,15 @@ public class AirportFragment extends IBaseStatusFragment implements AirportView 
         mSearchLayout = mRootView.findViewById(R.id.title_view);
 
         mPushCardsRV = (RecyclerView) mRootView.findViewById(R.id.airport_push_list);
+
+        mAirportPresenterIml = new AirportPresenterIml(getContext(), this);
     }
+
+    @Override
+    public RecyclerView getPushRv() {
+        return mPushCardsRV;
+    }
+
 
     @Override
     public void initData() {

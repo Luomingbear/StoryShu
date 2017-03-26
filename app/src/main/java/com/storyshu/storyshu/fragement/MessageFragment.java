@@ -2,9 +2,6 @@ package com.storyshu.storyshu.fragement;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.mvp.message.MessagePresenterIml;
@@ -23,21 +20,13 @@ public class MessageFragment extends IBaseStatusFragment implements MessageView 
     private IExpandableListView mSystemListView; //我收到的系统消息的折叠列表
     private MessagePresenterIml mMessagePresenter; //mvp的代理人
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        mRootView = LayoutInflater.from(getContext()).inflate(R.layout.message_layout,
-                container, false);
-        initView();
-        mMessagePresenter = new MessagePresenterIml(getContext(), MessageFragment.this);
-        initData();
-
-        return mRootView;
+    public int getLayoutRes() {
+        return R.layout.message_layout;
     }
 
     @Override
-    public void initView() {
+    public void initView(@Nullable Bundle savedInstanceState) {
         if (mRootView == null)
             return;
 
@@ -48,6 +37,8 @@ public class MessageFragment extends IBaseStatusFragment implements MessageView 
         mLikeListView = (IExpandableListView) mRootView.findViewById(R.id.expand_like_list_view);
         mCommentListView = (IExpandableListView) mRootView.findViewById(R.id.expand_comment_list_view);
         mSystemListView = (IExpandableListView) mRootView.findViewById(R.id.expand_system_list_view);
+
+        mMessagePresenter = new MessagePresenterIml(getContext(), this);
     }
 
     @Override

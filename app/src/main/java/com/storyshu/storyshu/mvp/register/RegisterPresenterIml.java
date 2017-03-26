@@ -65,6 +65,7 @@ public class RegisterPresenterIml implements RegisterPresenter {
                 mRegisterView.showToast(R.string.avatar_empty);
             else {
                 // TODO: 2017/3/24 注册账号
+                mRegisterView.showToast(R.string.register);
             }
         }
     }

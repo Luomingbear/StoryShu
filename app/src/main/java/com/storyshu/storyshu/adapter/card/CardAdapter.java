@@ -63,9 +63,9 @@ public class CardAdapter extends IBaseAdapter {
         viewHolder.destroyTime.setText(TimeUtils.convertCurrentTime(getContext(), cardInfo.getCreateDate()));
 
         viewHolder.extract.setText(cardInfo.getContent());
-        if (!TextUtils.isEmpty(cardInfo.getDetailPic())) {
+        if (!TextUtils.isEmpty(cardInfo.getCover())) {
             viewHolder.cover.setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(cardInfo.getDetailPic()).into(viewHolder.cover);
+            Glide.with(getContext()).load(cardInfo.getCover()).into(viewHolder.cover);
         }
         return convertView;
     }

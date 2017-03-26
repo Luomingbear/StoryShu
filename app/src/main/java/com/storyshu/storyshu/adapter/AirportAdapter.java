@@ -59,7 +59,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         AirPortPushInfo pushInfo = mPushList.get(position);
         switch (pushInfo.getPushType()) {
             case AirPortPushInfo.TYPE_AD:
-                Glide.with(mContext).load(pushInfo.getDetailPic()).into(holder.cover);
+                Glide.with(mContext).load(pushInfo.getCover()).into(holder.cover);
                 holder.destroyTime.setText(TimeUtils.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));
                 break;
 
@@ -71,9 +71,9 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                 holder.content.setText(pushInfo.getContent());
                 holder.location.setText(pushInfo.getLocation());
 
-                if (!TextUtils.isEmpty(pushInfo.getDetailPic())) {
+                if (!TextUtils.isEmpty(pushInfo.getCover())) {
                     holder.cover.setVisibility(View.VISIBLE);
-                    Glide.with(mContext).load(pushInfo.getDetailPic()).into(holder.cover);
+                    Glide.with(mContext).load(pushInfo.getCover()).into(holder.cover);
                 }
 
                 holder.destroyTime.setText(TimeUtils.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));

@@ -52,8 +52,7 @@ public class MainActivity extends IPermissionActivity {
         /**
          * 查看定位权限是否打开，打开才能开始定位
          */
-        if (checkAndGetPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_PERMISSION))
-            mStoryMapFragment.getLocation();
+        checkAndGetPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_PERMISSION);
     }
 
     /**
@@ -130,7 +129,6 @@ public class MainActivity extends IPermissionActivity {
     private void initEvent() {
         //初始化图片加载器
         initImageLoader();
-
     }
 
     /**
@@ -144,6 +142,9 @@ public class MainActivity extends IPermissionActivity {
         hideFragments(transaction);
         switch (index) {
             case 0:
+                //检查位置权限
+                checkAndGetPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_PERMISSION);
+                //
                 if (mStoryMapFragment == null) {
                     mStoryMapFragment = new StoryMapFragment();
                     transaction.add(R.id.content, mStoryMapFragment);

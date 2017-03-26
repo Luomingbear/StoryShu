@@ -13,9 +13,9 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.TranslateAnimation;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.utils.ViewBitmapTool;
 
@@ -28,6 +28,7 @@ public class PersonMarker extends IMarker {
     private static final String TAG = "PersonMarker";
     private PersonView mPersonView; //
     public static String PersonId = "personMarker";
+    private String avatarPath;
 
     public PersonMarker(Context mContext, AMap mAMap, LatLng mLatLng) {
         super(mContext, mAMap, mLatLng);
@@ -35,6 +36,7 @@ public class PersonMarker extends IMarker {
 
     public void setAvatarAndShow(String avatarPath) {
         mPersonView = new PersonView(mContext);
+        this.avatarPath = avatarPath;
 
         if (TextUtils.isEmpty(avatarPath)) {
             mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
@@ -48,16 +50,9 @@ public class PersonMarker extends IMarker {
             mMarker.setInfoWindowEnable(false);
 
         } else {
-            Glide.with(mContext).load(avatarPath).listener(new RequestListener<String, GlideDrawable>() {
+            SimpleTarget target = new SimpleTarget<GlideBitmapDrawable>() {
                 @Override
-                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                    return false;
-                }
-
-                @Override
-                public boolean onResourceReady(GlideDrawable resource, String model,
-                                               Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-
+                public void onResourceReady(GlideBitmapDrawable resource, GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
                     mPersonView.init(resource);
                     Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 
@@ -67,9 +62,11 @@ public class PersonMarker extends IMarker {
 
                     mMarker = mAMap.addMarker(markerOptions);
                     mMarker.setInfoWindowEnable(false);
-                    return false;
                 }
-            });
+            };
+            Glide.with(mContext.getApplicationContext())
+                    .load(avatarPath)
+                    .into(target);
         }
 
     }

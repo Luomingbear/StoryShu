@@ -26,6 +26,16 @@ public class PoiDialog extends IBaseDialog {
     }
 
     @Override
+    public int getLayoutRes() {
+        return 0;
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void Create() {
 
         WindowManager manager = getWindow().getWindowManager();

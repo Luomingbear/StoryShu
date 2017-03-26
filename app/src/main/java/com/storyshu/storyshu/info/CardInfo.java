@@ -10,7 +10,7 @@ import android.os.Parcelable;
 
 public class CardInfo implements Parcelable {
     private int storyId; //故事的id
-    private String detailPic; //故事的说明图
+    private String cover; //故事的说明图
     private String content; //故事的内容
     private UserInfo userInfo; //用户信息
     private String createDate; //发布时间
@@ -25,7 +25,7 @@ public class CardInfo implements Parcelable {
 
     public CardInfo(StoryInfo storyInfo) {
         this.storyId = storyInfo.getStoryId();
-        this.detailPic = storyInfo.getDetailPic();
+        this.cover = storyInfo.getCover();
         this.content = this.getContent();
         this.userInfo = storyInfo.getUserInfo();
         this.createDate = storyInfo.getCreateDate();
@@ -35,7 +35,7 @@ public class CardInfo implements Parcelable {
     public CardInfo(int storyId, String detailPic, String extract, UserInfo userInfo,
                     String createDate, int lifeTime, String location, int likeNum, int opposeNum) {
         this.storyId = storyId;
-        this.detailPic = detailPic;
+        this.cover = detailPic;
         this.content = extract;
         this.userInfo = userInfo;
         this.createDate = createDate;
@@ -48,7 +48,7 @@ public class CardInfo implements Parcelable {
     public CardInfo(int storyId, String detailPic, String extract, String nickname,
                     int userId, String headPortrait, String createDate, int lifeTime, String location, int likeNum, int opposeNum) {
         this.storyId = storyId;
-        this.detailPic = detailPic;
+        this.cover = detailPic;
         this.content = extract;
         this.userInfo = new UserInfo(nickname, userId, headPortrait);
         this.createDate = createDate;
@@ -66,12 +66,12 @@ public class CardInfo implements Parcelable {
         this.storyId = storyId;
     }
 
-    public String getDetailPic() {
-        return detailPic;
+    public String getCover() {
+        return cover;
     }
 
-    public void setDetailPic(String detailPic) {
-        this.detailPic = detailPic;
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getContent() {
@@ -138,7 +138,7 @@ public class CardInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.storyId);
-        dest.writeString(this.detailPic);
+        dest.writeString(this.cover);
         dest.writeString(this.content);
         dest.writeParcelable(this.userInfo, flags);
         dest.writeString(this.createDate);
@@ -150,7 +150,7 @@ public class CardInfo implements Parcelable {
 
     protected CardInfo(Parcel in) {
         this.storyId = in.readInt();
-        this.detailPic = in.readString();
+        this.cover = in.readString();
         this.content = in.readString();
         this.userInfo = in.readParcelable(UserInfo.class.getClassLoader());
         this.createDate = in.readString();
