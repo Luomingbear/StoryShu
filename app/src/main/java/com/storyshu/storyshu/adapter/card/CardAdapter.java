@@ -56,7 +56,7 @@ public class CardAdapter extends IBaseAdapter {
         if (TextUtils.isEmpty(cardInfo.getUserInfo().getAvatar()))
             viewHolder.avatar.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.avatar_wolverine));
         else {
-            Glide.with(getContext()).load(cardInfo.getUserInfo().getAvatar()).into(viewHolder.avatar);
+            Glide.with(getContext()).load(cardInfo.getUserInfo().getAvatar()).dontAnimate().into(viewHolder.avatar);
         }
         //
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
@@ -65,7 +65,7 @@ public class CardAdapter extends IBaseAdapter {
         viewHolder.extract.setText(cardInfo.getContent());
         if (!TextUtils.isEmpty(cardInfo.getCover())) {
             viewHolder.cover.setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(cardInfo.getCover()).into(viewHolder.cover);
+            Glide.with(getContext()).load(cardInfo.getCover()).dontAnimate().into(viewHolder.cover);
         }
         return convertView;
     }

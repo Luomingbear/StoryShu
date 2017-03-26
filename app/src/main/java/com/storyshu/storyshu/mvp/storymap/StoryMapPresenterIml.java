@@ -52,6 +52,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
 
         }
     };
+    
     /**
      * 卡片的滑动监听
      */
@@ -150,7 +151,6 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
                 StoryInfo storyInfo = mStoryList.get(i);
                 if (storyInfo.getLatLng().equals(marker.getPosition())) {
                     updateStoryIcon(storyInfo);
-                    lastSelectedStoryIndex = centerIndex;
                     centerIndex = i;
                     break;
                 }
@@ -161,6 +161,9 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
             Log.i(TAG, "OnMarkerClick: centerIndex:" + centerIndex);
             mStoryMapView.getStoryWindow().setCenterCardIndex(centerIndex);
             mStoryMapView.showCardWindow();
+
+            //更新下标
+            lastSelectedStoryIndex = centerIndex;
         }
     };
 

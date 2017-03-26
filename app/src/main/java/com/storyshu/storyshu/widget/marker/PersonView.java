@@ -85,10 +85,9 @@ public class PersonView extends View {
      */
     public void setSelectedMode() {
         mWidth = (int) getResources().getDimension(R.dimen.image_big);
-        requestLayout();
-
         mFrameColor = mHitColor;
-        postInvalidate();
+
+        requestLayout();
     }
 
     public PersonView(Context context) {

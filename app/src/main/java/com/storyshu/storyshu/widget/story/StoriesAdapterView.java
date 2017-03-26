@@ -139,10 +139,12 @@ public class StoriesAdapterView extends AdapterView {
          * 快速滑动则添加所有的卡片
          * 、否则只添加变化的
          */
-        if (isFastMove)
-            layoutAllCards(count);
-        else
-            layoutDefCards(count);
+//        if (isFastMove)
+//            layoutAllCards(count);
+//        else
+//            layoutDefCards(count);
+
+        layoutAllCards(count);
 
         //
         isLayout = false;
@@ -170,7 +172,7 @@ public class StoriesAdapterView extends AdapterView {
         int index = leftCardIndex;
 
         /**
-         * 清楚不需要的卡片
+         * 清除不需要的卡片
          */
         removeViews();
 
@@ -348,7 +350,7 @@ public class StoriesAdapterView extends AdapterView {
                  * 是否是快速的滑动
                  * 快速滑动的话布局时将之前的卡片全部删除
                  */
-                isFastMove = System.currentTimeMillis() - mStartTime < 200;
+                isFastMove = System.currentTimeMillis() - mStartTime < 250;
 
                 mStartTime = System.currentTimeMillis();
                 break;
