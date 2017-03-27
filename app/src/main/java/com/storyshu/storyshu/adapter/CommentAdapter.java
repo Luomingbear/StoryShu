@@ -45,11 +45,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         Glide.with(mContext).load(commentInfo.getAvatar()).into(holder.avatar);
 
+        //分割线
         if (position == 0)
             viewHolder.line.setVisibility(View.GONE);
+        if (position == 3) {
+            viewHolder.line.setBackgroundResource(R.color.colorGrayLight);
+        }
+        //标签
+        if (position < 3) {
+            viewHolder.tag.setText("HOT");
+//            viewHolder.tag.setTextColor(mContext.getResources().getColor(R.color.colorRedLight));
+        }
+
         viewHolder.nickname.setText(commentInfo.getNickname());
         viewHolder.createTime.setText(commentInfo.getCreateTime());
-        viewHolder.tag.setText(commentInfo.getTags());
         viewHolder.comment_content.setText(commentInfo.getComment());
 
         viewHolder.like.setNum(commentInfo.getLikeNum());

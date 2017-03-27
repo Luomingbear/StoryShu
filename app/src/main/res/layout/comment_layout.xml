@@ -48,7 +48,7 @@
         android:layout_alignBottom="@id/create_time"
         android:layout_marginLeft="@dimen/margin_min"
         android:layout_toRightOf="@id/create_time"
-        android:textColor="?attr/textColor3"
+        android:textColor="@color/colorRedLight"
         android:textSize="@dimen/font_small" />
 
     <com.storyshu.storyshu.widget.ClickButton

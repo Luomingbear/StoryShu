@@ -60,7 +60,7 @@ public class CardAdapter extends IBaseAdapter {
         }
         //
         viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
-        viewHolder.destroyTime.setText(TimeUtils.convertCurrentTime(getContext(), cardInfo.getCreateDate()));
+        viewHolder.destroyTime.setText(TimeUtils.destroyTime(getContext(), cardInfo.getCreateDate(), cardInfo.getLifeTime()));
 
         viewHolder.extract.setText(cardInfo.getContent());
         if (!TextUtils.isEmpty(cardInfo.getCover())) {

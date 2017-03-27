@@ -31,6 +31,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
     private int lastSelectedStoryIndex = 0; //上一次选中的故事
     private int mSignDays = 1; //累计签到的天数
     private boolean isSign = false; //是否已经签到
+    private boolean isStoryWindowShow = false; //故事卡片的窗口是否正显示
 
     public StoryMapPresenterIml(StoryMapView mStoryMapView, Context mContext) {
         this.mStoryMapView = mStoryMapView;
@@ -52,7 +53,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
 
         }
     };
-    
+
     /**
      * 卡片的滑动监听
      */
@@ -95,7 +96,9 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
                         //隐藏卡片
                         mStoryMapView.hideCardWindow();
                         //更新上一次选中的图标,设置为普通模式
-                        ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
+                        if (isStoryWindowShow)
+                            ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
+                        isStoryWindowShow = false;
                         break;
                 }
             }
@@ -161,6 +164,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
             Log.i(TAG, "OnMarkerClick: centerIndex:" + centerIndex);
             mStoryMapView.getStoryWindow().setCenterCardIndex(centerIndex);
             mStoryMapView.showCardWindow();
+            isStoryWindowShow = true;
 
             //更新下标
             lastSelectedStoryIndex = centerIndex;
