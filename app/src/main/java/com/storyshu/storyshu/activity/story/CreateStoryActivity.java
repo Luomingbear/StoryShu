@@ -50,7 +50,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     private ArrayList<ImageItem> mChangePicPathList; //新增加的图片的列表
     private int maxPicCount = 9;
     private int maxStoryLength = 140;//故事的文字上线
-
+    private int mLifeTimeCount = 24; //生命期 ，默认一天 ，单位小时
     private CreateStoryPresenterImpl mCreateStoryPresenter; //代理人
 
     @Override
@@ -64,7 +64,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
         initEvents();
 
-        mCreateStoryPresenter = new CreateStoryPresenterImpl(CreateStoryActivity.this);
+        mCreateStoryPresenter = new CreateStoryPresenterImpl(CreateStoryActivity.this, CreateStoryActivity.this);
     }
 
     @Override
@@ -203,8 +203,18 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     }
 
     @Override
-    public String getLifeTime() {
-        return null;
+    public TextView getLocationTv() {
+        return mLocationTv;
+    }
+
+    @Override
+    public int getLifeTime() {
+        return mLifeTimeCount;
+    }
+
+    @Override
+    public TextView getLifeTimeTv() {
+        return mLifeTimeTv;
     }
 
     @Override
@@ -252,11 +262,6 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
                 mPicGridLayout.addView(imageView, 0);
             }
         }
-    }
-
-    @Override
-    public void showLifeTimeDialog() {
-
     }
 
     @Override

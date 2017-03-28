@@ -90,6 +90,8 @@
     <string name="story_length_too_long">字数以达到上线%1$d个字</string>
     <string name="issue">发布</string>
     <string name="select_life_time_hint">选择消息停留时间（默认24小时）</string>
+    <string name="select_life_time">选择消息停留时间</string>
+    <string name="life_time">故事停留时间</string>
 
     <!--故事详情-->
     <string name="story_detail">故事详情</string>
@@ -128,4 +130,8 @@
     <string name="photo_crop">图片裁剪</string>
     <string name="origin">原图</string>
     <string name="origin_size">原图(%1$s)</string>
+
+    <!--选择生命期-->
+    <string name="day_unit">天</string>
+    <string name="hour_unit">小时</string>
 </resources>

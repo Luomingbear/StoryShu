@@ -148,4 +148,20 @@ public class TimeUtils {
         Date date = new Date(System.currentTimeMillis());
         return dateFormat.format(date);
     }
+
+    /**
+     * 将小时转化为生命期的表示
+     * 大于等于24小时用天表示
+     *
+     * @param context
+     * @param hours
+     * @return
+     */
+    public static String hour2lifeTime(Context context, int hours) {
+        if (hours < 24)
+            return hours + context.getString(R.string.hour_unit);
+        else {
+            return hours / 24 + context.getString(R.string.day_unit);
+        }
+    }
 }

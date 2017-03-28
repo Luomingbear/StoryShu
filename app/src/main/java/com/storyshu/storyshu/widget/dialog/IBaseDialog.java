@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
+import android.view.WindowManager;
+
+import com.storyshu.storyshu.utils.SysUtils;
 
 /**
  * dialog
@@ -56,5 +59,11 @@ public abstract class IBaseDialog extends Dialog {
     /**
      * 创建的时候初始化，设置大小位置等
      */
-    public abstract void Create();
+    public void Create() {
+        //设置宽度和高度；
+        int width = (int) (SysUtils.getScreenWidth(getContext()) * 0.85f);
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.width = width;
+        getWindow().setAttributes(params);
+    }
 }

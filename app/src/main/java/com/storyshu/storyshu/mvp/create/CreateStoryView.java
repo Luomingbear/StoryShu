@@ -1,5 +1,7 @@
 package com.storyshu.storyshu.mvp.create;
 
+import android.widget.TextView;
+
 import com.storyshu.storyshu.info.LocationInfo;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 
@@ -34,11 +36,25 @@ public interface CreateStoryView extends IBaseView {
     LocationInfo getLocation();
 
     /**
-     * 故事的生命周期
+     * 获取位置文字描述的控件
      *
      * @return
      */
-    String getLifeTime();
+    TextView getLocationTv();
+
+    /**
+     * 故事的生命周期
+     *
+     * @return 单位小时
+     */
+    int getLifeTime();
+
+    /**
+     * 获取故事的生命期的文本描述
+     *
+     * @return
+     */
+    TextView getLifeTimeTv();
 
     /**
      * 故事是否匿名
@@ -62,10 +78,6 @@ public interface CreateStoryView extends IBaseView {
      */
     void addPic2Layout();
 
-    /**
-     * 显示故事保质期选择弹窗
-     */
-    void showLifeTimeDialog();
 
     /**
      * 改变匿名按钮的状态

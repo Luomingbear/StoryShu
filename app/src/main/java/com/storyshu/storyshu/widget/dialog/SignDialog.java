@@ -57,9 +57,4 @@ public class SignDialog extends IBaseDialog {
             }
         });
     }
-
-    @Override
-    public void Create() {
-
-    }
 }
