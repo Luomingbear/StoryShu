@@ -7,7 +7,7 @@ import android.os.Parcel;
  * Created by bear on 2017/3/15.
  */
 
-public class CommentInfo extends UserInfo {
+public class CommentInfo extends BaseUserInfo {
     private String createTime = ""; //评论发布的时间
     private int likeNum = 0; //点赞的数量
     private int opposeNum = 0; //喝倒彩的数量

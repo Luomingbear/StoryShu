@@ -7,7 +7,8 @@ import android.view.View;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.info.UserInfo;
+import com.storyshu.storyshu.activity.login.LoginActivity;
+import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
@@ -61,7 +62,7 @@ public class WelcomeActivity extends IBaseActivity {
      * 初始化游客身份
      */
     private void initUSerData() {
-        UserInfo userInfo = new UserInfo();
+        BaseUserInfo userInfo = new BaseUserInfo();
         userInfo.setAvatar("https://imgsa.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=2b7f34583da85edfee81f671283d6246/f703738da97739122455d869f1198618367ae243.jpg");
         userInfo.setNickname("翻船");
         ISharePreference.saveUserData(this, userInfo);
@@ -94,10 +95,10 @@ public class WelcomeActivity extends IBaseActivity {
      * 没有登录则跳转到登录界面
      */
     private void intent2Class() {
-        UserInfo userInfo = ISharePreference.getUserData(this);
-//        if (userInfo.getUserId() == UserInfo.Visitor)
-//            intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//        else
+        BaseUserInfo userInfo = ISharePreference.getUserData(this);
+        if (userInfo.getUserId() == BaseUserInfo.Visitor)
+            intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        else
             intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }

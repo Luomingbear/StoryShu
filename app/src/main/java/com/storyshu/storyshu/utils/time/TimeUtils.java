@@ -110,7 +110,7 @@ public class TimeUtils {
      *
      * @param context
      * @param createTime
-     * @param lifeTime
+     * @param lifeTime   单位分钟
      * @return
      */
     public static String destroyTime(Context context, String createTime, int lifeTime) {
@@ -128,7 +128,7 @@ public class TimeUtils {
 
         Date currentDate = new Date(System.currentTimeMillis());
         //时间差 /1000变成秒为单位
-        long diff = (date.getTime() + lifeTime * 60 * 60 * 1000 - currentDate.getTime()) / 1000;
+        long diff = (date.getTime() + lifeTime * 60 * 1000 - currentDate.getTime()) / 1000;
         //小于一天就显示小时
         if (diff < 60 * 60 * 24) {
             destroyTime = context.getResources().getString(R.string.left_hour, diff / 60 / 60);
@@ -154,14 +154,14 @@ public class TimeUtils {
      * 大于等于24小时用天表示
      *
      * @param context
-     * @param hours
+     * @param minute
      * @return
      */
-    public static String hour2lifeTime(Context context, int hours) {
-        if (hours < 24)
-            return hours + context.getString(R.string.hour_unit);
+    public static String hour2lifeTime(Context context, int minute) {
+        if (minute < 24 * 60)
+            return minute / 60 + context.getString(R.string.hour_unit);
         else {
-            return hours / 24 + context.getString(R.string.day_unit);
+            return minute / 24 / 60 + context.getString(R.string.day_unit);
         }
     }
 }

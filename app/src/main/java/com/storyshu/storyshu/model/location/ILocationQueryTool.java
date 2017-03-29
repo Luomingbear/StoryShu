@@ -34,15 +34,6 @@ public class ILocationQueryTool {
         this.mContext = context.getApplicationContext();
     }
 
-    public ILocationQueryTool init(AMapLocation aMapLocation, OnLocationQueryListener onLocationQueryListener) {
-        if (mContext == null)
-            return this;
-        this.mGeocodeSearch = new GeocodeSearch(mContext);
-        this.mAmapLocation = aMapLocation;
-        this.onLocationQueryListener = onLocationQueryListener;
-        return this;
-    }
-
     /**
      * 搜索回调函数
      */
@@ -83,23 +74,6 @@ public class ILocationQueryTool {
     };
 
     /**
-     * 开始指定坐标的搜索，需要先执行init函数
-     *
-     * @param radius 搜索的半径 单位米
-     */
-    public void startRegeocodeQuery(int radius) {
-        if (mGeocodeSearch == null || mAmapLocation == null)
-            return;
-        mGeocodeSearch.setOnGeocodeSearchListener(onGeocodeSearchListener);
-        LatLonPoint latLonPoint = new LatLonPoint(mAmapLocation.getLatitude(), mAmapLocation.getLongitude());
-        //最小的搜索范围 10米
-        if (radius < 10)
-            radius = 10;
-        RegeocodeQuery geocodeQuery = new RegeocodeQuery(latLonPoint, radius, GeocodeSearch.AMAP);
-        mGeocodeSearch.getFromLocationAsyn(geocodeQuery);
-    }
-
-    /**
      * 开始指定坐标的搜索
      *
      * @param latLng 搜索的坐标 单位米
@@ -122,9 +96,10 @@ public class ILocationQueryTool {
     /***
      * 开始模糊搜索
      */
-    public void startGeocodeQuery() {
-        if (mGeocodeSearch == null || mAmapLocation == null)
+    public void startGeocodeQuery(AMapLocation aMapLocation) {
+        if (mContext == null || onGeocodeSearchListener == null)
             return;
+        mGeocodeSearch = new GeocodeSearch(mContext);
 
         mGeocodeSearch.setOnGeocodeSearchListener(onGeocodeSearchListener);
         GeocodeQuery geocodeQuery = new GeocodeQuery(mAmapLocation.getLocationDetail(), mAmapLocation.getCityCode());

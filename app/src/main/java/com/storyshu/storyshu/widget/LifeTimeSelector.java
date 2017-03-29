@@ -51,12 +51,12 @@ public class LifeTimeSelector extends View {
     /**
      * 获取生命期
      *
-     * @return 单位小时
+     * @return 单位分钟
      */
     public int getLifeTime() {
         if (mUnitIndex == 0)
-            return mDayList.get(mDayIndex) * 24;
-        else return mHourList.get(mHourIndex);
+            return mDayList.get(mDayIndex) * 24 * 60;
+        else return mHourList.get(mHourIndex) * 60;
     }
 
     public LifeTimeSelector(Context context) {

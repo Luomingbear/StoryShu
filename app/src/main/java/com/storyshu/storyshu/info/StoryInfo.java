@@ -16,28 +16,10 @@ public class StoryInfo extends CardInfo {
     public StoryInfo() {
     }
 
-    public StoryInfo(String content, LatLng latLng) {
-        Content = content;
-        this.latLng = latLng;
-    }
-
-    public StoryInfo(StoryInfo storyInfo, String content, LatLng latLng) {
-        super(storyInfo);
-        Content = content;
-        this.latLng = latLng;
-    }
-
-    public StoryInfo(int storyId, String detailPic, String extract, UserInfo userInfo, String createDate,
-                     int lifeTime, String location, int likeNum, int opposeNum, String content, LatLng latLng) {
-        super(storyId, detailPic, extract, userInfo, createDate, lifeTime, location, likeNum, opposeNum);
-        Content = content;
-        this.latLng = latLng;
-    }
-
-    public StoryInfo(int storyId, String detailPic, String extract, String nickname, int userId, String headPortrait,
-                     String createDate, int lifeTime, String location, int likeNum, int opposeNum, String content, LatLng latLng) {
-        super(storyId, detailPic, extract, nickname, userId, headPortrait, createDate, lifeTime, location, likeNum, opposeNum);
-        Content = content;
+    public StoryInfo(int storyId, String cover, String content, BaseUserInfo userInfo, String createDate,
+                     int lifeTime, String location, int likeNum, int opposeNum, boolean isAnonymous, String content1, LatLng latLng) {
+        super(storyId, cover, content, userInfo, createDate, lifeTime, location, likeNum, opposeNum, isAnonymous);
+        Content = content1;
         this.latLng = latLng;
     }
 

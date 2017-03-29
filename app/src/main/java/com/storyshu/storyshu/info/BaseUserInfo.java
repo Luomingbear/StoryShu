@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * Created by bear on 2016/12/13.
  */
 
-public class UserInfo implements Parcelable {
+public class BaseUserInfo implements Parcelable {
     public static int Visitor = -1; //游客
 
     private String nickname; //昵称
@@ -16,7 +16,7 @@ public class UserInfo implements Parcelable {
     private String avatar; //头像
 
 
-    public UserInfo(String nickname, int userId, String avatar) {
+    public BaseUserInfo(String nickname, int userId, String avatar) {
         this.nickname = nickname;
         this.userId = userId;
         this.avatar = avatar;
@@ -46,7 +46,7 @@ public class UserInfo implements Parcelable {
         this.avatar = avatar;
     }
 
-    public UserInfo() {
+    public BaseUserInfo() {
     }
 
     @Override
@@ -61,21 +61,21 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.avatar);
     }
 
-    protected UserInfo(Parcel in) {
+    protected BaseUserInfo(Parcel in) {
         this.nickname = in.readString();
         this.userId = in.readInt();
         this.avatar = in.readString();
     }
 
-    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
+    public static final Creator<BaseUserInfo> CREATOR = new Creator<BaseUserInfo>() {
         @Override
-        public UserInfo createFromParcel(Parcel source) {
-            return new UserInfo(source);
+        public BaseUserInfo createFromParcel(Parcel source) {
+            return new BaseUserInfo(source);
         }
 
         @Override
-        public UserInfo[] newArray(int size) {
-            return new UserInfo[size];
+        public BaseUserInfo[] newArray(int size) {
+            return new BaseUserInfo[size];
         }
     };
 }

@@ -52,7 +52,7 @@ public class AirportPresenterIml implements AirportPresenter {
     public void getPushData() {
         PushStoryModel pushStoryModel = new PushStoryModel(mContext);
         pushStoryModel.startGetPushList(ISharePreference.getUserData(mContext).getUserId(),
-                ISharePreference.getLatLngPointData(mContext), pushStoryModelListener);
+                ISharePreference.getLatLngData(mContext), pushStoryModelListener);
     }
 
     /**

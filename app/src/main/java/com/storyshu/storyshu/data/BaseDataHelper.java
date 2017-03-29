@@ -18,10 +18,14 @@ public class BaseDataHelper extends SQLiteOpenHelper {
      * 用户数据表
      */
     public static String USER_TABLE = "user_table";
-    public static String NICK_NAME = "nick_name";
-    public static String USER_ID = "user_id";
-    public static String AVATAR = "avatar";
-    public static String ACCOUNT = "account";
+    public static String EMAIL = "email"; //邮箱
+    public static String PHONE = "phone"; //手机号
+    public static String NICK_NAME = "nick_name"; //昵称
+    public static String USER_ID = "user_id"; //用户id
+    public static String PASSWORD = "password"; //密码
+    public static String AVATAR = "avatar"; //头像
+    public static String ACCOUNT = "account"; //用户名
+    // TODO: 2017/3/29 上线前把数据库保存密码取消
 
 
     /**
@@ -29,17 +33,20 @@ public class BaseDataHelper extends SQLiteOpenHelper {
      */
     public static String STORY_TABLE = "story_table"; //故事的id
     public static String STORY_ID = "story_id"; //故事的id
-    public static String COVER_PIC = "cover_pic"; //故事的说明图
+    public static String COVER_PIC = "cover_pic"; //故事的封面
+    public static String STORY_PIC = "story_pic"; //故事配图
     public static String CONTENT = "content"; //故事的内容
     public static String CREATE_DATE = "create_date"; //发布时间
+    public static String LIFE_TIME = "life_time"; //生命期
+    public static String IS_ANONYMOUS = "is_anonymous"; //是否匿名
 
     /**
      * 位置数据
      */
     public static String LOCATION_TABLE = "location_table";
-    public static String LOCATION_ID = "location_id";
-    public static String LOCATION_NAME = "location_name";
-    public static String LAT = "lat";
+    public static String LOCATION_ID = "location_id"; //位置id
+    public static String LOCATION_NAME = "location_name"; //位置名字
+    public static String LAT = "lat"; //纬度
     public static String LNG = "lng";
 
 
@@ -47,7 +54,8 @@ public class BaseDataHelper extends SQLiteOpenHelper {
         this(context, name, factory, version, null);
     }
 
-    public BaseDataHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
+    public BaseDataHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version,
+                          DatabaseErrorHandler errorHandler) {
         super(context, name, factory, version, errorHandler);
     }
 
@@ -55,16 +63,17 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //用户表
         String CREATE_USR_TABLE = "CREATE TABLE " + USER_TABLE + "("
-                + USER_ID + " INTEGER PRIMARY KEY NOT NULL, " + NICK_NAME + " TEXT NOT NULL,"
-                + AVATAR + " TEXT, " + ACCOUNT + " TEXT " + ")";
+                + USER_ID + " INTEGER PRIMARY KEY NOT NULL, " + EMAIL + " TEXT ," + PHONE + " TEXT ," +
+                PASSWORD + " TEXT NOT NULL," + NICK_NAME + " TEXT NOT NULL," + AVATAR + " TEXT NOT NULL, " +
+                ACCOUNT + " TEXT " + ")";
         db.execSQL(CREATE_USR_TABLE);
 
         //故事表
         String CREATE_STORY_TABLE = "CREATE TABLE " + STORY_TABLE + "("
                 + STORY_ID + " INTEGER PRIMARY KEY NOT NULL, " + USER_ID + " INTEGER NOT NULL,"
                 + LOCATION_ID + " INTEGER, " + LOCATION_NAME + " TEXT NOT NULL, " + LAT + " REAL, " +
-                LNG + " REAL," + COVER_PIC + " TEXT NOT NULL, " + CONTENT + " TEXT NOT NULL, "
-                + CREATE_DATE + " TEXT NOT NULL " + ")";
+                LNG + " REAL," + COVER_PIC + " TEXT NOT NULL, " + STORY_PIC + " TEXT NOT NULL, " + CONTENT + " TEXT NOT NULL, "
+                + CREATE_DATE + " TEXT NOT NULL, " + LIFE_TIME + " INTEGER, " + IS_ANONYMOUS + " INTEGER" + ")";
         db.execSQL(CREATE_STORY_TABLE);
 
         //位置表

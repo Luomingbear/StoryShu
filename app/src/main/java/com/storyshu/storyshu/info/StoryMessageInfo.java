@@ -10,7 +10,7 @@ import android.os.Parcelable;
  */
 
 public class StoryMessageInfo implements Parcelable {
-    private UserInfo userInfo; //用户信息
+    private BaseUserInfo userInfo; //用户信息
     private String createTime; //创建时间
     private int storyId; //故事id
     private String storyContent; //故事的内容
@@ -27,7 +27,7 @@ public class StoryMessageInfo implements Parcelable {
     public StoryMessageInfo() {
     }
 
-    public StoryMessageInfo(UserInfo userInfo, String createTime, int storyId, String storyContent,
+    public StoryMessageInfo(BaseUserInfo userInfo, String createTime, int storyId, String storyContent,
                             String cover, String comment, MessageType messageType) {
         this.userInfo = userInfo;
         this.createTime = createTime;
@@ -38,11 +38,11 @@ public class StoryMessageInfo implements Parcelable {
         this.messageType = messageType;
     }
 
-    public UserInfo getUserInfo() {
+    public BaseUserInfo getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
+    public void setUserInfo(BaseUserInfo userInfo) {
         this.userInfo = userInfo;
     }
 
@@ -111,7 +111,7 @@ public class StoryMessageInfo implements Parcelable {
     }
 
     protected StoryMessageInfo(Parcel in) {
-        this.userInfo = in.readParcelable(UserInfo.class.getClassLoader());
+        this.userInfo = in.readParcelable(BaseUserInfo.class.getClassLoader());
         this.createTime = in.readString();
         this.storyId = in.readInt();
         this.storyContent = in.readString();

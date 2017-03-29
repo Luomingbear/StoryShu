@@ -1,5 +1,6 @@
 package com.storyshu.storyshu.widget;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -109,8 +110,6 @@ public class SlideButton extends View {
     public void setCheckedWithAnimation(boolean isChecked) {
         Log.i(TAG, "setCheckedWithAnimation: Checked：" + isChecked);
         this.isChecked = isChecked;
-        if (onClickListener != null)
-            onClickListener.onClicked(this.isChecked);
 
         startAnimation(this.isChecked);
     }
@@ -118,8 +117,6 @@ public class SlideButton extends View {
     public void setCheckedWithAnimation() {
         Log.i(TAG, "setCheckedWithAnimation: Checked：" + isChecked);
         this.isChecked = !isChecked;
-        if (onClickListener != null)
-            onClickListener.onClicked(this.isChecked);
 
         startAnimation(this.isChecked);
     }
@@ -280,7 +277,7 @@ public class SlideButton extends View {
             endX = mMargin + mCircleRadius;
         }
 
-        // 轻触动画
+        // 清除动画
         clearAnimation();
         //设置动画
         //"xsx"仅仅是随意定义的一个名字，我们的要的是它的更新接口返回值
@@ -327,9 +324,9 @@ public class SlideButton extends View {
                 /**
                  * 轻触按钮切换状态
                  */
-                if (Math.abs(upX - mDownX) < 5)
+                if (Math.abs(upX - mDownX) < 5) {
                     setCheckedWithAnimation(!isChecked);
-                else {
+                } else {
                     /**
                      * 手指抬起的时候在按钮里面则可以进行按钮的状态改变等操作，否则取消刚才的动作
                      */
@@ -339,6 +336,10 @@ public class SlideButton extends View {
                     //开始动画
                     setCheckedWithAnimation(isChecked);
                 }
+
+                if (onClickListener != null)
+                    onClickListener.onClicked(isChecked());
+
                 break;
         }
         return true;

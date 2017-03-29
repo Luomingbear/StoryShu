@@ -6,21 +6,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.amap.api.maps.model.LatLng;
+import com.storyshu.storyshu.info.BaseUserInfo;
+import com.storyshu.storyshu.info.RegisterUserInfo;
 import com.storyshu.storyshu.info.StoryInfo;
-import com.storyshu.storyshu.info.UserInfo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 故事数据库
  * Created by bear on 2016/12/27.
  */
 
-public class StoryDateBaseHelper extends BaseDataHelper {
+public class DateBaseHelperIml extends BaseDataHelper {
     private static String DataBaseName = "storyShuData";
 
-    public StoryDateBaseHelper(Context context) {
+    public DateBaseHelperIml(Context context) {
         super(context, DataBaseName, null, 1);
     }
 
@@ -46,10 +46,10 @@ public class StoryDateBaseHelper extends BaseDataHelper {
      *
      * @return
      */
-    public List<StoryInfo> getLocalStory() {
-        List<StoryInfo> storyList = new ArrayList<>();
+    public ArrayList<StoryInfo> getLocalStory() {
+        ArrayList<StoryInfo> storyList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "select_text * from " + STORY_TABLE + "," + USER_TABLE + " where " + STORY_TABLE
+        String sql = "select * from " + STORY_TABLE + "," + USER_TABLE + " where " + STORY_TABLE
                 + "." + USER_ID + " = " + USER_TABLE + "." + USER_ID + " order by " + STORY_TABLE +
                 "." + CREATE_DATE + " desc";
         Cursor cursor = db.rawQuery(sql, null);
@@ -60,12 +60,16 @@ public class StoryDateBaseHelper extends BaseDataHelper {
                 story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
                 story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
                 story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
+                story.setLifeTime(cursor.getInt(cursor.getColumnIndex(LIFE_TIME)));
+                story.setStoryPic(cursor.getString(cursor.getColumnIndex(STORY_PIC)));
                 story.setCover(cursor.getString(cursor.getColumnIndex(COVER_PIC)));
                 story.setStoryId(cursor.getInt(cursor.getColumnIndex(STORY_ID)));
+                story.setAnonymous((cursor.getInt(cursor.getColumnIndex(IS_ANONYMOUS))) == 0 ? false : true);
+
                 LatLng latLonPoint = new LatLng(cursor.getFloat(cursor.getColumnIndex(LAT)), cursor.getFloat(cursor.getColumnIndex(LNG)));
                 story.setLatLng(latLonPoint);
 
-                UserInfo user = new UserInfo();
+                BaseUserInfo user = new BaseUserInfo();
                 user.setUserId(cursor.getInt(cursor.getColumnIndex(USER_ID)));
                 user.setAvatar(cursor.getString(cursor.getColumnIndex(AVATAR)));
                 user.setNickname(cursor.getString(cursor.getColumnIndex(NICK_NAME)));
@@ -83,12 +87,35 @@ public class StoryDateBaseHelper extends BaseDataHelper {
      *
      * @param userInfo
      */
-    public void insertUserData(UserInfo userInfo) {
+    public void insertUserData(BaseUserInfo userInfo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         try {
 
             values.put(USER_ID, userInfo.getUserId());
+            values.put(NICK_NAME, userInfo.getNickname());
+            values.put(AVATAR, userInfo.getAvatar());
+
+            db.insert(USER_TABLE, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        db.close();
+    }
+
+    /**
+     * 插入用户信息
+     *
+     * @param userInfo
+     */
+    public void insertUserData(RegisterUserInfo userInfo) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        try {
+
+            values.put(EMAIL, userInfo.getEmail());
+            values.put(PHONE, userInfo.getPhone());
+            values.put(PASSWORD, userInfo.getPassword());
             values.put(NICK_NAME, userInfo.getNickname());
             values.put(AVATAR, userInfo.getAvatar());
 
@@ -111,10 +138,12 @@ public class StoryDateBaseHelper extends BaseDataHelper {
             values.put(STORY_ID, storyInfo.getStoryId());
             values.put(USER_ID, storyInfo.getUserInfo().getUserId());
 
-            values.put(COVER_PIC, storyInfo.getCover());
             values.put(CONTENT, storyInfo.getContent());
-            values.put(CREATE_DATE, storyInfo.getCreateDate());
+            values.put(COVER_PIC, storyInfo.getCover());
+            values.put(STORY_PIC, storyInfo.getStoryPic().toString());
             values.put(LOCATION_NAME, storyInfo.getLocation());
+            values.put(CREATE_DATE, storyInfo.getCreateDate());
+            values.put(LIFE_TIME, storyInfo.getLifeTime());
             values.put(LAT, storyInfo.getLatLng().latitude);
             values.put(LNG, storyInfo.getLatLng().longitude);
 

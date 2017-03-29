@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.amap.api.maps.MapView;
 import com.storyshu.storyshu.info.StoryInfo;
-import com.storyshu.storyshu.data.StoryDateBaseHelper;
+import com.storyshu.storyshu.data.DateBaseHelperIml;
 import com.storyshu.storyshu.model.location.IMapManager;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class StoryBookManager {
      */
     public void showStoryBooks() {
         // TODO: 2017/1/7 距离检测，如果故事集的地点和用户很近则显示
-        StoryDateBaseHelper storyDateBaseHelper = new StoryDateBaseHelper(mContext);
+        DateBaseHelperIml storyDateBaseHelper = new DateBaseHelperIml(mContext);
         List<StoryInfo> storyList = storyDateBaseHelper.getLocalStory();
         for (StoryInfo storyInfo : storyList) {
             mMapManager.showStoryIcon(storyInfo.getLatLng(), storyInfo.getContent(), storyInfo.getCover());

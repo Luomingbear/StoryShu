@@ -86,7 +86,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_min"
                     android:layout_toRightOf="@id/location_iv"
-                    android:text="浙江传媒学院"
                     android:textColor="?attr/textColor3"
                     android:textSize="@dimen/font_normal" />
             </RelativeLayout>

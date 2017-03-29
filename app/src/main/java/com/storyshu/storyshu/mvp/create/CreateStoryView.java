@@ -5,7 +5,7 @@ import android.widget.TextView;
 import com.storyshu.storyshu.info.LocationInfo;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * MVP模式
@@ -26,7 +26,7 @@ public interface CreateStoryView extends IBaseView {
      *
      * @return
      */
-    List<String> getStoryPic();
+    ArrayList<String> getStoryPic();
 
     /**
      * 故事的发布地点

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.MainActivity;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.LocationInfo;
 import com.storyshu.storyshu.mvp.create.CreateStoryPresenterImpl;
@@ -26,7 +27,6 @@ import com.storyshu.storyshu.widget.SlideButton;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CreateStoryActivity extends IBaseActivity implements CreateStoryView, View.OnClickListener {
     private static final String TAG = "CreateStoryActivity";
@@ -65,6 +65,13 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
         initEvents();
 
         mCreateStoryPresenter = new CreateStoryPresenterImpl(CreateStoryActivity.this, CreateStoryActivity.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //搜索当前的地点
+        mCreateStoryPresenter.getLocationPoi();
     }
 
     @Override
@@ -170,6 +177,17 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
         mLifeTime.setOnClickListener(this);
 
         mRealName.setOnClickListener(this);
+
+        mSlideButton.setOnSlideButtonClickListener(new SlideButton.OnSlideButtonClickListener() {
+            @Override
+            public void onClicked(boolean isChecked) {
+                if (isChecked) {
+                    mRealNameTv.setText(R.string.anonymous);
+                } else {
+                    mRealNameTv.setText(R.string.real_name);
+                }
+            }
+        });
     }
 
 
@@ -189,7 +207,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     }
 
     @Override
-    public List<String> getStoryPic() {
+    public ArrayList<String> getStoryPic() {
         ArrayList<String> list = new ArrayList<>();
         for (ImageItem imageItem : mPicList) {
             list.add(imageItem.path);
@@ -266,12 +284,12 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
     @Override
     public void backActivity() {
-
+        onBackPressed();
     }
 
     @Override
     public void toMainActivity() {
-
+        intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 
     @Override
@@ -312,7 +330,6 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
                 break;
 
             case R.id.location_layout:
-                mCreateStoryPresenter.getLocationPoi();
                 break;
 
             case R.id.life_time_layout:

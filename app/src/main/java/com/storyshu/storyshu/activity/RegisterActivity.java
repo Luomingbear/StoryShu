@@ -127,6 +127,12 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
     }
 
     @Override
+    public void toMainActivity() {
+        //跳转到首页
+        intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    }
+
+    @Override
     public void initView() {
         //状态栏
         StatusBarUtils.setColor(RegisterActivity.this, R.color.colorBlack);

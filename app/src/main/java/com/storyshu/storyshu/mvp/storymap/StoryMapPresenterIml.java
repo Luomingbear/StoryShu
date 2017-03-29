@@ -127,8 +127,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
     public void showMap() {
         getLocation();
 
-        mStoryModel.getNearStories(ISharePreference.getUserData(mContext)
-                , ISharePreference.getLatLngPointData(mContext), onStoryModelListener);
+        mStoryModel.getNearStories(ISharePreference.getUserData(mContext), ISharePreference.getLatLngData(mContext), onStoryModelListener);
     }
 
     /**

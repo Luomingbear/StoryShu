@@ -10,9 +10,7 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
-import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.marker.MyCircleMarker;
@@ -107,10 +105,10 @@ public class IMapManager {
         mAMap.showMapText(false);
 
         //限制显示的范围
-        LatLng southwestLatLng = new LatLng(mLatLng.latitude - 0.01, mLatLng.longitude - 0.01);
-        LatLng northeastLatLng = new LatLng(mLatLng.latitude + 0.01, mLatLng.longitude + 0.01);
-        LatLngBounds latLngBounds = new LatLngBounds(southwestLatLng, northeastLatLng);
-        mAMap.setMapStatusLimits(latLngBounds);
+//        LatLng southwestLatLng = new LatLng(mLatLng.latitude - 0.01, mLatLng.longitude - 0.01);
+//        LatLng northeastLatLng = new LatLng(mLatLng.latitude + 0.01, mLatLng.longitude + 0.01);
+//        LatLngBounds latLngBounds = new LatLngBounds(southwestLatLng, northeastLatLng);
+//        mAMap.setMapStatusLimits(latLngBounds);
 
         //隐藏缩放按钮
         mUiSettings.setZoomControlsEnabled(false);
@@ -125,7 +123,6 @@ public class IMapManager {
         //
         //
         mUiSettings.setIndoorSwitchEnabled(false);
-
 
     }
 
@@ -142,21 +139,18 @@ public class IMapManager {
     /**
      * 显示用户自己位置的图标
      */
-    public void showMyPositionIcon(LatLonPoint personLatLng) {
-        if (personLatLng == null)
+    public void showMyPositionIcon(LatLng latLng) {
+        if (latLng == null)
             return;
         Log.i(TAG, "showMyPositionIcon: !!!!!!!!!!!!!!!");
         if (mMyPositionMarker == null)
-            mMyPositionMarker = new MyCircleMarker(mContext, mAMap,
-                    new LatLng(personLatLng.getLatitude(), personLatLng.getLongitude()));
+            mMyPositionMarker = new MyCircleMarker(mContext, mAMap, latLng);
 
         if (AMapUtils.calculateLineDistance(mMyPositionMarker.getLatLng(), mLatLng) > 200) {
             mAMap.clear();
-            mMyPositionMarker = new MyCircleMarker(mContext, mAMap,
-                    new LatLng(personLatLng.getLatitude(), personLatLng.getLongitude()));
+            mMyPositionMarker = new MyCircleMarker(mContext, mAMap, latLng);
         } else
-            mMyPositionMarker.animate(new LatLng(personLatLng.getLatitude(),
-                    personLatLng.getLongitude()));
+            mMyPositionMarker.animate(latLng);
     }
 
     /**

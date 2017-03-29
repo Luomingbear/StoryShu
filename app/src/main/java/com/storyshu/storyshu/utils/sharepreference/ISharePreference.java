@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.services.core.LatLonPoint;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.info.UserInfo;
+import com.storyshu.storyshu.info.BaseUserInfo;
 
 /**
  * 简单数据的本地保存
@@ -49,7 +48,7 @@ public class ISharePreference {
     public static final String IS_NIGHT_MODE = "isNight"; //夜间模式
 
 
-    public static void saveUserData(Context context, UserInfo userInfo) {
+    public static void saveUserData(Context context, BaseUserInfo userInfo) {
         SharedPreferences sp = context.getSharedPreferences(USER_DATA,
                 Activity.MODE_PRIVATE);
         // 获取Editor对象
@@ -60,13 +59,13 @@ public class ISharePreference {
         editor.apply();
     }
 
-    public static UserInfo getUserData(Context context) {
+    public static BaseUserInfo getUserData(Context context) {
         SharedPreferences sp = context.getSharedPreferences(USER_DATA,
                 Activity.MODE_PRIVATE);
-        UserInfo userInfo = new UserInfo();
+        BaseUserInfo userInfo = new BaseUserInfo();
         userInfo.setNickname(sp.getString(NICK_NAME, context.getResources().getString(R.string.app_name)));
         userInfo.setAvatar(sp.getString(AVATAR, ""));
-        userInfo.setUserId(sp.getInt(USER_ID, UserInfo.Visitor));
+        userInfo.setUserId(sp.getInt(USER_ID, BaseUserInfo.Visitor));
         return userInfo;
     }
 
@@ -190,25 +189,6 @@ public class ISharePreference {
         editor.putFloat(LAT, (float) latLng.latitude);
         editor.putFloat(LNG, (float) latLng.longitude);
         editor.apply();
-    }
-
-    /**
-     * 获取上次保存的位置信息
-     *
-     * @return 经纬度
-     */
-    public static LatLonPoint getLatLngPointData(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(LOCATION_DATA,
-                Activity.MODE_PRIVATE);
-        /**
-         * latitude - 地点的纬度，在-90 与90 之间的double 型数值。
-         longitude - 地点的经度，在-180 与180 之间的double 型数值。
-         */
-        LatLonPoint latLng = new LatLonPoint(sp.getFloat(LAT, 360),
-                sp.getFloat(LNG, 360));
-        if (latLng.getLatitude() == 360 && latLng.getLongitude() == 360)
-            return null;
-        return latLng;
     }
 
     /**

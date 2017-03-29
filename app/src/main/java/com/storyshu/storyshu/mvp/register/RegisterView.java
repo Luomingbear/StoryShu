@@ -61,4 +61,9 @@ public interface RegisterView extends IBaseView {
      * 显示账号信息的布局
      */
     void change2StepTwo();
+
+    /**
+     * 回到首页
+     */
+    void toMainActivity();
 }

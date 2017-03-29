@@ -2,7 +2,7 @@ package com.storyshu.storyshu.model;
 
 import android.content.Context;
 
-import com.storyshu.storyshu.info.UserInfo;
+import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
@@ -20,7 +20,7 @@ public class UserModel {
     }
 
     private interface OnUserInfoGetListener {
-        void onSucceed(UserInfo userInfo);
+        void onSucceed(BaseUserInfo userInfo);
 
         void onFailed();
     }
@@ -36,7 +36,7 @@ public class UserModel {
      */
     public void getUserInfo(int userId, OnUserInfoGetListener onUserInfoGetListener) {
         this.onUserInfoGetListener = onUserInfoGetListener;
-        UserInfo userInfo = new UserInfo();
+        BaseUserInfo userInfo = new BaseUserInfo();
 
         // TODO: 2017/3/20 获取服务器信息得到用户的数据
         if (onUserInfoGetListener != null)
@@ -49,7 +49,7 @@ public class UserModel {
      * @return
      */
     public int getUserId() {
-        UserInfo userInfo = ISharePreference.getUserData(mAppContext);
+        BaseUserInfo userInfo = ISharePreference.getUserData(mAppContext);
         return userInfo.getUserId();
     }
 
