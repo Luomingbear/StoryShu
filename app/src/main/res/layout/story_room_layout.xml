@@ -45,7 +45,9 @@
                     android:layout_marginLeft="@dimen/margin_normal"
                     android:layout_marginRight="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_normal"
+                    android:gravity="center"
                     android:lineSpacingExtra="@dimen/line_space_normal"
+                    android:minHeight="150dp"
                     android:textColor="?attr/textColor2"
                     android:textSize="@dimen/font_normal" />
 
@@ -70,7 +72,6 @@
                         android:layout_alignRight="@id/story_pic"
                         android:background="@color/colorBlack"
                         android:gravity="center"
-                        android:text="9"
                         android:textColor="@color/colorGrayLight"
                         android:textSize="@dimen/font_small" />
                 </RelativeLayout>
@@ -114,12 +115,13 @@
                     <com.storyshu.storyshu.widget.imageview.RoundImageView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/title_height"
-                        android:layout_margin="1dp"
+                        android:layout_margin="0.5dp"
                         android:src="?attr/cardTopBg"
                         app:BorderRadius="@dimen/border_radius_normal"
                         app:RoundType="round_bottom_left_bottom_right" />
 
                     <View
+                        android:id="@+id/line"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="@color/colorGrayLight" />

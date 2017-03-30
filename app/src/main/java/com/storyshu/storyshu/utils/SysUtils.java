@@ -20,6 +20,13 @@ public class SysUtils {
         return display.getWidth();
     }
 
+    public static Display getScreenDisplay(Context context) {
+        WindowManager manager = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        Display display = manager.getDefaultDisplay();
+        return display;
+    }
+
     /**
      * 获取手机大小（分辨率）
      */

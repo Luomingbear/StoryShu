@@ -21,7 +21,7 @@ public class ILocationSever {
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
-    private int mIntervalTime = 3000; //定位间隔时间毫秒
+    private int mIntervalTime = 2000; //定位间隔时间毫秒
 
     public ILocationSever(Context applicationContext) {
         //初始化定位
@@ -35,7 +35,7 @@ public class ILocationSever {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
                     EventObservable.getInstance().notifyObservers(R.id.title_view, aMapLocation.getAoiName());
-//                    Log.d(TAG, "onLocationChanged: " + aMapLocation);
+                    Log.d(TAG, "onLocationChanged: 定位成功！" + aMapLocation.getPoiName());
 
                     //可在其中解析amapLocation获取相应内容。
                     if (onLocationChange != null)

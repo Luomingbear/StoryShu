@@ -16,7 +16,7 @@ public class StoryInfo extends CardInfo {
     public StoryInfo() {
     }
 
-    public StoryInfo(int storyId, String cover, String content, BaseUserInfo userInfo, String createDate,
+    public StoryInfo(String storyId, String cover, String content, BaseUserInfo userInfo, String createDate,
                      int lifeTime, String location, int likeNum, int opposeNum, boolean isAnonymous, String content1, LatLng latLng) {
         super(storyId, cover, content, userInfo, createDate, lifeTime, location, likeNum, opposeNum, isAnonymous);
         Content = content1;

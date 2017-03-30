@@ -48,7 +48,7 @@ public class UserModel {
      *
      * @return
      */
-    public int getUserId() {
+    public String getUserId() {
         BaseUserInfo userInfo = ISharePreference.getUserData(mAppContext);
         return userInfo.getUserId();
     }

@@ -82,9 +82,16 @@ public class StoryModel {
 //        list.get(4).setCover("");
 //        list.get(5).setCover("http://img.hb.aicdn.com/2b66da89a997889d0b27bf836a2cb168bd0323c9570f8-VYtaMq_fw658");
 
+        //每隔30s刷新一次数据
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//            }
+//        }, 0, 30 * 1000);
+
         DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
         list = dateBaseHelperIml.getLocalStory();
-
         if (onStoryModelListener != null)
             onStoryModelListener.onStoriesGot(list);
     }

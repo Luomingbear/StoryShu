@@ -57,6 +57,11 @@ public interface StoryMapView extends IBaseFragmentView {
     View getLocationBtn();
 
     /**
+     * 更新故事的图标
+     */
+    void updateStoryIcons();
+
+    /**
      * 显示卡片窗口
      */
     void showCardWindow();

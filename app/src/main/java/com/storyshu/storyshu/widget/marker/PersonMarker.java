@@ -12,12 +12,12 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.TranslateAnimation;
-import com.amap.api.services.core.LatLonPoint;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.ViewBitmapTool;
 
 /**
@@ -28,15 +28,11 @@ import com.storyshu.storyshu.utils.ViewBitmapTool;
 public class PersonMarker extends IMarker {
     private static final String TAG = "PersonMarker";
     private PersonView mPersonView; //
-    public static String PersonId = "personMarker";
-    private String avatarPath;
+    private StoryInfo mStoryInfo; //故事的数据
 
-    public PersonMarker(Context mContext, AMap mAMap, LatLng mLatLng) {
-        super(mContext, mAMap, mLatLng);
-    }
-
-    public PersonMarker(Context mContext, AMap mAMap, LatLonPoint latLng) {
-        super(mContext, mAMap, new LatLng(latLng.getLatitude(), latLng.getLongitude()));
+    public PersonMarker(Context mContext, AMap mAMap, StoryInfo storyInfo) {
+        super(mContext, mAMap, storyInfo.getLatLng());
+        this.mStoryInfo = storyInfo;
     }
 
     /**
@@ -46,7 +42,6 @@ public class PersonMarker extends IMarker {
      */
     public void setAvatarAndShow(String avatarPath) {
         mPersonView = new PersonView(mContext);
-        this.avatarPath = avatarPath;
 
         if (TextUtils.isEmpty(avatarPath)) {
             mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
@@ -54,10 +49,12 @@ public class PersonMarker extends IMarker {
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);
+            markerOptions.title(mStoryInfo.getUserInfo().getUserId());
+            markerOptions.snippet(mStoryInfo.getStoryId());
+            markerOptions.infoWindowEnable(false); //不显示标题窗口
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
             mMarker = mAMap.addMarker(markerOptions);
-            mMarker.setInfoWindowEnable(false);
 
         } else {
             SimpleTarget target = new SimpleTarget<GlideBitmapDrawable>() {
@@ -68,10 +65,13 @@ public class PersonMarker extends IMarker {
 
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(mLatLng);
+                    markerOptions.title(mStoryInfo.getUserInfo().getUserId());
+                    markerOptions.snippet(mStoryInfo.getStoryId());
+                    markerOptions.infoWindowEnable(false);
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
                     mMarker = mAMap.addMarker(markerOptions);
-                    mMarker.setInfoWindowEnable(false);
+
                 }
             };
             Glide.with(mContext.getApplicationContext())
@@ -88,7 +88,6 @@ public class PersonMarker extends IMarker {
     public void setAvatarAndShowSelected(String avatarPath) {
         mPersonView = new PersonView(mContext);
         mPersonView.setSelectedMode();
-        this.avatarPath = avatarPath;
 
         if (TextUtils.isEmpty(avatarPath)) {
             mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
@@ -96,10 +95,12 @@ public class PersonMarker extends IMarker {
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);
+            markerOptions.title(mStoryInfo.getUserInfo().getUserId());
+            markerOptions.snippet(mStoryInfo.getStoryId());
+            markerOptions.infoWindowEnable(false);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
             mMarker = mAMap.addMarker(markerOptions);
-            mMarker.setInfoWindowEnable(false);
 
         } else {
             SimpleTarget target = new SimpleTarget<GlideBitmapDrawable>() {
@@ -110,10 +111,12 @@ public class PersonMarker extends IMarker {
 
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(mLatLng);
+                    markerOptions.title(mStoryInfo.getUserInfo().getUserId());
+                    markerOptions.snippet(mStoryInfo.getStoryId());
+                    markerOptions.infoWindowEnable(false);
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 
                     mMarker = mAMap.addMarker(markerOptions);
-                    mMarker.setInfoWindowEnable(false);
                 }
             };
             Glide.with(mContext.getApplicationContext())
@@ -130,7 +133,7 @@ public class PersonMarker extends IMarker {
     public void animate(LatLng latLng) {
         Animation animation = new TranslateAnimation(latLng);
         animation.setInterpolator(new LinearInterpolator());
-        animation.setDuration(2000);
+        animation.setDuration(1500);
 
         mMarker.setAnimation(animation);
         mMarker.startAnimation();

@@ -12,6 +12,7 @@ import com.amap.api.maps.MapView;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.story.StoryRoomActivity;
 import com.storyshu.storyshu.info.CardInfo;
+import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.storymap.StoryMapPresenterIml;
 import com.storyshu.storyshu.mvp.storymap.StoryMapView;
 import com.storyshu.storyshu.utils.NameUtil;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 
 public class StoryMapFragment extends IBaseStatusFragment implements StoryMapView, View.OnClickListener {
     private static final String TAG = "StoryMapFragment";
+    private static StoryMapFragment instance;
     private TextView mSinInTv; //标题栏提示签到的文本
     private MapView mMapView; //地图
     private StoriesAdapterView mStoryCardWindow; //故事卡片的窗口
@@ -40,6 +42,16 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
     private StoryMapPresenterIml mStoryMapPresenter; //故事地图的逻辑实现
 
+    public static StoryMapFragment getInstance() {
+        if (instance == null) {
+            synchronized (StoryMapFragment.class) {
+                if (instance == null)
+                    instance = new StoryMapFragment();
+            }
+        }
+        return instance;
+    }
+
     @Override
     public int getLayoutRes() {
         return R.layout.story_map_layout;
@@ -50,6 +62,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mMapView.onDestroy();
+        ILocationManager.getInstance().destroy();
     }
 
     @Override
@@ -57,6 +70,8 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         super.onResume();
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
+
+        mStoryMapPresenter.showStoryIcons();
     }
 
     @Override
@@ -99,9 +114,6 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         mGetLocationButton.setOnClickListener(this);
 
         mStoryMapPresenter = new StoryMapPresenterIml(this, getContext());
-
-        mStoryMapPresenter.initMap();
-        mStoryMapPresenter.showMap();
     }
 
     @Override
@@ -137,6 +149,11 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     }
 
     @Override
+    public void updateStoryIcons() {
+        mStoryMapPresenter.showStoryIcons();
+    }
+
+    @Override
     public void showCardWindow() {
         animateStoryShow(true);
     }
@@ -159,6 +176,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     @Override
     public void initEvents() {
         mStoryMapPresenter.initMap();
+        mStoryMapPresenter.getLocation();
     }
 
     @Override

@@ -149,6 +149,12 @@ public class TimeUtils {
         return dateFormat.format(date);
     }
 
+    public static String getTimeId() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date(System.currentTimeMillis());
+        return dateFormat.format(date);
+    }
+
     /**
      * 将小时转化为生命期的表示
      * 大于等于24小时用天表示

@@ -12,12 +12,6 @@ public interface StoryMapPresenter {
      */
     void initMap();
 
-
-    /**
-     * 显示地图
-     */
-    void showMap();
-
     /**
      * 显示用户集图标
      * 不包括用户自己位置的图标
@@ -28,6 +22,4 @@ public interface StoryMapPresenter {
      * 显示签到弹窗
      */
     void showSignDialog();
-
-
 }

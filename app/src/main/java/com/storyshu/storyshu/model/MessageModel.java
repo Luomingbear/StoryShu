@@ -47,7 +47,7 @@ public class MessageModel {
             StoryMessageInfo info = new StoryMessageInfo();
             BaseUserInfo userInfo = new BaseUserInfo();
             userInfo.setNickname("西瓜su" + i);
-            userInfo.setUserId(i + 1);
+            userInfo.setUserId("西瓜su" + i);
             userInfo.setAvatar("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490098140866&di=aeb868c2a86cbb95f356868dcb0e8c2d&imgtype=0&src=http%3A%2F%2Fup.qqjia.com%2Fz%2F24%2Ftu29448_13.jpg");
             info.setUserInfo(userInfo);
             info.setCreateTime(TimeUtils.convert2TimeText(new Date(System.currentTimeMillis())));
@@ -72,7 +72,7 @@ public class MessageModel {
             StoryMessageInfo info = new StoryMessageInfo();
             BaseUserInfo userInfo = new BaseUserInfo();
             userInfo.setNickname("西瓜su" + i);
-            userInfo.setUserId(i + 1);
+            userInfo.setUserId("西瓜su" + i);
             userInfo.setAvatar("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490098140866&di=aeb868c2a86cbb95f356868dcb0e8c2d&imgtype=0&src=http%3A%2F%2Fup.qqjia.com%2Fz%2F24%2Ftu29448_13.jpg");
             info.setUserInfo(userInfo);
             info.setCreateTime(TimeUtils.getCurrentTime());

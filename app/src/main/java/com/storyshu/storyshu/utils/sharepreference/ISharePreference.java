@@ -55,7 +55,7 @@ public class ISharePreference {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(NICK_NAME, userInfo.getNickname());
         editor.putString(AVATAR, userInfo.getAvatar());
-        editor.putInt(USER_ID, userInfo.getUserId());
+        editor.putString(USER_ID, userInfo.getUserId());
         editor.apply();
     }
 
@@ -65,7 +65,7 @@ public class ISharePreference {
         BaseUserInfo userInfo = new BaseUserInfo();
         userInfo.setNickname(sp.getString(NICK_NAME, context.getResources().getString(R.string.app_name)));
         userInfo.setAvatar(sp.getString(AVATAR, ""));
-        userInfo.setUserId(sp.getInt(USER_ID, BaseUserInfo.Visitor));
+        userInfo.setUserId(sp.getString(USER_ID, ""));
         return userInfo;
     }
 

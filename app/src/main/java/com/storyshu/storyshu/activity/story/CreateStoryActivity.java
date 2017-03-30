@@ -1,5 +1,6 @@
 package com.storyshu.storyshu.activity.story;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,7 +17,6 @@ import com.bumptech.glide.Glide;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.activity.MainActivity;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.info.LocationInfo;
 import com.storyshu.storyshu.mvp.create.CreateStoryPresenterImpl;
@@ -27,6 +27,7 @@ import com.storyshu.storyshu.widget.SlideButton;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateStoryActivity extends IBaseActivity implements CreateStoryView, View.OnClickListener {
     private static final String TAG = "CreateStoryActivity";
@@ -45,12 +46,11 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     private SlideButton mSlideButton; //匿名的按钮
 
     private String mStoryContent; //故事的内容
-    private ArrayList<ImageItem> mOldPicList; //上一次添加的故事的图片列表
-    private ArrayList<ImageItem> mPicList; //故事的图片列表
-    private ArrayList<ImageItem> mChangePicPathList; //新增加的图片的列表
+    private List<ImageItem> mOldPicList; //上一次添加的故事的图片列表
+    private List<ImageItem> mPicList; //故事的图片列表
+    private List<ImageItem> mChangePicPathList; //新增加的图片的列表
     private int maxPicCount = 9;
     private int maxStoryLength = 140;//故事的文字上线
-    private int mLifeTimeCount = 24; //生命期 ，默认一天 ，单位小时
     private CreateStoryPresenterImpl mCreateStoryPresenter; //代理人
 
     @Override
@@ -226,11 +226,6 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     }
 
     @Override
-    public int getLifeTime() {
-        return mLifeTimeCount;
-    }
-
-    @Override
     public TextView getLifeTimeTv() {
         return mLifeTimeTv;
     }
@@ -238,11 +233,6 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     @Override
     public boolean isAnonymous() {
         return mSlideButton.isChecked();
-    }
-
-    @Override
-    public void showLocationDialog() {
-
     }
 
     @Override
@@ -275,7 +265,12 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
                 imageView.setLayoutParams(params);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(this).load(item.path).into(imageView);
-                Log.i(TAG, "addPic2Layout: path:" + item.path);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCreateStoryPresenter.showPicturePreview();
+                    }
+                });
 
                 mPicGridLayout.addView(imageView, 0);
             }
@@ -284,12 +279,8 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
     @Override
     public void backActivity() {
+        setResult(Activity.RESULT_OK, null);
         onBackPressed();
-    }
-
-    @Override
-    public void toMainActivity() {
-        intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 
     @Override
@@ -330,6 +321,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
                 break;
 
             case R.id.location_layout:
+                mCreateStoryPresenter.showLocationDialog();
                 break;
 
             case R.id.life_time_layout:

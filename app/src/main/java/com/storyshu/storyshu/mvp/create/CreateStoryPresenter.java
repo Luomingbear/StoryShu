@@ -19,6 +19,11 @@ public interface CreateStoryPresenter {
     void getLocationPoi();
 
     /**
+     * 显示位置弹窗
+     */
+    void showLocationDialog();
+
+    /**
      * 获取配图
      */
     void getPicList();
@@ -27,5 +32,10 @@ public interface CreateStoryPresenter {
      * 设置故事的保质期
      */
     void setLifeTime();
+
+    /**
+     * 显示预览
+     */
+    void showPicturePreview();
 
 }

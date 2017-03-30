@@ -90,6 +90,7 @@ public class IMapManager {
          */
         setUI();
 
+
         //初始化故事的图标集合
         mPersonMarkerList = new ArrayList<>();
     }
@@ -156,11 +157,11 @@ public class IMapManager {
     /**
      * 显示故事图标
      */
-    public void showStoryIcon(LatLng latLong, String content, String avatar) {
+    public void showStoryIcon(StoryInfo storyInfo) {
         if (mPersonMarkerList != null && mPersonMarkerList.size() > 0) {
             //移除之前的小图标
             for (PersonMarker personMarker : mPersonMarkerList) {
-                if (personMarker.getLatLng().equals(latLong)) {
+                if (personMarker.getLatLng().equals(storyInfo.getLatLng())) {
                     personMarker.remove();
                     mPersonMarkerList.remove(personMarker);
                     break;
@@ -169,10 +170,10 @@ public class IMapManager {
         }
 
         //显示图标
-        PersonMarker personMarker = new PersonMarker(mContext, mAMap, latLong);
-        personMarker.setAvatarAndShow(avatar);
+        PersonMarker person = new PersonMarker(mContext, mAMap, storyInfo);
+        person.setAvatarAndShow(storyInfo.getUserInfo().getAvatar());
         //添加到故事集列表
-        mPersonMarkerList.add(personMarker);
+        mPersonMarkerList.add(person);
     }
 
     /**
@@ -187,8 +188,9 @@ public class IMapManager {
                 break;
             }
         }
+
         //添加新的图标
-        PersonMarker personMarker = new PersonMarker(mContext, mAMap, storyInfo.getLatLng());
+        PersonMarker personMarker = new PersonMarker(mContext, mAMap, storyInfo);
         personMarker.setAvatarAndShowSelected(storyInfo.getUserInfo().getAvatar());
         mPersonMarkerList.add(personMarker);
 
@@ -200,9 +202,9 @@ public class IMapManager {
      * 显示所有图标
      */
     public void showStoriesIcons(ArrayList<StoryInfo> storyList) {
+//        Log.d(TAG, "showStoriesIcons: 绘制图标！！！");
         for (StoryInfo storyInfo : storyList) {
-            showStoryIcon(storyInfo.getLatLng(), storyInfo.getContent(),
-                    storyInfo.getUserInfo().getAvatar());
+            showStoryIcon(storyInfo);
         }
     }
 

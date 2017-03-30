@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.CommentInfo;
+import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
@@ -58,7 +59,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
 
         viewHolder.nickname.setText(commentInfo.getNickname());
-        viewHolder.createTime.setText(commentInfo.getCreateTime());
+        viewHolder.createTime.setText(TimeUtils.convertCurrentTime(mContext, commentInfo.getCreateTime()));
         viewHolder.comment_content.setText(commentInfo.getComment());
 
         viewHolder.like.setNum(commentInfo.getLikeNum());

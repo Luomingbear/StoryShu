@@ -25,13 +25,6 @@ public class IApplication extends Application {
      * 开启线程进行数据的初始化
      */
     private void startInitThread() {
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initImageLoader();
-            }
-        });
-        thread1.start();
         Thread thread2 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -41,14 +34,9 @@ public class IApplication extends Application {
         thread2.start();
     }
 
-
     /**
-     * 初始化图像加载器
+     * 初始化图片选择器
      */
-    private void initImageLoader() {
-
-    }
-
     private void initImagePicker() {
 
         ImagePicker.getInstance()

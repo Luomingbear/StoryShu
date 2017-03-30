@@ -3,7 +3,10 @@ package com.storyshu.storyshu.info;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.storyshu.storyshu.utils.ListUtil;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 故事卡片信息类
@@ -11,9 +14,9 @@ import java.util.ArrayList;
  */
 
 public class CardInfo implements Parcelable {
-    private int storyId; //故事的id
+    private String storyId; //故事的id
     private String cover; //故事的封面图
-    private ArrayList<String> storyPic; //配图
+    private List<String> storyPic; //配图
     private String content; //故事的内容
     private BaseUserInfo userInfo; //用户信息
     private String createDate; //发布时间
@@ -36,7 +39,7 @@ public class CardInfo implements Parcelable {
         this.location = storyInfo.getLocation();
     }
 
-    public CardInfo(int storyId, String cover, String content, BaseUserInfo userInfo,
+    public CardInfo(String storyId, String cover, String content, BaseUserInfo userInfo,
                     String createDate, int lifeTime, String location, int likeNum, int opposeNum, boolean isAnonymous) {
         this.storyId = storyId;
         this.cover = cover;
@@ -50,23 +53,23 @@ public class CardInfo implements Parcelable {
         this.isAnonymous = isAnonymous;
     }
 
-    public int getStoryId() {
+    public String getStoryId() {
         return storyId;
     }
 
-    public void setStoryId(int storyId) {
+    public void setStoryId(String storyId) {
         this.storyId = storyId;
     }
 
     public String getCover() {
-        return cover;
+        return storyPic == null ? "" : storyPic.get(0);
     }
 
     public void setCover(String cover) {
         this.cover = cover;
     }
 
-    public ArrayList<String> getStoryPic() {
+    public List<String> getStoryPic() {
         return storyPic;
     }
 
@@ -75,7 +78,7 @@ public class CardInfo implements Parcelable {
     }
 
     public void setStoryPic(String storyPics) {
-//        this.storyPic = new ArrayList<String>(storyPics.split(","));
+//        this.storyPic = ListUtil.StringToList(storyPics);
     }
 
     public String getContent() {
@@ -149,7 +152,7 @@ public class CardInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.storyId);
+        dest.writeString(this.storyId);
         dest.writeString(this.cover);
         dest.writeStringList(this.storyPic);
         dest.writeString(this.content);
@@ -163,7 +166,7 @@ public class CardInfo implements Parcelable {
     }
 
     protected CardInfo(Parcel in) {
-        this.storyId = in.readInt();
+        this.storyId = in.readString();
         this.cover = in.readString();
         this.storyPic = in.createStringArrayList();
         this.content = in.readString();

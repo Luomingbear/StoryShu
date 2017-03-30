@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,14 +10,16 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
 import com.storyshu.storyshu.activity.story.CreateStoryActivity;
 import com.storyshu.storyshu.fragement.AirportFragment;
-import com.storyshu.storyshu.fragement.StoryMapFragment;
 import com.storyshu.storyshu.fragement.MessageFragment;
 import com.storyshu.storyshu.fragement.MineFragment;
+import com.storyshu.storyshu.fragement.StoryMapFragment;
+import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.widget.CreateButton;
 import com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar;
 
 public class MainActivity extends IPermissionActivity {
+    private static final String TAG = "MainActivity";
     private StoryMapFragment mStoryMapFragment; //地图fragment；
     private AirportFragment mAirportFragment; //候机厅fragment；
     private MessageFragment mMessageFragment; //消息fragment；
@@ -55,6 +58,15 @@ public class MainActivity extends IPermissionActivity {
         checkAndGetPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_PERMISSION);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == NameUtil.REQUST_CREATE) {
+////            回调更新图标
+//            StoryMapFragment.getInstance().updateStoryIcons();
+//        }
+    }
+
     /**
      * 底部导航栏的点击反馈
      */
@@ -88,7 +100,9 @@ public class MainActivity extends IPermissionActivity {
     private CreateButton.OnCreateClickListener createClickListener = new CreateButton.OnCreateClickListener() {
         @Override
         public void onClick() {
-            intentTo(CreateStoryActivity.class);
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, CreateStoryActivity.class);
+            startActivityForResult(intent, NameUtil.REQUST_CREATE);
         }
     };
 
@@ -98,8 +112,6 @@ public class MainActivity extends IPermissionActivity {
     private void initView() {
         //状态栏
         StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, null);
-//        mFakeStatusBar = findViewById(R.id.fake_statusbar_view);
-//        mFakeStatusBar.setMinimumHeight(StatusBarUtils.getStatusBarHeight(MainActivity.this));
 
         //创建故事按钮
         mCreateButton = (CreateButton) findViewById(R.id.create_story);
@@ -146,7 +158,7 @@ public class MainActivity extends IPermissionActivity {
                 checkAndGetPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_PERMISSION);
                 //
                 if (mStoryMapFragment == null) {
-                    mStoryMapFragment = new StoryMapFragment();
+                    mStoryMapFragment = StoryMapFragment.getInstance();
                     transaction.add(R.id.content, mStoryMapFragment);
                 } else transaction.show(mStoryMapFragment);
                 break;

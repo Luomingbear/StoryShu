@@ -6,11 +6,11 @@ import android.view.MotionEvent;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.Marker;
-import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoryModel;
+import com.storyshu.storyshu.utils.ListUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
@@ -37,6 +37,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
         this.mStoryMapView = mStoryMapView;
         this.mContext = mContext;
         mStoryModel = new StoryModel(mContext);
+        mStoryList = new ArrayList<>();
     }
 
     /**
@@ -79,6 +80,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
 
     @Override
     public void initMap() {
+        Log.i(TAG, "initMap: 初始化地图");
         //初始化地图管家
         ILocationManager.getInstance().init(mContext, mStoryMapView.getMapView());
 
@@ -112,25 +114,6 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
     }
 
     /**
-     * 故事数据获取的回调函数
-     */
-    private StoryModel.OnStoryModelListener onStoryModelListener = new StoryModel.OnStoryModelListener() {
-        @Override
-        public void onStoriesGot(ArrayList<StoryInfo> storyList) {
-            mStoryList = storyList;
-
-            showStoryIcons();
-        }
-    };
-
-    @Override
-    public void showMap() {
-        getLocation();
-
-        mStoryModel.getNearStories(ISharePreference.getUserData(mContext), ISharePreference.getLatLngData(mContext), onStoryModelListener);
-    }
-
-    /**
      * 更新故事图标
      */
     private void updateStoryIcon(StoryInfo storyInfo) {
@@ -151,7 +134,9 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
             int centerIndex = 0;
             for (int i = 0; i < mStoryList.size(); i++) {
                 StoryInfo storyInfo = mStoryList.get(i);
-                if (storyInfo.getLatLng().equals(marker.getPosition())) {
+                //marker的title 是userID,snipper是故事id
+                if (storyInfo.getUserInfo().getUserId().equals(marker.getTitle())
+                        && storyInfo.getStoryId().equals(marker.getSnippet())) {
                     updateStoryIcon(storyInfo);
                     centerIndex = i;
                     break;
@@ -161,7 +146,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
             Log.i(TAG, "OnMarkerClick: marker position:" + marker.getPosition());
             Log.i(TAG, "OnMarkerClick: ");
             Log.i(TAG, "OnMarkerClick: centerIndex:" + centerIndex);
-            mStoryMapView.getStoryWindow().setCenterCardIndex(centerIndex);
+            mStoryMapView.getStoryWindow().setSelection(centerIndex);
             mStoryMapView.showCardWindow();
             isStoryWindowShow = true;
 
@@ -174,21 +159,37 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
      * 获取位置信息
      */
     public void getLocation() {
+        Log.i(TAG, "getLocation: 获取定位");
         if (!ILocationManager.getInstance().isInit())
             initMap();
         ILocationManager.getInstance().setOnLocationMarkerClickListener(onMarkClickListener).start();
     }
 
     /**
+     * 故事数据获取的回调函数
+     */
+    private StoryModel.OnStoryModelListener onStoryModelListener = new StoryModel.OnStoryModelListener() {
+        @Override
+        public void onStoriesGot(ArrayList<StoryInfo> storyList) {
+            mStoryList = storyList;
+
+            Log.i(TAG, "onStoriesGot: 数据库的故事有：" + mStoryList.size());
+            ListUtil.removeDuplicate(mStoryList);
+
+            //卡片显示
+            CardAdapter cardAdapter = new CardAdapter(mContext, mStoryList);
+            mStoryMapView.getStoryWindow().setAdapter(cardAdapter);
+            //地图的故事集图标显示
+            ILocationManager.getInstance().showStoriesIcons(mStoryList);
+        }
+    };
+
+    /**
      * 显示故事集图标
      */
     @Override
     public void showStoryIcons() {
-        CardAdapter cardAdapter = new CardAdapter(mContext, mStoryList);
-        mStoryMapView.getStoryWindow().setAdapter(cardAdapter);
-
-        //地图的故事集图标显示
-        ILocationManager.getInstance().showStoriesIcons(mStoryList);
+        mStoryModel.getNearStories(ISharePreference.getUserData(mContext), ISharePreference.getLatLngData(mContext), onStoryModelListener);
     }
 
     @Override
@@ -197,7 +198,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
             mStoryMapView.showSignDialog(mSignDays);
             isSign = true;
         } else {
-            mStoryMapView.showToast(R.string.sign_in_succeed);
+//            mStoryMapView.showToast(R.string.sign_in_yes);
         }
     }
 

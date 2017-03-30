@@ -8,11 +8,14 @@ import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.data.DateBaseHelperIml;
+import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.location.ILocationQueryTool;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.dialog.LifeTimeDialog;
+import com.storyshu.storyshu.widget.dialog.LocationDialog;
+import com.storyshu.storyshu.widget.dialog.PicturePreviewDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class CreateStoryPresenterImpl implements CreateStoryPresenter {
     private int minStoryContent = 1; //故事内容最少的字符
     private int mLifeTimeMinute = 24 * 60; //故事保留时间,分钟
     private List<PoiItem> mLocationList; //位置列表
+    private int radius = 50; //单位米
 
     public CreateStoryPresenterImpl(CreateStoryView mCreateStoryView, Context mContext) {
         this.mCreateStoryView = mCreateStoryView;
@@ -43,23 +47,28 @@ public class CreateStoryPresenterImpl implements CreateStoryPresenter {
         if (mTempContent.length() < minStoryContent) {
             mCreateStoryView.showToast(mContext.getString(R.string.story_length_too_sort, minStoryContent));
         } else {
-            // TODO: 2017/3/29 上传发布故事
-            StoryInfo storyInfo = new StoryInfo();
-            storyInfo.setUserInfo(ISharePreference.getUserData(mContext));
-            storyInfo.setContent(mCreateStoryView.getStoryContent());
-            storyInfo.setCover(mCreateStoryView.getStoryPic().get(0));
-            storyInfo.setStoryPic(mCreateStoryView.getStoryPic());
-            storyInfo.setLocation(mCreateStoryView.getLocationTv().getText().toString());
-            storyInfo.setLatLng(ISharePreference.getLatLngData(mContext));
-            storyInfo.setCreateDate(TimeUtils.getCurrentTime());
-            storyInfo.setLifeTime(mLifeTimeMinute);
-            storyInfo.setAnonymous(false);
+            try {
+                StoryInfo storyInfo = new StoryInfo();
+                BaseUserInfo userInfo = ISharePreference.getUserData(mContext);
+                storyInfo.setUserInfo(userInfo);
+                //故事id=userId+timeId
+                storyInfo.setStoryId(userInfo.getUserId() + TimeUtils.getTimeId());
+                storyInfo.setContent(mCreateStoryView.getStoryContent());
+                storyInfo.setCover(mCreateStoryView.getStoryPic().size() > 0 ? mCreateStoryView.getStoryPic().get(0) : "");
+                storyInfo.setStoryPic(mCreateStoryView.getStoryPic());
+                storyInfo.setLocation(mCreateStoryView.getLocationTv().getText().toString());
+                storyInfo.setLatLng(ISharePreference.getLatLngData(mContext));
+                storyInfo.setCreateDate(TimeUtils.getCurrentTime());
+                storyInfo.setLifeTime(mLifeTimeMinute);
+                storyInfo.setAnonymous(mCreateStoryView.isAnonymous());
 
-            DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
-            storyInfo.setStoryId(dateBaseHelperIml.getLocalStory().size());
-            dateBaseHelperIml.insertStoryData(storyInfo);
-
-            mCreateStoryView.toMainActivity();
+                // TODO: 2017/3/29 上传发布故事
+                DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
+                dateBaseHelperIml.insertStoryData(storyInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mCreateStoryView.backActivity();
         }
     }
 
@@ -71,13 +80,28 @@ public class CreateStoryPresenterImpl implements CreateStoryPresenter {
             public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
                 mLocationList = regeocodeAddress.getPois();
                 mCreateStoryView.getLocationTv().setText(mLocationList.get(0).getTitle());
+                Log.i(TAG, "onRegeocodeSearched: 获取到了位置数据了！！！" + mLocationList.size());
             }
 
             @Override
             public void onGeocodeSearched(List<GeocodeAddress> geocodeAddressList) {
             }
         });
-        locationQueryTool.startRegeocodeQuery(ISharePreference.getLatLngData(mContext), 10);
+        locationQueryTool.startRegeocodeQuery(ISharePreference.getLatLngData(mContext), radius);
+    }
+
+    /**
+     * 显示位置弹窗
+     */
+    @Override
+    public void showLocationDialog() {
+        LocationDialog locationDialog = new LocationDialog(mContext, R.style.TransparentDialogTheme);
+        locationDialog.setDataAndShow(mLocationList, new LocationDialog.OnLocationChooseListener() {
+            @Override
+            public void onClick(PoiItem poiItem) {
+                mCreateStoryView.getLocationTv().setText(poiItem.getTitle());
+            }
+        });
     }
 
     @Override
@@ -98,6 +122,12 @@ public class CreateStoryPresenterImpl implements CreateStoryPresenter {
             }
         });
         lifeTimeDialog.show();
+    }
+
+    @Override
+    public void showPicturePreview() {
+        PicturePreviewDialog previewDialog = new PicturePreviewDialog(mContext);
+        previewDialog.setStoryListShow(mCreateStoryView.getStoryPic());
     }
 
 }

@@ -43,13 +43,6 @@ public interface CreateStoryView extends IBaseView {
     TextView getLocationTv();
 
     /**
-     * 故事的生命周期
-     *
-     * @return 单位小时
-     */
-    int getLifeTime();
-
-    /**
      * 获取故事的生命期的文本描述
      *
      * @return
@@ -62,11 +55,6 @@ public interface CreateStoryView extends IBaseView {
      * @return
      */
     boolean isAnonymous();
-
-    /**
-     * 显示选择地点的弹窗
-     */
-    void showLocationDialog();
 
     /**
      * 显示图片选择器
@@ -88,9 +76,4 @@ public interface CreateStoryView extends IBaseView {
      * 返回
      */
     void backActivity();
-
-    /**
-     * 回到首页
-     */
-    void toMainActivity();
 }

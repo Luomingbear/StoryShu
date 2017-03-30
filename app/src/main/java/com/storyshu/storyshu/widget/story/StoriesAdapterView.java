@@ -71,17 +71,6 @@ public class StoriesAdapterView extends AdapterView {
     }
 
     /**
-     * 设置显示的中心卡片下标
-     *
-     * @param centerCardIndex
-     */
-    public void setCenterCardIndex(int centerCardIndex) {
-        this.centerCardIndex = centerCardIndex;
-        updateIndex();
-        requestLayout();
-    }
-
-    /**
      * 数据更新观察者
      */
     private class AdapterDataSetObserver extends DataSetObserver {
@@ -120,7 +109,7 @@ public class StoriesAdapterView extends AdapterView {
         if (mAdapter == null)
             return;
 
-        Log.d(TAG, "onLayout: !!!!!!!!!!!!!!!!!!!");
+//        Log.d(TAG, "onLayout: !!!!!!!!!!!!!!!!!!!");
         isLayout = true;
         int count = mAdapter.getCount(); //数据的数量
 
@@ -243,8 +232,6 @@ public class StoriesAdapterView extends AdapterView {
      * 添加单个故事卡片
      */
     private void addAndMeasureCard(int index) {
-        Log.i(TAG, "layoutDefCards: 生成卡片！！+++" + index);
-
         //add
         View card = mAdapter.getView(index, null, this);
         if (index == centerCardIndex) {
@@ -350,7 +337,7 @@ public class StoriesAdapterView extends AdapterView {
                  * 是否是快速的滑动
                  * 快速滑动的话布局时将之前的卡片全部删除
                  */
-                isFastMove = System.currentTimeMillis() - mStartTime < 250;
+                isFastMove = System.currentTimeMillis() - mStartTime < 300;
 
                 mStartTime = System.currentTimeMillis();
                 break;
@@ -367,6 +354,8 @@ public class StoriesAdapterView extends AdapterView {
                 float upX = event.getX();
                 float upY = event.getY();
 
+                if (mCenterCard == null)
+                    break;
                 //手指移动的距离小于5并且手指在卡片上
                 if (Math.abs(upX - downX) < 5) {
                     //ka卡片数量为0则关闭弹窗
@@ -629,13 +618,10 @@ public class StoriesAdapterView extends AdapterView {
             return;
 
         centerCardIndex = position;
-
-        leftCardIndex = centerCardIndex - MaxCardCacheNum / 2; //用中心卡片的下标减去最大缓存的卡片数量的一半就是最左边的卡片的下标
-        leftCardIndex = Math.max(leftCardIndex, 0); //大于0
-
-        rightCardIndex = leftCardIndex + MaxCardCacheNum - 1;
-        rightCardIndex = Math.min(rightCardIndex, mAdapter.getCount() - 1); //小于最大数量
-
+        updateIndex();
+//        removeAllViewsInLayout();
+//        mCenterCard = null;
+        requestLayout();
     }
 
     private OnCardSlidingListener onCardSlidingListener;

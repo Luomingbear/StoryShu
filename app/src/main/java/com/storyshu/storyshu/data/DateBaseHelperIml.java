@@ -63,14 +63,14 @@ public class DateBaseHelperIml extends BaseDataHelper {
                 story.setLifeTime(cursor.getInt(cursor.getColumnIndex(LIFE_TIME)));
                 story.setStoryPic(cursor.getString(cursor.getColumnIndex(STORY_PIC)));
                 story.setCover(cursor.getString(cursor.getColumnIndex(COVER_PIC)));
-                story.setStoryId(cursor.getInt(cursor.getColumnIndex(STORY_ID)));
+                story.setStoryId(cursor.getString(cursor.getColumnIndex(STORY_ID)));
                 story.setAnonymous((cursor.getInt(cursor.getColumnIndex(IS_ANONYMOUS))) == 0 ? false : true);
 
                 LatLng latLonPoint = new LatLng(cursor.getFloat(cursor.getColumnIndex(LAT)), cursor.getFloat(cursor.getColumnIndex(LNG)));
                 story.setLatLng(latLonPoint);
 
                 BaseUserInfo user = new BaseUserInfo();
-                user.setUserId(cursor.getInt(cursor.getColumnIndex(USER_ID)));
+                user.setUserId(cursor.getString(cursor.getColumnIndex(USER_ID)));
                 user.setAvatar(cursor.getString(cursor.getColumnIndex(AVATAR)));
                 user.setNickname(cursor.getString(cursor.getColumnIndex(NICK_NAME)));
                 story.setUserInfo(user);
@@ -112,7 +112,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         try {
-
+            values.put(USER_ID, userInfo.getEmail());
             values.put(EMAIL, userInfo.getEmail());
             values.put(PHONE, userInfo.getPhone());
             values.put(PASSWORD, userInfo.getPassword());
@@ -146,6 +146,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
             values.put(LIFE_TIME, storyInfo.getLifeTime());
             values.put(LAT, storyInfo.getLatLng().latitude);
             values.put(LNG, storyInfo.getLatLng().longitude);
+            values.put(IS_ANONYMOUS, storyInfo.isAnonymous());
 
             db.insert(STORY_TABLE, null, values);
         } catch (Exception e) {

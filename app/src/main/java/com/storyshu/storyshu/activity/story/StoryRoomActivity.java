@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +15,8 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.CommentAdapter;
 import com.storyshu.storyshu.info.CommentInfo;
 import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.mvp.storyroom.StoryRoomPresenterIml;
+import com.storyshu.storyshu.mvp.storyroom.StoryRoomView;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
@@ -24,23 +25,21 @@ import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-public class StoryRoomActivity extends AppCompatActivity implements View.OnClickListener {
+public class StoryRoomActivity extends AppCompatActivity implements StoryRoomView, View.OnClickListener {
     private static final String TAG = "StoryRoomActivity";
     private TitleView mTitleView; //标题栏
     private TextView mStoryContent; //故事的内容
     private ImageView mStoryCover; //故事的配图
     private TextView mPicSize; //配图的数量
     private TextView mLocation; //发布位置
-    private View mReport; //举报
+    private TextView mReport; //举报
     private AvatarImageView mAvatar; //作者头像
     private TextView mNickname; //作者昵称
     private TextView mCreateTime; //发布时间
     private TextView mDeathTime; //剩余时间
 
     private ClickButton mLike, mOppose, mComment; //按钮
-    private int isLike = 0; //是否点赞 0:不操作 1：点赞 -1：喝倒彩
 
     private NestedScrollView mScrollView; //滚动布局
     private SwipeRefreshLayout mRefreshLayout; //下拉刷新控件
@@ -50,22 +49,33 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
     private ArrayList<CommentInfo> mCommentInfoList; //评论的数据源
     private CommentAdapter mCommentAdapter; //评论适配器
 
+    private StoryRoomPresenterIml mStoryRoomPresenter; //故事屋的控制
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_room_layout);
 
         initView();
+        mStoryRoomPresenter = new StoryRoomPresenterIml(StoryRoomActivity.this, StoryRoomActivity.this);
 
         initData();
 
         initEvent();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mStoryRoomPresenter.getComments();
+    }
+
     /**
      * 初始化
      */
-    private void initView() {
+    @Override
+    public void initView() {
         mTitleView = (TitleView) findViewById(R.id.title_view);
 
         mStoryContent = (TextView) findViewById(R.id.story_content);
@@ -76,7 +86,7 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
 
         mLocation = (TextView) findViewById(R.id.location);
 
-        mReport = findViewById(R.id.report);
+        mReport = (TextView) findViewById(R.id.report);
 
         mAvatar = (AvatarImageView) findViewById(R.id.author_avatar);
 
@@ -97,6 +107,14 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
         mScrollView = (NestedScrollView) findViewById(R.id.scroll_view);
 
         mCommentRV = (RecyclerView) findViewById(R.id.comment_list);
+
+        //修复打开页面的自动滚动问题
+        mScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.scrollTo(0, 0);
+            }
+        });
     }
 
     /**
@@ -128,68 +146,41 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
     }
 
     /**
-     * 初始化评论数据
-     */
-    private void initComments() {
-        mCommentInfoList = new ArrayList<>();
-
-        for (int i = 1; i <= 10; i++) {
-            CommentInfo commentInfo = new CommentInfo();
-            commentInfo.setNickname("赵日天");
-            commentInfo.setAvatar("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3022635415,3979946006&fm=23&gp=0.jpg");
-            commentInfo.setCreateTime(TimeUtils.convertCurrentTime(getApplicationContext(),
-                    new Date(System.currentTimeMillis())));
-            commentInfo.setOpposeNum(23);
-            commentInfo.setLikeNum(66);
-            commentInfo.setTags(i + "#");
-            commentInfo.setComment("我赵日天表示不服,你怕了吗？");
-            mCommentInfoList.add(commentInfo);
-        }
-
-        mCommentInfoList.get(3).setComment("我赵日天表示不服,你怕了吗？我赵日天表示不服,你怕了吗？我赵日天表示不服,你怕了吗？");
-        mCommentInfoList.get(9).setComment("我赵日天表示不服,你怕了吗？我赵日天表示不服,你怕了吗？我赵日天表示不服,你怕了吗？");
-
-        mCommentAdapter = new CommentAdapter(StoryRoomActivity.this, mCommentInfoList);
-
-        //layoutmanager
-        mCommentRV.setLayoutManager(new LinearLayoutManager(this));
-
-        //设置数据
-        mCommentRV.setAdapter(mCommentAdapter);
-
-        //修复高度问题
-//        AdapterViewUtil.FixHeight(mCommentRV, this);
-        //修复打开页面的自动滚动问题
-        mScrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                mScrollView.scrollTo(0, 0);
-            }
-        });
-    }
-
-    /**
      * 初始化数据
      */
-    private void initData() {
+    @Override
+    public void initData() {
         mStoryInfo = getIntent().getParcelableExtra(NameUtil.STORY_INFO);
         if (mStoryInfo == null)
             return;
-
-        Glide.with(this).load(mStoryInfo.getUserInfo().getAvatar()).into(mAvatar);
 
         mStoryContent.setText(mStoryInfo.getContent());
 
         if (!TextUtils.isEmpty(mStoryInfo.getCover())) {
             Glide.with(this).load(mStoryInfo.getCover()).into(mStoryCover);
+            mPicSize.setText(mStoryInfo.getStoryPic().size());
         } else {
             mStoryCover.setVisibility(View.GONE);
             mPicSize.setVisibility(View.GONE);
         }
 
-        mLocation.setText(mStoryInfo.getLocation());
+        /**
+         * 检测是否是匿名的
+         */
+        if (mStoryInfo.isAnonymous()) {
+            findViewById(R.id.story_detail_layout).setBackgroundResource(R.drawable.card_view_black_bg);
+            findViewById(R.id.line).setVisibility(View.GONE);
+            mStoryContent.setTextColor(getResources().getColor(R.color.colorWhiteDeep));
+            mLocation.setTextColor(getResources().getColor(R.color.colorGray));
+            mReport.setTextColor(getResources().getColor(R.color.colorGray));
+            mAvatar.setImageResource(R.drawable.avatar_pirate);
+            mNickname.setVisibility(View.GONE);
+        } else {
+            Glide.with(this).load(mStoryInfo.getUserInfo().getAvatar()).into(mAvatar);
+            mNickname.setText(mStoryInfo.getUserInfo().getNickname());
+        }
 
-        mNickname.setText(mStoryInfo.getUserInfo().getNickname());
+        mLocation.setText(mStoryInfo.getLocation());
 
         mCreateTime.setText(TimeUtils.convertCurrentTime(this, mStoryInfo.getCreateDate()));
 
@@ -199,10 +190,21 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
 
         mOppose.setNum(mStoryInfo.getOpposeNum());
 
-        //评论树
-        initComments();
 
-        mComment.setNum(mCommentInfoList.size());
+    }
+
+    @Override
+    public void initEvents() {
+    }
+
+    @Override
+    public void showToast(String s) {
+
+    }
+
+    @Override
+    public void showToast(int stringRes) {
+
     }
 
     /**
@@ -235,7 +237,6 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
         }
     };
 
-
     /**
      * 初始化点赞、评论、喝倒彩按钮
      */
@@ -265,12 +266,32 @@ public class StoryRoomActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.story_pic:
-                ToastUtil.Show(StoryRoomActivity.this, "Click Picture");
+                mStoryRoomPresenter.showStoryPicDialog();
                 break;
 
             case R.id.report:
                 ToastUtil.Show(StoryRoomActivity.this, R.string.report);
                 break;
         }
+    }
+
+    @Override
+    public ClickButton getLikeButton() {
+        return mLike;
+    }
+
+    @Override
+    public ClickButton getOpposeButton() {
+        return mOppose;
+    }
+
+    @Override
+    public ClickButton getCommentButton() {
+        return mComment;
+    }
+
+    @Override
+    public RecyclerView getCommentRV() {
+        return mCommentRV;
     }
 }
