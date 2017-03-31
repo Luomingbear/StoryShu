@@ -10,6 +10,7 @@ import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.ListUtil;
+import com.storyshu.storyshu.utils.time.TimeUtils;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
      */
     public ArrayList<StoryInfo> getLocalStory() {
         ArrayList<StoryInfo> storyList = new ArrayList<>();
+        String currTime = TimeUtils.getCurrentTime();
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "select * from " + STORY_TABLE + "," + USER_TABLE + " where " + STORY_TABLE
                 + "." + USER_ID + " = " + USER_TABLE + "." + USER_ID + " order by " + STORY_TABLE +
@@ -61,11 +63,50 @@ public class DateBaseHelperIml extends BaseDataHelper {
                 story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
                 story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
                 story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
-                story.setLifeTime(cursor.getInt(cursor.getColumnIndex(LIFE_TIME)));
+                story.setDestroyTime(cursor.getString(cursor.getColumnIndex(DESTROY_TIME)));
                 story.setStoryPic(cursor.getString(cursor.getColumnIndex(STORY_PIC)));
-                story.setCover(cursor.getString(cursor.getColumnIndex(COVER_PIC)));
                 story.setStoryId(cursor.getString(cursor.getColumnIndex(STORY_ID)));
-                story.setAnonymous((cursor.getInt(cursor.getColumnIndex(IS_ANONYMOUS))) == 0 ? false : true);
+                story.setAnonymous((cursor.getInt(cursor.getColumnIndex(IS_ANONYMOUS))) != 0);
+
+                LatLng latLonPoint = new LatLng(cursor.getFloat(cursor.getColumnIndex(LAT)), cursor.getFloat(cursor.getColumnIndex(LNG)));
+                story.setLatLng(latLonPoint);
+
+                BaseUserInfo user = new BaseUserInfo();
+                user.setUserId(cursor.getString(cursor.getColumnIndex(USER_ID)));
+                user.setAvatar(cursor.getString(cursor.getColumnIndex(AVATAR)));
+                user.setNickname(cursor.getString(cursor.getColumnIndex(NICK_NAME)));
+                story.setUserInfo(user);
+                // Adding contact to list
+                storyList.add(story);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return storyList;
+    }
+
+    /**
+     * 查询本地的未过期的故事集
+     *
+     * @return
+     */
+    public ArrayList<StoryInfo> getLifeStory() {
+        ArrayList<StoryInfo> storyList = new ArrayList<>();
+        String currTime = "'" + TimeUtils.getCurrentTime() + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "select * from " + STORY_TABLE + "," + USER_TABLE + " where datetime(" + DESTROY_TIME
+                + ") > datetime(" + currTime + ") order by " + STORY_TABLE + "." + CREATE_DATE + " desc";
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                StoryInfo story = new StoryInfo();
+                story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
+                story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
+                story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
+                story.setDestroyTime(cursor.getString(cursor.getColumnIndex(DESTROY_TIME)));
+                story.setStoryPic(cursor.getString(cursor.getColumnIndex(STORY_PIC)));
+                story.setStoryId(cursor.getString(cursor.getColumnIndex(STORY_ID)));
+                story.setAnonymous((cursor.getInt(cursor.getColumnIndex(IS_ANONYMOUS))) != 0);
 
                 LatLng latLonPoint = new LatLng(cursor.getFloat(cursor.getColumnIndex(LAT)), cursor.getFloat(cursor.getColumnIndex(LNG)));
                 story.setLatLng(latLonPoint);
@@ -140,11 +181,11 @@ public class DateBaseHelperIml extends BaseDataHelper {
             values.put(USER_ID, storyInfo.getUserInfo().getUserId());
 
             values.put(CONTENT, storyInfo.getContent());
-            values.put(COVER_PIC, storyInfo.getCover());
+//            values.put(COVER_PIC, storyInfo.getCover());
             values.put(STORY_PIC, ListUtil.ListToString(storyInfo.getStoryPic()));
             values.put(LOCATION_NAME, storyInfo.getLocation());
             values.put(CREATE_DATE, storyInfo.getCreateDate());
-            values.put(LIFE_TIME, storyInfo.getLifeTime());
+            values.put(DESTROY_TIME, storyInfo.getDestroyTime());
             values.put(LAT, storyInfo.getLatLng().latitude);
             values.put(LNG, storyInfo.getLatLng().longitude);
             values.put(IS_ANONYMOUS, storyInfo.isAnonymous());

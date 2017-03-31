@@ -33,11 +33,11 @@ public class BaseDataHelper extends SQLiteOpenHelper {
      */
     public static String STORY_TABLE = "story_table"; //故事的id
     public static String STORY_ID = "story_id"; //故事的id
-    public static String COVER_PIC = "cover_pic"; //故事的封面
+    //    public static String COVER_PIC = "cover_pic"; //故事的封面
     public static String STORY_PIC = "story_pic"; //故事配图
     public static String CONTENT = "content"; //故事的内容
     public static String CREATE_DATE = "create_date"; //发布时间
-    public static String LIFE_TIME = "life_time"; //生命期
+    public static String DESTROY_TIME = "destroy_time"; //生命期
     public static String IS_ANONYMOUS = "is_anonymous"; //是否匿名
 
     /**
@@ -72,8 +72,8 @@ public class BaseDataHelper extends SQLiteOpenHelper {
         String CREATE_STORY_TABLE = "CREATE TABLE " + STORY_TABLE + "("
                 + STORY_ID + " TEXT PRIMARY KEY NOT NULL, " + USER_ID + " TEXT NOT NULL,"
                 + LOCATION_ID + " INTEGER, " + LOCATION_NAME + " TEXT NOT NULL, " + LAT + " REAL, " +
-                LNG + " REAL," + COVER_PIC + " TEXT, " + STORY_PIC + " TEXT, " + CONTENT + " TEXT NOT NULL, "
-                + CREATE_DATE + " TEXT NOT NULL, " + LIFE_TIME + " INTEGER, " + IS_ANONYMOUS + " INTEGER" + ")";
+                LNG + " REAL," + STORY_PIC + " TEXT, " + CONTENT + " TEXT NOT NULL, "
+                + CREATE_DATE + " TEXT NOT NULL, " + DESTROY_TIME + " TEXT NOT NULL, " + IS_ANONYMOUS + " INTEGER" + ")";
         db.execSQL(CREATE_STORY_TABLE);
 
         //位置表
