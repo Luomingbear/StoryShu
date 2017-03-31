@@ -4,7 +4,7 @@ import android.widget.TextView;
 
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * MVP模式
@@ -25,7 +25,7 @@ public interface CreateStoryView extends IBaseView {
      *
      * @return
      */
-    ArrayList<String> getStoryPic();
+    List<String> getStoryPic();
 
 
     /**

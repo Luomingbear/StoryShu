@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.model.location;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.util.Log;
 
 import com.amap.api.maps.AMap;
@@ -12,6 +13,7 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.utils.SysUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.marker.MyCircleMarker;
 import com.storyshu.storyshu.widget.marker.PersonMarker;
@@ -35,6 +37,7 @@ public class IMapManager {
     private int mZoomLevel = 18; //默认的地图缩放比例
     private MyCircleMarker mMyPositionMarker; //个人位置点图标
     private List<PersonMarker> mPersonMarkerList; //故事集图标列表
+    private PersonMarker mSelectedMarker; //显示的选中的图标
 
     protected IMapManager() {
     }
@@ -143,7 +146,7 @@ public class IMapManager {
     public void showMyPositionIcon(LatLng latLng) {
         if (latLng == null)
             return;
-        Log.i(TAG, "showMyPositionIcon: !!!!!!!!!!!!!!!");
+//        Log.i(TAG, "showMyPositionIcon: !!!!!!!!!!!!!!!");
         if (mMyPositionMarker == null)
             mMyPositionMarker = new MyCircleMarker(mContext, mAMap, latLng);
 
@@ -158,21 +161,17 @@ public class IMapManager {
      * 显示故事图标
      */
     public void showStoryIcon(StoryInfo storyInfo) {
+        Log.i(TAG, "showStoryIcon: 显示默认的图标");
         if (mPersonMarkerList != null && mPersonMarkerList.size() > 0) {
             //移除之前的小图标
-            List<PersonMarker> removeList = new ArrayList<>();
             for (PersonMarker personMarker : mPersonMarkerList) {
+
                 //两点之间的距离小于5米则将上一次的移除
-                if (AMapUtils.calculateLineDistance(personMarker.getLatLng(), storyInfo.getLatLng()) < 5) {
-                    personMarker.remove();
-                    removeList.add(personMarker);
+                if (AMapUtils.calculateLineDistance(storyInfo.getLatLng(), personMarker.getLatLng()) < 5.0f) {
+                    return;
                 }
             }
 
-            //移除重复的
-            for (PersonMarker personMarker : removeList) {
-                mPersonMarkerList.remove(personMarker);
-            }
         }
 
         //显示图标
@@ -186,28 +185,53 @@ public class IMapManager {
      * 显示选中的故事图标
      */
     public void showSelectedStoryIcon(StoryInfo storyInfo) {
-        //移除之前的小图标
+        Log.i(TAG, "showSelectedStoryIcon: 显示大图标");
+        //移除之前选中的大图标
+        if (mSelectedMarker != null) {
+            //故事id不同则移除上一个
+            if (!storyInfo.getStoryId().equals(mSelectedMarker.mMarker.getSnippet())) {
+                mSelectedMarker.remove();
+                mSelectedMarker = null;
+            }
+        }
+
+        //移除当前选中的小图标
         List<PersonMarker> removeList = new ArrayList<>();
         for (PersonMarker personMarker : mPersonMarkerList) {
-            //两点之间的距离小于5米则将上一次的移除
             if (AMapUtils.calculateLineDistance(personMarker.getLatLng(), storyInfo.getLatLng()) < 5) {
                 personMarker.remove();
                 removeList.add(personMarker);
             }
         }
-
-        //移除重复的
-        for (PersonMarker personMarker : removeList) {
-            mPersonMarkerList.remove(personMarker);
+        for (PersonMarker p : removeList) {
+            if (mPersonMarkerList.contains(p)) {
+                mPersonMarkerList.remove(p);
+            }
         }
 
-        //添加新的图标
-        PersonMarker personMarker = new PersonMarker(mContext, mAMap, storyInfo);
-        personMarker.setAvatarAndShowSelected();
-        mPersonMarkerList.add(personMarker);
 
-        //移动摄像机到新的位置
-//        animate2Position(storyInfo.getLatLng());
+        //添加新的图标
+        if (mSelectedMarker == null) {
+            PersonMarker personMarker = new PersonMarker(mContext, mAMap, storyInfo);
+            personMarker.setAvatarAndShowSelected();
+            mSelectedMarker = personMarker;
+        }
+
+        //如果新的位置在屏幕外，移动摄像机到新的位置
+        Point p = mAMap.getProjection().toScreenLocation(storyInfo.getLatLng());
+        if (p.x < 0 || p.x > SysUtils.getScreenWidth(mContext)) {
+            move2Position(storyInfo.getLatLng());
+        }
+    }
+
+    /**
+     * 隐藏选中的图标
+     */
+    public void hideSelectedStoryIcon() {
+        if (mSelectedMarker != null) {
+            mSelectedMarker.remove();
+            mSelectedMarker = null;
+        }
     }
 
     /**

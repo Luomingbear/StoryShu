@@ -61,10 +61,10 @@ public class MainActivity extends IPermissionActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == NameUtil.REQUST_CREATE) {
-////            回调更新图标
-//            StoryMapFragment.getInstance().updateStoryIcons();
-//        }
+        if (requestCode == NameUtil.REQUST_CREATE) {
+//            回调更新图标
+            StoryMapFragment.getInstance().updateStoryIcons();
+        }
     }
 
     /**

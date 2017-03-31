@@ -206,8 +206,8 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     }
 
     @Override
-    public ArrayList<String> getStoryPic() {
-        ArrayList<String> list = new ArrayList<>();
+    public List<String> getStoryPic() {
+        List<String> list = new ArrayList<>();
         for (ImageItem imageItem : mPicList) {
             list.add(imageItem.path);
         }

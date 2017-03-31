@@ -1,5 +1,7 @@
 package com.storyshu.storyshu.utils;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -134,26 +136,28 @@ public class ListUtil {
      * @return List<?>
      */
     public static List<Object> StringToList(String listText) {
-        if (listText == null || listText.equals("")) {
+        if (TextUtils.isEmpty(listText))
             return null;
-        }
         listText = listText.substring(1);
 
         listText = listText;
 
         List<Object> list = new ArrayList<>();
         String[] text = listText.split(SEP1);
-        for (String str : text) {
-            if (str.charAt(0) == 'M') {
-                Map<?, ?> map = StringToMap(str);
-                list.add(map);
-            } else if (str.charAt(0) == 'L') {
-                List<?> lists = StringToList(str);
-                list.add(lists);
-            } else {
-                list.add(str);
+        if (text.length > 0)
+            for (String str : text) {
+                if (str.length() > 0) {
+                    if (str.charAt(0) == 'M') {
+                        Map<?, ?> map = StringToMap(str);
+                        list.add(map);
+                    } else if (str.charAt(0) == 'L') {
+                        List<?> lists = StringToList(str);
+                        list.add(lists);
+                    } else {
+                        list.add(str);
+                    }
+                }
             }
-        }
         return list;
     }
 
@@ -165,6 +169,10 @@ public class ListUtil {
      */
     public static List<String> StringToStringList(String listText) {
         List<Object> objectList = StringToList(listText);
+        if (objectList == null || objectList.size() == 0) {
+            return null;
+        }
+
         List<String> list = new ArrayList<>();
         for (Object object : objectList) {
             list.add((String) object);

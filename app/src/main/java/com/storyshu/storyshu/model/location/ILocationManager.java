@@ -193,6 +193,16 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     }
 
     /**
+     * 隐藏选中的图标
+     */
+    public void hideSelectedIcon() {
+        if (mMapManager == null)
+            return;
+        //显示故事集图标
+        mMapManager.hideSelectedStoryIcon();
+    }
+
+    /**
      * 显示普通的图标
      *
      * @param storyInfo

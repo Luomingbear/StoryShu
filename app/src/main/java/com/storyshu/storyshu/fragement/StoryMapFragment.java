@@ -73,6 +73,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
         ILocationManager.getInstance().start();
         mStoryMapPresenter.showStoryIcons();
+
     }
 
     @Override

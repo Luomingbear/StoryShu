@@ -2,10 +2,10 @@ package com.storyshu.storyshu.info;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.storyshu.storyshu.utils.ListUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
 public class CardInfo implements Parcelable {
     private String storyId; //故事的id
     private String cover; //故事的封面图
-    private List<String> storyPic; //配图
+    private String storyPic; //配图
     private String content; //故事的内容
     private BaseUserInfo userInfo; //用户信息
     private String createDate; //发布时间
@@ -62,7 +62,10 @@ public class CardInfo implements Parcelable {
     }
 
     public String getCover() {
-        return storyPic == null ? null : storyPic.get(0);
+        if (TextUtils.isEmpty(this.storyPic))
+            return "";
+        else
+            return ListUtil.StringToStringList(this.storyPic) == null ? null : ListUtil.StringToStringList(this.storyPic).get(0);
     }
 
     public void setCover(String cover) {
@@ -70,15 +73,18 @@ public class CardInfo implements Parcelable {
     }
 
     public List<String> getStoryPic() {
-        return storyPic;
+        if (TextUtils.isEmpty(storyPic))
+            return null;
+        else
+            return ListUtil.StringToStringList(this.storyPic);
     }
 
-    public void setStoryPic(ArrayList<String> storyPic) {
-        this.storyPic = storyPic;
+    public void setStoryPic(List<String> storyPic) {
+        this.storyPic = ListUtil.ListToString(storyPic);
     }
 
     public void setStoryPic(String storyPics) {
-        this.storyPic = ListUtil.StringToStringList(storyPics);
+        this.storyPic = storyPics;
     }
 
     public String getContent() {
@@ -154,7 +160,7 @@ public class CardInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.storyId);
         dest.writeString(this.cover);
-        dest.writeStringList(this.storyPic);
+        dest.writeString(this.storyPic);
         dest.writeString(this.content);
         dest.writeParcelable(this.userInfo, flags);
         dest.writeString(this.createDate);
@@ -168,7 +174,7 @@ public class CardInfo implements Parcelable {
     protected CardInfo(Parcel in) {
         this.storyId = in.readString();
         this.cover = in.readString();
-        this.storyPic = in.createStringArrayList();
+        this.storyPic = in.readString();
         this.content = in.readString();
         this.userInfo = in.readParcelable(BaseUserInfo.class.getClassLoader());
         this.createDate = in.readString();

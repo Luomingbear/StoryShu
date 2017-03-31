@@ -28,7 +28,7 @@ public class IMarker {
     }
 
     public LatLng getLatLng() {
-        return mMarker == null ? new LatLng(0, 0) : mMarker.getPosition();
+        return mLatLng;
     }
 
     public void setLatLng(LatLng mLatLng) {

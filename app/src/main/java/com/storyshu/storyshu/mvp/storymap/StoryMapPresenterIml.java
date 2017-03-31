@@ -10,7 +10,6 @@ import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoryModel;
-import com.storyshu.storyshu.utils.ListUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
@@ -97,9 +96,10 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
                     case MotionEvent.ACTION_UP:
                         //隐藏卡片
                         mStoryMapView.hideCardWindow();
-                        //更新上一次选中的图标,设置为普通模式
-                        if (isStoryWindowShow)
-                            ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
+                        //恢复显示上一次选中的
+                        ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
+                        //隐藏选中的图标
+                        ILocationManager.getInstance().hideSelectedIcon();
                         isStoryWindowShow = false;
                         break;
                 }
@@ -120,7 +120,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
      * 更新故事图标
      */
     private void updateStoryIcon(StoryInfo storyInfo) {
-        //更新上一次选中的图标
+        //恢复上一次的小图标
         ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
         //更新地图上的新选中的图标
         ILocationManager.getInstance().showSelectedIcon(storyInfo);
@@ -138,17 +138,13 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
             for (int i = 0; i < mStoryList.size(); i++) {
                 StoryInfo storyInfo = mStoryList.get(i);
                 //marker的title 是userID,snipper是故事id
-                if (storyInfo.getUserInfo().getUserId().equals(marker.getTitle())
-                        && storyInfo.getStoryId().equals(marker.getSnippet())) {
+                if (storyInfo.getStoryId().equals(marker.getSnippet())) {
                     updateStoryIcon(storyInfo);
                     centerIndex = i;
                     break;
                 }
             }
             //显示卡片窗口
-            Log.i(TAG, "OnMarkerClick: marker position:" + marker.getPosition());
-            Log.i(TAG, "OnMarkerClick: ");
-            Log.i(TAG, "OnMarkerClick: centerIndex:" + centerIndex);
             mStoryMapView.getStoryWindow().setSelection(centerIndex);
             mStoryMapView.showCardWindow();
             isStoryWindowShow = true;
@@ -177,12 +173,10 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
         public void onStoriesGot(ArrayList<StoryInfo> storyList) {
             mStoryList = storyList;
 
-            Log.i(TAG, "onStoriesGot: 数据库的故事有：" + mStoryList.size());
-            ListUtil.removeDuplicate(mStoryList);
-
             //卡片显示
             CardAdapter cardAdapter = new CardAdapter(mContext, mStoryList);
             mStoryMapView.getStoryWindow().setAdapter(cardAdapter);
+
             //地图的故事集图标显示
             ILocationManager.getInstance().showStoriesIcons(mStoryList);
         }
