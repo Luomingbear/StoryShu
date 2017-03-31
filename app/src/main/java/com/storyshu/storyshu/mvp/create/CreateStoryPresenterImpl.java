@@ -11,6 +11,7 @@ import com.storyshu.storyshu.data.DateBaseHelperIml;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.location.ILocationQueryTool;
+import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.dialog.LifeTimeDialog;
@@ -68,6 +69,10 @@ public class CreateStoryPresenterImpl implements CreateStoryPresenter {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            //隐藏键盘
+            KeyBordUtil.hideKeyboard(mContext, mCreateStoryView.getLocationTv());
+            //返回
             mCreateStoryView.backActivity();
         }
     }

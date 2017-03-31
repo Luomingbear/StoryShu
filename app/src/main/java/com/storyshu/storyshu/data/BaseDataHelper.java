@@ -72,7 +72,7 @@ public class BaseDataHelper extends SQLiteOpenHelper {
         String CREATE_STORY_TABLE = "CREATE TABLE " + STORY_TABLE + "("
                 + STORY_ID + " TEXT PRIMARY KEY NOT NULL, " + USER_ID + " TEXT NOT NULL,"
                 + LOCATION_ID + " INTEGER, " + LOCATION_NAME + " TEXT NOT NULL, " + LAT + " REAL, " +
-                LNG + " REAL," + COVER_PIC + " TEXT NOT NULL, " + STORY_PIC + " TEXT NOT NULL, " + CONTENT + " TEXT NOT NULL, "
+                LNG + " REAL," + COVER_PIC + " TEXT, " + STORY_PIC + " TEXT, " + CONTENT + " TEXT NOT NULL, "
                 + CREATE_DATE + " TEXT NOT NULL, " + LIFE_TIME + " INTEGER, " + IS_ANONYMOUS + " INTEGER" + ")";
         db.execSQL(CREATE_STORY_TABLE);
 
