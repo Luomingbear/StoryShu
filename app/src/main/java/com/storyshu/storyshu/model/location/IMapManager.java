@@ -160,18 +160,24 @@ public class IMapManager {
     public void showStoryIcon(StoryInfo storyInfo) {
         if (mPersonMarkerList != null && mPersonMarkerList.size() > 0) {
             //移除之前的小图标
+            List<PersonMarker> removeList = new ArrayList<>();
             for (PersonMarker personMarker : mPersonMarkerList) {
-                if (personMarker.getLatLng().equals(storyInfo.getLatLng())) {
+                //两点之间的距离小于5米则将上一次的移除
+                if (AMapUtils.calculateLineDistance(personMarker.getLatLng(), storyInfo.getLatLng()) < 5) {
                     personMarker.remove();
-                    mPersonMarkerList.remove(personMarker);
-                    break;
+                    removeList.add(personMarker);
                 }
+            }
+
+            //移除重复的
+            for (PersonMarker personMarker : removeList) {
+                mPersonMarkerList.remove(personMarker);
             }
         }
 
         //显示图标
         PersonMarker person = new PersonMarker(mContext, mAMap, storyInfo);
-        person.setAvatarAndShow(storyInfo.getUserInfo().getAvatar());
+        person.setAvatarAndShow();
         //添加到故事集列表
         mPersonMarkerList.add(person);
     }
@@ -181,17 +187,23 @@ public class IMapManager {
      */
     public void showSelectedStoryIcon(StoryInfo storyInfo) {
         //移除之前的小图标
+        List<PersonMarker> removeList = new ArrayList<>();
         for (PersonMarker personMarker : mPersonMarkerList) {
-            if (personMarker.getLatLng().equals(storyInfo.getLatLng())) {
+            //两点之间的距离小于5米则将上一次的移除
+            if (AMapUtils.calculateLineDistance(personMarker.getLatLng(), storyInfo.getLatLng()) < 5) {
                 personMarker.remove();
-                mPersonMarkerList.remove(personMarker);
-                break;
+                removeList.add(personMarker);
             }
+        }
+
+        //移除重复的
+        for (PersonMarker personMarker : removeList) {
+            mPersonMarkerList.remove(personMarker);
         }
 
         //添加新的图标
         PersonMarker personMarker = new PersonMarker(mContext, mAMap, storyInfo);
-        personMarker.setAvatarAndShowSelected(storyInfo.getUserInfo().getAvatar());
+        personMarker.setAvatarAndShowSelected();
         mPersonMarkerList.add(personMarker);
 
         //移动摄像机到新的位置

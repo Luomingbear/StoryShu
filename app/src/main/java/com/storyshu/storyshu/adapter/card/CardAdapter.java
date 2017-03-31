@@ -53,13 +53,20 @@ public class CardAdapter extends IBaseAdapter {
         if (cardInfo == null)
             return convertView;
 
-        if (TextUtils.isEmpty(cardInfo.getUserInfo().getAvatar()))
-            viewHolder.avatar.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.avatar_wolverine));
-        else {
-            Glide.with(getContext()).load(cardInfo.getUserInfo().getAvatar()).dontAnimate().into(viewHolder.avatar);
+        //是否匿名
+        if (cardInfo.isAnonymous()) {
+            viewHolder.avatar.setImageResource(R.drawable.avatar_wolverine);
+            viewHolder.nickName.setVisibility(View.GONE);
+        } else {
+            if (TextUtils.isEmpty(cardInfo.getUserInfo().getAvatar()))
+                viewHolder.avatar.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.avatar_wolverine));
+            else {
+                Glide.with(getContext()).load(cardInfo.getUserInfo().getAvatar()).dontAnimate().into(viewHolder.avatar);
+            }
+            //
+            viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
         }
-        //
-        viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
+
         viewHolder.destroyTime.setText(TimeUtils.destroyTime(getContext(), cardInfo.getCreateDate(), cardInfo.getLifeTime()));
 
         viewHolder.extract.setText(cardInfo.getContent());

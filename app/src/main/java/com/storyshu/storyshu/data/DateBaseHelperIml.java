@@ -9,6 +9,7 @@ import com.amap.api.maps.model.LatLng;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;
 import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.utils.ListUtil;
 
 import java.util.ArrayList;
 
@@ -140,7 +141,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
 
             values.put(CONTENT, storyInfo.getContent());
             values.put(COVER_PIC, storyInfo.getCover());
-            values.put(STORY_PIC, storyInfo.getStoryPic().toString());
+            values.put(STORY_PIC, ListUtil.ListToString(storyInfo.getStoryPic()));
             values.put(LOCATION_NAME, storyInfo.getLocation());
             values.put(CREATE_DATE, storyInfo.getCreateDate());
             values.put(LIFE_TIME, storyInfo.getLifeTime());

@@ -141,7 +141,7 @@ public class ListUtil {
 
         listText = listText;
 
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list = new ArrayList<>();
         String[] text = listText.split(SEP1);
         for (String str : text) {
             if (str.charAt(0) == 'M') {
@@ -153,6 +153,21 @@ public class ListUtil {
             } else {
                 list.add(str);
             }
+        }
+        return list;
+    }
+
+    /**
+     * String转换List
+     *
+     * @param listText :需要转换的文本
+     * @return List<?>
+     */
+    public static List<String> StringToStringList(String listText) {
+        List<Object> objectList = StringToList(listText);
+        List<String> list = new ArrayList<>();
+        for (Object object : objectList) {
+            list.add((String) object);
         }
         return list;
     }

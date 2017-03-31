@@ -45,7 +45,7 @@ public class CreateStoryPresenterImpl implements CreateStoryPresenter {
     public void issueStory() {
         mTempContent = mCreateStoryView.getStoryContent().replace(" ", "");
         if (mTempContent.length() < minStoryContent) {
-            mCreateStoryView.showToast(mContext.getString(R.string.story_length_too_sort, minStoryContent));
+            mCreateStoryView.showToast(R.string.story_length_too_sort);
         } else {
             try {
                 StoryInfo storyInfo = new StoryInfo();
@@ -54,7 +54,7 @@ public class CreateStoryPresenterImpl implements CreateStoryPresenter {
                 //故事id=userId+timeId
                 storyInfo.setStoryId(userInfo.getUserId() + TimeUtils.getTimeId());
                 storyInfo.setContent(mCreateStoryView.getStoryContent());
-                storyInfo.setCover(mCreateStoryView.getStoryPic().size() > 0 ? mCreateStoryView.getStoryPic().get(0) : "");
+//                storyInfo.setCover(mCreateStoryView.getStoryPic().size() > 0 ? mCreateStoryView.getStoryPic().get(0) : "");
                 storyInfo.setStoryPic(mCreateStoryView.getStoryPic());
                 storyInfo.setLocation(mCreateStoryView.getLocationTv().getText().toString());
                 storyInfo.setLatLng(ISharePreference.getLatLngData(mContext));

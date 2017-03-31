@@ -146,10 +146,10 @@ public class PersonView extends View {
      */
     private void drawPoint(Canvas canvas) {
         mPaint.setColor(mShadowColor);
-        canvas.drawCircle(mCenterX, getHeight() - mFrameWidth, mFrameWidth * 0.7f, mPaint);
+        canvas.drawCircle(mCenterX, getHeight() - mFrameWidth * 0.7f, mFrameWidth * 0.7f, mPaint);
 
         mPaint.setColor(mHitColor);
-        canvas.drawCircle(mCenterX, getHeight() - mFrameWidth, mFrameWidth * 0.7f
+        canvas.drawCircle(mCenterX, getHeight() - mFrameWidth * 0.7f, mFrameWidth * 0.7f
                 - DipPxConversion.dip2px(getContext(), 1), mPaint);
     }
 
@@ -226,6 +226,6 @@ public class PersonView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mWidth == 0)
             mWidth = (int) getResources().getDimension(R.dimen.image_normal);
-        setMeasuredDimension(mWidth, (int) (mWidth * 1.22f));
+        setMeasuredDimension(mWidth, (int) (mWidth + mFrameWidth * 2.4f));
     }
 }

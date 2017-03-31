@@ -62,7 +62,7 @@ public class CardInfo implements Parcelable {
     }
 
     public String getCover() {
-        return storyPic == null ? "" : storyPic.get(0);
+        return storyPic == null ? null : storyPic.get(0);
     }
 
     public void setCover(String cover) {
@@ -78,7 +78,7 @@ public class CardInfo implements Parcelable {
     }
 
     public void setStoryPic(String storyPics) {
-//        this.storyPic = ListUtil.StringToList(storyPics);
+        this.storyPic = ListUtil.StringToStringList(storyPics);
     }
 
     public String getContent() {

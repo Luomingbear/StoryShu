@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.ClickButton;
 
+import java.util.List;
+
 /**
  * mvp模式
  * 故事屋的视图
@@ -39,4 +41,11 @@ public interface StoryRoomView extends IBaseView {
      * @return
      */
     RecyclerView getCommentRV();
+
+    /**
+     * 获取故事的配图数据
+     *
+     * @return
+     */
+    List<String> getStoryPic();
 }

@@ -18,6 +18,7 @@ import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomPresenterIml;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomView;
 import com.storyshu.storyshu.utils.NameUtil;
+import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
@@ -25,6 +26,7 @@ import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StoryRoomActivity extends AppCompatActivity implements StoryRoomView, View.OnClickListener {
     private static final String TAG = "StoryRoomActivity";
@@ -76,6 +78,8 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
      */
     @Override
     public void initView() {
+        StatusBarUtils.setColor(this,R.color.colorGoldLight);
+
         mTitleView = (TitleView) findViewById(R.id.title_view);
 
         mStoryContent = (TextView) findViewById(R.id.story_content);
@@ -158,7 +162,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         if (!TextUtils.isEmpty(mStoryInfo.getCover())) {
             Glide.with(this).load(mStoryInfo.getCover()).into(mStoryCover);
-            mPicSize.setText(mStoryInfo.getStoryPic().size());
+            mPicSize.setText(mStoryInfo.getStoryPic().size()+"");
         } else {
             mStoryCover.setVisibility(View.GONE);
             mPicSize.setVisibility(View.GONE);
@@ -173,7 +177,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
             mStoryContent.setTextColor(getResources().getColor(R.color.colorWhiteDeep));
             mLocation.setTextColor(getResources().getColor(R.color.colorGray));
             mReport.setTextColor(getResources().getColor(R.color.colorGray));
-            mAvatar.setImageResource(R.drawable.avatar_pirate);
+            mAvatar.setImageResource(R.drawable.avatar_wolverine);
             mNickname.setVisibility(View.GONE);
         } else {
             Glide.with(this).load(mStoryInfo.getUserInfo().getAvatar()).into(mAvatar);
@@ -293,5 +297,10 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     @Override
     public RecyclerView getCommentRV() {
         return mCommentRV;
+    }
+
+    @Override
+    public List<String> getStoryPic() {
+        return mStoryInfo.getStoryPic();
     }
 }

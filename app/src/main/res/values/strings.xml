@@ -88,7 +88,7 @@
     <string name="custom_location_ok">确定</string>
     <string name="create_story_hint">在这里写下你的故事吧～</string>
     <string name="story_length_too_long">字数以达到上线%1$d个字</string>
-    <string name="story_length_too_sort">故事内容不得少于%1$d个字</string>
+    <string name="story_length_too_sort">再写点什么呗～</string>
     <string name="issue">发布</string>
     <string name="select_life_time_hint">选择消息停留时间（默认24小时）</string>
     <string name="select_life_time">选择消息停留时间</string>

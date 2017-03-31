@@ -2,7 +2,6 @@ package com.storyshu.storyshu.mvp.create;
 
 import android.widget.TextView;
 
-import com.storyshu.storyshu.info.LocationInfo;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 
 import java.util.ArrayList;
@@ -28,12 +27,6 @@ public interface CreateStoryView extends IBaseView {
      */
     ArrayList<String> getStoryPic();
 
-    /**
-     * 故事的发布地点
-     *
-     * @return
-     */
-    LocationInfo getLocation();
 
     /**
      * 获取位置文字描述的控件

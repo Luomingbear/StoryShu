@@ -37,13 +37,11 @@ public class PersonMarker extends IMarker {
 
     /**
      * 显示普通的图标
-     *
-     * @param avatarPath
      */
-    public void setAvatarAndShow(String avatarPath) {
+    public void setAvatarAndShow() {
         mPersonView = new PersonView(mContext);
 
-        if (TextUtils.isEmpty(avatarPath)) {
+        if (TextUtils.isEmpty(mStoryInfo.getUserInfo().getAvatar()) || mStoryInfo.isAnonymous()) {
             mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
             Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 
@@ -75,21 +73,19 @@ public class PersonMarker extends IMarker {
                 }
             };
             Glide.with(mContext.getApplicationContext())
-                    .load(avatarPath)
+                    .load(mStoryInfo.getUserInfo().getAvatar())
                     .into(target);
         }
     }
 
     /**
      * 显示选中的图标
-     *
-     * @param avatarPath
      */
-    public void setAvatarAndShowSelected(String avatarPath) {
+    public void setAvatarAndShowSelected() {
         mPersonView = new PersonView(mContext);
         mPersonView.setSelectedMode();
 
-        if (TextUtils.isEmpty(avatarPath)) {
+        if (TextUtils.isEmpty(mStoryInfo.getUserInfo().getAvatar()) || mStoryInfo.isAnonymous()) {
             mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
             Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 
@@ -120,7 +116,7 @@ public class PersonMarker extends IMarker {
                 }
             };
             Glide.with(mContext.getApplicationContext())
-                    .load(avatarPath)
+                    .load(mStoryInfo.getUserInfo().getAvatar())
                     .into(target);
         }
     }

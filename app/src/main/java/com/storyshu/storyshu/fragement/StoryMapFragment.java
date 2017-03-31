@@ -71,6 +71,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
 
+        ILocationManager.getInstance().start();
         mStoryMapPresenter.showStoryIcons();
     }
 
@@ -79,6 +80,8 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mMapView.onPause();
+
+        ILocationManager.getInstance().pause();
     }
 
     @Override
@@ -176,7 +179,6 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     @Override
     public void initEvents() {
         mStoryMapPresenter.initMap();
-        mStoryMapPresenter.getLocation();
     }
 
     @Override
@@ -260,7 +262,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
                 mStoryMapPresenter.showSignDialog();
                 break;
             case R.id.get_location:
-                mStoryMapPresenter.getLocation();
+                mStoryMapPresenter.move2Position();
                 break;
         }
     }

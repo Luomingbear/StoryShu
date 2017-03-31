@@ -126,7 +126,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     /**
      * 结束定位
      */
-    public void stop() {
+    public void pause() {
         //清除定位服务
         if (mLocationSever != null) {
             mLocationSever.stop();

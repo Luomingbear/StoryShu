@@ -18,7 +18,6 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.info.LocationInfo;
 import com.storyshu.storyshu.mvp.create.CreateStoryPresenterImpl;
 import com.storyshu.storyshu.mvp.create.CreateStoryView;
 import com.storyshu.storyshu.utils.StatusBarUtils;
@@ -213,11 +212,6 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
             list.add(imageItem.path);
         }
         return list;
-    }
-
-    @Override
-    public LocationInfo getLocation() {
-        return null;
     }
 
     @Override

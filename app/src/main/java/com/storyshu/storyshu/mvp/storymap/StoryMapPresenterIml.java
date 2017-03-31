@@ -106,6 +106,9 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
             }
         });
 
+        //marker的点击事件
+        ILocationManager.getInstance().setOnLocationMarkerClickListener(onMarkClickListener);
+
         /**
          * 故事卡片的点击,滑动监听
          */
@@ -162,7 +165,8 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
         Log.i(TAG, "getLocation: 获取定位");
         if (!ILocationManager.getInstance().isInit())
             initMap();
-        ILocationManager.getInstance().setOnLocationMarkerClickListener(onMarkClickListener).start();
+
+        ILocationManager.getInstance().start();
     }
 
     /**
@@ -205,7 +209,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
     /**
      * 移动地图到当前的位置
      */
-    private void move2Position() {
+    public void move2Position() {
         ILocationManager.getInstance().animate2CurrentPosition();
     }
 }
