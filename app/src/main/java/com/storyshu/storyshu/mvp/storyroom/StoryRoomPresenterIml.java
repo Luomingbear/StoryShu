@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.storyshu.storyshu.adapter.CommentAdapter;
 import com.storyshu.storyshu.info.CommentInfo;
 import com.storyshu.storyshu.model.CommentModel;
+import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.widget.dialog.PicturePreviewDialog;
 
 import java.util.List;
@@ -16,14 +17,11 @@ import java.util.List;
  * Created by bear on 2017/3/30.
  */
 
-public class StoryRoomPresenterIml implements StoryRoomPresenter {
-    private StoryRoomView mStoryRoomView;
-    private Context mContext;
+public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> implements StoryRoomPresenter {
     private CommentAdapter mCommentAdapter; //评论适配器
 
-    public StoryRoomPresenterIml(StoryRoomView mStoryRoomView, Context mContext) {
-        this.mStoryRoomView = mStoryRoomView;
-        this.mContext = mContext;
+    public StoryRoomPresenterIml(Context mContext, StoryRoomView mvpView) {
+        super(mContext, mvpView);
     }
 
     @Override
@@ -36,7 +34,7 @@ public class StoryRoomPresenterIml implements StoryRoomPresenter {
         commentModel.getCommentsNum(new CommentModel.OnCommentSizeListener() {
             @Override
             public void onCommentSizeGot(int size) {
-                mStoryRoomView.getCommentButton().setNum(size);
+                mMvpView.getCommentButton().setNum(size);
             }
         });
 
@@ -57,10 +55,10 @@ public class StoryRoomPresenterIml implements StoryRoomPresenter {
                 mCommentAdapter = new CommentAdapter(mContext, commentList);
 
                 //layoutmanager
-                mStoryRoomView.getCommentRV().setLayoutManager(new LinearLayoutManager(mContext));
+                mMvpView.getCommentRV().setLayoutManager(new LinearLayoutManager(mContext));
 
                 //设置数据
-                mStoryRoomView.getCommentRV().setAdapter(mCommentAdapter);
+                mMvpView.getCommentRV().setAdapter(mCommentAdapter);
             }
         });
 
@@ -70,7 +68,7 @@ public class StoryRoomPresenterIml implements StoryRoomPresenter {
     @Override
     public void showStoryPicDialog() {
         PicturePreviewDialog previewDialog = new PicturePreviewDialog(mContext);
-        previewDialog.setStoryListShow(mStoryRoomView.getStoryPic());
+        previewDialog.setStoryListShow(mMvpView.getStoryPic());
     }
 
     @Override

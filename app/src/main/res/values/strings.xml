@@ -11,6 +11,7 @@
     <string name="left_day">剩余%1$d天</string>
     <string name="left_hour">剩余%1$d小时</string>
     <string name="left_minute">剩余%1$d分钟</string>
+    <string name="story_overdue">故事已过期</string>
     <string name="cancel">取消</string>
 
     <!--欢迎页-->
@@ -106,6 +107,7 @@
     <string name="search_hint">搜索你想到达的地方</string>
     <string name="search">搜索</string>
     <string name="ad">广告</string>
+    <string name="go_here">到这去</string>
 
     <!--信息-->
     <string name="like2me">我收到的赞</string>

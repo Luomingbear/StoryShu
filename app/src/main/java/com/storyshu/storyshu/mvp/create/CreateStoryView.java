@@ -2,7 +2,7 @@ package com.storyshu.storyshu.mvp.create;
 
 import android.widget.TextView;
 
-import com.storyshu.storyshu.mvp.view.base.IBaseView;
+import com.storyshu.storyshu.mvp.view.base.IBaseActivityView;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * Created by bear on 2017/3/17.
  */
 
-public interface CreateStoryView extends IBaseView {
+public interface CreateStoryView extends IBaseActivityView {
     /**
      * 获得故事的正文
      *

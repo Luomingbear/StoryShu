@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.adapter.CommentAdapter;
-import com.storyshu.storyshu.info.CommentInfo;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomPresenterIml;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomView;
@@ -25,7 +23,6 @@ import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StoryRoomActivity extends AppCompatActivity implements StoryRoomView, View.OnClickListener {
@@ -48,8 +45,6 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     private RecyclerView mCommentRV; //评论的列表控件
 
     private StoryInfo mStoryInfo; //故事的数据
-    private ArrayList<CommentInfo> mCommentInfoList; //评论的数据源
-    private CommentAdapter mCommentAdapter; //评论适配器
 
     private StoryRoomPresenterIml mStoryRoomPresenter; //故事屋的控制
 
@@ -78,7 +73,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
      */
     @Override
     public void initView() {
-        StatusBarUtils.setColor(this,R.color.colorGoldLight);
+        StatusBarUtils.setColor(this, R.color.colorGoldLight);
 
         mTitleView = (TitleView) findViewById(R.id.title_view);
 
@@ -162,7 +157,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         if (!TextUtils.isEmpty(mStoryInfo.getCover())) {
             Glide.with(this).load(mStoryInfo.getCover()).into(mStoryCover);
-            mPicSize.setText(mStoryInfo.getStoryPic().size()+"");
+            mPicSize.setText(mStoryInfo.getStoryPic().size() + "");
         } else {
             mStoryCover.setVisibility(View.GONE);
             mPicSize.setVisibility(View.GONE);
@@ -188,13 +183,11 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mCreateTime.setText(TimeUtils.convertCurrentTime(this, mStoryInfo.getCreateDate()));
 
-        mDeathTime.setText(TimeUtils.destroyTime(this, mStoryInfo.getCreateDate(), mStoryInfo.getLifeTime()));
+        mDeathTime.setText(TimeUtils.leftTime(this, mStoryInfo.getDestroyTime()));
 
         mLike.setNum(mStoryInfo.getLikeNum());
 
         mOppose.setNum(mStoryInfo.getOpposeNum());
-
-
     }
 
     @Override
@@ -302,5 +295,11 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     @Override
     public List<String> getStoryPic() {
         return mStoryInfo.getStoryPic();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mStoryRoomPresenter.distach();
+        super.onDestroy();
     }
 }

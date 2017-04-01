@@ -10,5 +10,5 @@ public class NameUtil {
     public static final String CARD_INFO = "cardInfo";
     public static final String STORY_INFO = "storyInfo";
     public static final String STORY_RESULT = "storyResult";
-    public static final int REQUST_CREATE = 1;
+    public static final int REQUST_CREATE = 22;
 }

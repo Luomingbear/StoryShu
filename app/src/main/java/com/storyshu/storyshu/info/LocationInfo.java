@@ -3,32 +3,44 @@ package com.storyshu.storyshu.info;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.amap.api.maps.model.LatLng;
+
 /**
  * 位置数据
  * Created by bear on 2017/3/17.
  */
 
 public class LocationInfo implements Parcelable {
-    private int locationId; //
+    private String locationId; //
+    private String title; //标题
     private String describe; //描述
 
-    private float Lat; //经度
+    private LatLng latLng; //经纬度
 
-    private float Lng; //纬度
-
-    public LocationInfo(int locationId, String describe, float lat, float lng) {
-        this.locationId = locationId;
-        this.describe = describe;
-        Lat = lat;
-        Lng = lng;
+    public LocationInfo() {
     }
 
-    public int getLocationId() {
+    public LocationInfo(String locationId, String title, String describe, LatLng latLng) {
+        this.locationId = locationId;
+        this.title = title;
+        this.describe = describe;
+        this.latLng = latLng;
+    }
+
+    public String getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(String locationId) {
         this.locationId = locationId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescribe() {
@@ -39,20 +51,12 @@ public class LocationInfo implements Parcelable {
         this.describe = describe;
     }
 
-    public float getLat() {
-        return Lat;
+    public LatLng getLatLng() {
+        return latLng;
     }
 
-    public void setLat(float lat) {
-        Lat = lat;
-    }
-
-    public float getLng() {
-        return Lng;
-    }
-
-    public void setLng(float lng) {
-        Lng = lng;
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
     }
 
     @Override
@@ -62,20 +66,20 @@ public class LocationInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.locationId);
+        dest.writeString(this.locationId);
+        dest.writeString(this.title);
         dest.writeString(this.describe);
-        dest.writeFloat(this.Lat);
-        dest.writeFloat(this.Lng);
+        dest.writeParcelable(this.latLng, flags);
     }
 
     protected LocationInfo(Parcel in) {
-        this.locationId = in.readInt();
+        this.locationId = in.readString();
+        this.title = in.readString();
         this.describe = in.readString();
-        this.Lat = in.readFloat();
-        this.Lng = in.readFloat();
+        this.latLng = in.readParcelable(LatLng.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<LocationInfo> CREATOR = new Parcelable.Creator<LocationInfo>() {
+    public static final Creator<LocationInfo> CREATOR = new Creator<LocationInfo>() {
         @Override
         public LocationInfo createFromParcel(Parcel source) {
             return new LocationInfo(source);

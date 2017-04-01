@@ -247,4 +247,10 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
                 break;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        mRegisterPresenter.distach();
+        super.onDestroy();
+    }
 }

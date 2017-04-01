@@ -125,6 +125,48 @@ public class DateBaseHelperIml extends BaseDataHelper {
     }
 
     /**
+     * 查询本地的未过期附近的故事集
+     *
+     * @return
+     */
+    public ArrayList<StoryInfo> getNearLifeStory(LatLng latLng) {
+        ArrayList<StoryInfo> storyList = new ArrayList<>();
+        String currTime = "'" + TimeUtils.getCurrentTime() + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "select *, round(6378.138*2*asin(sqrt(pow(sin( (" + latLng.latitude + "*pi()/180-" + LAT + "*pi()/180)/2),2)+" +
+                "cos(" + latLng.latitude + "*pi()/180)*cos(" + LAT + "*pi()/180)* pow(sin( (" + latLng.longitude + "*pi()/180-" + LNG + "*pi()/180)/2),2)))*1000) as juli from " +
+                STORY_TABLE + "," + USER_TABLE + " where datetime(" + DESTROY_TIME
+                + ") > datetime(" + currTime + ") and " + "juli < 100 " + "order by " + STORY_TABLE + "." + CREATE_DATE + " desc";
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                StoryInfo story = new StoryInfo();
+                story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
+                story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
+                story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
+                story.setDestroyTime(cursor.getString(cursor.getColumnIndex(DESTROY_TIME)));
+                story.setStoryPic(cursor.getString(cursor.getColumnIndex(STORY_PIC)));
+                story.setStoryId(cursor.getString(cursor.getColumnIndex(STORY_ID)));
+                story.setAnonymous((cursor.getInt(cursor.getColumnIndex(IS_ANONYMOUS))) != 0);
+
+                LatLng latLonPoint = new LatLng(cursor.getFloat(cursor.getColumnIndex(LAT)), cursor.getFloat(cursor.getColumnIndex(LNG)));
+                story.setLatLng(latLonPoint);
+
+                BaseUserInfo user = new BaseUserInfo();
+                user.setUserId(cursor.getString(cursor.getColumnIndex(USER_ID)));
+                user.setAvatar(cursor.getString(cursor.getColumnIndex(AVATAR)));
+                user.setNickname(cursor.getString(cursor.getColumnIndex(NICK_NAME)));
+                story.setUserInfo(user);
+                // Adding contact to list
+                storyList.add(story);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return storyList;
+    }
+
+    /**
      * 插入用户信息
      *
      * @param userInfo

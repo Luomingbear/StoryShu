@@ -84,6 +84,12 @@ public class LoginActivity extends IBaseActivity implements LoginView, View.OnCl
     }
 
     @Override
+    protected void onDestroy() {
+        mLoginPresenter.distach();
+        super.onDestroy();
+    }
+
+    @Override
     public void intent2MainActivity() {
         intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }

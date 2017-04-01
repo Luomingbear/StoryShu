@@ -2,7 +2,7 @@ package com.storyshu.storyshu.mvp.storyroom;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.storyshu.storyshu.mvp.view.base.IBaseView;
+import com.storyshu.storyshu.mvp.view.base.IBaseActivityView;
 import com.storyshu.storyshu.widget.ClickButton;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by bear on 2017/3/30.
  */
 
-public interface StoryRoomView extends IBaseView {
+public interface StoryRoomView extends IBaseActivityView {
     /**
      * 获取故事的点赞按钮
      *

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.storyshu.storyshu.adapter.AirportAdapter;
 import com.storyshu.storyshu.info.AirPortPushInfo;
 import com.storyshu.storyshu.model.stories.PushStoryModel;
+import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 import java.util.ArrayList;
@@ -16,15 +17,12 @@ import java.util.ArrayList;
  * Created by bear on 2017/3/20.
  */
 
-public class AirportPresenterIml implements AirportPresenter {
-    private AirportView mAirportView; //
+public class AirportPresenterIml extends IBasePresenter<AirportView> implements AirportPresenter {
     private ArrayList<AirPortPushInfo> mPushList; //推送的故事列表
     private AirportAdapter mAirportAdapter; //推送的故事的适配器
-    private Context mContext;
 
-    public AirportPresenterIml(Context context, AirportView mAirportView) {
-        mContext = context;
-        this.mAirportView = mAirportView;
+    public AirportPresenterIml(Context mContext, AirportView mvpView) {
+        super(mContext, mvpView);
     }
 
     @Override
@@ -59,14 +57,14 @@ public class AirportPresenterIml implements AirportPresenter {
      * 显示推送数据
      */
     public void showPushList() {
-        if (mAirportView.getPushRv() != null) {
+        if (mMvpView.getPushRv() != null) {
             //设置布局类型
-            mAirportView.getPushRv().setLayoutManager(new LinearLayoutManager(mContext));
+            mMvpView.getPushRv().setLayoutManager(new LinearLayoutManager(mContext));
 
             //设置adapter
             mAirportAdapter = new AirportAdapter(mContext, mPushList);
             //显示数据
-            mAirportView.getPushRv().setAdapter(mAirportAdapter);
+            mMvpView.getPushRv().setAdapter(mAirportAdapter);
         }
     }
 

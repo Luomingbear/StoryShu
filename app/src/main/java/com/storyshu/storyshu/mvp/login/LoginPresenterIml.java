@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
 
 /**
@@ -12,13 +13,9 @@ import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
  * Created by bear on 2017/3/22.
  */
 
-public class LoginPresenterIml implements LoginPresenter {
-    private LoginView mLoginView;
-    private Context context;
-
-    public LoginPresenterIml(LoginView mLoginView, Context context) {
-        this.mLoginView = mLoginView;
-        this.context = context;
+public class LoginPresenterIml extends IBasePresenter<LoginView> implements LoginPresenter {
+    public LoginPresenterIml(Context mContext, LoginView mvpView) {
+        super(mContext, mvpView);
     }
 
     @Override
@@ -32,7 +29,7 @@ public class LoginPresenterIml implements LoginPresenter {
     private void login() {
         //如果输入的值正确则登录
         if (checkInput()) {
-            mLoginView.intent2MainActivity();
+            mMvpView.intent2MainActivity();
         }
     }
 
@@ -43,22 +40,22 @@ public class LoginPresenterIml implements LoginPresenter {
      */
     private boolean checkInput() {
         //邮箱
-        if (TextUtils.isEmpty(mLoginView.getUsername())) {
-            mLoginView.showToast(R.string.login_username_empty);
+        if (TextUtils.isEmpty(mMvpView.getUsername())) {
+            mMvpView.showToast(R.string.login_username_empty);
             return false;
-        } else if (!EmailFormatCheckUtil.isEmail(mLoginView.getUsername())) {
-            mLoginView.showToast(R.string.login_username_illegal);
+        } else if (!EmailFormatCheckUtil.isEmail(mMvpView.getUsername())) {
+            mMvpView.showToast(R.string.login_username_illegal);
             return false;
         }
         //密码
-        if (TextUtils.isEmpty(mLoginView.getPassword()))
-            mLoginView.showToast(R.string.login_password_empty);
+        if (TextUtils.isEmpty(mMvpView.getPassword()))
+            mMvpView.showToast(R.string.login_password_empty);
         else {
             //todo 验证密码
-            if (mLoginView.getPassword().equals("0000"))
+            if (mMvpView.getPassword().equals("0000"))
                 return true;
 
-            mLoginView.showToast(R.string.login_password_illegal);
+            mMvpView.showToast(R.string.login_password_illegal);
             return false;
         }
 
@@ -72,11 +69,11 @@ public class LoginPresenterIml implements LoginPresenter {
 
     @Override
     public void goRegister() {
-        mLoginView.intent2RegisterActivity();
+        mMvpView.intent2RegisterActivity();
     }
 
     @Override
     public void forgotPassword() {
-        mLoginView.showToast(R.string.forgot_password);
+        mMvpView.showToast(R.string.forgot_password);
     }
 }

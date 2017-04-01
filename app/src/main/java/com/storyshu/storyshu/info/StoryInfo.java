@@ -17,7 +17,7 @@ public class StoryInfo extends CardInfo {
     }
 
     public StoryInfo(String storyId, String cover, String content, BaseUserInfo userInfo, String createDate,
-                     int lifeTime, String location, int likeNum, int opposeNum, boolean isAnonymous, String content1, LatLng latLng) {
+                     String lifeTime, String location, int likeNum, int opposeNum, boolean isAnonymous, String content1, LatLng latLng) {
         super(storyId, cover, content, userInfo, createDate, lifeTime, location, likeNum, opposeNum, isAnonymous);
         Content = content1;
         this.latLng = latLng;

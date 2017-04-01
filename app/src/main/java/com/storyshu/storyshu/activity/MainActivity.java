@@ -64,6 +64,8 @@ public class MainActivity extends IPermissionActivity {
         if (requestCode == NameUtil.REQUST_CREATE) {
 //            回调更新图标
             StoryMapFragment.getInstance().updateStoryIcons();
+        } else if (requestCode == PERMISSION_INTENT) {
+            
         }
     }
 

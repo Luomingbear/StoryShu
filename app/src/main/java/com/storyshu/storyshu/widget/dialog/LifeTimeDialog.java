@@ -20,7 +20,7 @@ public class LifeTimeDialog extends IBaseDialog {
 
     public interface OnLifeSelectedListener {
         //选择的故事保留时间
-        void onSelected(int hours);
+        void onSelected(int minute);
     }
 
     public LifeTimeDialog(Context context) {

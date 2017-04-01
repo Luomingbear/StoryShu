@@ -7,6 +7,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.data.DateBaseHelperIml;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;
+import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
 import com.storyshu.storyshu.utils.PasswordUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -17,18 +18,14 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
  * Created by bear on 2017/3/22.
  */
 
-public class RegisterPresenterIml implements RegisterPresenter {
-    private static final String TAG = "RegisterPresenterIml";
-    private Context mContext;
-    private RegisterView mRegisterView;
+public class RegisterPresenterIml extends IBasePresenter<RegisterView>implements RegisterPresenter {
+    private static final String TAG = "RegisterPresent  erIml";
     private int mStep = 1; //当前在第几步
     private int minPasswordLength = 8; //密码的最少位数
 
-    public RegisterPresenterIml(Context mContext, RegisterView mRegisterView) {
-        this.mContext = mContext;
-        this.mRegisterView = mRegisterView;
+    public RegisterPresenterIml(Context mContext, RegisterView mvpView) {
+        super(mContext, mvpView);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -40,22 +37,22 @@ public class RegisterPresenterIml implements RegisterPresenter {
      * 检查登录信息的完整性和可用性
      */
     private void checkLoginInfo() {
-        if (TextUtils.isEmpty(mRegisterView.getUsername()))
-            mRegisterView.showToast(R.string.login_username_empty);
+        if (TextUtils.isEmpty(mMvpView.getUsername()))
+            mMvpView.showToast(R.string.login_username_empty);
         else {
-            if (EmailFormatCheckUtil.isEmail(mRegisterView.getUsername())) {
+            if (EmailFormatCheckUtil.isEmail(mMvpView.getUsername())) {
                 // TODO: 2017/3/24 检查用户名是否已经注册
-                if (TextUtils.isEmpty(mRegisterView.getPassword()))
-                    mRegisterView.showToast(R.string.login_password_empty);
-                else if (mRegisterView.getPassword().length() < minPasswordLength) {
-                    mRegisterView.showToast(mContext.getString(R.string.login_password_too_sort,
+                if (TextUtils.isEmpty(mMvpView.getPassword()))
+                    mMvpView.showToast(R.string.login_password_empty);
+                else if (mMvpView.getPassword().length() < minPasswordLength) {
+                    mMvpView.showToast(mContext.getString(R.string.login_password_too_sort,
                             minPasswordLength));
                 } else {
-                    mRegisterView.change2StepTwo();
+                    mMvpView.change2StepTwo();
                     mStep = 2;
                 }
             } else {
-                mRegisterView.showToast(R.string.login_username_illegal);
+                mMvpView.showToast(R.string.login_username_illegal);
             }
         }
     }
@@ -64,11 +61,11 @@ public class RegisterPresenterIml implements RegisterPresenter {
      * 检查用户信息的完整性
      */
     private void checkUserInfo() {
-        if (TextUtils.isEmpty(mRegisterView.getNickname()))
-            mRegisterView.showToast(R.string.nickname_empty);
+        if (TextUtils.isEmpty(mMvpView.getNickname()))
+            mMvpView.showToast(R.string.nickname_empty);
         else {
-            if (TextUtils.isEmpty(mRegisterView.getAvatar()))
-                mRegisterView.showToast(R.string.avatar_empty);
+            if (TextUtils.isEmpty(mMvpView.getAvatar()))
+                mMvpView.showToast(R.string.avatar_empty);
             else {
                 registerUser();
             }
@@ -91,19 +88,19 @@ public class RegisterPresenterIml implements RegisterPresenter {
     public void registerUser() {
         // TODO: 2017/3/29 注册账号
         RegisterUserInfo userInfo = new RegisterUserInfo();
-        userInfo.setEmail(mRegisterView.getUsername());        //暂时是邮箱
-        userInfo.setPassword(PasswordUtil.getEncodeUsernamePassword(mRegisterView.getUsername(), mRegisterView.getPassword()));
-        userInfo.setNickname(mRegisterView.getNickname());
-        userInfo.setAvatar(mRegisterView.getAvatar());
+        userInfo.setEmail(mMvpView.getUsername());        //暂时是邮箱
+        userInfo.setPassword(PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()));
+        userInfo.setNickname(mMvpView.getNickname());
+        userInfo.setAvatar(mMvpView.getAvatar());
         DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
         dateBaseHelperIml.insertUserData(userInfo);
 
         //存储小的本地数据
         BaseUserInfo baseuserInfo = new BaseUserInfo();
-        baseuserInfo.setUserId(mRegisterView.getUsername());
-        baseuserInfo.setNickname(mRegisterView.getNickname());
-        baseuserInfo.setAvatar(mRegisterView.getAvatar());
+        baseuserInfo.setUserId(mMvpView.getUsername());
+        baseuserInfo.setNickname(mMvpView.getNickname());
+        baseuserInfo.setAvatar(mMvpView.getAvatar());
         ISharePreference.saveUserData(mContext, baseuserInfo);
-        mRegisterView.toMainActivity();
+        mMvpView.toMainActivity();
     }
 }

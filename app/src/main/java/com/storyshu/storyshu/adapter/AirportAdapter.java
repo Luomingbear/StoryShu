@@ -60,7 +60,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         switch (pushInfo.getPushType()) {
             case AirPortPushInfo.TYPE_AD:
                 Glide.with(mContext).load(pushInfo.getCover()).into(holder.cover);
-                holder.destroyTime.setText(TimeUtils.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));
+                holder.destroyTime.setText(TimeUtils.leftTime(mContext, pushInfo.getDestroyTime()));
                 break;
 
             case AirPortPushInfo.TYPE_STORY:
@@ -76,7 +76,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                     Glide.with(mContext).load(pushInfo.getCover()).into(holder.cover);
                 }
 
-                holder.destroyTime.setText(TimeUtils.destroyTime(mContext, pushInfo.getCreateDate(), pushInfo.getLifeTime()));
+                holder.destroyTime.setText(TimeUtils.leftTime(mContext, pushInfo.getDestroyTime()));
                 break;
         }
     }

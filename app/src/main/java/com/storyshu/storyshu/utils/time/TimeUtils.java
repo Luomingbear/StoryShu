@@ -104,21 +104,53 @@ public class TimeUtils {
         current = simpleDateFormat.format(date);
         return current;
     }
+//
+//    /**
+//     * 剩余时间
+//     *
+//     * @param context
+//     * @param createTime
+//     * @param lifeTime   单位分钟
+//     * @return
+//     */
+//    public static String leftTime(Context context, String createTime, int lifeTime) {
+//        String destroyTime;
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = null;
+//        try {
+//            date = dateFormat.parse(createTime);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        if (date == null)
+//            return "";
+//
+//        Date currentDate = new Date(System.currentTimeMillis());
+//        //时间差 /1000变成秒为单位
+//        long diff = (date.getTime() + lifeTime * 60 * 1000 - currentDate.getTime()) / 1000;
+//        //小于一天就显示小时
+//        if (diff < 60 * 60 * 24) {
+//            destroyTime = context.getResources().getString(R.string.left_hour, diff / 60 / 60);
+//        } else {
+//            destroyTime = context.getResources().getString(R.string.left_day, diff / 60 / 60 / 24);
+//        }
+//        return destroyTime;
+//    }
+
 
     /**
-     * 剩余时间
+     * 距离故事消失还有多少时间
      *
      * @param context
-     * @param createTime
-     * @param lifeTime   单位分钟
+     * @param destroyTime 故事消失的时间
      * @return
      */
-    public static String destroyTime(Context context, String createTime, int lifeTime) {
-        String destroyTime;
+    public static String leftTime(Context context, String destroyTime) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {
-            date = dateFormat.parse(createTime);
+            date = dateFormat.parse(destroyTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -128,9 +160,13 @@ public class TimeUtils {
 
         Date currentDate = new Date(System.currentTimeMillis());
         //时间差 /1000变成秒为单位
-        long diff = (date.getTime() + lifeTime * 60 * 1000 - currentDate.getTime()) / 1000;
+        long diff = (date.getTime() - currentDate.getTime()) / 1000;
         //小于一天就显示小时
-        if (diff < 60 * 60 * 24) {
+        if (diff <= 0)
+            destroyTime = context.getResources().getString(R.string.story_overdue);
+        else if (diff < 60 * 60) {
+            destroyTime = context.getResources().getString(R.string.left_minute, diff / 60);
+        } else if (diff < 60 * 60 * 24) {
             destroyTime = context.getResources().getString(R.string.left_hour, diff / 60 / 60);
         } else {
             destroyTime = context.getResources().getString(R.string.left_day, diff / 60 / 60 / 24);
@@ -156,7 +192,21 @@ public class TimeUtils {
     }
 
     /**
-     * 将小时转化为生命期的表示
+     * 获得故事的销毁时间
+     *
+     * @param lifeMinute 故事的保质期 分钟
+     * @return
+     */
+    public static String getDestoryTime(int lifeMinute) {
+        long createTime = System.currentTimeMillis();
+        long destroyTime = createTime + lifeMinute * 60 * 1000;
+        Date date = new Date(destroyTime);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 将小时转化为生命期的表示,在创建故事的时候使用
      * 大于等于24小时用天表示
      *
      * @param context

@@ -20,7 +20,7 @@ public class CardInfo implements Parcelable {
     private String content; //故事的内容
     private BaseUserInfo userInfo; //用户信息
     private String createDate; //发布时间
-    private int lifeTime = 24 * 60; //保存时间，单位分钟
+    private String destroyTime; //保存时间，单位分钟
     private String location; //地点
 
     private int likeNum = 0; //点赞数量
@@ -40,13 +40,13 @@ public class CardInfo implements Parcelable {
     }
 
     public CardInfo(String storyId, String cover, String content, BaseUserInfo userInfo,
-                    String createDate, int lifeTime, String location, int likeNum, int opposeNum, boolean isAnonymous) {
+                    String createDate, String lifeTime, String location, int likeNum, int opposeNum, boolean isAnonymous) {
         this.storyId = storyId;
         this.cover = cover;
         this.content = content;
         this.userInfo = userInfo;
         this.createDate = createDate;
-        this.lifeTime = lifeTime;
+        this.destroyTime = lifeTime;
         this.location = location;
         this.likeNum = likeNum;
         this.opposeNum = opposeNum;
@@ -66,10 +66,6 @@ public class CardInfo implements Parcelable {
             return "";
         else
             return ListUtil.StringToStringList(this.storyPic) == null ? null : ListUtil.StringToStringList(this.storyPic).get(0);
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
     }
 
     public List<String> getStoryPic() {
@@ -111,12 +107,12 @@ public class CardInfo implements Parcelable {
         this.createDate = createDate;
     }
 
-    public int getLifeTime() {
-        return lifeTime;
+    public String getDestroyTime() {
+        return destroyTime;
     }
 
-    public void setLifeTime(int lifeTime) {
-        this.lifeTime = lifeTime;
+    public void setDestroyTime(String destroyTime) {
+        this.destroyTime = destroyTime;
     }
 
     public int getLikeNum() {
@@ -164,7 +160,7 @@ public class CardInfo implements Parcelable {
         dest.writeString(this.content);
         dest.writeParcelable(this.userInfo, flags);
         dest.writeString(this.createDate);
-        dest.writeInt(this.lifeTime);
+        dest.writeString(this.destroyTime);
         dest.writeString(this.location);
         dest.writeInt(this.likeNum);
         dest.writeInt(this.opposeNum);
@@ -178,7 +174,7 @@ public class CardInfo implements Parcelable {
         this.content = in.readString();
         this.userInfo = in.readParcelable(BaseUserInfo.class.getClassLoader());
         this.createDate = in.readString();
-        this.lifeTime = in.readInt();
+        this.destroyTime = in.readString();
         this.location = in.readString();
         this.likeNum = in.readInt();
         this.opposeNum = in.readInt();

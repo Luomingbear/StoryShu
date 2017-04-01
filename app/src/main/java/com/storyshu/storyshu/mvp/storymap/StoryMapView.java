@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.amap.api.maps.MapView;
 import com.storyshu.storyshu.info.CardInfo;
-import com.storyshu.storyshu.mvp.view.base.IBaseFragmentView;
+import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
 /**
@@ -15,7 +15,7 @@ import com.storyshu.storyshu.widget.story.StoriesAdapterView;
  * Created by bear on 2017/3/24.
  */
 
-public interface StoryMapView extends IBaseFragmentView {
+public interface StoryMapView extends IBaseView {
     /**
      * 初始化View
      */

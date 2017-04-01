@@ -59,10 +59,12 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mMapView.onDestroy();
         ILocationManager.getInstance().destroy();
+        mStoryMapPresenter.distach();
+
+        super.onDestroy();
     }
 
     @Override
@@ -71,8 +73,9 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
 
-        ILocationManager.getInstance().start();
-//        mStoryMapPresenter.showStoryIcons();
+        //每次返回地图页面的时候就重新获取位置，并刷新图标
+        mStoryMapPresenter.getLocation();
+        mStoryMapPresenter.showStoryIcons();
     }
 
     @Override
@@ -116,7 +119,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         mGetLocationButton = mRootView.findViewById(R.id.get_location);
         mGetLocationButton.setOnClickListener(this);
 
-        mStoryMapPresenter = new StoryMapPresenterIml(this, getContext());
+        mStoryMapPresenter = new StoryMapPresenterIml(getContext(), this);
     }
 
     @Override

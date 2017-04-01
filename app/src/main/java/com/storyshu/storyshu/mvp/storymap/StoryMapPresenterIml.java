@@ -10,6 +10,7 @@ import com.storyshu.storyshu.adapter.card.CardAdapter;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoryModel;
+import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
@@ -21,10 +22,8 @@ import java.util.ArrayList;
  * Created by bear on 2017/3/26.
  */
 
-public class StoryMapPresenterIml implements StoryMapPresenter {
+public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implements StoryMapPresenter {
     private static final String TAG = "StoryMapPresenterIml";
-    private StoryMapView mStoryMapView;
-    private Context mContext;
     private StoryModel mStoryModel; //故事的数据管理
     private ArrayList<StoryInfo> mStoryList; //卡片的数据源¬
     private int lastSelectedStoryIndex = 0; //上一次选中的故事
@@ -32,11 +31,9 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
     private boolean isSign = false; //是否已经签到
     private boolean isStoryWindowShow = false; //故事卡片的窗口是否正显示
 
-    public StoryMapPresenterIml(StoryMapView mStoryMapView, Context mContext) {
-        this.mStoryMapView = mStoryMapView;
-        this.mContext = mContext;
+    public StoryMapPresenterIml(Context mContext, StoryMapView mvpView) {
+        super(mContext, mvpView);
         mStoryModel = new StoryModel(mContext);
-        mStoryList = new ArrayList<>();
     }
 
     /**
@@ -45,7 +42,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
     StoriesAdapterView.OnCardClickListener cardClickListener = new StoriesAdapterView.OnCardClickListener() {
         @Override
         public void OnCardClick(int cardIndex) {
-            mStoryMapView.intent2StoryRoomActivity(mStoryList.get(cardIndex));
+            mMvpView.intent2StoryRoomActivity(mStoryList.get(cardIndex));
         }
 
         @Override
@@ -61,7 +58,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
         @Override
         public void onAfterSlideCenterIndex(int position) {
             //更新卡片
-            mStoryMapView.getStoryWindow().requestLayout();
+            mMvpView.getStoryWindow().requestLayout();
 
             //有变化才更新
             if (lastSelectedStoryIndex != position) {
@@ -81,12 +78,12 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
     public void initMap() {
         Log.i(TAG, "initMap: 初始化地图");
         //初始化地图管家
-        ILocationManager.getInstance().init(mContext, mStoryMapView.getMapView());
+        ILocationManager.getInstance().init(mContext, mMvpView.getMapView());
 
         /**
          * 点击和滑动地图就让故事卡片隐藏
          */
-        mStoryMapView.getMapView().getMap().setOnMapTouchListener(new AMap.OnMapTouchListener() {
+        mMvpView.getMapView().getMap().setOnMapTouchListener(new AMap.OnMapTouchListener() {
             @Override
             public void onTouch(MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
@@ -95,7 +92,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
                     case MotionEvent.ACTION_CANCEL:
                     case MotionEvent.ACTION_UP:
                         //隐藏卡片
-                        mStoryMapView.hideCardWindow();
+                        mMvpView.hideCardWindow();
                         //恢复显示上一次选中的
                         ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
                         //隐藏选中的图标
@@ -112,8 +109,8 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
         /**
          * 故事卡片的点击,滑动监听
          */
-        mStoryMapView.getStoryWindow().setOnCardClickListener(cardClickListener);
-        mStoryMapView.getStoryWindow().setOnCardSlidingListener(cardSlidingListener);
+        mMvpView.getStoryWindow().setOnCardClickListener(cardClickListener);
+        mMvpView.getStoryWindow().setOnCardSlidingListener(cardSlidingListener);
     }
 
     /**
@@ -145,8 +142,8 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
                 }
             }
             //显示卡片窗口
-            mStoryMapView.getStoryWindow().setSelection(centerIndex);
-            mStoryMapView.showCardWindow();
+            mMvpView.getStoryWindow().setSelection(centerIndex);
+            mMvpView.showCardWindow();
             isStoryWindowShow = true;
 
             //更新下标
@@ -175,7 +172,7 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
 
             //卡片显示
             CardAdapter cardAdapter = new CardAdapter(mContext, mStoryList);
-            mStoryMapView.getStoryWindow().setAdapter(cardAdapter);
+            mMvpView.getStoryWindow().setAdapter(cardAdapter);
 
             //地图的故事集图标显示
             ILocationManager.getInstance().showStoriesIcons(mStoryList);
@@ -193,10 +190,10 @@ public class StoryMapPresenterIml implements StoryMapPresenter {
     @Override
     public void showSignDialog() {
         if (!isSign) {
-            mStoryMapView.showSignDialog(mSignDays);
+            mMvpView.showSignDialog(mSignDays);
             isSign = true;
         } else {
-//            mStoryMapView.showToast(R.string.sign_in_yes);
+//            mMvpView.showToast(R.string.sign_in_yes);
         }
     }
 

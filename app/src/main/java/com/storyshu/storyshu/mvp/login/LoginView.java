@@ -1,6 +1,6 @@
 package com.storyshu.storyshu.mvp.login;
 
-import com.storyshu.storyshu.mvp.view.base.IBaseView;
+import com.storyshu.storyshu.mvp.view.base.IBaseActivityView;
 
 /**
  * mvp模式
@@ -8,7 +8,7 @@ import com.storyshu.storyshu.mvp.view.base.IBaseView;
  * Created by bear on 2017/3/22.
  */
 
-public interface LoginView extends IBaseView {
+public interface LoginView extends IBaseActivityView {
     /**
      * 获取账号
      *

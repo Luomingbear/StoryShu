@@ -52,6 +52,12 @@ public class MessageFragment extends IBaseStatusFragment implements MessageView 
     }
 
     @Override
+    public void onDestroy() {
+        mMessagePresenter.distach();
+        super.onDestroy();
+    }
+
+    @Override
     public void showToast(String s) {
         ToastUtil.Show(getContext(), s);
     }

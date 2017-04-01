@@ -78,8 +78,9 @@ public class PushStoryModel {
             userInfo.setUserId("阿狸" + i);
             info.setUserInfo(userInfo);
 
-            info.setCover("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490026292493&di=947955e35862963dbb6d3ef4fe8b9839&imgtype=0&src=http%3A%2F%2Fimglf2.ph.126.net%2FsUm-Vev0kLAlrjUI7YdATQ%3D%3D%2F3356589097375979828.jpg");
+            info.setStoryPic("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490026292493&di=947955e35862963dbb6d3ef4fe8b9839&imgtype=0&src=http%3A%2F%2Fimglf2.ph.126.net%2FsUm-Vev0kLAlrjUI7YdATQ%3D%3D%2F3356589097375979828.jpg");
             info.setCreateDate(TimeUtils.convert2TimeText(new Date(System.currentTimeMillis())));
+            info.setDestroyTime(TimeUtils.getDestoryTime(24 * 60));
             info.setContent("彼时是星期天，阳光明媚而干燥，简直不像是在香港。车路过香港公园，又路过山顶缆车正下方的佑宁堂。时值11点的礼拜散场，很多人站在街道两边挥手搭车。司机忽然说：“这是个好教堂。”");
             info.setLocation("浙江传媒学院产业园");
             mPushList.add(info);

@@ -20,6 +20,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.mvp.create.CreateStoryPresenterImpl;
 import com.storyshu.storyshu.mvp.create.CreateStoryView;
+import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.SlideButton;
@@ -115,7 +116,8 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     private TitleView.OnTitleClickListener onTitleClickListener = new TitleView.OnTitleClickListener() {
         @Override
         public void onLeftClick() {
-            finish();
+            KeyBordUtil.hideKeyboard(CreateStoryActivity.this, mTitleView);
+            onBackPressed();
         }
 
         @Override
@@ -328,5 +330,9 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        mCreateStoryPresenter.distach();
+        super.onDestroy();
+    }
 }

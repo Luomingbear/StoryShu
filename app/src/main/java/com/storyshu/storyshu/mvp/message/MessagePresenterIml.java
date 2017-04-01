@@ -7,6 +7,7 @@ import com.storyshu.storyshu.adapter.SystemMessageAdapter;
 import com.storyshu.storyshu.info.StoryMessageInfo;
 import com.storyshu.storyshu.info.SystemMessageInfo;
 import com.storyshu.storyshu.model.MessageModel;
+import com.storyshu.storyshu.mvp.base.IBasePresenter;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,7 @@ import java.util.ArrayList;
  * Created by bear on 2017/3/21.
  */
 
-public class MessagePresenterIml implements MessagePresenter {
-    private MessageView mMessageView; //消息页面的view
-    private Context mContext;
+public class MessagePresenterIml extends IBasePresenter<MessageView> implements MessagePresenter {
     private MessageModel mMessageModel; //信息更新的model
     private ArrayList<StoryMessageInfo.MessageType> mGroupList; //组别列表
     private ArrayList<StoryMessageInfo> mLikeList; //喜欢我的列表
@@ -28,9 +27,8 @@ public class MessagePresenterIml implements MessagePresenter {
     private MessageExpandableAdapter mCommentExpandableAdapter; //评论显示适配器
     private SystemMessageAdapter mSystemExpandableAdapter; //系统信息显示适配器
 
-    public MessagePresenterIml(Context context, MessageView mMessageView) {
-        this.mContext = context;
-        this.mMessageView = mMessageView;
+    public MessagePresenterIml(Context mContext, MessageView mvpView) {
+        super(mContext, mvpView);
         init();
     }
 
@@ -71,13 +69,13 @@ public class MessagePresenterIml implements MessagePresenter {
     @Override
     public void showMessageList() {
         mLikeExpandableAdapter = new MessageExpandableAdapter(mContext, mLikeList);
-        mMessageView.getLikeMessageList().setAdapter(mLikeExpandableAdapter);
+        mMvpView.getLikeMessageList().setAdapter(mLikeExpandableAdapter);
 
         mCommentExpandableAdapter = new MessageExpandableAdapter(mContext, mCommentList);
-        mMessageView.getCommentMessageList().setAdapter(mCommentExpandableAdapter);
+        mMvpView.getCommentMessageList().setAdapter(mCommentExpandableAdapter);
 
         mSystemExpandableAdapter = new SystemMessageAdapter(mContext, mSystemMessageList);
-        mMessageView.getSystemMessageList().setAdapter(mSystemExpandableAdapter);
+        mMvpView.getSystemMessageList().setAdapter(mSystemExpandableAdapter);
     }
 
     @Override

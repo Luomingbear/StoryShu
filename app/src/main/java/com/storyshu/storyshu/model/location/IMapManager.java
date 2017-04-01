@@ -38,7 +38,7 @@ public class IMapManager {
     private MyCircleMarker mMyPositionMarker; //个人位置点图标
     private List<PersonMarker> mPersonMarkerList; //故事集图标列表
     private PersonMarker mSelectedMarker; //显示的选中的图标
-    private int markerMinDistence = 5; //图标之间的最小距离，小于这个距离就只会显示一个！
+    private int markerMinDistance = 10; //图标之间的最小距离，小于这个距离就只会显示一个！
 
     protected IMapManager() {
     }
@@ -93,7 +93,6 @@ public class IMapManager {
          * ui
          */
         setUI();
-
 
         //初始化故事的图标集合
         mPersonMarkerList = new ArrayList<>();
@@ -162,7 +161,8 @@ public class IMapManager {
      * 显示故事图标
      */
     public void showStoryIcon(StoryInfo storyInfo) {
-        Log.i(TAG, "showStoryIcon: 显示默认的图标");
+        Log.i(TAG, "showStoryIcon: 显示默认的图标+size:" + mPersonMarkerList.size());
+
         //如果选中的图标仍然显示着，就需要判断选中的图标是否是当前的这个图标，是就把他移除
         //不移除会出现图标的叠加现象
         if (mSelectedMarker != null) {
@@ -176,8 +176,8 @@ public class IMapManager {
             //移除之前的小图标
             for (PersonMarker personMarker : mPersonMarkerList) {
                 //两点之间的距离小于5米则不添加
-                Log.i(TAG, "showStoryIcon: 距离：" + AMapUtils.calculateLineDistance(storyInfo.getLatLng(), personMarker.getLatLng()));
-                if (AMapUtils.calculateLineDistance(storyInfo.getLatLng(), personMarker.getLatLng()) < markerMinDistence) {
+                Log.d(TAG, "showStoryIcon: 距离"+AMapUtils.calculateLineDistance(storyInfo.getLatLng(), personMarker.getLatLng()) );
+                if (AMapUtils.calculateLineDistance(storyInfo.getLatLng(), personMarker.getLatLng()) < markerMinDistance) {
                     return;
                 }
             }
@@ -207,7 +207,7 @@ public class IMapManager {
         //移除当前选中的小图标
         List<PersonMarker> removeList = new ArrayList<>();
         for (PersonMarker personMarker : mPersonMarkerList) {
-            if (AMapUtils.calculateLineDistance(personMarker.getLatLng(), storyInfo.getLatLng()) < markerMinDistence) {
+            if (AMapUtils.calculateLineDistance(personMarker.getLatLng(), storyInfo.getLatLng()) < markerMinDistance) {
                 personMarker.remove();
                 removeList.add(personMarker);
             }

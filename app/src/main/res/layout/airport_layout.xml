@@ -16,26 +16,38 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:layout_below="@id/fake_statusbar_view"
-        android:background="@color/colorBlack"
-        android:fitsSystemWindows="true">
+        android:background="@color/colorBlack">
 
         <ImageView
             android:id="@+id/search_icon"
-            android:layout_width="@dimen/icon_min"
-            android:layout_height="@dimen/icon_min"
+            android:layout_width="@dimen/font_big"
+            android:layout_height="@dimen/font_big"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_normal"
             android:src="@drawable/search" />
 
         <TextView
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingRight="@dimen/margin_normal"
+            android:text="@string/search"
+            android:textColor="@color/colorGoldLight"
+            android:textSize="@dimen/font_big"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/search_edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_marginRight="@dimen/margin_normal"
+            android:layout_toLeftOf="@id/search_btn"
             android:layout_toRightOf="@id/search_icon"
             android:background="@null"
-            android:gravity="center"
             android:hint="@string/search_hint"
             android:textColor="@color/colorGrayLight"
             android:textSize="@dimen/font_normal" />
@@ -47,6 +59,7 @@
             android:layout_below="@id/search_icon"
             android:layout_marginRight="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_small"
+            android:layout_toLeftOf="@id/search_btn"
             android:background="@color/colorGoldLight" />
     </RelativeLayout>
 

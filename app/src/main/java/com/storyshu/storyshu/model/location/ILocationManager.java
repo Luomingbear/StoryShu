@@ -61,18 +61,18 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * @param appContext appContext
      */
     public ILocationManager init(Context appContext, MapView mapView) {
-        if (this.mAppContext == null)
-            this.mAppContext = appContext.getApplicationContext();
-        if (this.mMapView == null)
-            this.mMapView = mapView;
-        if (this.mLocationQueryTool == null)
-            this.mLocationQueryTool = new ILocationQueryTool(appContext);
+//        if (this.mAppContext == null)
+        this.mAppContext = appContext.getApplicationContext();
+//        if (this.mMapView == null)
+        this.mMapView = mapView;
+//        if (this.mLocationQueryTool == null)
+        this.mLocationQueryTool = new ILocationQueryTool(appContext);
 
-        if (mMapManager == null) {
-            mMapManager = new IMapManager(mAppContext, mMapView);
-            mMapManager.init();
-            mMapManager.setOnMarkerClickedListener(this);
-        }
+//        if (mMapManager == null) {
+        mMapManager = new IMapManager(mAppContext, mMapView);
+        mMapManager.init();
+        mMapManager.setOnMarkerClickedListener(this);
+//        }
 
         TransparentInfoWindowAdapter adapter = new TransparentInfoWindowAdapter(mAppContext);
         mMapView.getMap().setInfoWindowAdapter(adapter);
@@ -230,8 +230,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
         LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
 
         //如果与上一次的坐标一致则不做任何操作
-        if (latLng.longitude == mLatLng.longitude &&
-                latLng.latitude == mLatLng.latitude)
+        if (latLng.equals(mLatLng))
             return;
         mLatLng = latLng;
 
@@ -262,7 +261,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * @param latLng
      */
     private void saveLatlngPreference(LatLng latLng) {
-        if (!ISharePreference.getLatLngData(mAppContext).equals(latLng))
+        if (!latLng.equals(ISharePreference.getLatLngData(mAppContext)))
             ISharePreference.saveLatLng(mAppContext, latLng);
     }
 
