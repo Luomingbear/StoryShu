@@ -61,6 +61,10 @@ public class CardInfo implements Parcelable {
         this.storyId = storyId;
     }
 
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
     public String getCover() {
         if (TextUtils.isEmpty(this.storyPic))
             return "";

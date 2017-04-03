@@ -15,10 +15,12 @@ import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.storymap.StoryMapPresenterIml;
 import com.storyshu.storyshu.mvp.storymap.StoryMapView;
+import com.storyshu.storyshu.tool.observable.EventObservable;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.dialog.SignDialog;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
+import com.storyshu.storyshu.widget.text.NotifyTextView;
 
 import java.util.ArrayList;
 
@@ -101,6 +103,11 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
         //状态栏
         setStatusBackgroundColor(R.color.colorGoldLight);
+        //位置的显示，观察者模式
+        NotifyTextView textView = (NotifyTextView) mRootView.findViewById(R.id.location_title);
+        textView.setQuestionId(R.id.location_title);
+        EventObservable.getInstance().addObserver(textView);
+
         //签到
         mSinInTv = (TextView) mRootView.findViewById(R.id.sign_in);
         mSinInTv.setOnClickListener(this);
@@ -186,7 +193,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         mStoryMapPresenter.initMap();
 
         //显示图标
-        mStoryMapPresenter.showStoryIcons();
+//        mStoryMapPresenter.showStoryIcons();
     }
 
     @Override

@@ -1,15 +1,15 @@
 package com.storyshu.storyshu.widget.text;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 /**
  * 基本的文本控件
  * Created by bear on 2016/12/24.
  */
 
-public class IBaseTextView extends TextView {
+public class IBaseTextView extends AppCompatTextView {
     private int position = 0;
 
     public IBaseTextView(Context context) {

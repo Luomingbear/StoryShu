@@ -1,8 +1,8 @@
 package com.storyshu.storyshu.widget.text;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.storyshu.storyshu.tool.observable.EventObserver;
 
@@ -11,7 +11,7 @@ import com.storyshu.storyshu.tool.observable.EventObserver;
  * Created by ming.luo on 10/28/2016.
  */
 
-public class NotifyTextView extends TextView implements EventObserver {
+public class NotifyTextView extends AppCompatTextView implements EventObserver {
     private int questionId = -1;
 
     public NotifyTextView(Context context) {

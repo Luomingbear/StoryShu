@@ -1,7 +1,6 @@
 package com.storyshu.storyshu.model.location;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.util.Log;
 
 import com.amap.api.maps.AMap;
@@ -13,7 +12,6 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.info.StoryInfo;
-import com.storyshu.storyshu.utils.SysUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.marker.MyCircleMarker;
 import com.storyshu.storyshu.widget.marker.PersonMarker;
@@ -227,10 +225,10 @@ public class IMapManager {
         }
 
         //如果新的位置在屏幕外，移动摄像机到新的位置
-        Point p = mAMap.getProjection().toScreenLocation(storyInfo.getLatLng());
-        if (p.x < 0 || p.x > SysUtils.getScreenWidth(mContext)) {
-            move2Position(storyInfo.getLatLng());
-        }
+//        Point p = mAMap.getProjection().toScreenLocation(storyInfo.getLatLng());
+//        if (p.x < 0 || p.x > SysUtils.getScreenWidth(mContext)) {
+//            move2Position(storyInfo.getLatLng());
+//        }
     }
 
     /**

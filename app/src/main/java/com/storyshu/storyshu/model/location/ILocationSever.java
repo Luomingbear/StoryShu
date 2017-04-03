@@ -9,7 +9,6 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.tool.observable.EventObservable;
-import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * 具体实现定位服务的类
@@ -35,8 +34,7 @@ public class ILocationSever {
         public void onLocationChanged(AMapLocation aMapLocation) {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
-                    EventObservable.getInstance().notifyObservers(R.id.title_view, aMapLocation.getAoiName());
-                    Log.d(TAG, "onLocationChanged: 定位成功！" + aMapLocation.getPoiName());
+                    EventObservable.getInstance().notifyObservers(R.id.location_title, aMapLocation.getAoiName());
 
                     //可在其中解析amapLocation获取相应内容。
                     if (onLocationChange != null)

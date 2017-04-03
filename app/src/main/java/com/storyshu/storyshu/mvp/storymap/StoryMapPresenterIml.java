@@ -29,11 +29,14 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
     private int lastSelectedStoryIndex = 0; //上一次选中的故事
     private int mSignDays = 1; //累计签到的天数
     private boolean isSign = false; //是否已经签到
+    private CardAdapter mCardAdapter; //故事卡片的适配器
     private boolean isStoryWindowShow = false; //故事卡片的窗口是否正显示
 
     public StoryMapPresenterIml(Context mContext, StoryMapView mvpView) {
         super(mContext, mvpView);
         mStoryModel = new StoryModel(mContext);
+        mStoryList = new ArrayList<>();
+
     }
 
     /**
@@ -106,6 +109,10 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
         //marker的点击事件
         ILocationManager.getInstance().setOnLocationMarkerClickListener(onMarkClickListener);
 
+
+        //卡片显示
+        mCardAdapter = new CardAdapter(mContext, mStoryList);
+        mMvpView.getStoryWindow().setAdapter(mCardAdapter);
         /**
          * 故事卡片的点击,滑动监听
          */
@@ -168,11 +175,12 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
     private StoryModel.OnStoryModelListener onStoryModelListener = new StoryModel.OnStoryModelListener() {
         @Override
         public void onStoriesGot(ArrayList<StoryInfo> storyList) {
-            mStoryList = storyList;
+            mStoryList.clear();
+            for (StoryInfo storyInfo : storyList) {
+                mStoryList.add(storyInfo);
+            }
 
-            //卡片显示
-            CardAdapter cardAdapter = new CardAdapter(mContext, mStoryList);
-            mMvpView.getStoryWindow().setAdapter(cardAdapter);
+            mCardAdapter.notifyDataSetChanged();
 
             //地图的故事集图标显示
             ILocationManager.getInstance().showStoriesIcons(mStoryList);
@@ -184,7 +192,8 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
      */
     @Override
     public void showStoryIcons() {
-        mStoryModel.getNearStories(ISharePreference.getUserData(mContext), ISharePreference.getLatLngData(mContext), onStoryModelListener);
+        mStoryModel.getNearStories(ISharePreference.getUserData(mContext),
+                ISharePreference.getLatLngData(mContext), onStoryModelListener);
     }
 
     @Override

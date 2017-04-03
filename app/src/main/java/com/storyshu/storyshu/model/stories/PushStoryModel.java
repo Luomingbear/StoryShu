@@ -9,6 +9,7 @@ import com.storyshu.storyshu.utils.time.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 获取推送的故事集的数据操作类
@@ -78,7 +79,9 @@ public class PushStoryModel {
             userInfo.setUserId("阿狸" + i);
             info.setUserInfo(userInfo);
 
-            info.setStoryPic("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490026292493&di=947955e35862963dbb6d3ef4fe8b9839&imgtype=0&src=http%3A%2F%2Fimglf2.ph.126.net%2FsUm-Vev0kLAlrjUI7YdATQ%3D%3D%2F3356589097375979828.jpg");
+            List<String> list = new ArrayList<>();
+            list.add("http://img.hb.aicdn.com/b76232ac21a0bc70268998abb770426c6db6712642912-B3Gs3O_fw658");
+            info.setStoryPic(list);
             info.setCreateDate(TimeUtils.convert2TimeText(new Date(System.currentTimeMillis())));
             info.setDestroyTime(TimeUtils.getDestoryTime(24 * 60));
             info.setContent("彼时是星期天，阳光明媚而干燥，简直不像是在香港。车路过香港公园，又路过山顶缆车正下方的佑宁堂。时值11点的礼拜散场，很多人站在街道两边挥手搭车。司机忽然说：“这是个好教堂。”");

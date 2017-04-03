@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class EventObservable {
-    private List<EventObserver> observers = new ArrayList<EventObserver>();
+    private List<EventObserver> observers = new ArrayList<>();
 
     private boolean changed = false;
 
