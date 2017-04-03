@@ -1,7 +1,7 @@
 package com.storyshu.storyshu.activity.story;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -26,21 +26,26 @@ public class SearchLocationActivity extends IBaseActivity implements SearchLocat
     private SearchLocationPresenterIml mSearchLocationPresenter; //搜索页面的控制
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.airport_layout);
 
         initView();
 
         mSearchLocationPresenter = new SearchLocationPresenterIml(this, this);
+
+        initEvents();
     }
 
     @Override
     public void initView() {
-        //
-        StatusBarUtils.setColor(this, R.color.colorBlack);
+        //状态栏
+        StatusBarUtils.setTranslucentForImageViewInFragment(SearchLocationActivity.this, null);
+        findViewById(R.id.fake_statusbar_view).setBackgroundResource(R.color.colorBlack);
         //
         mSearchEdit = (EditText) findViewById(R.id.search_edit);
+
 
         mSearchButton = findViewById(R.id.search_btn);
         mSearchButton.setVisibility(View.VISIBLE);
@@ -55,6 +60,9 @@ public class SearchLocationActivity extends IBaseActivity implements SearchLocat
 
     @Override
     public void initEvents() {
+        //初始化输入框
+        mSearchLocationPresenter.initSearchEdit();
+
         //搜索按钮
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override

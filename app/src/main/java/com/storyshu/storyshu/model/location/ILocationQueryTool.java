@@ -3,7 +3,6 @@ package com.storyshu.storyshu.model.location;
 import android.content.Context;
 import android.util.Log;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeAddress;
@@ -13,6 +12,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.poisearch.PoiSearch;
 
 import java.util.List;
 
@@ -24,7 +24,6 @@ import java.util.List;
 public class ILocationQueryTool {
     private static final String TAG = "ILocationQueryTool";
     private Context mContext;
-    private AMapLocation mAmapLocation; //位置信息类
     private GeocodeSearch mGeocodeSearch; //搜索实例
 
     protected ILocationQueryTool() {
@@ -95,15 +94,32 @@ public class ILocationQueryTool {
 
     /***
      * 开始模糊搜索
+     * @param location 需要查询的地点
+     * @param cityName 城市的中文拼音或者中文，null则表示全国
      */
-    public void startGeocodeQuery(AMapLocation aMapLocation) {
+    public void startGeocodeQuery(String location, String cityName) {
         if (mContext == null || onGeocodeSearchListener == null)
             return;
         mGeocodeSearch = new GeocodeSearch(mContext);
-
         mGeocodeSearch.setOnGeocodeSearchListener(onGeocodeSearchListener);
-        GeocodeQuery geocodeQuery = new GeocodeQuery(mAmapLocation.getLocationDetail(), mAmapLocation.getCityCode());
+        GeocodeQuery geocodeQuery = new GeocodeQuery(location, cityName);
         mGeocodeSearch.getFromLocationNameAsyn(geocodeQuery);
+    }
+
+    /**
+     * 开始poi搜索
+     *
+     * @param poiName poi的描述
+     */
+    public void startPoiSearch(String poiName, String cityName, PoiSearch.OnPoiSearchListener onPoiSearchListener) {
+        if (mContext == null || onPoiSearchListener == null)
+            return;
+        PoiSearch.Query query = new PoiSearch.Query(poiName, "风景名胜|生活服务|商务住宅|餐饮服务|科教文化服务|政府机构及社会团体|交通设施服务|公司企业", cityName);
+        query.setPageSize(15);// 设置每页最多返回多少条poiitem
+        PoiSearch poiSearch = new PoiSearch(mContext, query);
+        poiSearch.setOnPoiSearchListener(onPoiSearchListener);
+
+        poiSearch.searchPOIAsyn(); //发送请求
     }
 
 

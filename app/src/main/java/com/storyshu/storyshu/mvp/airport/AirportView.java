@@ -25,5 +25,10 @@ public interface AirportView extends IBaseView {
      */
     AirPortPushInfo getPushCardInfo();
 
+    /**
+     * 页面
+     */
+    void intent2Search();
+
 
 }

@@ -246,6 +246,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
         //保存位置信息到本地
         saveLatlngPreference(latLng);
+        ISharePreference.saveCityName(mAppContext, aMapLocation.getCity());
     }
 
     /**

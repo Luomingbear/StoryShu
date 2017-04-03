@@ -66,7 +66,6 @@ public abstract class IBaseStatusFragment extends Fragment {
         Intent intent = new Intent();
         intent.setClass(getActivity(), cls);
         startActivity(intent);
-
     }
 
     public void intentWithFlag(Class<?> cls, int flag) {

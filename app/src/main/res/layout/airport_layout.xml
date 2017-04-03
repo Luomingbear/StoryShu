@@ -49,8 +49,27 @@
             android:layout_toRightOf="@id/search_icon"
             android:background="@null"
             android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:textColor="@color/colorGrayLight"
             android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:id="@+id/search_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:layout_toLeftOf="@id/search_btn"
+            android:layout_toRightOf="@id/search_icon"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/search_hint"
+            android:singleLine="true"
+            android:textColor="@color/colorGrayLight"
+            android:textSize="@dimen/font_normal"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"

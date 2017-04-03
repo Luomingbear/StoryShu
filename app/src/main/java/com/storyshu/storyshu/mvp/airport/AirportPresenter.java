@@ -6,10 +6,6 @@ package com.storyshu.storyshu.mvp.airport;
  */
 
 public interface AirportPresenter {
-    /**
-     * 跳转到搜索页面
-     */
-    void intent2Search();
 
     /**
      * 获取推送的故事列表

@@ -9,6 +9,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.tool.observable.EventObservable;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * 具体实现定位服务的类

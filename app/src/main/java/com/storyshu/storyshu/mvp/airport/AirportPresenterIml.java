@@ -18,16 +18,12 @@ import java.util.ArrayList;
  */
 
 public class AirportPresenterIml extends IBasePresenter<AirportView> implements AirportPresenter {
+    private static final String TAG = "AirportPresenterIml";
     private ArrayList<AirPortPushInfo> mPushList; //推送的故事列表
     private AirportAdapter mAirportAdapter; //推送的故事的适配器
 
     public AirportPresenterIml(Context mContext, AirportView mvpView) {
         super(mContext, mvpView);
-    }
-
-    @Override
-    public void intent2Search() {
-
     }
 
     /**

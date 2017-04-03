@@ -51,6 +51,8 @@
         android:layout_marginLeft="@dimen/margin_normal"
         android:layout_marginRight="@dimen/margin_normal"
         android:layout_toLeftOf="@id/go_here"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:text="浙江传媒学院"
         android:textColor="?attr/textColor3"
         android:textSize="@dimen/font_small" />

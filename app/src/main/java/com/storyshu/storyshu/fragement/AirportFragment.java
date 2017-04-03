@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.story.SearchLocationActivity;
 import com.storyshu.storyshu.info.AirPortPushInfo;
 import com.storyshu.storyshu.mvp.airport.AirportPresenterIml;
 import com.storyshu.storyshu.mvp.airport.AirportView;
@@ -17,7 +19,8 @@ import com.storyshu.storyshu.utils.ToastUtil;
  */
 
 public class AirportFragment extends IBaseStatusFragment implements AirportView {
-    private View mSearchLayout; //搜索的布局，标题栏
+    private View mTitleLayout;  //标题栏
+    private EditText mSearchEdit; //搜索的输入框
     private RecyclerView mPushCardsRV; //推送故事的列表布局
     private AirportPresenterIml mAirportPresenterIml; //mvp模式的实现
 
@@ -33,8 +36,11 @@ public class AirportFragment extends IBaseStatusFragment implements AirportView 
 
         //状态栏
         setStatusBackgroundColor(R.color.colorBlack);
+        //
+        mTitleLayout = mRootView.findViewById(R.id.title_layout);
 
-        mSearchLayout = mRootView.findViewById(R.id.title_view);
+        mRootView.findViewById(R.id.search_edit).setVisibility(View.GONE);
+        mRootView.findViewById(R.id.search_text).setVisibility(View.VISIBLE);
 
         mPushCardsRV = (RecyclerView) mRootView.findViewById(R.id.airport_push_list);
 
@@ -60,7 +66,13 @@ public class AirportFragment extends IBaseStatusFragment implements AirportView 
 
     @Override
     public void initEvents() {
-
+        //点击标题栏则跳转到搜索页面
+        mTitleLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent2Search();
+            }
+        });
     }
 
     @Override
@@ -76,5 +88,10 @@ public class AirportFragment extends IBaseStatusFragment implements AirportView 
     @Override
     public AirPortPushInfo getPushCardInfo() {
         return null;
+    }
+
+    @Override
+    public void intent2Search() {
+        intentTo(SearchLocationActivity.class);
     }
 }

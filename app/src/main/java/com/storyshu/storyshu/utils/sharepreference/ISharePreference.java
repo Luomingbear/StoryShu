@@ -36,6 +36,7 @@ public class ISharePreference {
      * 定位数据
      */
     public static final String LOCATION_DATA = "locationData";
+    public static final String CITY_NAME = "cityName";
     public static final String LAT = "lat";
     public static final String LNG = "lng";
 
@@ -208,6 +209,33 @@ public class ISharePreference {
         if (latLng.latitude == 360 && latLng.longitude == 360)
             return null;
         return latLng;
+    }
+
+    /**
+     * 保存用户所在的城市名字
+     *
+     * @param context
+     * @param cityName
+     */
+    public static void saveCityName(Context context, String cityName) {
+        SharedPreferences sp = context.getSharedPreferences(LOCATION_DATA,
+                Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        SharedPreferences.Editor editor = sp.edit();
+
+        editor.putString(CITY_NAME, cityName);
+        editor.apply();
+    }
+
+    /**
+     * 获取用户所在的城市名字
+     *
+     * @param context
+     */
+    public static String getCityName(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(LOCATION_DATA,
+                Activity.MODE_PRIVATE);
+        return sp.getString(CITY_NAME, "");
     }
 
     /**
