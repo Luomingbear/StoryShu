@@ -4,15 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
 import com.storyshu.storyshu.info.BaseUserInfo;
+import com.storyshu.storyshu.utils.FileUtil;
+import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,6 +39,8 @@ public class WelcomeActivity extends IBaseActivity {
         setContentView(R.layout.activity_welcome_layout);
 
         initView();
+
+        initEvent();
     }
 
     @Override
@@ -56,6 +63,24 @@ public class WelcomeActivity extends IBaseActivity {
                 intent2Class();
             }
         });
+
+    }
+
+    /**
+     * 初始化事件
+     */
+    private void initEvent() {
+        //将自定义地图的文件复制到内存卡
+        String outPath = getFilesDir().getAbsolutePath();
+        Log.i(TAG, "initEvent: outPath：" + outPath);
+        outPath = outPath + File.separator + NameUtil.MAP_STYLE;
+        try {
+            File file = new File(outPath);
+            if (!file.exists())
+                FileUtil.copyBigDataToSD(this, NameUtil.MAP_STYLE, outPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

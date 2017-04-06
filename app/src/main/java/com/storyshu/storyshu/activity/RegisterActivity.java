@@ -16,6 +16,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.mvp.register.RegisterPresenterIml;
 import com.storyshu.storyshu.mvp.register.RegisterView;
+import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.imageview.RoundImageView;
@@ -92,6 +93,7 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
 
     @Override
     public void chooseAvatar() {
+        KeyBordUtil.hideKeyboard(this, mNicknameEdit);
         ImagePicker.getInstance()
                 .setMultiMode(false)
                 .setOutPutX(300) //头像保存 的大小

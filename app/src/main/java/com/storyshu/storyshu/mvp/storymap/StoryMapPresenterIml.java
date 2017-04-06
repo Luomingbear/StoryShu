@@ -178,10 +178,10 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
             mStoryList.clear();
             for (StoryInfo storyInfo : storyList) {
                 mStoryList.add(storyInfo);
+                Log.i(TAG, "onStoriesGot: path：" + storyInfo.getCover());
             }
 
             mCardAdapter.notifyDataSetChanged();
-
             //地图的故事集图标显示
             ILocationManager.getInstance().showStoriesIcons(mStoryList);
         }

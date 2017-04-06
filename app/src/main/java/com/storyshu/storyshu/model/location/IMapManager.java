@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.model.location;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.util.Log;
 
 import com.amap.api.maps.AMap;
@@ -12,10 +13,16 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.utils.NameUtil;
+import com.storyshu.storyshu.utils.SysUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.marker.MyCircleMarker;
 import com.storyshu.storyshu.widget.marker.PersonMarker;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +103,17 @@ public class IMapManager {
         mPersonMarkerList = new ArrayList<>();
     }
 
+    private byte[] InputStreamToByte(InputStream is) throws IOException {
+        ByteArrayOutputStream bytestream = new ByteArrayOutputStream();
+        int ch;
+        while ((ch = is.read()) != -1) {
+            bytestream.write(ch);
+        }
+        byte imgdata[] = bytestream.toByteArray();
+        bytestream.close();
+        return imgdata;
+    }
+
     /**
      * 设置地图上面的ui显示，仅仅是对原始的地图控件的ui进行改变
      */
@@ -103,8 +121,21 @@ public class IMapManager {
         if (mUiSettings == null)
             return;
 
+
+        //设置自定义的地图
+        String path = mContext.getFilesDir().getAbsolutePath() + File.separator + NameUtil.MAP_STYLE;
+
+        File file = new File(path);
+        Log.i(TAG, "setUI: File:" + file.exists());
+
+        mAMap.setCustomMapStylePath(path);
+        mAMap.setMapCustomEnable(true);
+
+        //不显示建筑物
+        mAMap.showBuildings(false);
+
         //不显示文字
-        mAMap.showMapText(false);
+//        mAMap.showMapText(false);
 
         //限制显示的范围
 //        LatLng southwestLatLng = new LatLng(mLatLng.latitude - 0.01, mLatLng.longitude - 0.01);
@@ -174,7 +205,7 @@ public class IMapManager {
             //移除之前的小图标
             for (PersonMarker personMarker : mPersonMarkerList) {
                 //两点之间的距离小于5米则不添加
-                Log.d(TAG, "showStoryIcon: 距离"+AMapUtils.calculateLineDistance(storyInfo.getLatLng(), personMarker.getLatLng()) );
+                Log.d(TAG, "showStoryIcon: 距离" + AMapUtils.calculateLineDistance(storyInfo.getLatLng(), personMarker.getLatLng()));
                 if (AMapUtils.calculateLineDistance(storyInfo.getLatLng(), personMarker.getLatLng()) < markerMinDistance) {
                     return;
                 }
@@ -225,10 +256,10 @@ public class IMapManager {
         }
 
         //如果新的位置在屏幕外，移动摄像机到新的位置
-//        Point p = mAMap.getProjection().toScreenLocation(storyInfo.getLatLng());
-//        if (p.x < 0 || p.x > SysUtils.getScreenWidth(mContext)) {
-//            move2Position(storyInfo.getLatLng());
-//        }
+        Point p = mAMap.getProjection().toScreenLocation(storyInfo.getLatLng());
+        if (p.x < 0 || p.x > SysUtils.getScreenWidth(mContext)) {
+            animate2Position(storyInfo.getLatLng(), 400);
+        }
     }
 
     /**
@@ -278,6 +309,36 @@ public class IMapManager {
                         0, //俯仰角0°~45°（垂直与地图时为0）
                         0)),  //偏航角 0~360° (正北方为0)
                 750, //移动时间 豪秒
+                new AMap.CancelableCallback() {
+                    @Override
+                    public void onFinish() {
+
+                        //移动完成
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                        //移动取消
+                    }
+                });
+    }
+
+    /**
+     * 移动到制定位置
+     *
+     * @param latLng
+     */
+    public void animate2Position(LatLng latLng, int time) {
+        if (mAMap == null)
+            return;
+        mLatLng = latLng;
+        mAMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                new CameraPosition(latLng,
+                        mZoomLevel, //新的缩放级别
+                        0, //俯仰角0°~45°（垂直与地图时为0）
+                        0)),  //偏航角 0~360° (正北方为0)
+                time, //移动时间 豪秒
                 new AMap.CancelableCallback() {
                     @Override
                     public void onFinish() {

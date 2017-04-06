@@ -51,7 +51,7 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
                 //故事id=userId+timeId
                 storyInfo.setStoryId(userInfo.getUserId() + TimeUtils.getTimeId());
                 storyInfo.setContent(mMvpView.getStoryContent());
-//                storyInfo.setCover(mMvpView.getStoryPic().size() > 0 ? mMvpView.getStoryPic().get(0) : "");
+                storyInfo.setCover(mMvpView.getStoryPic().size() > 0 ? mMvpView.getStoryPic().get(0) : "");
                 storyInfo.setStoryPic(mMvpView.getStoryPic());
                 storyInfo.setLocation(mMvpView.getLocationTv().getText().toString());
                 storyInfo.setLatLng(ISharePreference.getLatLngData(mContext));

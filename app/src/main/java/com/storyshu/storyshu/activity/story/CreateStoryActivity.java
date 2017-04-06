@@ -1,6 +1,5 @@
 package com.storyshu.storyshu.activity.story;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,6 +20,7 @@ import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.mvp.create.CreateStoryPresenterImpl;
 import com.storyshu.storyshu.mvp.create.CreateStoryView;
 import com.storyshu.storyshu.utils.KeyBordUtil;
+import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.SlideButton;
@@ -275,7 +275,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
     @Override
     public void backActivity() {
-        setResult(Activity.RESULT_OK, null);
+        setResult(NameUtil.REQUST_CREATE, null);
         onBackPressed();
     }
 

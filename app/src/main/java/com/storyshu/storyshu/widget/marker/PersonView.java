@@ -138,7 +138,7 @@ public class PersonView extends View {
 
         //画白色背景
         mPaint.setColor(mFrameColor);
-        canvas.drawCircle(mCenterX, mCenterY, mCenterX - 2, mPaint);
+        canvas.drawCircle(mCenterX, mCenterY, mCenterX - 3, mPaint);
     }
 
     /**

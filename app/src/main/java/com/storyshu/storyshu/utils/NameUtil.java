@@ -11,4 +11,8 @@ public class NameUtil {
     public static final String STORY_INFO = "storyInfo";
     public static final String STORY_RESULT = "storyResult";
     public static final int REQUST_CREATE = 22;
+
+    //
+    public static final String MAP_STYLE = "map_style.json";
+
 }
