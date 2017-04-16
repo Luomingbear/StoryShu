@@ -19,7 +19,7 @@ public class MineFragment extends IBaseStatusFragment {
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
         //状态栏
-        setStatusBackgroundColor(R.color.colorGoldLight);
+        setStatusBackgroundColor(R.color.colorRed);
     }
 
     @Override

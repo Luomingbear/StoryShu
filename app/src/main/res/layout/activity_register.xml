@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlack"
+    android:background="@color/colorWhite"
     tools:context="com.storyshu.storyshu.activity.RegisterActivity">
 
 
@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/title_view"
-        android:background="@drawable/login_tr_bg" />
+        android:background="@drawable/login_tr_bg"
+        android:visibility="gone" />
 
     <!--账号的信息-->
     <LinearLayout
@@ -47,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/input_phone_email"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/colorGoldLight"
+                android:textColor="@color/colorRed"
                 android:textSize="@dimen/font_big" />
         </android.support.design.widget.TextInputLayout>
 
@@ -65,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/input_password"
                 android:inputType="textPassword"
-                android:textColor="@color/colorGoldLight"
+                android:textColor="@color/colorRed"
                 android:textSize="@dimen/font_big" />
         </android.support.design.widget.TextInputLayout>
 
@@ -133,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/input_nickname"
                 android:inputType="text"
-                android:textColor="@color/colorGoldLight" />
+                android:textColor="@color/colorRed" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -144,10 +145,10 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/margin_big_more"
         android:layout_marginRight="@dimen/margin_big_more"
-        android:background="@drawable/button_gold"
+        android:background="@drawable/button_red"
         android:gravity="center"
         android:text="@string/next"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_big" />
 
     <RelativeLayout
@@ -196,7 +197,7 @@
             android:text="1"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/font_big"
-            app:bgColor="@color/colorGoldLight"
+            app:bgColor="@color/colorRed"
             app:roundSize="@dimen/font_big" />
 
         <com.storyshu.storyshu.widget.text.RoundTextView

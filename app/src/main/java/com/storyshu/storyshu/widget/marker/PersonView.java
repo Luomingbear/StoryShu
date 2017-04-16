@@ -117,10 +117,10 @@ public class PersonView extends View {
 
         mMatrix = new Matrix();
 
-        mFrameWidth = DipPxConversion.dip2px(getContext(), 4);
+        mFrameWidth = DipPxConversion.dip2px(getContext(), 6);
         mAvatarBmp = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_wolverine);
 
-        mHitColor = getResources().getColor(R.color.colorOrange);
+        mHitColor = getResources().getColor(R.color.colorRed);
         mDefColor = getResources().getColor(R.color.colorWhite);
         mFrameColor = mDefColor;
         mShadowColor = getResources().getColor(R.color.colorGrayLight);

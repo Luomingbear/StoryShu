@@ -5,6 +5,6 @@
         </bitmap>
     </item>
     <item android:state_checked="true">
-        <bitmap android:src="@drawable/message"></bitmap>
+        <bitmap android:src="@drawable/message" android:tint="@color/colorRed"></bitmap>
     </item>
 </selector>

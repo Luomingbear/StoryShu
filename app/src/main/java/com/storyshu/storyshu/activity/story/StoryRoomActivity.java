@@ -73,7 +73,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
      */
     @Override
     public void initView() {
-        StatusBarUtils.setColor(this, R.color.colorGoldLight);
+        StatusBarUtils.setColor(this, R.color.colorRed);
 
         mTitleView = (TitleView) findViewById(R.id.title_view);
 

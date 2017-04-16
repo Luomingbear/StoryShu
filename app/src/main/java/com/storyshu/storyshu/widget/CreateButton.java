@@ -72,12 +72,12 @@ public class CreateButton extends View {
         mAnimationTime = 180;
         mMaxRotateAngle = (float) (Math.PI / 4);
 
-        mUpFgColor = getResources().getColor(R.color.colorGoldLight);
-        mDownFgColor = getResources().getColor(R.color.colorGold);
+        mUpFgColor = getResources().getColor(R.color.colorRed);
+        mDownFgColor = getResources().getColor(R.color.colorRedLight);
 
-        mBgColor = getResources().getColor(R.color.colorBlack);
+        mBgColor = getResources().getColor(R.color.colorWhite);
         mFgColor = mUpFgColor;
-        mXColor = getResources().getColor(R.color.colorGoldDeep);
+        mXColor = getResources().getColor(R.color.colorWhiteDeep);
 
         mPaint = new Paint();
     }

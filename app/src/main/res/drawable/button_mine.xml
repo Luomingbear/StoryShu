@@ -4,6 +4,6 @@
         <bitmap android:src="@drawable/unme"></bitmap>
     </item>
     <item android:state_checked="true">
-        <bitmap android:src="@drawable/me"></bitmap>
+        <bitmap android:src="@drawable/me" android:tint="@color/colorRed"></bitmap>
     </item>
 </selector>

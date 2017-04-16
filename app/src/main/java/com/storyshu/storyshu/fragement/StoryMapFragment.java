@@ -20,7 +20,7 @@ import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.dialog.SignDialog;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
-import com.storyshu.storyshu.widget.text.NotifyTextView;
+import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.ArrayList;
 
@@ -29,10 +29,11 @@ import java.util.ArrayList;
  * Created by bear on 2017/3/11.
  */
 
-public class StoryMapFragment extends IBaseStatusFragment implements StoryMapView, View.OnClickListener {
+public class StoryMapFragment extends IBaseStatusFragment implements StoryMapView {
     private static final String TAG = "StoryMapFragment";
     private static StoryMapFragment instance;
     private TextView mSinInTv; //标题栏提示签到的文本
+    private TitleView mTitleView; //标题栏
     private MapView mMapView; //地图
     private StoriesAdapterView mStoryCardWindow; //故事卡片的窗口
     private View mGetLocationButton;//定位按钮
@@ -72,6 +73,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     @Override
     public void onResume() {
         super.onResume();
+
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
 
@@ -100,17 +102,21 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     public void initView(Bundle savedInstanceState) {
         if (mRootView == null)
             return;
-
         //状态栏
-        setStatusBackgroundColor(R.color.colorGoldLight);
+        setStatusBackgroundColor(R.color.colorRed);
+
+        //
+        mTitleView = (TitleView) mRootView.findViewById(R.id.title_view);
+        EventObservable.getInstance().addObserver(mTitleView);
+
         //位置的显示，观察者模式
-        NotifyTextView textView = (NotifyTextView) mRootView.findViewById(R.id.location_title);
-        textView.setQuestionId(R.id.location_title);
-        EventObservable.getInstance().addObserver(textView);
+//        NotifyTextView textView = (NotifyTextView) mRootView.findViewById(R.id.location_title);
+//        textView.setQuestionId(R.id.location_title);
+//        EventObservable.getInstance().addObserver(textView);
 
         //签到
-        mSinInTv = (TextView) mRootView.findViewById(R.id.sign_in);
-        mSinInTv.setOnClickListener(this);
+//        mSinInTv = (TextView) mRootView.findViewById(R.id.sign_in);
+//        mSinInTv.setOnClickListener(this);
 
         //地图
         mMapView = (MapView) mRootView.findViewById(R.id.story_map_map_view);
@@ -123,8 +129,8 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         /**
          * 定位按钮
          */
-        mGetLocationButton = mRootView.findViewById(R.id.get_location);
-        mGetLocationButton.setOnClickListener(this);
+//        mGetLocationButton = mRootView.findViewById(R.id.get_location);
+//        mGetLocationButton.setOnClickListener(this);
 
         mStoryMapPresenter = new StoryMapPresenterIml(getContext(), this);
     }
@@ -191,6 +197,29 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     @Override
     public void initEvents() {
         mStoryMapPresenter.initMap();
+
+        mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
+            @Override
+            public void onLeftClick() {
+
+            }
+
+            @Override
+            public void onCenterClick() {
+                mStoryMapPresenter.move2Position();
+
+            }
+
+            @Override
+            public void onCenterDoubleClick() {
+
+            }
+
+            @Override
+            public void onRightClick() {
+
+            }
+        });
 
         //显示图标
 //        mStoryMapPresenter.showStoryIcons();
@@ -269,16 +298,4 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
             isStoryAnimate = true;
         }
     };
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in:
-                mStoryMapPresenter.showSignDialog();
-                break;
-            case R.id.get_location:
-                mStoryMapPresenter.move2Position();
-                break;
-        }
-    }
 }

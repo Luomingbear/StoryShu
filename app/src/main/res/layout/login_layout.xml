@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlack"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <View
         android:id="@+id/fake_statusbar_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/statusbar_view_height"
-        android:background="@color/colorBlack" />
+        android:background="@color/colorWhite" />
 
     <com.storyshu.storyshu.widget.GravityLayout
         android:layout_width="match_parent"
@@ -22,13 +22,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:scaleType="center"
+            android:tint="@color/colorRed"
             android:src="@drawable/map_line" />
     </com.storyshu.storyshu.widget.GravityLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_tr_bg" />
+        android:background="@drawable/login_tr_bg"
+        android:tint="@color/colorWhite"
+        android:visibility="gone" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -56,7 +59,8 @@
                     android:id="@+id/login_avatar"
                     android:layout_width="@dimen/navigation_height"
                     android:layout_height="@dimen/navigation_height"
-                    android:src="@drawable/logo_line" />
+                    android:src="@drawable/logo_line"
+                    android:tint="@color/colorRed" />
             </RelativeLayout>
 
             <!--邮箱-->
@@ -71,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/input_phone_email"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/colorGoldLight"
+                    android:textColor="@color/colorRed"
                     android:textSize="@dimen/font_big" />
             </android.support.design.widget.TextInputLayout>
 
@@ -87,7 +91,7 @@
                     android:drawableTint="@color/colorGrayDeep"
                     android:hint="@string/input_password"
                     android:inputType="textPassword"
-                    android:textColor="@color/colorGoldLight"
+                    android:textColor="@color/colorRed"
                     android:textSize="@dimen/font_big" />
             </android.support.design.widget.TextInputLayout>
 
@@ -96,10 +100,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/selector_height"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:background="@drawable/button_gold"
+                android:background="@drawable/button_red"
                 android:gravity="center"
                 android:text="@string/login"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorWhite"
                 android:textSize="@dimen/font_big" />
 
             <RelativeLayout
@@ -114,7 +118,7 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="center"
                     android:text="@string/forgot_password"
-                    android:textColor="@color/colorGoldLight"
+                    android:textColor="@color/colorRed"
                     android:textSize="@dimen/font_normal" />
 
                 <TextView
@@ -125,7 +129,7 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="center"
                     android:text="@string/free_register"
-                    android:textColor="@color/colorGoldLight"
+                    android:textColor="@color/colorRed"
                     android:textSize="@dimen/font_normal" />
             </RelativeLayout>
         </LinearLayout>

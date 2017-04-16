@@ -34,7 +34,7 @@ public class ILocationSever {
         public void onLocationChanged(AMapLocation aMapLocation) {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
-                    EventObservable.getInstance().notifyObservers(R.id.location_title, aMapLocation.getAoiName());
+                    EventObservable.getInstance().notifyObservers(R.id.title_view, aMapLocation.getAoiName());
 
                     //可在其中解析amapLocation获取相应内容。
                     if (onLocationChange != null)

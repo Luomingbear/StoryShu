@@ -184,7 +184,7 @@ public class LoginActivity extends IBaseActivity implements LoginView, View.OnCl
     @Override
     public void initView() {
         //状态栏
-        StatusBarUtils.setColor(this, R.color.colorBlack);
+        StatusBarUtils.setColor(this, R.color.colorWhite);
 
         //地图
         mMapLineBg = findViewById(R.id.map_line_bg);

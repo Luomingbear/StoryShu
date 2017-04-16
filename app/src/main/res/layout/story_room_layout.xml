@@ -200,7 +200,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/margin_min"
-                                android:textColor="?attr/colorAccent"
+                                android:textColor="?attr/textColor3"
                                 android:textSize="@dimen/font_small" />
                         </LinearLayout>
                     </LinearLayout>

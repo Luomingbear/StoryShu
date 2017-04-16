@@ -124,7 +124,7 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
         mLoginInfoLayout.setVisibility(View.GONE);
         mUserInfoLayout.setVisibility(View.VISIBLE);
         mNextButton.setText(R.string.register);
-        mStepTwo.setBgColor(R.color.colorGoldLight);
+        mStepTwo.setBgColor(R.color.colorRed);
         mStep = 2;
     }
 
@@ -137,7 +137,7 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
     @Override
     public void initView() {
         //状态栏
-        StatusBarUtils.setColor(RegisterActivity.this, R.color.colorBlack);
+        StatusBarUtils.setColor(RegisterActivity.this, R.color.colorWhite);
         //
         mTitleView = (TitleView) findViewById(R.id.title_view);
 

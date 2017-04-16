@@ -17,6 +17,7 @@
         <ImageView
             android:layout_width="@dimen/icon_small"
             android:layout_height="@dimen/icon_small"
+            android:tint="@color/colorRed"
             android:src="@drawable/airport" />
 
         <TextView

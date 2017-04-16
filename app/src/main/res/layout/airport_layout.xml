@@ -14,16 +14,32 @@
     <RelativeLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
+        android:layout_height="?attr/actionBarSize"
         android:layout_below="@id/fake_statusbar_view"
         android:background="@color/colorBlack">
 
+        <RelativeLayout
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back" />
+        </RelativeLayout>
+
         <ImageView
+
             android:id="@+id/search_icon"
             android:layout_width="@dimen/font_big"
             android:layout_height="@dimen/font_big"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_toRightOf="@id/btn_back"
             android:src="@drawable/search" />
 
         <TextView
@@ -34,7 +50,7 @@
             android:gravity="center"
             android:paddingRight="@dimen/margin_normal"
             android:text="@string/search"
-            android:textColor="@color/colorGoldLight"
+            android:textColor="@color/colorRed"
             android:textSize="@dimen/font_big"
             android:visibility="gone" />
 
@@ -79,7 +95,7 @@
             android:layout_marginRight="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_toLeftOf="@id/search_btn"
-            android:background="@color/colorGoldLight" />
+            android:background="@color/colorRed" />
     </RelativeLayout>
 
     <!--候机厅官方推荐-->

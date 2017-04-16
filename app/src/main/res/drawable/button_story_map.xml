@@ -7,6 +7,7 @@
         </bitmap>
     </item>
     <item android:state_checked="true">
-        <bitmap android:src="@drawable/map"></bitmap>
+
+        <bitmap android:src="@drawable/map" android:tint="@color/colorRed"></bitmap>
     </item>
 </selector>

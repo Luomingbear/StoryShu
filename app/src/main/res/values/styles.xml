@@ -3,11 +3,11 @@
     <!--日间模式-->
     <style name="appTheme_day" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!--标题栏颜色-->
-        <item name="colorPrimary">@color/colorGoldLight</item>
+        <item name="colorPrimary">@color/colorRed</item>
         <!--标题栏文字的颜色-->
         <item name="titleTextColor">@color/colorWhite</item>
         <!--标题栏的文字颜色2-->
-        <item name="actionMenuTextColor">@color/colorGoldDeep</item>
+        <item name="actionMenuTextColor">@color/colorRed</item>
         <!--卡片的上面的背景-->
         <item name="cardTopBg">@drawable/card_title_bg</item>
         <!--卡片的下面的背景-->
@@ -21,7 +21,7 @@
         <item name="textColor2">@color/colorBlackLight</item>
         <item name="textColor3">@color/colorGrayDeep</item>
         <!--高亮的文字颜色-->
-        <item name="colorAccent">@color/colorGoldLight</item>
+        <item name="colorAccent">@color/colorRed</item>
         <!--选中的文字颜色-->
         <item name="android:textColorHighlight">@color/colorGrayLight</item>
         <!--页面的背景-->

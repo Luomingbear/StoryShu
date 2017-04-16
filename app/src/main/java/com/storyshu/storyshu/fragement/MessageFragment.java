@@ -31,7 +31,7 @@ public class MessageFragment extends IBaseStatusFragment implements MessageView 
             return;
 
         //状态栏
-        setStatusBackgroundColor(R.color.colorGoldLight);
+        setStatusBackgroundColor(R.color.colorRed);
 
         //折叠列表
         mLikeListView = (IExpandableListView) mRootView.findViewById(R.id.expand_like_list_view);

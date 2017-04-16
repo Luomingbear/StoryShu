@@ -22,7 +22,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/margin_big"
         android:layout_marginTop="@dimen/image_big"
-        android:background="@drawable/button_gold"
+        android:background="@drawable/button_red"
         android:gravity="center"
         android:text="@string/skip"
         android:textColor="@color/colorWhite"

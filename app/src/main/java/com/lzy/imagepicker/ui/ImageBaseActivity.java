@@ -35,7 +35,7 @@ public class ImageBaseActivity extends AppCompatActivity {
         }
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.colorGoldLight);  //设置上方状态栏的颜色
+        tintManager.setStatusBarTintResource(R.color.colorRed);  //设置上方状态栏的颜色
     }
 
     @TargetApi(19)

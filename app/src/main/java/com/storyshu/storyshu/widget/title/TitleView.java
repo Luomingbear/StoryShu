@@ -58,7 +58,12 @@ public class TitleView extends RelativeLayout implements EventObserver {
         /**
          * 返回-标题-发布
          */
-        BACK_TILE_SEND
+        BACK_TILE_SEND,
+
+        /**
+         * 中间是位置标题
+         */
+        POSITION_TITLE,
     }
 
     public TitleView(Context context) {
@@ -76,7 +81,8 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mTitleColor = typedArray.getColor(R.styleable.TitleView_title_color, getResources().getColor(R.color.colorBlack));
         mTitleSize = typedArray.getDimension(R.styleable.TitleView_title_size, getResources().getDimension(R.dimen.font_big));
         mTitleString = typedArray.getString(R.styleable.TitleView_title_string);
-        mButtonTextColor = typedArray.getColor(R.styleable.TitleView_button_color, getResources().getColor(R.color.colorGoldDeep));
+        mButtonTextColor = typedArray.getColor(R.styleable.TitleView_button_color,
+                getResources().getColor(R.color.colorWhite));
         mTitleMode = TitleMode.values()[typedArray.getInt(R.styleable.TitleView_title_mode, 0)];
         typedArray.recycle();
 
@@ -89,7 +95,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
      */
     private void init() {
 
-        mIconWidth = (int) getResources().getDimension(R.dimen.icon_min);
+        mIconWidth = (int) getResources().getDimension(R.dimen.font_normal);
         mTitleViewHeight = (int) getResources().getDimension(R.dimen.title_height);
         setGravity(Gravity.CENTER_VERTICAL);
     }
@@ -145,6 +151,10 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 addTitle();
                 //line
 //                addBottomLine();
+                break;
+
+            case POSITION_TITLE:
+                addPositionTitle();
                 break;
 
         }
@@ -212,17 +222,18 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
         mTitleLayout = new LinearLayout(getContext());
         LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        p.addRule(CENTER_IN_PARENT);
+        p.addRule(RelativeLayout.CENTER_IN_PARENT);
+
         mTitleLayout.setLayoutParams(p);
         mTitleLayout.setOrientation(LinearLayout.HORIZONTAL);
-        mTitleLayout.setGravity(CENTER_VERTICAL);
+        mTitleLayout.setGravity(Gravity.CENTER);
 
         /**
          * 添加位置图标
          */
         ImageView imageView = new ImageView(getContext());
         imageView.setBackgroundResource(R.drawable.location);
-        LayoutParams pl = new LayoutParams((int) mTitleSize, (int) mTitleSize);
+        LayoutParams pl = new LayoutParams(mIconWidth, mIconWidth);
         imageView.setLayoutParams(pl);
 
         mTitleLayout.addView(imageView);
@@ -267,7 +278,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
         textView.setGravity(Gravity.CENTER);
         textView.setText(stringRes);
         textView.setTextColor(textColor);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
         return textView;
     }
 
@@ -294,7 +304,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
          */
         //生成一个textView并且设置layoutParams
         mTitleTextView = newTextView(mTitleColor, mTitleString);
-
+        mTitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
         //设置单行，句尾省略
         mTitleTextView.setEllipsize(TextUtils.TruncateAt.START);
         mTitleTextView.setSingleLine();
@@ -337,7 +347,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         mRightLayout.setGravity(Gravity.CENTER);
 
         TextView textView = newTextView(mButtonTextColor, stringRes);
-
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mIconWidth);
         mRightLayout.addView(textView);
         addView(mRightLayout);
 
@@ -495,7 +505,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
             if (TextUtils.isEmpty(title))
                 title = getResources().getString(R.string.app_name);
 
-            if (!mTitleString.equals(title))
+            if (!title.equals(mTitleString))
                 mTitleString = title;
             setTitleString(mTitleString);
         }

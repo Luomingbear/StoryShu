@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/margin_min"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?attr/textColor3"
                 android:textSize="@dimen/font_small" />
 
         </LinearLayout>
@@ -102,8 +102,8 @@
             android:ellipsize="end"
             android:lineSpacingExtra="@dimen/line_space_big"
             android:maxLines="2"
-            android:textColor="?attr/colorControlNormal"
-            android:textSize="@dimen/font_normal" />
+            android:textColor="?attr/textColor2"
+            android:textSize="14dp" />
 
         <ImageView
             android:id="@+id/cover_pic"
@@ -124,7 +124,7 @@
         android:layout_marginRight="@dimen/margin_normal"
         android:ellipsize="start"
         android:maxLines="1"
-        android:textColor="?attr/colorAccent"
+        android:textColor="?attr/textColor3"
         android:textSize="@dimen/font_small" />
 
 </LinearLayout>
