@@ -45,7 +45,7 @@ public class AirportPresenterIml extends IBasePresenter<AirportView> implements 
     @Override
     public void getPushData() {
         PushStoryModel pushStoryModel = new PushStoryModel(mContext);
-        pushStoryModel.startGetPushList(ISharePreference.getUserData(mContext).getUserId(),
+        pushStoryModel.startGetPushList(ISharePreference.getUserId(mContext),
                 ISharePreference.getLatLngData(mContext), pushStoryModelListener);
     }
 

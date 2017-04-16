@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.amap.api.maps.model.LatLng;
-import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.info.BaseUserInfo;
 
 /**
  * 简单数据的本地保存
@@ -49,14 +47,29 @@ public class ISharePreference {
     public static final String IS_NIGHT_MODE = "isNight"; //夜间模式
 
 
-    public static void saveUserData(Context context, BaseUserInfo userInfo) {
+//    public static void saveUserData(Context context, BaseUserInfo userInfo) {
+//        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+//                Activity.MODE_PRIVATE);
+//        // 获取Editor对象
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString(NICK_NAME, userInfo.getNickname());
+//        editor.putString(AVATAR, userInfo.getAvatar());
+//        editor.putInt(USER_ID, userInfo.getUserId());
+//        editor.apply();
+//    }
+
+    /**
+     * 保存使用者的用户id
+     *
+     * @param context
+     * @param userId
+     */
+    public static void saveUserId(Context context, int userId) {
         SharedPreferences sp = context.getSharedPreferences(USER_DATA,
                 Activity.MODE_PRIVATE);
         // 获取Editor对象
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(NICK_NAME, userInfo.getNickname());
-        editor.putString(AVATAR, userInfo.getAvatar());
-        editor.putInt(USER_ID, userInfo.getUserId());
+        editor.putInt(USER_ID, userId);
         editor.apply();
     }
 
@@ -71,15 +84,15 @@ public class ISharePreference {
         return sp.getInt(USER_ID, -1);
     }
 
-    public static BaseUserInfo getUserData(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
-                Activity.MODE_PRIVATE);
-        BaseUserInfo userInfo = new BaseUserInfo();
-        userInfo.setNickname(sp.getString(NICK_NAME, context.getResources().getString(R.string.app_name)));
-        userInfo.setAvatar(sp.getString(AVATAR, ""));
-        userInfo.setUserId(sp.getInt(USER_ID, -1));
-        return userInfo;
-    }
+//    public static BaseUserInfo getUserData(Context context) {
+//        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+//                Activity.MODE_PRIVATE);
+//        BaseUserInfo userInfo = new BaseUserInfo();
+//        userInfo.setNickname(sp.getString(NICK_NAME, context.getResources().getString(R.string.app_name)));
+//        userInfo.setAvatar(sp.getString(AVATAR, ""));
+//        userInfo.setUserId(sp.getInt(USER_ID, -1));
+//        return userInfo;
+//    }
 
     /**
      * 保存正在编辑的故事标题

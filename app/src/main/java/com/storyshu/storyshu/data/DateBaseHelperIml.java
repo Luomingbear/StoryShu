@@ -111,12 +111,14 @@ public class DateBaseHelperIml extends BaseDataHelper {
      *
      * @return
      */
-    public ArrayList<StoryInfo> getLifeStory() {
+    public ArrayList<StoryInfo> getLifeStory(int userId) {
         ArrayList<StoryInfo> storyList = new ArrayList<>();
         String currTime = "'" + TimeUtils.getCurrentTime() + "'";
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "select * from " + STORY_TABLE + "," + USER_TABLE + " where datetime(" + DESTROY_TIME
-                + ") > datetime(" + currTime + ") order by " + STORY_TABLE + "." + CREATE_DATE + " desc";
+        String sql = "select * from " + STORY_TABLE + "," + USER_TABLE + " where  " + STORY_TABLE + "." + USER_ID + " = " + USER_TABLE + "." + USER_ID +
+                " and datetime(" + DESTROY_TIME + ") > datetime(" + currTime + ") and "
+                + STORY_TABLE + "." + USER_ID + " = " + userId
+                + " order by " + STORY_TABLE + "." + CREATE_DATE + " desc";
         Cursor cursor = db.rawQuery(sql, null);
 
         if (cursor.moveToFirst()) {
@@ -218,7 +220,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         try {
-            values.put(USER_ID, userInfo.getEmail());
+            values.put(USER_ID, userInfo.getUserId());
             values.put(EMAIL, userInfo.getEmail());
             values.put(PHONE, userInfo.getPhone());
             values.put(PASSWORD, userInfo.getPassword());

@@ -80,7 +80,6 @@ public class WelcomeActivity extends IBaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -89,8 +88,8 @@ public class WelcomeActivity extends IBaseActivity {
     private void initUSerData() {
         BaseUserInfo userInfo = new BaseUserInfo();
         userInfo.setAvatar("https://imgsa.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=2b7f34583da85edfee81f671283d6246/f703738da97739122455d869f1198618367ae243.jpg");
-        userInfo.setNickname("翻船");
-        ISharePreference.saveUserData(this, userInfo);
+        userInfo.setNickname("游客");
+        ISharePreference.saveUserId(this, -1);
     }
 
     /**
@@ -120,8 +119,7 @@ public class WelcomeActivity extends IBaseActivity {
      * 没有登录则跳转到登录界面
      */
     private void intent2Class() {
-        BaseUserInfo userInfo = ISharePreference.getUserData(this);
-        if (userInfo.getUserId() == -1)
+        if (ISharePreference.getUserId(this) == -1)
             intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         else
             intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

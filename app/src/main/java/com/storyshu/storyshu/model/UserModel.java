@@ -2,8 +2,8 @@ package com.storyshu.storyshu.model;
 
 import android.content.Context;
 
+import com.storyshu.storyshu.data.DateBaseHelperIml;
 import com.storyshu.storyshu.info.BaseUserInfo;
-import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * mvp模式
@@ -38,21 +38,11 @@ public class UserModel {
         this.onUserInfoGetListener = onUserInfoGetListener;
         BaseUserInfo userInfo;
 
+        DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mAppContext);
+        userInfo = dateBaseHelperIml.getUserInfo(userId);
 
         // TODO: 2017/3/20 获取服务器信息得到用户的数据
         if (onUserInfoGetListener != null)
-            onUserInfoGetListener.onSucceed(ISharePreference.getUserData(mAppContext));
+            onUserInfoGetListener.onSucceed(userInfo);
     }
-
-    /**
-     * 获取用户id
-     *
-     * @return
-     */
-    public int getUserId() {
-        BaseUserInfo userInfo = ISharePreference.getUserData(mAppContext);
-        return userInfo.getUserId();
-    }
-
-
 }

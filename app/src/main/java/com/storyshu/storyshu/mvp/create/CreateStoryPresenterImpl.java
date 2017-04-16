@@ -46,7 +46,8 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
         } else {
             try {
                 StoryInfo storyInfo = new StoryInfo();
-                BaseUserInfo userInfo = ISharePreference.getUserData(mContext);
+                DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
+                BaseUserInfo userInfo = dateBaseHelperIml.getUserInfo(ISharePreference.getUserId(mContext));
                 storyInfo.setUserInfo(userInfo);
                 //故事id=userId+timeId
                 storyInfo.setStoryId(userInfo.getUserId() + TimeUtils.getTimeId());
@@ -59,8 +60,8 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
                 storyInfo.setDestroyTime(TimeUtils.getDestoryTime(mLifeTimeMinute));
                 storyInfo.setAnonymous(mMvpView.isAnonymous());
 
+                Log.i(TAG, "issueStory: StoryInfo: id" + storyInfo.getUserInfo().getUserId());
                 // TODO: 2017/3/29 上传发布故事
-                DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
                 dateBaseHelperIml.insertStoryData(storyInfo);
             } catch (Exception e) {
                 e.printStackTrace();

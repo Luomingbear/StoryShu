@@ -192,7 +192,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
      */
     @Override
     public void showStoryIcons() {
-        mStoryModel.getNearStories(ISharePreference.getUserData(mContext),
+        mStoryModel.getNearStories(ISharePreference.getUserId(mContext),
                 ISharePreference.getLatLngData(mContext), onStoryModelListener);
     }
 

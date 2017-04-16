@@ -35,7 +35,7 @@ public class MinePresenterIml extends IBasePresenter<MineView> implements MinePr
         //背景模糊
         Glide.with(mContext)
                 .load(mUserInfo.getAvatar())
-                .bitmapTransform(new BlurTransformation(mContext, 10, 2))
+                .bitmapTransform(new BlurTransformation(mContext, 8, 4))
                 .into(mMvpView.getBlurImageView());
 
         mMvpView.getNicknameView().setText(mUserInfo.getNickname());

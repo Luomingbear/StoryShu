@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.data.DateBaseHelperIml;
-import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
@@ -18,7 +17,7 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
  * Created by bear on 2017/3/22.
  */
 
-public class RegisterPresenterIml extends IBasePresenter<RegisterView>implements RegisterPresenter {
+public class RegisterPresenterIml extends IBasePresenter<RegisterView> implements RegisterPresenter {
     private static final String TAG = "RegisterPresent  erIml";
     private int mStep = 1; //当前在第几步
     private int minPasswordLength = 8; //密码的最少位数
@@ -86,21 +85,19 @@ public class RegisterPresenterIml extends IBasePresenter<RegisterView>implements
      */
     @Override
     public void registerUser() {
-        // TODO: 2017/3/29 注册账号
+        // TODO: 2017/3/29 注册账号，把userid保存在本地
         RegisterUserInfo userInfo = new RegisterUserInfo();
+        userInfo.setUserId(mMvpView.getUsername().hashCode());
         userInfo.setEmail(mMvpView.getUsername());        //暂时是邮箱
         userInfo.setPassword(PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()));
         userInfo.setNickname(mMvpView.getNickname());
         userInfo.setAvatar(mMvpView.getAvatar());
-        DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
-        dateBaseHelperIml.insertUserData(userInfo);
 
-        //存储小的本地数据
-        BaseUserInfo baseuserInfo = new BaseUserInfo();
-        baseuserInfo.setUserId(mMvpView.getUsername().hashCode());
-        baseuserInfo.setNickname(mMvpView.getNickname());
-        baseuserInfo.setAvatar(mMvpView.getAvatar());
-        ISharePreference.saveUserData(mContext, baseuserInfo);
+        //保存用户id到本地
+        ISharePreference.saveUserId(mContext, userInfo.getUserId());
+        //
+        DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext.getApplicationContext());
+        dateBaseHelperIml.insertUserData(userInfo);
         mMvpView.toMainActivity();
     }
 }

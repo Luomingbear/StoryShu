@@ -11,7 +11,7 @@ import android.os.Parcelable;
 public class BaseUserInfo implements Parcelable {
 
     private String nickname; //昵称
-    private int userId; //用户id 默认游客身份
+    private int userId = -1; //用户id 默认游客身份
     private String avatar; //头像
 
     public BaseUserInfo() {

@@ -185,15 +185,4 @@ public class CardInfo implements Parcelable {
         this.isAnonymous = in.readByte() != 0;
     }
 
-    public static final Creator<CardInfo> CREATOR = new Creator<CardInfo>() {
-        @Override
-        public CardInfo createFromParcel(Parcel source) {
-            return new CardInfo(source);
-        }
-
-        @Override
-        public CardInfo[] newArray(int size) {
-            return new CardInfo[size];
-        }
-    };
 }
