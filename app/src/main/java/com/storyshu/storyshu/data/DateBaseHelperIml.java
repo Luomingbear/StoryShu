@@ -44,6 +44,28 @@ public class DateBaseHelperIml extends BaseDataHelper {
     }
 
     /**
+     * 获取用户信息
+     *
+     * @param userId
+     * @return
+     */
+    public BaseUserInfo getUserInfo(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "select *" + " from " + USER_TABLE + " where " + USER_ID + " = " + userId;
+
+        BaseUserInfo userInfo = new BaseUserInfo();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            userInfo.setNickname(cursor.getString(cursor.getColumnIndex(NICK_NAME)));
+            userInfo.setAvatar(cursor.getString(cursor.getColumnIndex(AVATAR)));
+            userInfo.setUserId(cursor.getInt(cursor.getColumnIndex(USER_ID)));
+        }
+        cursor.close();
+        return userInfo;
+    }
+
+
+    /**
      * 查询本地的故事集
      *
      * @return
@@ -72,7 +94,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
                 story.setLatLng(latLonPoint);
 
                 BaseUserInfo user = new BaseUserInfo();
-                user.setUserId(cursor.getString(cursor.getColumnIndex(USER_ID)));
+                user.setUserId(cursor.getInt(cursor.getColumnIndex(USER_ID)));
                 user.setAvatar(cursor.getString(cursor.getColumnIndex(AVATAR)));
                 user.setNickname(cursor.getString(cursor.getColumnIndex(NICK_NAME)));
                 story.setUserInfo(user);
@@ -112,7 +134,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
                 story.setLatLng(latLonPoint);
 
                 BaseUserInfo user = new BaseUserInfo();
-                user.setUserId(cursor.getString(cursor.getColumnIndex(USER_ID)));
+                user.setUserId(cursor.getInt(cursor.getColumnIndex(USER_ID)));
                 user.setAvatar(cursor.getString(cursor.getColumnIndex(AVATAR)));
                 user.setNickname(cursor.getString(cursor.getColumnIndex(NICK_NAME)));
                 story.setUserInfo(user);
@@ -154,7 +176,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
                 story.setLatLng(latLonPoint);
 
                 BaseUserInfo user = new BaseUserInfo();
-                user.setUserId(cursor.getString(cursor.getColumnIndex(USER_ID)));
+                user.setUserId(cursor.getInt(cursor.getColumnIndex(USER_ID)));
                 user.setAvatar(cursor.getString(cursor.getColumnIndex(AVATAR)));
                 user.setNickname(cursor.getString(cursor.getColumnIndex(NICK_NAME)));
                 story.setUserInfo(user);

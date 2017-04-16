@@ -3,7 +3,6 @@ package com.storyshu.storyshu.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -122,7 +121,7 @@ public class WelcomeActivity extends IBaseActivity {
      */
     private void intent2Class() {
         BaseUserInfo userInfo = ISharePreference.getUserData(this);
-        if (TextUtils.isEmpty(userInfo.getUserId()))
+        if (userInfo.getUserId() == -1)
             intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         else
             intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

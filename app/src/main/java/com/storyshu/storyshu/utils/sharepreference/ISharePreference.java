@@ -56,8 +56,19 @@ public class ISharePreference {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(NICK_NAME, userInfo.getNickname());
         editor.putString(AVATAR, userInfo.getAvatar());
-        editor.putString(USER_ID, userInfo.getUserId());
+        editor.putInt(USER_ID, userInfo.getUserId());
         editor.apply();
+    }
+
+    /**
+     * 获取用户的id
+     *
+     * @return
+     */
+    public static int getUserId(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        return sp.getInt(USER_ID, -1);
     }
 
     public static BaseUserInfo getUserData(Context context) {
@@ -66,7 +77,7 @@ public class ISharePreference {
         BaseUserInfo userInfo = new BaseUserInfo();
         userInfo.setNickname(sp.getString(NICK_NAME, context.getResources().getString(R.string.app_name)));
         userInfo.setAvatar(sp.getString(AVATAR, ""));
-        userInfo.setUserId(sp.getString(USER_ID, ""));
+        userInfo.setUserId(sp.getInt(USER_ID, -1));
         return userInfo;
     }
 

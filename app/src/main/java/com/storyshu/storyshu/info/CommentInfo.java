@@ -17,7 +17,7 @@ public class CommentInfo extends BaseUserInfo {
     public CommentInfo() {
     }
 
-    public CommentInfo(String nickname, String userId, String avatar, String createTime,
+    public CommentInfo(String nickname, int userId, String avatar, String createTime,
                        int likeNum, int opposeNum, String tag, String comment) {
         super(nickname, userId, avatar);
         this.createTime = createTime;

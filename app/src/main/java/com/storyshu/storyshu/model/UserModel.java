@@ -19,7 +19,7 @@ public class UserModel {
         this.onUserInfoGetListener = onUserInfoGetListener;
     }
 
-    private interface OnUserInfoGetListener {
+    public interface OnUserInfoGetListener {
         void onSucceed(BaseUserInfo userInfo);
 
         void onFailed();
@@ -36,11 +36,12 @@ public class UserModel {
      */
     public void getUserInfo(int userId, OnUserInfoGetListener onUserInfoGetListener) {
         this.onUserInfoGetListener = onUserInfoGetListener;
-        BaseUserInfo userInfo = new BaseUserInfo();
+        BaseUserInfo userInfo;
+
 
         // TODO: 2017/3/20 获取服务器信息得到用户的数据
         if (onUserInfoGetListener != null)
-            onUserInfoGetListener.onSucceed(userInfo);
+            onUserInfoGetListener.onSucceed(ISharePreference.getUserData(mAppContext));
     }
 
     /**
@@ -48,7 +49,7 @@ public class UserModel {
      *
      * @return
      */
-    public String getUserId() {
+    public int getUserId() {
         BaseUserInfo userInfo = ISharePreference.getUserData(mAppContext);
         return userInfo.getUserId();
     }

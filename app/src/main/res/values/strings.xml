@@ -72,9 +72,10 @@
 
     <!--菜单-->
     <string name="my_stories">我的故事</string>
-    <string name="my_fans">喜欢我的</string>
-    <string name="my_inbox">我的信件</string>
-    <string name="my_collection">我的收藏</string>
+    <string name="my_footprint">我的足迹</string>
+    <string name="my_rank">我的排名</string>
+    <string name="my_ticket">我的机票</string>
+    <string name="my_ornament">我的装扮</string>
     <string name="setting">设置</string>
     <string name="night_mode">夜间</string>
     <string name="sun_mode">白天</string>

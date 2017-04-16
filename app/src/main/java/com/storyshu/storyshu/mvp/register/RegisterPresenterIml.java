@@ -97,7 +97,7 @@ public class RegisterPresenterIml extends IBasePresenter<RegisterView>implements
 
         //存储小的本地数据
         BaseUserInfo baseuserInfo = new BaseUserInfo();
-        baseuserInfo.setUserId(mMvpView.getUsername());
+        baseuserInfo.setUserId(mMvpView.getUsername().hashCode());
         baseuserInfo.setNickname(mMvpView.getNickname());
         baseuserInfo.setAvatar(mMvpView.getAvatar());
         ISharePreference.saveUserData(mContext, baseuserInfo);

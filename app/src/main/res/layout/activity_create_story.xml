@@ -77,7 +77,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:src="@drawable/location" />
+                    android:src="@drawable/location"
+                    android:tint="@color/colorGray" />
 
                 <TextView
                     android:id="@+id/location_text"

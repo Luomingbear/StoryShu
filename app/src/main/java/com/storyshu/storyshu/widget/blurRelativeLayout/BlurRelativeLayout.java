@@ -7,8 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -22,7 +22,7 @@ import com.storyshu.storyshu.utils.BitmapUtil;
  * Created by bear on 2017/1/27.
  */
 
-public class BlurRelativeLayout extends FrameLayout {
+public class BlurRelativeLayout extends RelativeLayout {
     private int mBlurBitmapRes;
     private ImageView mBlurImageView;
 
@@ -76,7 +76,7 @@ public class BlurRelativeLayout extends FrameLayout {
             bmp = BitmapUtil.centerSquareScaleBitmap(bmp, 100);
             BitmapDrawable drawable = new BitmapDrawable(bmp);
             setBackgroundDrawable(drawable);
-            Bitmap blurbmp1 = BitmapUtil.blurBitmap(bmp,
+            Bitmap blurbmp1 = BitmapUtil.rsBlurBitmap(bmp,
                     getContext(), 25);
             mBlurImageView.setImageBitmap(blurbmp1);
         } catch (Exception e) {
@@ -96,8 +96,8 @@ public class BlurRelativeLayout extends FrameLayout {
             bmp = BitmapUtil.centerSquareScaleBitmap(bmp, 100);
             BitmapDrawable drawable = new BitmapDrawable(bmp);
             setBackgroundDrawable(drawable);
-            Bitmap blurBmp1 = BitmapUtil.blurBitmap(bmp, getContext(), 25);
-            Bitmap blurBmp2 = BitmapUtil.blurBitmap(blurBmp1, getContext(), 25);
+            Bitmap blurBmp1 = BitmapUtil.rsBlurBitmap(bmp, getContext(), 25);
+            Bitmap blurBmp2 = BitmapUtil.rsBlurBitmap(blurBmp1, getContext(), 25);
             mBlurImageView.setImageBitmap(blurBmp2);
         } catch (Exception e) {
             e.printStackTrace();

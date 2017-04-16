@@ -64,6 +64,13 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="AvatarImageView">
+        <attr name="avatarType" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="border" value="1" />
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="AutoScaleLayout">
         <attr name="scaleRate" format="float" />
     </declare-styleable>

@@ -63,14 +63,14 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //用户表
         String CREATE_USR_TABLE = "CREATE TABLE " + USER_TABLE + "("
-                + USER_ID + " TEXT PRIMARY KEY NOT NULL, " + EMAIL + " TEXT ," + PHONE + " TEXT ," +
+                + USER_ID + " INTEGER PRIMARY KEY NOT NULL, " + EMAIL + " TEXT ," + PHONE + " TEXT ," +
                 PASSWORD + " TEXT NOT NULL," + NICK_NAME + " TEXT NOT NULL," + AVATAR + " TEXT NOT NULL, " +
                 ACCOUNT + " TEXT " + ")";
         db.execSQL(CREATE_USR_TABLE);
 
         //故事表
         String CREATE_STORY_TABLE = "CREATE TABLE " + STORY_TABLE + "("
-                + STORY_ID + " TEXT PRIMARY KEY NOT NULL, " + USER_ID + " TEXT NOT NULL,"
+                + STORY_ID + " TEXT PRIMARY KEY NOT NULL, " + USER_ID + " INTEGER NOT NULL,"
                 + LOCATION_ID + " INTEGER, " + LOCATION_NAME + " TEXT NOT NULL, " + LAT + " REAL, " +
                 LNG + " REAL," + STORY_PIC + " TEXT, " + CONTENT + " TEXT NOT NULL, "
                 + CREATE_DATE + " TEXT NOT NULL, " + DESTROY_TIME + " TEXT NOT NULL, " + IS_ANONYMOUS + " INTEGER" + ")";

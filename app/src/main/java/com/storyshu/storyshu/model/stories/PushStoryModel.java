@@ -58,7 +58,7 @@ public class PushStoryModel {
      * @param userId 用户id
      * @param latLng 位置坐标
      */
-    public void startGetPushList(String userId, LatLng latLng, OnPushStoryModelListener onPushStoryModelListener) {
+    public void startGetPushList(int userId, LatLng latLng, OnPushStoryModelListener onPushStoryModelListener) {
         this.onPushStoryModelListener = onPushStoryModelListener;
         // TODO: 2017/3/20 请求服务器数据获得故事集的数据
         getDemoList();
@@ -76,7 +76,7 @@ public class PushStoryModel {
             BaseUserInfo userInfo = new BaseUserInfo();
             userInfo.setAvatar("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490018447650&di=022e0edec69bb0710e7855ccd12da777&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2014%2Fxll%2F11%2F15%2F1%2Ftouxiang15.jpg");
             userInfo.setNickname("阿狸");
-            userInfo.setUserId("阿狸" + i);
+            userInfo.setUserId(111111111 + i);
             info.setUserInfo(userInfo);
 
             List<String> list = new ArrayList<>();

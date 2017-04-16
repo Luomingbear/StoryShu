@@ -47,7 +47,7 @@ public class PersonMarker extends IMarker {
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);
-            markerOptions.title(mStoryInfo.getUserInfo().getUserId());
+            markerOptions.title(mStoryInfo.getUserInfo().getUserId() + "");
             markerOptions.snippet(mStoryInfo.getStoryId());
             markerOptions.infoWindowEnable(false); //不显示标题窗口
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
@@ -63,7 +63,7 @@ public class PersonMarker extends IMarker {
 
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(mLatLng);
-                    markerOptions.title(mStoryInfo.getUserInfo().getUserId());
+                    markerOptions.title(mStoryInfo.getUserInfo().getUserId() + "");
                     markerOptions.snippet(mStoryInfo.getStoryId());
                     markerOptions.infoWindowEnable(false);
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
@@ -91,7 +91,7 @@ public class PersonMarker extends IMarker {
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mLatLng);
-            markerOptions.title(mStoryInfo.getUserInfo().getUserId());
+            markerOptions.title(mStoryInfo.getUserInfo().getUserId() + "");
             markerOptions.snippet(mStoryInfo.getStoryId());
             markerOptions.infoWindowEnable(false);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));
@@ -107,7 +107,7 @@ public class PersonMarker extends IMarker {
 
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(mLatLng);
-                    markerOptions.title(mStoryInfo.getUserInfo().getUserId());
+                    markerOptions.title(mStoryInfo.getUserInfo().getUserId() + "");
                     markerOptions.snippet(mStoryInfo.getStoryId());
                     markerOptions.infoWindowEnable(false);
                     markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmap));

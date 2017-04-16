@@ -52,9 +52,6 @@
             android:name=".activity.login.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
-            android:name=".activity.Test"
-            android:screenOrientation="portrait" />
         <activity android:name=".activity.story.StoryRoomActivity" />
         <activity android:name=".activity.story.CreateStoryActivity" />
         <activity
