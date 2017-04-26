@@ -67,7 +67,7 @@ public class CardInfo implements Parcelable {
 
     public String getCover() {
         if (TextUtils.isEmpty(this.storyPic))
-            return "";
+            return this.cover;
         else
             return ListUtil.StringToStringList(this.storyPic) == null ? null : ListUtil.StringToStringList(this.storyPic).get(0);
     }

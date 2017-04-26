@@ -30,6 +30,15 @@ public class UserModel {
     }
 
     /**
+     * 注册账号
+     * @param userInfo
+     */
+    public void register(BaseUserInfo userInfo) {
+
+
+    }
+
+    /**
      * 获取用户的信息
      *
      * @param userId

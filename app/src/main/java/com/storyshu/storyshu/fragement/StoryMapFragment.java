@@ -79,7 +79,6 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
         //每次返回地图页面的时候就重新获取位置，并刷新图标
         mStoryMapPresenter.getLocation();
-        mStoryMapPresenter.showStoryIcons();
     }
 
     @Override
@@ -191,12 +190,13 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
     @Override
     public void initData() {
-
     }
 
     @Override
     public void initEvents() {
         mStoryMapPresenter.initMap();
+
+        mStoryMapPresenter.showStoryIcons();
 
         mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override

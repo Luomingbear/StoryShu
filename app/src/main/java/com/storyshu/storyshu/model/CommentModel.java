@@ -107,7 +107,7 @@ public class CommentModel {
     public void getComments() {
         List<CommentInfo> mCommentInfoList = new ArrayList<>();
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 4; i++) {
             CommentInfo commentInfo = new CommentInfo();
             commentInfo.setNickname("五哥");
             commentInfo.setAvatar("http://img.hb.aicdn.com/d460cddab6bc8631e97d2a2a50a58a0436cdbc36b2f5-KjSbzk_fw658");
