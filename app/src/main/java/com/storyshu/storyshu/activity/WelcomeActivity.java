@@ -3,9 +3,15 @@ package com.storyshu.storyshu.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
@@ -20,6 +26,9 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import okhttp3.Call;
+import okhttp3.Response;
+
 /**
  * 欢迎页
  * 定时3秒之后自动跳转到地图页面
@@ -27,9 +36,11 @@ import java.util.TimerTask;
  */
 
 public class WelcomeActivity extends IBaseActivity {
+    private ImageView AdImage; //广告页
     private int mWaitTime = 3200; //自动跳转等待的时间 单位毫秒
     private int mAnimationTime = 1600; //动画执行时间，单位毫秒
     private Timer mTimer;//定时器
+
     private static final String TAG = "WelcomeActivity";
 
     @Override
@@ -52,6 +63,8 @@ public class WelcomeActivity extends IBaseActivity {
         //状态栏
         StatusBarUtils.setTranslucentForImageView(WelcomeActivity.this, null);
 
+        AdImage = (ImageView) findViewById(R.id.ad_img);
+
         View skip = findViewById(R.id.welcome_skip);
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +75,6 @@ public class WelcomeActivity extends IBaseActivity {
                 intent2Class();
             }
         });
-
     }
 
     /**
@@ -71,7 +83,7 @@ public class WelcomeActivity extends IBaseActivity {
     private void initEvent() {
         //将自定义地图的文件复制到内存卡
         String outPath = getFilesDir().getAbsolutePath();
-        Log.i(TAG, "initEvent: outPath：" + outPath);
+//        Log.i(TAG, "initEvent: outPath：" + outPath);
         outPath = outPath + File.separator + NameUtil.MAP_STYLE;
         try {
             File file = new File(outPath);
@@ -80,6 +92,27 @@ public class WelcomeActivity extends IBaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        getLaunchImg();
+    }
+
+
+    public void getLaunchImg() {
+        // TODO: 2017/4/26 这是测试！使用的知乎的图片
+        OkGo.get("http://news-at.zhihu.com/api/7/prefetch-launch-images/1080*1920")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+
+                        JSONObject json = JSON.parseObject(s);
+                        JSONArray jsonArray = (JSONArray) json.get("creatives");
+                        JSONObject j = jsonArray.getJSONObject(0);
+
+                        Glide.with(WelcomeActivity.this)
+                                .load(json.getString(j.getString("url")))
+                                .into(AdImage);
+                    }
+                });
     }
 
     /**

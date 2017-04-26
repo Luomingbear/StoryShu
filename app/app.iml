@@ -100,6 +100,7 @@
     <orderEntry type="library" exported="" name="animated-vector-drawable-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="fastjson-1.2.31" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-24.2.1" level="project" />

@@ -4,8 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.info.BaseUserInfo;
+import com.storyshu.storyshu.info.LoginInfo;
+import com.storyshu.storyshu.model.UserModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
+import com.storyshu.storyshu.utils.PasswordUtil;
+import com.storyshu.storyshu.utils.ToastUtil;
 
 /**
  * mvp模式
@@ -28,9 +33,7 @@ public class LoginPresenterIml extends IBasePresenter<LoginView> implements Logi
      */
     private void login() {
         //如果输入的值正确则登录
-        if (checkInput()) {
-            mMvpView.intent2MainActivity();
-        }
+        checkInput();
     }
 
     /**
@@ -51,14 +54,22 @@ public class LoginPresenterIml extends IBasePresenter<LoginView> implements Logi
         if (TextUtils.isEmpty(mMvpView.getPassword()))
             mMvpView.showToast(R.string.login_password_empty);
         else {
-            //todo 验证密码
-            if (mMvpView.getPassword().equals("0000"))
-                return true;
 
-            mMvpView.showToast(R.string.login_password_illegal);
-            return false;
+            UserModel userModel = new UserModel(mContext);
+            userModel.loginUser(new LoginInfo(mMvpView.getUsername(),
+                    PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword())));
+            userModel.setOnUserInfoGetListener(new UserModel.OnUserInfoGetListener() {
+                @Override
+                public void onSucceed(BaseUserInfo userInfo) {
+                    ToastUtil.Show(mContext, "登录成功！");
+                }
+
+                @Override
+                public void onFailed() {
+                    mMvpView.showToast(R.string.login_password_illegal);
+                }
+            });
         }
-
         return true;
     }
 

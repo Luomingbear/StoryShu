@@ -5,11 +5,12 @@ import android.text.TextUtils;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.data.DateBaseHelperIml;
+import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;
+import com.storyshu.storyshu.model.UserModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
 import com.storyshu.storyshu.utils.PasswordUtil;
-import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * mvp模式
@@ -87,17 +88,31 @@ public class RegisterPresenterIml extends IBasePresenter<RegisterView> implement
     public void registerUser() {
         // TODO: 2017/3/29 注册账号，把userid保存在本地
         RegisterUserInfo userInfo = new RegisterUserInfo();
-        userInfo.setUserId(mMvpView.getUsername().hashCode());
+//        userInfo.setUserId(mMvpView.getUsername().hashCode());
         userInfo.setEmail(mMvpView.getUsername());        //暂时是邮箱
         userInfo.setPassword(PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()));
         userInfo.setNickname(mMvpView.getNickname());
         userInfo.setAvatar(mMvpView.getAvatar());
 
-        //保存用户id到本地
-        ISharePreference.saveUserId(mContext, userInfo.getUserId());
-        //
-        DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext.getApplicationContext());
-        dateBaseHelperIml.insertUserData(userInfo);
-        mMvpView.toMainActivity();
+        //获取网络数据
+        UserModel userModel = new UserModel(mContext);
+        userModel.setOnUserInfoGetListener(new UserModel.OnUserInfoGetListener() {
+            @Override
+            public void onSucceed(BaseUserInfo userInfo) {
+                //保存用户id到本地
+
+                DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext.getApplicationContext());
+                dateBaseHelperIml.insertUserData(userInfo);
+                mMvpView.toMainActivity();
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
+
+        userModel.register(userInfo);
+
     }
 }

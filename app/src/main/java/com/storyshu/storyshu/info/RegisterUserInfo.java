@@ -8,32 +8,27 @@ import android.os.Parcelable;
  * Created by bear on 2017/3/29.
  */
 
-public class RegisterUserInfo extends BaseUserInfo implements Parcelable {
+public class RegisterUserInfo implements Parcelable {
     private String email; //邮箱
-    private String phone; //手机号
     private String password; //密码
+
+    private String nickname; //昵称
+    private String avatar; //头像
 
     public RegisterUserInfo() {
 
     }
 
-    public RegisterUserInfo(String email, String phone, String password) {
+    public RegisterUserInfo(String email, String password, String nickname, String avatar) {
         this.email = email;
-        this.phone = phone;
         this.password = password;
-    }
-
-    public RegisterUserInfo(String nickname, int userId, String avatar, String email, String phone, String password) {
-        super(nickname, userId, avatar);
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
+        this.nickname = nickname;
+        this.avatar = avatar;
     }
 
     @Override
     public String toString() {
         String ss = "eamil:" + getEmail() + "\n"
-                + "phone:" + getPhone() + "\n"
                 + "password:" + getPassword() + "\n"
                 + "nickname:" + getNickname() + "\n"
                 + "avatar:" + getAvatar() + "\n";
@@ -48,12 +43,20 @@ public class RegisterUserInfo extends BaseUserInfo implements Parcelable {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getPassword() {
@@ -71,17 +74,17 @@ public class RegisterUserInfo extends BaseUserInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeString(this.email);
-        dest.writeString(this.phone);
         dest.writeString(this.password);
+        dest.writeString(this.nickname);
+        dest.writeString(this.avatar);
     }
 
     protected RegisterUserInfo(Parcel in) {
-        super(in);
         this.email = in.readString();
-        this.phone = in.readString();
         this.password = in.readString();
+        this.nickname = in.readString();
+        this.avatar = in.readString();
     }
 
     public static final Creator<RegisterUserInfo> CREATOR = new Creator<RegisterUserInfo>() {

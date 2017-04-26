@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.amap.api.maps.model.LatLng;
 import com.storyshu.storyshu.info.BaseUserInfo;
-import com.storyshu.storyshu.info.RegisterUserInfo;
 import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.utils.ListUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
@@ -211,28 +210,6 @@ public class DateBaseHelperIml extends BaseDataHelper {
         db.close();
     }
 
-    /**
-     * 插入用户信息
-     *
-     * @param userInfo
-     */
-    public void insertUserData(RegisterUserInfo userInfo) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        try {
-            values.put(USER_ID, userInfo.getUserId());
-            values.put(EMAIL, userInfo.getEmail());
-            values.put(PHONE, userInfo.getPhone());
-            values.put(PASSWORD, userInfo.getPassword());
-            values.put(NICK_NAME, userInfo.getNickname());
-            values.put(AVATAR, userInfo.getAvatar());
-
-            db.insert(USER_TABLE, null, values);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        db.close();
-    }
 
     /**
      * 插入故事数据

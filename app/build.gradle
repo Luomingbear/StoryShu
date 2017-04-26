@@ -39,6 +39,8 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     //
     compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.3.0_20170311.jar')
-
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
+
+    compile 'com.alibaba:fastjson:1.2.31'
+
 }

@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/image_big"
-        android:scaleType="centerCrop"
-        android:src="@drawable/test" />
+        android:scaleType="centerCrop" />
 
     <!--跳过-->
     <TextView

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.login.LoginActivity;
 import com.storyshu.storyshu.mvp.mine.MinePresenterIml;
 import com.storyshu.storyshu.mvp.mine.MineView;
 import com.storyshu.storyshu.utils.ToastUtil;
@@ -103,6 +104,11 @@ public class MineFragment extends IBaseStatusFragment implements MineView, View.
     @Override
     public TextView getOrnamentNumView() {
         return (TextView) mRootView.findViewById(R.id.my_ornament_num);
+    }
+
+    @Override
+    public void goLogin() {
+        intentTo(LoginActivity.class);
     }
 
     @Override

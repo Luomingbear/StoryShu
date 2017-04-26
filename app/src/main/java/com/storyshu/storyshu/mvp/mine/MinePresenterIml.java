@@ -76,7 +76,8 @@ public class MinePresenterIml extends IBasePresenter<MineView> implements MinePr
 
     @Override
     public void clickSetting() {
-        mMvpView.showToast("Setting");
+        //测试！！！
+        mMvpView.goLogin();
     }
 
     @Override

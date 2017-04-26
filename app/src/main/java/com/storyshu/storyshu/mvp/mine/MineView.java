@@ -70,4 +70,9 @@ public interface MineView extends IBaseView {
      * @return
      */
     TextView getOrnamentNumView();
+
+    /**
+     * 登录页面
+     */
+    void goLogin();
 }
