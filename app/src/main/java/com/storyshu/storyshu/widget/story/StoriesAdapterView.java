@@ -326,6 +326,12 @@ public class StoriesAdapterView extends AdapterView {
     private float mMoveTime; //手指滑动的时间
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        // TODO: 2017/4/30 拦截触摸事件，如果是滑动则拦截触摸事件 
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:

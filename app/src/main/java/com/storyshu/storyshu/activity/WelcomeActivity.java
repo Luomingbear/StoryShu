@@ -3,18 +3,17 @@ package com.storyshu.storyshu.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 import com.bumptech.glide.Glide;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
+import com.storyshu.storyshu.bean.GetLauncherServise;
+import com.storyshu.storyshu.bean.LauncherBean;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.utils.FileUtil;
 import com.storyshu.storyshu.utils.NameUtil;
@@ -26,8 +25,10 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import okhttp3.Call;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * 欢迎页
@@ -99,20 +100,25 @@ public class WelcomeActivity extends IBaseActivity {
 
     public void getLaunchImg() {
         // TODO: 2017/4/26 这是测试！使用的知乎的图片
-        OkGo.get("http://news-at.zhihu.com/api/7/prefetch-launch-images/1080*1920")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.storyshu.com/")
+                .addConverterFactory(new Retrofit2ConverterFactory())
+                .build();
 
-                        JSONObject json = JSON.parseObject(s);
-                        JSONArray jsonArray = (JSONArray) json.get("creatives");
-                        JSONObject j = jsonArray.getJSONObject(0);
+        GetLauncherServise servise = retrofit.create(GetLauncherServise.class);
+        Call<LauncherBean> call = servise.getLauncher();
+        call.enqueue(new Callback<LauncherBean>() {
+            @Override
+            public void onResponse(Call<LauncherBean> call, Response<LauncherBean> response) {
+                Glide.with(WelcomeActivity.this).load(response.body().getUrl()).into(AdImage);
+            }
 
-                        Glide.with(WelcomeActivity.this)
-                                .load(json.getString(j.getString("url")))
-                                .into(AdImage);
-                    }
-                });
+            @Override
+            public void onFailure(Call<LauncherBean> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t);
+            }
+        });
+
     }
 
     /**
