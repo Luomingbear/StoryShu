@@ -9,9 +9,8 @@ import android.os.Parcelable;
  */
 
 public class BaseUserInfo implements Parcelable {
-
-    private String nickname; //昵称
     private int userId = -1; //用户id 默认游客身份
+    private String nickname; //昵称
     private String avatar; //头像
 
     public BaseUserInfo() {
@@ -45,6 +44,13 @@ public class BaseUserInfo implements Parcelable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    @Override
+    public String toString() {
+        return "userId: " + userId +
+                "\nnickname: " + nickname +
+                "\navatar: " + avatar;
     }
 
     @Override

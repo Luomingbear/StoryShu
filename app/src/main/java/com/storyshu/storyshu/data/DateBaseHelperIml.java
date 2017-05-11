@@ -83,7 +83,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
                 StoryInfo story = new StoryInfo();
                 story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
                 story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
-                story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
+                story.setCreateTime(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
                 story.setDestroyTime(cursor.getString(cursor.getColumnIndex(DESTROY_TIME)));
                 story.setStoryPic(cursor.getString(cursor.getColumnIndex(STORY_PIC)));
                 story.setStoryId(cursor.getString(cursor.getColumnIndex(STORY_ID)));
@@ -125,7 +125,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
                 StoryInfo story = new StoryInfo();
                 story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
                 story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
-                story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
+                story.setCreateTime(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
                 story.setDestroyTime(cursor.getString(cursor.getColumnIndex(DESTROY_TIME)));
                 story.setStoryPic(cursor.getString(cursor.getColumnIndex(STORY_PIC)));
                 story.setStoryId(cursor.getString(cursor.getColumnIndex(STORY_ID)));
@@ -167,7 +167,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
                 StoryInfo story = new StoryInfo();
                 story.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
                 story.setLocation(cursor.getString(cursor.getColumnIndex(LOCATION_NAME)));
-                story.setCreateDate(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
+                story.setCreateTime(cursor.getString(cursor.getColumnIndex(CREATE_DATE)));
                 story.setDestroyTime(cursor.getString(cursor.getColumnIndex(DESTROY_TIME)));
                 story.setStoryPic(cursor.getString(cursor.getColumnIndex(STORY_PIC)));
                 story.setStoryId(cursor.getString(cursor.getColumnIndex(STORY_ID)));
@@ -198,7 +198,6 @@ public class DateBaseHelperIml extends BaseDataHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         try {
-
             values.put(USER_ID, userInfo.getUserId());
             values.put(NICK_NAME, userInfo.getNickname());
             values.put(AVATAR, userInfo.getAvatar());
@@ -227,7 +226,7 @@ public class DateBaseHelperIml extends BaseDataHelper {
 //            values.put(COVER_PIC, storyInfo.getCover());
             values.put(STORY_PIC, ListUtil.ListToString(storyInfo.getStoryPic()));
             values.put(LOCATION_NAME, storyInfo.getLocation());
-            values.put(CREATE_DATE, storyInfo.getCreateDate());
+            values.put(CREATE_DATE, storyInfo.getCreateTime());
             values.put(DESTROY_TIME, storyInfo.getDestroyTime());
             values.put(LAT, storyInfo.getLatLng().latitude);
             values.put(LNG, storyInfo.getLatLng().longitude);

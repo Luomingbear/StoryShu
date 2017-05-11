@@ -7,6 +7,7 @@ import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.model.UserModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.BlurTransformation;
+import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
@@ -46,7 +47,8 @@ public class MinePresenterIml extends IBasePresenter<MineView> implements MinePr
      */
     private void initHead() {
         UserModel userModel = new UserModel(mContext);
-        userModel.getUserInfo(ISharePreference.getUserId(mContext), new UserModel.OnUserInfoGetListener() {
+        userModel.getUserInfo(ISharePreference.getUserId(mContext));
+        userModel.setOnUserInfoGetListener(new UserModel.OnUserInfoGetListener() {
             @Override
             public void onSucceed(BaseUserInfo userInfo) {
                 mUserInfo = userInfo;
@@ -54,8 +56,8 @@ public class MinePresenterIml extends IBasePresenter<MineView> implements MinePr
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String error) {
+                ToastUtil.Show(mContext, error);
             }
         });
     }

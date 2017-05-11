@@ -25,6 +25,6 @@
         android:layout_height="@dimen/icon_normal"
         android:layout_gravity="top|right"
         android:padding="@dimen/margin_min"
-        app:checkbox_color="@color/colorGoldLight"
+        app:checkbox_color="@color/colorRed"
         app:checkbox_size="@dimen/icon_normal" />
 </FrameLayout>

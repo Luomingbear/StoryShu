@@ -2,6 +2,10 @@ package com.storyshu.storyshu.info;
 
 import android.os.Parcel;
 
+import com.amap.api.maps.model.LatLng;
+
+import java.util.List;
+
 /**
  * 候机厅推送的故事信息结构
  * Created by bear on 2017/3/19.
@@ -23,12 +27,17 @@ public class AirPortPushInfo extends CardInfo {
         this.adUrl = adUrl;
     }
 
-    public AirPortPushInfo(StoryInfo storyInfo, int pushType, String adUrl) {
-        super(storyInfo);
+    public AirPortPushInfo(int likeNum, int opposeNum, int pushType, String adUrl) {
+        super(likeNum, opposeNum);
         this.pushType = pushType;
         this.adUrl = adUrl;
     }
 
+    public AirPortPushInfo(String storyId, String cover, List<String> storyPic, String content, BaseUserInfo userInfo, String createDate, String destroyTime, String content1, LatLng latLng, String location, boolean isAnonymous, int likeNum, int opposeNum, int pushType, String adUrl) {
+        super(storyId, cover, storyPic, content, userInfo, createDate, destroyTime, content1, latLng, location, isAnonymous, likeNum, opposeNum);
+        this.pushType = pushType;
+        this.adUrl = adUrl;
+    }
 
     public AirPortPushInfo(Parcel in, int pushType, String adUrl) {
         super(in);

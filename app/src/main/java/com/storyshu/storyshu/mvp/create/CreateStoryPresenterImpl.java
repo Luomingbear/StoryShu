@@ -3,14 +3,14 @@ package com.storyshu.storyshu.mvp.create;
 import android.content.Context;
 import android.util.Log;
 
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.data.DateBaseHelperIml;
-import com.storyshu.storyshu.info.BaseUserInfo;
-import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.bean.IssueStoryBean;
 import com.storyshu.storyshu.model.location.ILocationQueryTool;
+import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -38,6 +38,20 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
         super(mContext, mvpView);
     }
 
+    private StoryModel.OnStoryIssuseListener onStoryIssuseListener = new StoryModel.OnStoryIssuseListener() {
+        @Override
+        public void onSucceed() {
+            mMvpView.showToast(R.string.issue_succeed);
+            //返回
+            mMvpView.backActivity();
+        }
+
+        @Override
+        public void onFailed(String error) {
+            mMvpView.showToast(error);
+        }
+    };
+
     @Override
     public void issueStory() {
         mTempContent = mMvpView.getStoryContent().replace(" ", "");
@@ -45,32 +59,40 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
             mMvpView.showToast(R.string.story_length_too_sort);
         } else {
             try {
-                StoryInfo storyInfo = new StoryInfo();
-                DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
-                BaseUserInfo userInfo = dateBaseHelperIml.getUserInfo(ISharePreference.getUserId(mContext));
-                storyInfo.setUserInfo(userInfo);
-                //故事id=userId+timeId
-                storyInfo.setStoryId(userInfo.getUserId() + TimeUtils.getTimeId());
-                storyInfo.setContent(mMvpView.getStoryContent());
-                storyInfo.setCover(mMvpView.getStoryPic().size() > 0 ? mMvpView.getStoryPic().get(0) : "");
-                storyInfo.setStoryPic(mMvpView.getStoryPic());
-                storyInfo.setLocation(mMvpView.getLocationTv().getText().toString());
-                storyInfo.setLatLng(ISharePreference.getLatLngData(mContext));
-                storyInfo.setCreateDate(TimeUtils.getCurrentTime());
-                storyInfo.setDestroyTime(TimeUtils.getDestoryTime(mLifeTimeMinute));
-                storyInfo.setAnonymous(mMvpView.isAnonymous());
+                IssueStoryBean issueInfo = new IssueStoryBean();
 
-                Log.i(TAG, "issueStory: StoryInfo: id" + storyInfo.getUserInfo().getUserId());
-                // TODO: 2017/3/29 上传发布故事
-                dateBaseHelperIml.insertStoryData(storyInfo);
+                /**
+                 * 设置发布的内容
+                 */
+                issueInfo.setUserId(ISharePreference.getUserId(mContext));
+                issueInfo.setContent(mMvpView.getStoryContent());
+                issueInfo.setCover(mMvpView.getStoryPic().size() > 0 ? mMvpView.getStoryPic().get(0) : "");
+                issueInfo.setStoryPictures(mMvpView.getStoryPic());
+                issueInfo.setCityName(ISharePreference.getCityName(mContext));
+                issueInfo.setLocationTitle(mMvpView.getLocationTv().getText().toString());
+
+                LatLng latLng = ISharePreference.getLatLngData(mContext);
+                issueInfo.setLatitude(latLng.latitude);
+                issueInfo.setLongitude(latLng.longitude);
+
+                issueInfo.setCreateTime(TimeUtils.getCurrentTime());
+                issueInfo.setDestroyTime(TimeUtils.getDestoryTime(mLifeTimeMinute));
+                issueInfo.setIsAnonymous(mMvpView.isAnonymous());
+
+
+                /**
+                 * 上传故事
+                 */
+                StoryModel storyModel = new StoryModel(mContext);
+                storyModel.issueStory(issueInfo);
+                storyModel.setOnStoryIssuseListener(onStoryIssuseListener);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             //隐藏键盘
             KeyBordUtil.hideKeyboard(mContext, mMvpView.getLocationTv());
-            //返回
-            mMvpView.backActivity();
         }
     }
 

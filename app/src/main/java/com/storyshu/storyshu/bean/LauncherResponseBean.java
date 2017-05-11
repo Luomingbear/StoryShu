@@ -5,15 +5,15 @@ package com.storyshu.storyshu.bean;
  * Created by bear on 2017/5/8.
  */
 
-public class LauncherBean {
+public class LauncherResponseBean {
     private String describe; //描述文本
     private String url; //描述文本
     private String ad; //描述文本
 
-    public LauncherBean() {
+    public LauncherResponseBean() {
     }
 
-    public LauncherBean(String describe, String url, String ad) {
+    public LauncherResponseBean(String describe, String url, String ad) {
         this.describe = describe;
         this.url = url;
         this.ad = ad;

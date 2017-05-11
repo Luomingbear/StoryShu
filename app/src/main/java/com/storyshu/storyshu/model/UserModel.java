@@ -3,14 +3,20 @@ package com.storyshu.storyshu.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.alibaba.fastjson.JSON;
-import com.storyshu.storyshu.data.DateBaseHelperIml;
+import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.bean.RegisterResponseBean;
+import com.storyshu.storyshu.bean.UserIdBean;
+import com.storyshu.storyshu.bean.UserLoginResponseBean;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.LoginInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;
+import com.storyshu.storyshu.utils.net.CodeUtil;
+import com.storyshu.storyshu.utils.net.QiniuUploadManager;
+import com.storyshu.storyshu.utils.net.RetrofitManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * mvp模式
@@ -30,7 +36,7 @@ public class UserModel {
     public interface OnUserInfoGetListener {
         void onSucceed(BaseUserInfo userInfo);
 
-        void onFailed();
+        void onFailed(String error);
     }
 
     public UserModel(Context mAppContext) {
@@ -42,53 +48,85 @@ public class UserModel {
      *
      * @param userInfo
      */
-    public void register(RegisterUserInfo userInfo) {
-        Log.i(TAG, "register: UserInfo:" + userInfo);
+    public void register(final RegisterUserInfo userInfo) {
 
-        String up = JSON.toJSONString(userInfo);
-        try {
-            JSONObject obj = new JSONObject(up);
-//            OkGo.post(UrlUtil.BASE_API_URL + "RegisterUser")
-//                    .upJson(obj)
-//                    .execute(new StringCallback() {
-//                        @Override
-//                        public void onSuccess(String s, Call call, Response response) {
-//                            Log.i(TAG, "onSuccess: 获取成功！！" + s);
-//                        }
-//
-//                        @Override
-//                        public void onError(Call call, Response response, Exception e) {
-//                            Log.e(TAG, "onError: 注册失败！", e);
-//                        }
-//                    });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        /**
+         * 上传头像并获取网络地址
+         */
+        QiniuUploadManager qiniuUploadManager = new QiniuUploadManager();
+        qiniuUploadManager.uploadFile(userInfo.getAvatar());
+        qiniuUploadManager.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
+            @Override
+            public void onSucceed(String fileNetPath) {
+                userInfo.setAvatar(fileNetPath);
+
+                //开始注册账户
+                uploadUser(userInfo);
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
+    }
+
+    /**
+     * 注册账户
+     *
+     * @param userInfo
+     */
+    private void uploadUser(RegisterUserInfo userInfo) {
+
+        final Call<RegisterResponseBean> registerCall = RetrofitManager.getInstance().getService().register(userInfo);
+        registerCall.enqueue(new Callback<RegisterResponseBean>() {
+            @Override
+            public void onResponse(Call<RegisterResponseBean> call, Response<RegisterResponseBean> response) {
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    if (onUserInfoGetListener != null)
+                        onUserInfoGetListener.onSucceed(response.body().getData());
+                } else {
+                    if (onUserInfoGetListener != null)
+                        onUserInfoGetListener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponseBean> call, Throwable t) {
+                if (onUserInfoGetListener != null) {
+                    onUserInfoGetListener.onFailed(mAppContext.getString(R.string.register_error));
+                }
+            }
+        });
+
     }
 
     /**
      * 登录
      */
     public void loginUser(LoginInfo loginInfo) {
-        //初始化OkHttpClient
-        String up = JSON.toJSONString(loginInfo);
-        try {
-            JSONObject json = new JSONObject(up);
-//            OkGo.post(UrlUtil.BASE_API_URL + "LoginUser")
-//                    .upJson(json)
-//                    .execute(new StringCallback() {
-//                        @Override
-//                        public void onSuccess(String s, Call call, Response response) {
-//                            try {
-//                                Log.i(TAG, "onSuccess: 获取成功！！" + response.body().string());
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Call<UserLoginResponseBean> callLogin = RetrofitManager.getInstance().getService().login(loginInfo);
+        callLogin.enqueue(new Callback<UserLoginResponseBean>() {
+            @Override
+            public void onResponse(Call<UserLoginResponseBean> call, Response<UserLoginResponseBean> response) {
+                Log.i(TAG, "onResponse: " + response.message());
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    if (onUserInfoGetListener != null)
+                        onUserInfoGetListener.onSucceed(response.body().getData());
+                } else {
+                    if (onUserInfoGetListener != null)
+                        onUserInfoGetListener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserLoginResponseBean> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+                if (onUserInfoGetListener != null) {
+                    onUserInfoGetListener.onFailed(mAppContext.getString(R.string.login_error));
+                }
+            }
+        });
 
     }
 
@@ -97,16 +135,30 @@ public class UserModel {
      *
      * @param userId
      */
+    public void getUserInfo(int userId) {
 
-    public void getUserInfo(int userId, OnUserInfoGetListener onUserInfoGetListener) {
-        this.onUserInfoGetListener = onUserInfoGetListener;
-        BaseUserInfo userInfo;
+        Call<UserLoginResponseBean> callUserInfo = RetrofitManager.getInstance().getService().getUserInfo(new UserIdBean(userId));
+        callUserInfo.enqueue(new Callback<UserLoginResponseBean>() {
+            @Override
+            public void onResponse(Call<UserLoginResponseBean> call, Response<UserLoginResponseBean> response) {
+                Log.i(TAG, "onResponse:" + response.body().getMessage());
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    if (onUserInfoGetListener != null)
+                        onUserInfoGetListener.onSucceed(response.body().getData());
+                } else {
+                    if (onUserInfoGetListener != null)
+                        onUserInfoGetListener.onFailed(response.body().getMessage());
+                }
 
-        DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mAppContext);
-        userInfo = dateBaseHelperIml.getUserInfo(userId);
+            }
 
-        // TODO: 2017/3/20 获取服务器信息得到用户的数据
-        if (onUserInfoGetListener != null)
-            onUserInfoGetListener.onSucceed(userInfo);
+            @Override
+            public void onFailure(Call<UserLoginResponseBean> call, Throwable t) {
+                Log.e(TAG, "onResponse:" + t);
+                if (onUserInfoGetListener != null)
+                    onUserInfoGetListener.onFailed(mAppContext.getString(R.string.get_userinfo_error));
+            }
+        });
+
     }
 }

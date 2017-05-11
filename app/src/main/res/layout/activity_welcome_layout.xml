@@ -27,7 +27,9 @@
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_normal" />
 
+
     <LinearLayout
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_big"
         android:layout_alignParentBottom="true"
@@ -69,5 +71,16 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.storyshu.storyshu.widget.text.StorkTextView
+        android:id="@+id/describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_normal" />
 
 </RelativeLayout>

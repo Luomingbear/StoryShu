@@ -12,6 +12,7 @@ import com.amap.api.maps.MapView;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.story.StoryRoomActivity;
 import com.storyshu.storyshu.info.CardInfo;
+import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.storymap.StoryMapPresenterIml;
 import com.storyshu.storyshu.mvp.storymap.StoryMapView;
@@ -184,8 +185,8 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     }
 
     @Override
-    public void intent2StoryRoomActivity(CardInfo cardInfo) {
-        intentWithParcelable(StoryRoomActivity.class, NameUtil.STORY_INFO, cardInfo);
+    public void intent2StoryRoomActivity(StoryInfo storyInfo) {
+        intentWithParcelable(StoryRoomActivity.class, NameUtil.STORY_INFO, storyInfo);
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.utils.DipPxConversion;
 
 /**
+ * 圆形带数字的选择按钮
  * Created by bear on 2017/3/24.
  */
 
@@ -76,7 +77,7 @@ public class ICheckBox extends View {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ICheckBox);
         normalColor =
                 a.getColor(R.styleable.ICheckBox_checkbox_color,
-                        getResources().getColor(R.color.colorGrayLight));
+                        getResources().getColor(R.color.colorRed));
         unCheckedColor =
                 a.getColor(R.styleable.ICheckBox_unchecked_color,
                         getResources().getColor(R.color.colorTranslateDark));
@@ -97,7 +98,7 @@ public class ICheckBox extends View {
         if (paint == null) {
             textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setColor(Color.WHITE);
-            textPaint.setTextSize(DipPxConversion.dip2px(getContext(),15));
+            textPaint.setTextSize(DipPxConversion.dip2px(getContext(), 15));
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             eraser = new Paint(Paint.ANTI_ALIAS_FLAG);
             eraser.setColor(0);
@@ -105,14 +106,14 @@ public class ICheckBox extends View {
             eraser2 = new Paint(Paint.ANTI_ALIAS_FLAG);
             eraser2.setColor(0);
             eraser2.setStyle(Paint.Style.STROKE);
-            eraser2.setStrokeWidth(DipPxConversion.dip2px(getContext(),28));
+            eraser2.setStrokeWidth(DipPxConversion.dip2px(getContext(), 28));
             eraser2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
             backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             backgroundPaint.setStyle(Paint.Style.STROKE);
-            backgroundPaint.setStrokeWidth(DipPxConversion.dip2px(getContext(),1));
+            backgroundPaint.setStrokeWidth(DipPxConversion.dip2px(getContext(), 1));
         }
         backgroundPaint.setColor(borderColor);
-        setCheckOffset(DipPxConversion.dip2px(getContext(),1));
+        setCheckOffset(DipPxConversion.dip2px(getContext(), 1));
         setDrawBackground(true);
         drawBitmap =
                 Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_4444);
@@ -224,24 +225,24 @@ public class ICheckBox extends View {
 
             float roundProgressCheckState = isCheckAnimation ? progress : (1.0f - progress);
             if (roundProgressCheckState < progressBounceDiff) {
-                drawRad -= DipPxConversion.dip2px(getContext(),2) * roundProgressCheckState / progressBounceDiff;
+                drawRad -= DipPxConversion.dip2px(getContext(), 2) * roundProgressCheckState / progressBounceDiff;
             } else if (roundProgressCheckState < progressBounceDiff * 2) {
-                drawRad -= DipPxConversion.dip2px(getContext(),2) - DipPxConversion.dip2px(getContext(),2)
+                drawRad -= DipPxConversion.dip2px(getContext(), 2) - DipPxConversion.dip2px(getContext(), 2)
                         * (roundProgressCheckState - progressBounceDiff) / progressBounceDiff;
             }
             if (drawBackground) {
                 paint.setColor(unCheckedColor);
                 canvas.drawCircle(paddingLeft + rad, paddingTop + rad, drawRad
-                        - DipPxConversion.dip2px(getContext(),1), paint);
+                        - DipPxConversion.dip2px(getContext(), 1), paint);
                 canvas.drawCircle(paddingLeft + rad, paddingTop + rad, drawRad
-                        - DipPxConversion.dip2px(getContext(),1), backgroundPaint);
+                        - DipPxConversion.dip2px(getContext(), 1), backgroundPaint);
             }
             paint.setColor(isEnabled() ? normalColor : disabledColor);
-            bitmapCanvas.drawCircle(rad, rad, showBorderInCheckState ? rad - DipPxConversion.dip2px(getContext(),1.2f) : rad,
+            bitmapCanvas.drawCircle(rad, rad, showBorderInCheckState ? rad - DipPxConversion.dip2px(getContext(), 1.2f) : rad,
                     paint);
             bitmapCanvas.drawCircle(rad, rad,
                     showBorderInCheckState
-                            ? (rad - DipPxConversion.dip2px(getContext(),1.2f)) * (1 - roundProgress)
+                            ? (rad - DipPxConversion.dip2px(getContext(), 1.2f)) * (1 - roundProgress)
                             : rad * (1 - roundProgress),
                     eraser);
             canvas.drawBitmap(drawBitmap, paddingLeft, paddingTop, null);
@@ -275,7 +276,7 @@ public class ICheckBox extends View {
         if (!TextUtils.isEmpty(text)) {
             textLayout =
                     new StaticLayout(text, textPaint,
-                            DipPxConversion.dip2px(getContext(),100), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            DipPxConversion.dip2px(getContext(), 100), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             if (textLayout.getLineCount() > 0) {
                 textLeft = textLayout.getLineLeft(0);
                 textWidth = textLayout.getLineWidth(0);

@@ -172,7 +172,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
     /**
      * 故事数据获取的回调函数
      */
-    private StoryModel.OnStoryModelListener onStoryModelListener = new StoryModel.OnStoryModelListener() {
+    private StoryModel.OnStoryGetListener onStoryModelListener = new StoryModel.OnStoryGetListener() {
         @Override
         public void onStoriesGot(ArrayList<StoryInfo> storyList) {
             mStoryList.clear();

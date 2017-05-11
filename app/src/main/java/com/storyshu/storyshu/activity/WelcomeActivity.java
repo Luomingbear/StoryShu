@@ -12,13 +12,15 @@ import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
-import com.storyshu.storyshu.bean.GetLauncherServise;
-import com.storyshu.storyshu.bean.LauncherBean;
+import com.storyshu.storyshu.bean.ApiService;
+import com.storyshu.storyshu.bean.LauncherResponseBean;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.utils.FileUtil;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
+import com.storyshu.storyshu.utils.net.UrlUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.widget.text.StorkTextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +40,7 @@ import retrofit2.Retrofit;
 
 public class WelcomeActivity extends IBaseActivity {
     private ImageView AdImage; //广告页
+    private StorkTextView Describe; //广告描述
     private int mWaitTime = 3200; //自动跳转等待的时间 单位毫秒
     private int mAnimationTime = 1600; //动画执行时间，单位毫秒
     private Timer mTimer;//定时器
@@ -57,7 +60,6 @@ public class WelcomeActivity extends IBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initTimer();
     }
 
     private void initView() {
@@ -65,6 +67,8 @@ public class WelcomeActivity extends IBaseActivity {
         StatusBarUtils.setTranslucentForImageView(WelcomeActivity.this, null);
 
         AdImage = (ImageView) findViewById(R.id.ad_img);
+
+        Describe = (StorkTextView) findViewById(R.id.describe);
 
         View skip = findViewById(R.id.welcome_skip);
         skip.setOnClickListener(new View.OnClickListener() {
@@ -98,24 +102,32 @@ public class WelcomeActivity extends IBaseActivity {
     }
 
 
+    /**
+     * 获取服务器发送的启动图片
+     */
     public void getLaunchImg() {
-        // TODO: 2017/4/26 这是测试！使用的知乎的图片
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.storyshu.com/")
+                .baseUrl(UrlUtil.BASE_API_URL)
                 .addConverterFactory(new Retrofit2ConverterFactory())
                 .build();
 
-        GetLauncherServise servise = retrofit.create(GetLauncherServise.class);
-        Call<LauncherBean> call = servise.getLauncher();
-        call.enqueue(new Callback<LauncherBean>() {
+        ApiService service = retrofit.create(ApiService.class);
+        Call<LauncherResponseBean> call = service.getLauncher();
+        call.enqueue(new Callback<LauncherResponseBean>() {
             @Override
-            public void onResponse(Call<LauncherBean> call, Response<LauncherBean> response) {
+            public void onResponse(Call<LauncherResponseBean> call, Response<LauncherResponseBean> response) {
                 Glide.with(WelcomeActivity.this).load(response.body().getUrl()).into(AdImage);
+                Describe.setText(response.body().getDescribe());
+
+                initTimer();
+
             }
 
             @Override
-            public void onFailure(Call<LauncherBean> call, Throwable t) {
+            public void onFailure(Call<LauncherResponseBean> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t);
+                initTimer();
+
             }
         });
 

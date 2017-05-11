@@ -78,7 +78,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     public void changeAnonymous() {
         mSlideButton.setCheckedWithAnimation();
         if (mSlideButton.isChecked())
-            mRealNameTv.setText(R.string.anonymous);
+            mRealNameTv.setText(R.string.isAnonymous);
         else mRealNameTv.setText(R.string.real_name);
     }
 
@@ -183,7 +183,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
             @Override
             public void onClicked(boolean isChecked) {
                 if (isChecked) {
-                    mRealNameTv.setText(R.string.anonymous);
+                    mRealNameTv.setText(R.string.isAnonymous);
                 } else {
                     mRealNameTv.setText(R.string.real_name);
                 }
@@ -227,7 +227,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     }
 
     @Override
-    public boolean isAnonymous() {
+    public Boolean isAnonymous() {
         return mSlideButton.isChecked();
     }
 

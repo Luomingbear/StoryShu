@@ -11,6 +11,8 @@ import com.storyshu.storyshu.model.UserModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
 import com.storyshu.storyshu.utils.PasswordUtil;
+import com.storyshu.storyshu.utils.ToastUtil;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * mvp模式
@@ -86,9 +88,7 @@ public class RegisterPresenterIml extends IBasePresenter<RegisterView> implement
      */
     @Override
     public void registerUser() {
-        // TODO: 2017/3/29 注册账号，把userid保存在本地
         RegisterUserInfo userInfo = new RegisterUserInfo();
-//        userInfo.setUserId(mMvpView.getUsername().hashCode());
         userInfo.setEmail(mMvpView.getUsername());        //暂时是邮箱
         userInfo.setPassword(PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()));
         userInfo.setNickname(mMvpView.getNickname());
@@ -99,16 +99,19 @@ public class RegisterPresenterIml extends IBasePresenter<RegisterView> implement
         userModel.setOnUserInfoGetListener(new UserModel.OnUserInfoGetListener() {
             @Override
             public void onSucceed(BaseUserInfo userInfo) {
+                ToastUtil.Show(mContext, R.string.register_succeed);
                 //保存用户id到本地
-
+                ISharePreference.saveUserId(mContext, userInfo.getUserId());
+                //把用户的基本数据保存在本地数据库
                 DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext.getApplicationContext());
                 dateBaseHelperIml.insertUserData(userInfo);
+
                 mMvpView.toMainActivity();
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String error) {
+                ToastUtil.Show(mContext, error);
             }
         });
 

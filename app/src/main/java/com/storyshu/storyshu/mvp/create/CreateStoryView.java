@@ -47,7 +47,7 @@ public interface CreateStoryView extends IBaseActivityView {
      *
      * @return
      */
-    boolean isAnonymous();
+    Boolean isAnonymous();
 
     /**
      * 显示图片选择器

@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,4 +38,39 @@ public class FileUtil {
         myInput.close();
         myOutput.close();
     }
+
+    /**
+     * 通过文件的路径获取文件名
+     *
+     * @param filePath 文件的路径
+     * @return 文件名
+     */
+    public static String getFileName(String filePath) {
+        if (!TextUtils.isEmpty(filePath)) {
+            int start = filePath.lastIndexOf("/");
+            int end = filePath.lastIndexOf(".");
+            if (start != -1 && end != -1) {
+                return filePath.substring(start + 1, end);
+            } else {
+                return null;
+            }
+        } else return "";
+    }
+
+    /**
+     * 获取文件的后缀名
+     *
+     * @param filename 文件名
+     * @return
+     */
+    public static String getExtensionName(String filename) {
+        if ((filename != null) && (filename.length() > 0)) {
+            int dot = filename.lastIndexOf('.');
+            if ((dot > -1) && (dot < (filename.length() - 1))) {
+                return filename.substring(dot + 1);
+            }
+        }
+        return filename;
+    }
+
 }

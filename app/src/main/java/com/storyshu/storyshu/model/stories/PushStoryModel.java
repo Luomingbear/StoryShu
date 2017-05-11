@@ -82,7 +82,7 @@ public class PushStoryModel {
             List<String> list = new ArrayList<>();
             list.add("http://img.hb.aicdn.com/b76232ac21a0bc70268998abb770426c6db6712642912-B3Gs3O_fw658");
             info.setStoryPic(list);
-            info.setCreateDate(TimeUtils.convert2TimeText(new Date(System.currentTimeMillis())));
+            info.setCreateTime(TimeUtils.convert2TimeText(new Date(System.currentTimeMillis())));
             info.setDestroyTime(TimeUtils.getDestoryTime(24 * 60));
             info.setContent("彼时是星期天，阳光明媚而干燥，简直不像是在香港。车路过香港公园，又路过山顶缆车正下方的佑宁堂。时值11点的礼拜散场，很多人站在街道两边挥手搭车。司机忽然说：“这是个好教堂。”");
             info.setLocation("浙江传媒学院产业园");

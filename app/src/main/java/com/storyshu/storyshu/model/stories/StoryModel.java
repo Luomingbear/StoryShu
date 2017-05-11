@@ -1,11 +1,21 @@
 package com.storyshu.storyshu.model.stories;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.amap.api.maps.model.LatLng;
+import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.bean.IssueStoryBean;
+import com.storyshu.storyshu.bean.IssuseResponseBean;
 import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.utils.net.CodeUtil;
+import com.storyshu.storyshu.utils.net.RetrofitManager;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * mvp模式
@@ -14,21 +24,39 @@ import java.util.ArrayList;
  */
 
 public class StoryModel {
+    private static final String TAG = "StoryModel";
     private Context mContext;
-    private OnStoryModelListener onStoryModelListener;
+    private OnStoryGetListener onStoryModelListener;
+    private OnStoryIssuseListener onStoryIssuseListener;
     private int mUserId; //用户
 
     /**
      * 设置获取故事的监听
      *
-     * @return
+     * @param onStoryModelListener
      */
-    public OnStoryModelListener getOnStoryModelListener() {
-        return onStoryModelListener;
+    public void setOnStoryModelListener(OnStoryGetListener onStoryModelListener) {
+        this.onStoryModelListener = onStoryModelListener;
     }
 
-    public interface OnStoryModelListener {
+    public void setOnStoryIssuseListener(OnStoryIssuseListener onStoryIssuseListener) {
+        this.onStoryIssuseListener = onStoryIssuseListener;
+    }
+
+    /**
+     * 获取故事的接口
+     */
+    public interface OnStoryGetListener {
         void onStoriesGot(ArrayList<StoryInfo> storyList);
+    }
+
+    /**
+     * 发布故事的接口
+     */
+    public interface OnStoryIssuseListener {
+        void onSucceed();
+
+        void onFailed(String error);
     }
 
     public StoryModel(Context mContext) {
@@ -56,7 +84,7 @@ public class StoryModel {
 //
 //            cardInfo.setLocation("浙江传媒学院");
 //            cardInfo.setContent("彼时是星期天，阳光明媚而干燥，简直不像是在香港。车路过香港公园，又路过山顶缆车正下方的佑宁堂。时值11点的礼拜散场，很多人站在街道两边挥手搭车。司机忽然说：“这是个好教堂。");
-//            cardInfo.setCreateDate(TimeUtils.getCurrentTime());
+//            cardInfo.setCreateTime(TimeUtils.getCurrentTime());
 //            cardInfo.setDestroyTime(TimeUtils.getDestoryTime((int) (60 * Math.random()) * 24));
 //            cardInfo.setLikeNum(2 * i + i);
 //            cardInfo.setOpposeNum(i + 1);
@@ -116,9 +144,39 @@ public class StoryModel {
      * @param userId
      * @param latLng
      */
-    public void getNearStories(int userId, LatLng latLng, OnStoryModelListener onStoryModelListener) {
+    public void getNearStories(int userId, LatLng latLng, OnStoryGetListener onStoryModelListener) {
         mUserId = userId;
         this.onStoryModelListener = onStoryModelListener;
         startGetStories(latLng);
+    }
+
+    /**
+     * 发布故事
+     *
+     * @param issueStoryBean
+     */
+    public void issueStory(IssueStoryBean issueStoryBean) {
+        Log.i(TAG, "issueStory: " + issueStoryBean.getIsAnonymous());
+        Call<IssuseResponseBean> call = RetrofitManager.getInstance().getService().issueStory(issueStoryBean);
+        call.enqueue(new Callback<IssuseResponseBean>() {
+            @Override
+            public void onResponse(Call<IssuseResponseBean> call, Response<IssuseResponseBean> response) {
+                Log.i(TAG, "onResponse: " + response.body().getMessage()
+                        + "\n内容：" + response.body().getData());
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    if (onStoryIssuseListener != null)
+                        onStoryIssuseListener.onSucceed();
+                } else {
+                    if (onStoryIssuseListener != null)
+                        onStoryIssuseListener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IssuseResponseBean> call, Throwable t) {
+                if (onStoryIssuseListener != null)
+                    onStoryIssuseListener.onFailed(mContext.getString(R.string.issue_failed));
+            }
+        });
     }
 }

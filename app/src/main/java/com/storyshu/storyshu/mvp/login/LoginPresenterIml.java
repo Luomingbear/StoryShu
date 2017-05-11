@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.data.DateBaseHelperIml;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.LoginInfo;
 import com.storyshu.storyshu.model.UserModel;
@@ -11,6 +12,7 @@ import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
 import com.storyshu.storyshu.utils.PasswordUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 /**
  * mvp模式
@@ -61,12 +63,17 @@ public class LoginPresenterIml extends IBasePresenter<LoginView> implements Logi
             userModel.setOnUserInfoGetListener(new UserModel.OnUserInfoGetListener() {
                 @Override
                 public void onSucceed(BaseUserInfo userInfo) {
-                    ToastUtil.Show(mContext, "登录成功！");
+                    ToastUtil.Show(mContext, R.string.login_succeed);
+                    DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
+                    dateBaseHelperIml.insertUserData(userInfo);
+
+                    ISharePreference.saveUserId(mContext, userInfo.getUserId());
+                    mMvpView.intent2MainActivity();
                 }
 
                 @Override
-                public void onFailed() {
-                    mMvpView.showToast(R.string.login_password_illegal);
+                public void onFailed(String error) {
+                    ToastUtil.Show(mContext, error);
                 }
             });
         }

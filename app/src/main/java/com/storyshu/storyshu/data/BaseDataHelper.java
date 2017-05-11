@@ -22,7 +22,6 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     public static String PHONE = "phone"; //手机号
     public static String NICK_NAME = "nick_name"; //昵称
     public static String USER_ID = "user_id"; //用户id
-    public static String PASSWORD = "password"; //密码
     public static String AVATAR = "avatar"; //头像
     public static String ACCOUNT = "account"; //用户名
     // TODO: 2017/3/29 上线前把数据库保存密码取消
@@ -64,7 +63,7 @@ public class BaseDataHelper extends SQLiteOpenHelper {
         //用户表
         String CREATE_USR_TABLE = "CREATE TABLE " + USER_TABLE + "("
                 + USER_ID + " INTEGER PRIMARY KEY NOT NULL, " + EMAIL + " TEXT ," + PHONE + " TEXT ," +
-                PASSWORD + " TEXT NOT NULL," + NICK_NAME + " TEXT NOT NULL," + AVATAR + " TEXT NOT NULL, " +
+                NICK_NAME + " TEXT NOT NULL," + AVATAR + " TEXT NOT NULL, " +
                 ACCOUNT + " TEXT " + ")";
         db.execSQL(CREATE_USR_TABLE);
 

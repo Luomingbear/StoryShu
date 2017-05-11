@@ -101,7 +101,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mComment = (ClickButton) findViewById(R.id.comment_content);
 
-//        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+//      mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
 
         mScrollView = (NestedScrollView) findViewById(R.id.scroll_view);
 
@@ -181,13 +181,10 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mLocation.setText(mStoryInfo.getLocation());
 
-        mCreateTime.setText(TimeUtils.convertCurrentTime(this, mStoryInfo.getCreateDate()));
+        mCreateTime.setText(TimeUtils.convertCurrentTime(this, mStoryInfo.getCreateTime()));
 
         mDeathTime.setText(TimeUtils.leftTime(this, mStoryInfo.getDestroyTime()));
 
-        mLike.setNum(mStoryInfo.getLikeNum());
-
-        mOppose.setNum(mStoryInfo.getOpposeNum());
     }
 
     @Override
