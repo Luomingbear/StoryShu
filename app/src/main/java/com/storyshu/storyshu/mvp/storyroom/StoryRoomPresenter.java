@@ -31,4 +31,9 @@ public interface StoryRoomPresenter {
      * 点击添加评论
      */
     void clickComment();
+
+    /**
+     * 获取故事详情
+     */
+    void getStoryInfo();
 }

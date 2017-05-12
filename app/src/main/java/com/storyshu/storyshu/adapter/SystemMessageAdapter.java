@@ -79,6 +79,11 @@ public class SystemMessageAdapter extends IBaseExpandableListAdapter {
         return convertView;
     }
 
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
     private class GroupHolder {
         ImageView groupIcon; //组别的图标
         TextView groupTitle; //组别的描述

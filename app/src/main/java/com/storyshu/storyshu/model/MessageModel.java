@@ -42,6 +42,7 @@ public class MessageModel {
      * 获取点赞的列表数据
      */
     private void getLikeList() {
+        // TODO: 2017/5/12 获取点赞数据 
         ArrayList<StoryMessageInfo> likeList = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             StoryMessageInfo info = new StoryMessageInfo();
@@ -50,6 +51,7 @@ public class MessageModel {
             userInfo.setUserId(22222222 + i);
             userInfo.setAvatar("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490098140866&di=aeb868c2a86cbb95f356868dcb0e8c2d&imgtype=0&src=http%3A%2F%2Fup.qqjia.com%2Fz%2F24%2Ftu29448_13.jpg");
             info.setUserInfo(userInfo);
+            info.setStoryId("149457722010003");
             info.setCreateTime(TimeUtils.convert2TimeText(new Date(System.currentTimeMillis())));
             info.setStoryContent("每个人的生命里都有想要逃离的日常，唯有碍于良善才能带我们找到真正的温暖");
             info.setMessageType(StoryMessageInfo.MessageType.LIKE);
@@ -67,6 +69,7 @@ public class MessageModel {
      * 获取评论数据
      */
     private void getCommentList() {
+        // TODO: 2017/5/12 获取评论数据 
         ArrayList<StoryMessageInfo> commentList = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             StoryMessageInfo info = new StoryMessageInfo();
@@ -75,6 +78,7 @@ public class MessageModel {
             userInfo.setUserId(222222222 + +i);
             userInfo.setAvatar("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490098140866&di=aeb868c2a86cbb95f356868dcb0e8c2d&imgtype=0&src=http%3A%2F%2Fup.qqjia.com%2Fz%2F24%2Ftu29448_13.jpg");
             info.setUserInfo(userInfo);
+            info.setStoryId("149457722010003");
             info.setCreateTime(TimeUtils.getCurrentTime());
             info.setStoryContent("每个人的生命里都有想要逃离的日常，唯有碍于良善才能带我们找到真正的温暖");
             info.setMessageType(StoryMessageInfo.MessageType.COMMENT);
@@ -92,6 +96,7 @@ public class MessageModel {
      * 获取系统消息列表
      */
     private void getSystemList() {
+        // TODO: 2017/5/12 获取系统信息
         ArrayList<SystemMessageInfo> systemList = new ArrayList<>();
 
         for (int i = 0; i < 1; i++) {

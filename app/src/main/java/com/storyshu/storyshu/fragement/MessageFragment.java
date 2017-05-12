@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.story.StoryRoomActivity;
+import com.storyshu.storyshu.bean.StoryIdBean;
 import com.storyshu.storyshu.mvp.message.MessagePresenterIml;
 import com.storyshu.storyshu.mvp.message.MessageView;
+import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.IExpandableListView;
 
@@ -80,5 +83,10 @@ public class MessageFragment extends IBaseStatusFragment implements MessageView 
     @Override
     public IExpandableListView getSystemMessageList() {
         return mSystemListView;
+    }
+
+    @Override
+    public void intent2StoryRoom(StoryIdBean storyIdBean) {
+        intentWithParcelable(StoryRoomActivity.class, NameUtil.STORY_ID_BEAN, storyIdBean);
     }
 }

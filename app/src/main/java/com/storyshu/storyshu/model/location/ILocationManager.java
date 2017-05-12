@@ -7,7 +7,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
-import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 import java.util.ArrayList;
@@ -173,7 +173,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param storyList
      */
-    public void showStoriesIcons(ArrayList<StoryInfo> storyList) {
+    public void showStoriesIcons(ArrayList<StoryBean> storyList) {
         if (mMapManager == null || storyList == null)
             return;
         //显示故事集图标
@@ -185,7 +185,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param storyInfo
      */
-    public void showSelectedIcon(StoryInfo storyInfo) {
+    public void showSelectedIcon(StoryBean storyInfo) {
         if (mMapManager == null || storyInfo == null)
             return;
         //显示故事集图标
@@ -207,7 +207,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param storyInfo
      */
-    public void showDefIcon(StoryInfo storyInfo) {
+    public void showDefIcon(StoryBean storyInfo) {
         if (mMapManager == null || storyInfo == null)
             return;
         //显示故事集图标

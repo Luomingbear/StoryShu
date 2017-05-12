@@ -7,11 +7,16 @@ import com.amap.api.maps.model.LatLng;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.bean.IssueStoryBean;
 import com.storyshu.storyshu.bean.IssuseResponseBean;
-import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.bean.StoryBean;
+import com.storyshu.storyshu.bean.StoryIdBean;
+import com.storyshu.storyshu.bean.StoryReponseBean;
+import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.net.CodeUtil;
+import com.storyshu.storyshu.utils.net.QiniuUploadManager;
 import com.storyshu.storyshu.utils.net.RetrofitManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +52,9 @@ public class StoryModel {
      * 获取故事的接口
      */
     public interface OnStoryGetListener {
-        void onStoriesGot(ArrayList<StoryInfo> storyList);
+        void onStoriesGot(ArrayList<StoryBean> storyList);
+
+        void onFailed(String error);
     }
 
     /**
@@ -60,19 +67,14 @@ public class StoryModel {
     }
 
     public StoryModel(Context mContext) {
-        this.mContext = mContext;
+        this.mContext = mContext.getApplicationContext();
     }
 
     /**
-     * 请求服务器
+     * 获取测试数据
      */
-    private void startGetStories(LatLng latLng) {
-//        TODO:2017 / 3 / 26 请求服务器的数据
-
-//
-//        //假数据
-        ArrayList<StoryInfo> list = new ArrayList<>();
-//        for (int i = 0; i < 6; i++) {
+    private void getTestData() {
+        //        for (int i = 0; i < 6; i++) {
 //            StoryInfo cardInfo = new StoryInfo();
 //
 //            BaseUserInfo userInfo = new BaseUserInfo();
@@ -134,6 +136,15 @@ public class StoryModel {
 //            list.add(storyInfo);
 //        }
 
+    }
+
+    /**
+     * 请求服务器
+     */
+    private void startGetStories(LatLng latLng) {
+//        TODO:2017 / 3 / 26 请求服务器的数据
+        ArrayList<StoryBean> list = new ArrayList<>();
+
         if (onStoryModelListener != null)
             onStoryModelListener.onStoriesGot(list);
     }
@@ -150,20 +161,47 @@ public class StoryModel {
         startGetStories(latLng);
     }
 
+
+    private IssueStoryBean storyBean; //发布的故事的内容
+
     /**
      * 发布故事
      *
      * @param issueStoryBean
      */
-    public void issueStory(IssueStoryBean issueStoryBean) {
-        Log.i(TAG, "issueStory: " + issueStoryBean.getIsAnonymous());
-        Call<IssuseResponseBean> call = RetrofitManager.getInstance().getService().issueStory(issueStoryBean);
+    public void issueStory(final IssueStoryBean issueStoryBean) {
+        storyBean = issueStoryBean;
+        QiniuUploadManager qiniuUploadService = new QiniuUploadManager();
+        qiniuUploadService.uploadFileList(issueStoryBean.getStoryPictures());
+        qiniuUploadService.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
+            @Override
+            public void onSucceed(List<String> pathList) {
+                storyBean.setStoryPictures(pathList);
+                startIssue(storyBean);
+            }
+
+            @Override
+            public void onFailed(List<String> errorPathList) {
+
+            }
+        });
+
+    }
+
+    /**
+     * 开始上传
+     *
+     * @param storyBean
+     */
+    private void startIssue(IssueStoryBean storyBean) {
+        Call<IssuseResponseBean> call = RetrofitManager.getInstance().getService().issueStory(storyBean);
         call.enqueue(new Callback<IssuseResponseBean>() {
             @Override
             public void onResponse(Call<IssuseResponseBean> call, Response<IssuseResponseBean> response) {
                 Log.i(TAG, "onResponse: " + response.body().getMessage()
                         + "\n内容：" + response.body().getData());
                 if (response.body().getCode() == CodeUtil.Succeed) {
+                    ToastUtil.Show(mContext, response.body().getMessage());
                     if (onStoryIssuseListener != null)
                         onStoryIssuseListener.onSucceed();
                 } else {
@@ -176,6 +214,40 @@ public class StoryModel {
             public void onFailure(Call<IssuseResponseBean> call, Throwable t) {
                 if (onStoryIssuseListener != null)
                     onStoryIssuseListener.onFailed(mContext.getString(R.string.issue_failed));
+            }
+        });
+    }
+
+    /**
+     * 获取用户的详细信息
+     * 不包括评论数据
+     *
+     * @param storyId 故事id
+     */
+    public void getStoryInfo(String storyId) {
+
+        Call<StoryReponseBean> call = RetrofitManager.getInstance().getService().
+                getStoryInfo(new StoryIdBean(storyId));
+        call.enqueue(new Callback<StoryReponseBean>() {
+            @Override
+            public void onResponse(Call<StoryReponseBean> call, Response<StoryReponseBean> response) {
+                Log.i(TAG, "onResponse: " + response.body().getMessage());
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    ArrayList<StoryBean> list = new ArrayList<>();
+                    list.add(response.body().getData());
+                    if (onStoryModelListener != null)
+                        onStoryModelListener.onStoriesGot(list);
+                } else {
+                    if (onStoryModelListener != null)
+                        onStoryModelListener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StoryReponseBean> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+                if (onStoryModelListener != null)
+                    onStoryModelListener.onFailed(t.getMessage());
             }
         });
     }

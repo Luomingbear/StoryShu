@@ -18,6 +18,7 @@ public class CardInfo extends StoryInfo implements Parcelable {
     private int opposeNum = 0; //反对数量
 
     public CardInfo() {
+
     }
 
     public CardInfo(int likeNum, int opposeNum) {

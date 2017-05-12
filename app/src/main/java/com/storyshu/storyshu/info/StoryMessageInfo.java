@@ -12,7 +12,7 @@ import android.os.Parcelable;
 public class StoryMessageInfo implements Parcelable {
     private BaseUserInfo userInfo; //用户信息
     private String createTime; //创建时间
-    private int storyId; //故事id
+    private String storyId; //故事id
     private String storyContent; //故事的内容
     private String cover; //故事的第一张图片
     private String comment; //评论
@@ -27,8 +27,8 @@ public class StoryMessageInfo implements Parcelable {
     public StoryMessageInfo() {
     }
 
-    public StoryMessageInfo(BaseUserInfo userInfo, String createTime, int storyId, String storyContent,
-                            String cover, String comment, MessageType messageType) {
+    public StoryMessageInfo(BaseUserInfo userInfo, String createTime, String storyId,
+                            String storyContent, String cover, String comment, MessageType messageType) {
         this.userInfo = userInfo;
         this.createTime = createTime;
         this.storyId = storyId;
@@ -54,11 +54,11 @@ public class StoryMessageInfo implements Parcelable {
         this.createTime = createTime;
     }
 
-    public int getStoryId() {
+    public String getStoryId() {
         return storyId;
     }
 
-    public void setStoryId(int storyId) {
+    public void setStoryId(String storyId) {
         this.storyId = storyId;
     }
 
@@ -78,20 +78,20 @@ public class StoryMessageInfo implements Parcelable {
         this.cover = cover;
     }
 
-    public MessageType getMessageType() {
-        return messageType;
-    }
-
-    public void setMessageType(MessageType messageType) {
-        this.messageType = messageType;
-    }
-
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public MessageType getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class StoryMessageInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.userInfo, flags);
         dest.writeString(this.createTime);
-        dest.writeInt(this.storyId);
+        dest.writeString(this.storyId);
         dest.writeString(this.storyContent);
         dest.writeString(this.cover);
         dest.writeString(this.comment);
@@ -113,7 +113,7 @@ public class StoryMessageInfo implements Parcelable {
     protected StoryMessageInfo(Parcel in) {
         this.userInfo = in.readParcelable(BaseUserInfo.class.getClassLoader());
         this.createTime = in.readString();
-        this.storyId = in.readInt();
+        this.storyId = in.readString();
         this.storyContent = in.readString();
         this.cover = in.readString();
         this.comment = in.readString();

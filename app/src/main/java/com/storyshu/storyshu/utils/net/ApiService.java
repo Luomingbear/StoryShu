@@ -1,5 +1,14 @@
-package com.storyshu.storyshu.bean;
+package com.storyshu.storyshu.utils.net;
 
+import com.storyshu.storyshu.bean.IssueStoryBean;
+import com.storyshu.storyshu.bean.IssuseResponseBean;
+import com.storyshu.storyshu.bean.LauncherResponseBean;
+import com.storyshu.storyshu.bean.RegisterResponseBean;
+import com.storyshu.storyshu.bean.StoryIdBean;
+import com.storyshu.storyshu.bean.StoryReponseBean;
+import com.storyshu.storyshu.bean.TokenResponseBean;
+import com.storyshu.storyshu.bean.UserIdBean;
+import com.storyshu.storyshu.bean.UserLoginResponseBean;
 import com.storyshu.storyshu.info.LoginInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;
 
@@ -66,4 +75,13 @@ public interface ApiService {
      */
     @POST("issueStory.php")
     Call<IssuseResponseBean> issueStory(@Body IssueStoryBean issueStoryBean);
+
+    /**
+     * 获取故事的详细信息
+     *
+     * @param storyIdBean 包含故事id的请求体
+     * @return
+     */
+    @POST("getStoryInfo.php")
+    Call<StoryReponseBean> getStoryInfo(@Body StoryIdBean storyIdBean);
 }

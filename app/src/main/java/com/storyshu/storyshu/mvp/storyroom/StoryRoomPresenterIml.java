@@ -4,11 +4,14 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.storyshu.storyshu.adapter.CommentAdapter;
+import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.info.CommentInfo;
 import com.storyshu.storyshu.model.CommentModel;
+import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.widget.dialog.PicturePreviewDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +22,7 @@ import java.util.List;
 
 public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> implements StoryRoomPresenter {
     private CommentAdapter mCommentAdapter; //评论适配器
+    private StoryBean mStoryBean; //故事信息
 
     public StoryRoomPresenterIml(Context mContext, StoryRoomView mvpView) {
         super(mContext, mvpView);
@@ -85,5 +89,27 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
     public void clickComment() {
 
     }
+
+    @Override
+    public void getStoryInfo() {
+        if (mMvpView.getStoryIdBean() != null) {
+            StoryModel storyModel = new StoryModel(mContext);
+            storyModel.getStoryInfo(mMvpView.getStoryIdBean().getStoryId());
+            storyModel.setOnStoryModelListener(new StoryModel.OnStoryGetListener() {
+                @Override
+                public void onStoriesGot(ArrayList<StoryBean> storyList) {
+                    mStoryBean = storyList.get(0);
+                    mMvpView.setStoryData(mStoryBean);
+                }
+
+                @Override
+                public void onFailed(String error) {
+                    mMvpView.showToast(error);
+                }
+            });
+
+        }
+    }
+
 
 }

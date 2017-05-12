@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.adapter.card.CardAdapter;
-import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implements StoryMapPresenter {
     private static final String TAG = "StoryMapPresenterIml";
     private StoryModel mStoryModel; //故事的数据管理
-    private ArrayList<StoryInfo> mStoryList; //卡片的数据源¬
+    private ArrayList<StoryBean> mStoryList; //卡片的数据源¬
     private int lastSelectedStoryIndex = 0; //上一次选中的故事
     private int mSignDays = 1; //累计签到的天数
     private boolean isSign = false; //是否已经签到
@@ -123,7 +123,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
     /**
      * 更新故事图标
      */
-    private void updateStoryIcon(StoryInfo storyInfo) {
+    private void updateStoryIcon(StoryBean storyInfo) {
         //恢复上一次的小图标
         ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
         //更新地图上的新选中的图标
@@ -140,7 +140,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
             //设置显示新的图标
             int centerIndex = 0;
             for (int i = 0; i < mStoryList.size(); i++) {
-                StoryInfo storyInfo = mStoryList.get(i);
+                StoryBean storyInfo = mStoryList.get(i);
                 //marker的title 是userID,snipper是故事id
                 if (storyInfo.getStoryId().equals(marker.getSnippet())) {
                     updateStoryIcon(storyInfo);
@@ -174,9 +174,9 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
      */
     private StoryModel.OnStoryGetListener onStoryModelListener = new StoryModel.OnStoryGetListener() {
         @Override
-        public void onStoriesGot(ArrayList<StoryInfo> storyList) {
+        public void onStoriesGot(ArrayList<StoryBean> storyList) {
             mStoryList.clear();
-            for (StoryInfo storyInfo : storyList) {
+            for (StoryBean storyInfo : storyList) {
                 mStoryList.add(storyInfo);
                 Log.i(TAG, "onStoriesGot: path：" + storyInfo.getCover());
             }
@@ -184,6 +184,11 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
             mCardAdapter.notifyDataSetChanged();
             //地图的故事集图标显示
             ILocationManager.getInstance().showStoriesIcons(mStoryList);
+        }
+
+        @Override
+        public void onFailed(String error) {
+            mMvpView.showToast(error);
         }
     };
 

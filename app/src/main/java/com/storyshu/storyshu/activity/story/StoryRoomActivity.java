@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.bean.StoryBean;
+import com.storyshu.storyshu.bean.StoryIdBean;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomPresenterIml;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomView;
 import com.storyshu.storyshu.utils.NameUtil;
@@ -44,7 +45,8 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     private SwipeRefreshLayout mRefreshLayout; //下拉刷新控件
     private RecyclerView mCommentRV; //评论的列表控件
 
-    private StoryInfo mStoryInfo; //故事的数据
+    private StoryBean mStoryBean; //故事的数据
+    private StoryIdBean mStoryIdBean; //故事的id数据
 
     private StoryRoomPresenterIml mStoryRoomPresenter; //故事屋的控制
 
@@ -149,42 +151,13 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
      */
     @Override
     public void initData() {
-        mStoryInfo = getIntent().getParcelableExtra(NameUtil.STORY_INFO);
-        if (mStoryInfo == null)
-            return;
-
-        mStoryContent.setText(mStoryInfo.getContent());
-
-        if (!TextUtils.isEmpty(mStoryInfo.getCover())) {
-            Glide.with(this).load(mStoryInfo.getCover()).into(mStoryCover);
-            mPicSize.setText(mStoryInfo.getStoryPic().size() + "");
-        } else {
-            mStoryCover.setVisibility(View.GONE);
-            mPicSize.setVisibility(View.GONE);
+        mStoryBean = getIntent().getParcelableExtra(NameUtil.STORY_INFO);
+        mStoryIdBean = getIntent().getParcelableExtra(NameUtil.STORY_ID_BEAN);
+        if (mStoryBean != null) {
+            setStoryData(mStoryBean);
+        } else if (mStoryIdBean != null) {
+            mStoryRoomPresenter.getStoryInfo();
         }
-
-        /**
-         * 检测是否是匿名的
-         */
-        if (mStoryInfo.isAnonymous()) {
-            findViewById(R.id.story_detail_layout).setBackgroundResource(R.drawable.card_view_black_bg);
-            findViewById(R.id.line).setVisibility(View.GONE);
-            mStoryContent.setTextColor(getResources().getColor(R.color.colorWhiteDeep));
-            mLocation.setTextColor(getResources().getColor(R.color.colorGray));
-            mReport.setTextColor(getResources().getColor(R.color.colorGray));
-            mAvatar.setImageResource(R.drawable.avatar_wolverine);
-            mNickname.setVisibility(View.GONE);
-        } else {
-            Glide.with(this).load(mStoryInfo.getUserInfo().getAvatar()).into(mAvatar);
-            mNickname.setText(mStoryInfo.getUserInfo().getNickname());
-        }
-
-        mLocation.setText(mStoryInfo.getLocation());
-
-        mCreateTime.setText(TimeUtils.convertCurrentTime(this, mStoryInfo.getCreateTime()));
-
-        mDeathTime.setText(TimeUtils.leftTime(this, mStoryInfo.getDestroyTime()));
-
     }
 
     @Override
@@ -291,7 +264,51 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
     @Override
     public List<String> getStoryPic() {
-        return mStoryInfo.getStoryPic();
+        return mStoryBean.getStoryPictures();
+    }
+
+    @Override
+    public StoryIdBean getStoryIdBean() {
+        return mStoryIdBean;
+    }
+
+    @Override
+    public void setStoryData(StoryBean storyData) {
+        if (storyData == null)
+            return;
+        mStoryBean = storyData;
+
+        mStoryContent.setText(storyData.getContent());
+
+        if (!TextUtils.isEmpty(storyData.getCover())) {
+            Glide.with(this).load(storyData.getCover()).into(mStoryCover);
+            mPicSize.setText(storyData.getStoryPictures().size() + "");
+        } else {
+            mStoryCover.setVisibility(View.GONE);
+            mPicSize.setVisibility(View.GONE);
+        }
+
+        /**
+         * 检测是否是匿名的
+         */
+        if (storyData.getAnonymous()) {
+            findViewById(R.id.story_detail_layout).setBackgroundResource(R.drawable.card_view_black_bg);
+            findViewById(R.id.line).setVisibility(View.GONE);
+            mStoryContent.setTextColor(getResources().getColor(R.color.colorWhiteDeep));
+            mLocation.setTextColor(getResources().getColor(R.color.colorGray));
+            mReport.setTextColor(getResources().getColor(R.color.colorGray));
+            mAvatar.setImageResource(R.drawable.avatar_wolverine);
+            mNickname.setVisibility(View.GONE);
+        } else {
+            Glide.with(this).load(storyData.getUserInfo().getAvatar()).into(mAvatar);
+            mNickname.setText(storyData.getUserInfo().getNickname());
+        }
+
+        mLocation.setText(storyData.getLocationTitle());
+
+        mCreateTime.setText(TimeUtils.convertCurrentTime(this, storyData.getCreateTime()));
+
+        mDeathTime.setText(TimeUtils.leftTime(this, storyData.getDestroyTime()));
     }
 
     @Override

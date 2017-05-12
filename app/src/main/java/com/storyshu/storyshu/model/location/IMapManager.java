@@ -12,7 +12,7 @@ import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
-import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.SysUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -189,7 +189,7 @@ public class IMapManager {
     /**
      * 显示故事图标
      */
-    public void showStoryIcon(StoryInfo storyInfo) {
+    public void showStoryIcon(StoryBean storyInfo) {
         Log.i(TAG, "showStoryIcon: 显示默认的图标+size:" + mPersonMarkerList.size());
 
         //如果选中的图标仍然显示着，就需要判断选中的图标是否是当前的这个图标，是就把他移除
@@ -222,7 +222,7 @@ public class IMapManager {
     /**
      * 显示选中的故事图标
      */
-    public void showSelectedStoryIcon(StoryInfo storyInfo) {
+    public void showSelectedStoryIcon(StoryBean storyInfo) {
         Log.i(TAG, "showSelectedStoryIcon: 显示大图标");
         //移除之前选中的大图标
         if (mSelectedMarker != null) {
@@ -275,9 +275,9 @@ public class IMapManager {
     /**
      * 显示所有图标
      */
-    public void showStoriesIcons(ArrayList<StoryInfo> storyList) {
+    public void showStoriesIcons(ArrayList<StoryBean> storyList) {
 //        Log.d(TAG, "showStoriesIcons: 绘制图标！！！");
-        for (StoryInfo storyInfo : storyList) {
+        for (StoryBean storyInfo : storyList) {
             showStoryIcon(storyInfo);
         }
     }

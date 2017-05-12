@@ -33,6 +33,7 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
     private int mLifeTimeMinute = 24 * 60; //故事保留时间,分钟
     private List<PoiItem> mLocationList; //位置列表
     private int radius = 50; //单位米
+    private IssueStoryBean issueInfo = new IssueStoryBean();
 
     public CreateStoryPresenterImpl(Context mContext, CreateStoryView mvpView) {
         super(mContext, mvpView);
@@ -41,9 +42,9 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
     private StoryModel.OnStoryIssuseListener onStoryIssuseListener = new StoryModel.OnStoryIssuseListener() {
         @Override
         public void onSucceed() {
-            mMvpView.showToast(R.string.issue_succeed);
+//            mMvpView.showToast(R.string.issue_succeed);
             //返回
-            mMvpView.backActivity();
+//            mMvpView.backActivity();
         }
 
         @Override
@@ -58,8 +59,8 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
         if (mTempContent.length() < minStoryContent) {
             mMvpView.showToast(R.string.story_length_too_sort);
         } else {
+
             try {
-                IssueStoryBean issueInfo = new IssueStoryBean();
 
                 /**
                  * 设置发布的内容
@@ -83,9 +84,18 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
                 /**
                  * 上传故事
                  */
-                StoryModel storyModel = new StoryModel(mContext);
-                storyModel.issueStory(issueInfo);
-                storyModel.setOnStoryIssuseListener(onStoryIssuseListener);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        StoryModel storyModel = new StoryModel(mContext);
+                        storyModel.issueStory(issueInfo);
+//                        storyModel.setOnStoryIssuseListener(onStoryIssuseListener);
+                    }
+                });
+
+                thread.start();
+
+                mMvpView.backActivity();
 
             } catch (Exception e) {
                 e.printStackTrace();

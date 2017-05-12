@@ -1,7 +1,6 @@
 package com.storyshu.storyshu.utils.net;
 
 import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
-import com.storyshu.storyshu.bean.ApiService;
 
 import retrofit2.Retrofit;
 

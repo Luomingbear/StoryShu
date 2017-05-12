@@ -44,6 +44,6 @@ dependencies {
 
     compile 'com.alibaba:fastjson:1.2.31'
 
-    compile 'com.qiniu:qiniu-android-sdk:7.3.+'
+    compile 'com.qiniu:qiniu-android-sdk:7.3.3'
 
 }

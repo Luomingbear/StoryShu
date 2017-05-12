@@ -1,9 +1,12 @@
 package com.storyshu.storyshu.mvp.message;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.ExpandableListView;
 
 import com.storyshu.storyshu.adapter.MessageExpandableAdapter;
 import com.storyshu.storyshu.adapter.SystemMessageAdapter;
+import com.storyshu.storyshu.bean.StoryIdBean;
 import com.storyshu.storyshu.info.StoryMessageInfo;
 import com.storyshu.storyshu.info.SystemMessageInfo;
 import com.storyshu.storyshu.model.MessageModel;
@@ -66,6 +69,37 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
         mMessageModel.updateMessageData(messageModelListener);
     }
 
+    private void setClickEvents() {
+        //点赞列表
+        mMvpView.getLikeMessageList().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                mMvpView.intent2StoryRoom(new StoryIdBean(mLikeList.get(childPosition).getStoryId()));
+                return false;
+            }
+        });
+
+        //评论列表
+        mMvpView.getCommentMessageList().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                mMvpView.intent2StoryRoom(new StoryIdBean(mLikeList.get(childPosition).getStoryId()));
+
+                return false;
+            }
+        });
+
+        //系统信息列表
+        mMvpView.getSystemMessageList().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                mMvpView.intent2StoryRoom(new StoryIdBean(mLikeList.get(childPosition).getStoryId()));
+
+                return false;
+            }
+        });
+    }
+
     @Override
     public void showMessageList() {
         mLikeExpandableAdapter = new MessageExpandableAdapter(mContext, mLikeList);
@@ -76,6 +110,8 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
 
         mSystemExpandableAdapter = new SystemMessageAdapter(mContext, mSystemMessageList);
         mMvpView.getSystemMessageList().setAdapter(mSystemExpandableAdapter);
+
+        setClickEvents();
     }
 
     @Override

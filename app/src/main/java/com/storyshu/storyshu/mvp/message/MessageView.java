@@ -1,5 +1,6 @@
 package com.storyshu.storyshu.mvp.message;
 
+import com.storyshu.storyshu.bean.StoryIdBean;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.IExpandableListView;
 
@@ -30,4 +31,11 @@ public interface MessageView extends IBaseView {
      * @return
      */
     IExpandableListView getSystemMessageList();
+
+    /**
+     * 跳转到故事屋
+     *
+     * @param storyIdBean
+     */
+    void intent2StoryRoom(StoryIdBean storyIdBean);
 }

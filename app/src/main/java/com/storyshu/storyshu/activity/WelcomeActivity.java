@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
-import com.storyshu.storyshu.bean.ApiService;
+import com.storyshu.storyshu.utils.net.ApiService;
 import com.storyshu.storyshu.bean.LauncherResponseBean;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.utils.FileUtil;

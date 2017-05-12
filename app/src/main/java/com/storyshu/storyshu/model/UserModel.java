@@ -14,6 +14,8 @@ import com.storyshu.storyshu.utils.net.CodeUtil;
 import com.storyshu.storyshu.utils.net.QiniuUploadManager;
 import com.storyshu.storyshu.utils.net.RetrofitManager;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,15 +59,15 @@ public class UserModel {
         qiniuUploadManager.uploadFile(userInfo.getAvatar());
         qiniuUploadManager.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
             @Override
-            public void onSucceed(String fileNetPath) {
-                userInfo.setAvatar(fileNetPath);
+            public void onSucceed(List<String> pathList) {
+                userInfo.setAvatar(pathList.get(0));
 
                 //开始注册账户
                 uploadUser(userInfo);
             }
 
             @Override
-            public void onFailed() {
+            public void onFailed(List<String> errorPathList) {
 
             }
         });

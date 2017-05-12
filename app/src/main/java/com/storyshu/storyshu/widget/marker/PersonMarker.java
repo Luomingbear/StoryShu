@@ -17,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.utils.ViewBitmapTool;
 
 /**
@@ -28,9 +28,9 @@ import com.storyshu.storyshu.utils.ViewBitmapTool;
 public class PersonMarker extends IMarker {
     private static final String TAG = "PersonMarker";
     private PersonView mPersonView; //
-    private StoryInfo mStoryInfo; //故事的数据
+    private StoryBean mStoryInfo; //故事的数据
 
-    public PersonMarker(Context mContext, AMap mAMap, StoryInfo storyInfo) {
+    public PersonMarker(Context mContext, AMap mAMap, StoryBean storyInfo) {
         super(mContext, mAMap, storyInfo.getLatLng());
         this.mStoryInfo = storyInfo;
     }
@@ -41,7 +41,7 @@ public class PersonMarker extends IMarker {
     public void setAvatarAndShow() {
         mPersonView = new PersonView(mContext);
 
-        if (TextUtils.isEmpty(mStoryInfo.getUserInfo().getAvatar()) || mStoryInfo.isAnonymous()) {
+        if (TextUtils.isEmpty(mStoryInfo.getUserInfo().getAvatar()) || mStoryInfo.getAnonymous()) {
             mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
             Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 
@@ -85,7 +85,7 @@ public class PersonMarker extends IMarker {
         mPersonView = new PersonView(mContext);
         mPersonView.setSelectedMode();
 
-        if (TextUtils.isEmpty(mStoryInfo.getUserInfo().getAvatar()) || mStoryInfo.isAnonymous()) {
+        if (TextUtils.isEmpty(mStoryInfo.getUserInfo().getAvatar()) || mStoryInfo.getAnonymous()) {
             mPersonView.init(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar_wolverine));
             Bitmap bitmap = ViewBitmapTool.convertLayoutToBitmap(mPersonView);
 

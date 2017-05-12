@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.amap.api.maps.MapView;
-import com.storyshu.storyshu.info.StoryInfo;
+import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
@@ -74,5 +74,5 @@ public interface StoryMapView extends IBaseView {
     /**
      * 跳转到故事屋页面
      */
-    void intent2StoryRoomActivity(StoryInfo storyInfo);
+    void intent2StoryRoomActivity(StoryBean storyInfo);
 }
