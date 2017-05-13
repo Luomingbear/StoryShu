@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.amap.api.maps.MapView;
+import com.amap.api.maps.TextureMapView;
 import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
@@ -33,7 +33,7 @@ public interface StoryMapView extends IBaseView {
      *
      * @return mapView
      */
-    MapView getMapView();
+    TextureMapView getMapView();
 
     /**
      * 获得标题栏签到提示文本控件

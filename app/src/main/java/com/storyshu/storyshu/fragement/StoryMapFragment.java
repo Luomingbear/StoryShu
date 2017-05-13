@@ -8,12 +8,11 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import com.amap.api.maps.MapView;
+import com.amap.api.maps.TextureMapView;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.story.StoryRoomActivity;
 import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.info.CardInfo;
-import com.storyshu.storyshu.info.StoryInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.storymap.StoryMapPresenterIml;
 import com.storyshu.storyshu.mvp.storymap.StoryMapView;
@@ -36,7 +35,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     private static StoryMapFragment instance;
     private TextView mSinInTv; //标题栏提示签到的文本
     private TitleView mTitleView; //标题栏
-    private MapView mMapView; //地图
+    private TextureMapView mMapView; //地图
     private StoriesAdapterView mStoryCardWindow; //故事卡片的窗口
     private View mGetLocationButton;//定位按钮
     private ArrayList<CardInfo> mCardInfoList; //数据源，卡片数据列表
@@ -120,7 +119,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 //        mSinInTv.setOnClickListener(this);
 
         //地图
-        mMapView = (MapView) mRootView.findViewById(R.id.story_map_map_view);
+        mMapView = (TextureMapView) mRootView.findViewById(R.id.story_map_map_view);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
 
@@ -149,7 +148,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     }
 
     @Override
-    public MapView getMapView() {
+    public TextureMapView getMapView() {
         return mMapView;
     }
 

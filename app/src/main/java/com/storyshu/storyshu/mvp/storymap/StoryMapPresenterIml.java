@@ -15,6 +15,7 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * mvp模式
@@ -174,7 +175,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
      */
     private StoryModel.OnStoryGetListener onStoryModelListener = new StoryModel.OnStoryGetListener() {
         @Override
-        public void onStoriesGot(ArrayList<StoryBean> storyList) {
+        public void onStoriesGot(List<StoryBean> storyList) {
             mStoryList.clear();
             for (StoryBean storyInfo : storyList) {
                 mStoryList.add(storyInfo);
@@ -197,9 +198,10 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
      */
     @Override
     public void showStoryIcons() {
-
         mStoryModel.getNearStories(ISharePreference.getUserId(mContext),
-                ISharePreference.getLatLngData(mContext), onStoryModelListener);
+                ISharePreference.getLatLngData(mContext), (int) mMvpView.getMapView().getMap().getCameraPosition().zoom);
+        mStoryModel.setOnStoryModelListener(onStoryModelListener);
+
     }
 
     @Override

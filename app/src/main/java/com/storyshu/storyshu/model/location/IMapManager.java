@@ -7,7 +7,7 @@ import android.util.Log;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.MapView;
+import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
@@ -48,7 +48,7 @@ public class IMapManager {
     protected IMapManager() {
     }
 
-    public IMapManager(Context context, MapView mMapView) {
+    public IMapManager(Context context, TextureMapView mMapView) {
         mContext = context.getApplicationContext();
         this.mAMap = mMapView.getMap();
         mUiSettings = mAMap.getUiSettings();

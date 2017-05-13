@@ -7,6 +7,8 @@ import com.amap.api.maps.model.LatLng;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.bean.IssueStoryBean;
 import com.storyshu.storyshu.bean.IssuseResponseBean;
+import com.storyshu.storyshu.bean.LocationBean;
+import com.storyshu.storyshu.bean.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.bean.StoryIdBean;
 import com.storyshu.storyshu.bean.StoryReponseBean;
@@ -52,7 +54,7 @@ public class StoryModel {
      * 获取故事的接口
      */
     public interface OnStoryGetListener {
-        void onStoriesGot(ArrayList<StoryBean> storyList);
+        void onStoriesGot(List<StoryBean> storyList);
 
         void onFailed(String error);
     }
@@ -139,26 +141,45 @@ public class StoryModel {
     }
 
     /**
-     * 请求服务器
-     */
-    private void startGetStories(LatLng latLng) {
-//        TODO:2017 / 3 / 26 请求服务器的数据
-        ArrayList<StoryBean> list = new ArrayList<>();
-
-        if (onStoryModelListener != null)
-            onStoryModelListener.onStoriesGot(list);
-    }
-
-    /**
-     * 获取用户附近的故事
+     * 获取用户附近未过期的故事
      *
      * @param userId
      * @param latLng
+     * @param scale  地图缩放级别
      */
-    public void getNearStories(int userId, LatLng latLng, OnStoryGetListener onStoryModelListener) {
+    public void getNearStories(int userId, LatLng latLng, int scale) {
         mUserId = userId;
-        this.onStoryModelListener = onStoryModelListener;
-        startGetStories(latLng);
+
+        LocationBean locationBean = new LocationBean();
+        locationBean.setLatitude(latLng.latitude);
+        locationBean.setLongitude(latLng.longitude);
+        locationBean.setUserId(userId);
+        locationBean.setScale(scale);
+
+        Call<NearStoriesRsponseBean> nearStoriesCall = RetrofitManager.getInstance().getService().getNearStory(locationBean);
+        nearStoriesCall.enqueue(new Callback<NearStoriesRsponseBean>() {
+            @Override
+            public void onResponse(Call<NearStoriesRsponseBean> call, Response<NearStoriesRsponseBean> response) {
+                Log.i(TAG, "onResponse: " + response);
+
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    if (onStoryModelListener != null)
+                        onStoryModelListener.onStoriesGot(response.body().getData());
+                } else {
+                    if (onStoryModelListener != null)
+                        onStoryModelListener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NearStoriesRsponseBean> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+                if (onStoryModelListener != null)
+                    onStoryModelListener.onFailed(t.getMessage());
+            }
+        });
+
+
     }
 
 
@@ -171,20 +192,25 @@ public class StoryModel {
      */
     public void issueStory(final IssueStoryBean issueStoryBean) {
         storyBean = issueStoryBean;
-        QiniuUploadManager qiniuUploadService = new QiniuUploadManager();
-        qiniuUploadService.uploadFileList(issueStoryBean.getStoryPictures());
-        qiniuUploadService.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
-            @Override
-            public void onSucceed(List<String> pathList) {
-                storyBean.setStoryPictures(pathList);
-                startIssue(storyBean);
-            }
 
-            @Override
-            public void onFailed(List<String> errorPathList) {
+        if (issueStoryBean.getStoryPictures().size() > 0) {
+            QiniuUploadManager qiniuUploadService = new QiniuUploadManager();
+            qiniuUploadService.uploadFileList(issueStoryBean.getStoryPictures());
+            qiniuUploadService.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
+                @Override
+                public void onSucceed(List<String> pathList) {
+                    storyBean.setStoryPictures(pathList);
+                    startIssue(storyBean);
+                }
 
-            }
-        });
+                @Override
+                public void onFailed(List<String> errorPathList) {
+                    Log.e(TAG, "onFailed: " + errorPathList);
+                }
+            });
+        } else {
+            startIssue(issueStoryBean);
+        }
 
     }
 
@@ -212,6 +238,7 @@ public class StoryModel {
 
             @Override
             public void onFailure(Call<IssuseResponseBean> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t);
                 if (onStoryIssuseListener != null)
                     onStoryIssuseListener.onFailed(mContext.getString(R.string.issue_failed));
             }

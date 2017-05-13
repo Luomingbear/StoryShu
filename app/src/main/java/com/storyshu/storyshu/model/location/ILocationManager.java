@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.maps.MapView;
+import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.bean.StoryBean;
@@ -25,7 +25,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
     private Context mAppContext; //应用上下文
 
-    private MapView mMapView; //地图视图
+    private TextureMapView mMapView; //地图视图
 
     private ILocationSever mLocationSever; //定位服务
 
@@ -60,7 +60,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param appContext appContext
      */
-    public ILocationManager init(Context appContext, MapView mapView) {
+    public ILocationManager init(Context appContext, TextureMapView mapView) {
 //        if (this.mAppContext == null)
         this.mAppContext = appContext.getApplicationContext();
 //        if (this.mMapView == null)

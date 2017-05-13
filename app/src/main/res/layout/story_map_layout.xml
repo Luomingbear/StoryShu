@@ -23,7 +23,7 @@
 
     </com.storyshu.storyshu.widget.title.TitleView>
 
-    <com.amap.api.maps.MapView
+    <com.amap.api.maps.TextureMapView
         android:id="@+id/story_map_map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +32,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@id/title_view">
 
-    </com.amap.api.maps.MapView>
+    </com.amap.api.maps.TextureMapView>
 
     <com.storyshu.storyshu.widget.story.StoriesAdapterView
         android:id="@+id/story_card_window"
