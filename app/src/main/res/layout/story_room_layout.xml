@@ -47,19 +47,20 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:gravity="center"
                     android:lineSpacingExtra="@dimen/line_space_normal"
-                    android:minHeight="150dp"
+                    android:text="@string/search_error_empty"
                     android:textColor="?attr/textColor2"
                     android:textSize="@dimen/font_normal" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <com.storyshu.storyshu.widget.card.AutoScaleLayout
+                    android:layout_width="wrap_content"
+                    android:layout_margin="@dimen/margin_normal"
+                    android:layout_height="wrap_content"
+                    app:scaleRate="1">
 
                     <ImageView
                         android:id="@+id/story_pic"
-                        android:layout_width="@dimen/image_big"
-                        android:layout_height="@dimen/image_big"
-                        android:layout_marginLeft="@dimen/margin_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/margin_small"
                         android:scaleType="centerCrop"
                         android:src="@drawable/gray_rectangle" />
@@ -74,7 +75,7 @@
                         android:gravity="center"
                         android:textColor="@color/colorGrayLight"
                         android:textSize="@dimen/font_small" />
-                </RelativeLayout>
+                </com.storyshu.storyshu.widget.card.AutoScaleLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"

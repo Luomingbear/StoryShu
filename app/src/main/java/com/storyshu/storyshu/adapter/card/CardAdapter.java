@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.base.IBaseAdapter;
-import com.storyshu.storyshu.info.CardInfo;
+import com.storyshu.storyshu.bean.StoryBean;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
@@ -49,12 +49,12 @@ public class CardAdapter extends IBaseAdapter {
         } else
             viewHolder = (ViewHolder) convertView.getTag();
 
-        CardInfo cardInfo = (CardInfo) getItem(position);
+        StoryBean cardInfo = (StoryBean) getItem(position);
         if (cardInfo == null)
             return convertView;
 
         //是否匿名
-        if (cardInfo.isAnonymous()) {
+        if (cardInfo.getAnonymous()) {
             viewHolder.avatar.setImageResource(R.drawable.avatar_wolverine);
             viewHolder.nickName.setVisibility(View.GONE);
         } else {

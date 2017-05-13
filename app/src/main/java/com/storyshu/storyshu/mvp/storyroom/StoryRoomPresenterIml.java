@@ -11,7 +11,6 @@ import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.widget.dialog.PicturePreviewDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -97,7 +96,7 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
             storyModel.getStoryInfo(mMvpView.getStoryIdBean().getStoryId());
             storyModel.setOnStoryModelListener(new StoryModel.OnStoryGetListener() {
                 @Override
-                public void onStoriesGot(ArrayList<StoryBean> storyList) {
+                public void onStoriesGot(List<StoryBean> storyList) {
                     mStoryBean = storyList.get(0);
                     mMvpView.setStoryData(mStoryBean);
                 }

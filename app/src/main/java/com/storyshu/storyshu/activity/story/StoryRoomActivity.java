@@ -282,7 +282,11 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         if (!TextUtils.isEmpty(storyData.getCover())) {
             Glide.with(this).load(storyData.getCover()).into(mStoryCover);
-            mPicSize.setText(storyData.getStoryPictures().size() + "");
+
+            if (storyData.getStoryPictures().size() > 1)
+                mPicSize.setText(storyData.getStoryPictures().size() + "");
+            else mPicSize.setVisibility(View.GONE);
+
         } else {
             mStoryCover.setVisibility(View.GONE);
             mPicSize.setVisibility(View.GONE);

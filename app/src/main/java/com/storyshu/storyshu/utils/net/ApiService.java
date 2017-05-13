@@ -3,6 +3,8 @@ package com.storyshu.storyshu.utils.net;
 import com.storyshu.storyshu.bean.IssueStoryBean;
 import com.storyshu.storyshu.bean.IssuseResponseBean;
 import com.storyshu.storyshu.bean.LauncherResponseBean;
+import com.storyshu.storyshu.bean.LocationBean;
+import com.storyshu.storyshu.bean.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.RegisterResponseBean;
 import com.storyshu.storyshu.bean.StoryIdBean;
 import com.storyshu.storyshu.bean.StoryReponseBean;
@@ -84,4 +86,13 @@ public interface ApiService {
      */
     @POST("getStoryInfo.php")
     Call<StoryReponseBean> getStoryInfo(@Body StoryIdBean storyIdBean);
+
+    /**
+     * 获取用户附近未过期的故事
+     *
+     * @param locationBean
+     * @return
+     */
+    @POST("getNearStory.php")
+    Call<NearStoriesRsponseBean> getNearStory(@Body LocationBean locationBean);
 }
