@@ -12,7 +12,7 @@ import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
-import com.storyshu.storyshu.bean.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.SysUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;

@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.bean;
+package com.storyshu.storyshu.bean.issueStory;
 
 import java.util.List;
 

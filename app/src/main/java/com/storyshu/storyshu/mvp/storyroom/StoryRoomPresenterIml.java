@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.storyshu.storyshu.adapter.CommentAdapter;
-import com.storyshu.storyshu.bean.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.info.CommentInfo;
 import com.storyshu.storyshu.model.CommentModel;
 import com.storyshu.storyshu.model.stories.StoryModel;

@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.bean.StoryBean;
-import com.storyshu.storyshu.bean.StoryIdBean;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomPresenterIml;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomView;
 import com.storyshu.storyshu.utils.NameUtil;

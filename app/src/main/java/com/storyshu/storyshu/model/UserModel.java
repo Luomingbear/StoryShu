@@ -4,9 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.bean.RegisterResponseBean;
-import com.storyshu.storyshu.bean.UserIdBean;
-import com.storyshu.storyshu.bean.UserLoginResponseBean;
+import com.storyshu.storyshu.bean.user.RegisterResponseBean;
+import com.storyshu.storyshu.bean.user.UserIdBean;
+import com.storyshu.storyshu.bean.user.UserLoginResponseBean;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.LoginInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;

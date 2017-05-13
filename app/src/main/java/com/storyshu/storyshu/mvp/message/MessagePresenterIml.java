@@ -6,7 +6,7 @@ import android.widget.ExpandableListView;
 
 import com.storyshu.storyshu.adapter.MessageExpandableAdapter;
 import com.storyshu.storyshu.adapter.SystemMessageAdapter;
-import com.storyshu.storyshu.bean.StoryIdBean;
+import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.info.StoryMessageInfo;
 import com.storyshu.storyshu.info.SystemMessageInfo;
 import com.storyshu.storyshu.model.MessageModel;

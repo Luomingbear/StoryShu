@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.adapter.card.CardAdapter;
-import com.storyshu.storyshu.bean.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;

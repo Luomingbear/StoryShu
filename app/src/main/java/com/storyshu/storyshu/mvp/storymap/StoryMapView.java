@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.amap.api.maps.TextureMapView;
-import com.storyshu.storyshu.bean.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 

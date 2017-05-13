@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.amap.api.maps.TextureMapView;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.story.StoryRoomActivity;
-import com.storyshu.storyshu.bean.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.storymap.StoryMapPresenterIml;

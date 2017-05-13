@@ -7,7 +7,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
-import com.storyshu.storyshu.bean.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 import java.util.ArrayList;

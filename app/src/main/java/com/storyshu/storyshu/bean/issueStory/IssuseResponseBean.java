@@ -1,4 +1,6 @@
-package com.storyshu.storyshu.bean;
+package com.storyshu.storyshu.bean.issueStory;
+
+import com.storyshu.storyshu.bean.BaseResponseBean;
 
 /**
  * 创建故事的返回值

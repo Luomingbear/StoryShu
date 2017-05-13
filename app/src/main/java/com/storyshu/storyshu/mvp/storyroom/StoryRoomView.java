@@ -2,8 +2,8 @@ package com.storyshu.storyshu.mvp.storyroom;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.storyshu.storyshu.bean.StoryBean;
-import com.storyshu.storyshu.bean.StoryIdBean;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.mvp.view.base.IBaseActivityView;
 import com.storyshu.storyshu.widget.ClickButton;
 

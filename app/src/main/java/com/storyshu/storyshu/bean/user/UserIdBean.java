@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.bean;
+package com.storyshu.storyshu.bean.user;
 
 /**
  * 存放用户的id，用于搜索用户信息

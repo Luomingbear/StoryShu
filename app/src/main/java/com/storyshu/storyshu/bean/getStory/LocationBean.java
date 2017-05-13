@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.bean;
+package com.storyshu.storyshu.bean.getStory;
 
 /**
  * 请求附近的故事的时候上传的数据

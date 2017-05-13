@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.bean;
+package com.storyshu.storyshu.bean.getStory;
 
 import android.os.Parcel;
 import android.os.Parcelable;

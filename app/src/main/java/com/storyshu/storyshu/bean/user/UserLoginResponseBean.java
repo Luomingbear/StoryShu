@@ -1,21 +1,21 @@
-package com.storyshu.storyshu.bean;
+package com.storyshu.storyshu.bean.user;
 
 import com.storyshu.storyshu.info.BaseUserInfo;
 
 /**
- * 注册返回值
+ * 用户基本信息
  * Created by bear on 2017/5/10.
  */
 
-public class RegisterResponseBean {
-    private int code = 500;
+public class UserLoginResponseBean {
+    private int code;
     private String message;
     private BaseUserInfo data;
 
-    public RegisterResponseBean() {
+    public UserLoginResponseBean() {
     }
 
-    public RegisterResponseBean(int code, String message, BaseUserInfo data) {
+    public UserLoginResponseBean(int code, String message, BaseUserInfo data) {
         this.code = code;
         this.message = message;
         this.data = data;

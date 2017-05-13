@@ -1,6 +1,6 @@
 package com.storyshu.storyshu.mvp.message;
 
-import com.storyshu.storyshu.bean.StoryIdBean;
+import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.IExpandableListView;
 

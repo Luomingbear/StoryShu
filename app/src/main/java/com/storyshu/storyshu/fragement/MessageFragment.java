@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.story.StoryRoomActivity;
-import com.storyshu.storyshu.bean.StoryIdBean;
+import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.mvp.message.MessagePresenterIml;
 import com.storyshu.storyshu.mvp.message.MessageView;
 import com.storyshu.storyshu.utils.NameUtil;

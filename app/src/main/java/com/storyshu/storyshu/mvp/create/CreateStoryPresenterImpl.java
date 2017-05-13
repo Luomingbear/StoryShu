@@ -8,7 +8,7 @@ import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.bean.IssueStoryBean;
+import com.storyshu.storyshu.bean.issueStory.IssueStoryBean;
 import com.storyshu.storyshu.model.location.ILocationQueryTool;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
