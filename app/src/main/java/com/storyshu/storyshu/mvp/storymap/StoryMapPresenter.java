@@ -16,7 +16,7 @@ public interface StoryMapPresenter {
      * 显示用户集图标
      * 不包括用户自己位置的图标
      */
-    void showStoryIcons();
+    void getNearStory();
 
     /**
      * 显示签到弹窗

@@ -78,6 +78,44 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
         }
     };
 
+    private float downX, downY; //手指按下的坐标
+    /**
+     * 地图滑动响应事件
+     */
+    AMap.OnMapTouchListener onMapTouchListener = new AMap.OnMapTouchListener() {
+        @Override
+        public void onTouch(MotionEvent motionEvent) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    downX = motionEvent.getX();
+                    downY = motionEvent.getY();
+                    break;
+
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+
+                    if (Math.abs(motionEvent.getX() - downX) > 100
+                            || Math.abs(motionEvent.getY() - downY) > 100) {
+
+                        //更新数据源
+                        getNearStory();
+                        Log.i(TAG, "onTouch: 更新！！！");
+                    } else {
+                        //隐藏卡片
+                        //恢复显示上一次选中的
+                        ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
+                        //隐藏选中的图标
+                        ILocationManager.getInstance().hideSelectedIcon();
+                    }
+
+                    //隐藏卡片
+                    mMvpView.hideCardWindow();
+                    isStoryWindowShow = false;
+                    break;
+            }
+        }
+    };
+
     @Override
     public void initMap() {
         Log.i(TAG, "initMap: 初始化地图");
@@ -87,25 +125,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
         /**
          * 点击和滑动地图就让故事卡片隐藏
          */
-        mMvpView.getMapView().getMap().setOnMapTouchListener(new AMap.OnMapTouchListener() {
-            @Override
-            public void onTouch(MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                    case MotionEvent.ACTION_UP:
-                        //隐藏卡片
-                        mMvpView.hideCardWindow();
-                        //恢复显示上一次选中的
-                        ILocationManager.getInstance().showDefIcon(mStoryList.get(lastSelectedStoryIndex));
-                        //隐藏选中的图标
-                        ILocationManager.getInstance().hideSelectedIcon();
-                        isStoryWindowShow = false;
-                        break;
-                }
-            }
-        });
+        mMvpView.getMapView().getMap().setOnMapTouchListener(onMapTouchListener);
 
         //marker的点击事件
         ILocationManager.getInstance().setOnLocationMarkerClickListener(onMarkClickListener);
@@ -197,7 +217,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
      * 显示故事集图标
      */
     @Override
-    public void showStoryIcons() {
+    public void getNearStory() {
         mStoryModel.getNearStories(ISharePreference.getUserId(mContext),
                 ISharePreference.getLatLngData(mContext), (int) mMvpView.getMapView().getMap().getCameraPosition().zoom);
         mStoryModel.setOnStoryModelListener(onStoryModelListener);
