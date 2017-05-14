@@ -44,18 +44,33 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
         public void onLikeDataGot(ArrayList<StoryMessageInfo> messageInfoList) {
             mLikeList = messageInfoList;
             mGroupList.add(StoryMessageInfo.MessageType.LIKE);
+            if (mLikeList.size() == 0)
+                mMvpView.getLikeMessageList().setVisibility(View.GONE);
+            else mMvpView.getLikeMessageList().setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onCommentDataGot(ArrayList<StoryMessageInfo> messageList) {
             mCommentList = messageList;
             mGroupList.add(StoryMessageInfo.MessageType.COMMENT);
+            if (mCommentList.size() == 0)
+                mMvpView.getCommentMessageList().setVisibility(View.GONE);
+            else
+                mMvpView.getCommentMessageList().setVisibility(View.VISIBLE);
+
         }
 
         @Override
         public void onSystemDataGot(ArrayList<SystemMessageInfo> messageList) {
             mSystemMessageList = messageList;
-            showMessageList();
+
+            if (mSystemMessageList.size() == 0)
+                mMvpView.getSystemMessageList().setVisibility(View.GONE);
+            else {
+                mMvpView.getSystemMessageList().setVisibility(View.VISIBLE);
+                //显示
+                showMessageList();
+            }
         }
     };
 

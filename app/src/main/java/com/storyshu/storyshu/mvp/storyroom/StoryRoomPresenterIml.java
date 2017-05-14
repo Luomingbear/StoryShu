@@ -2,13 +2,18 @@ package com.storyshu.storyshu.mvp.storyroom;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 
+import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.CommentAdapter;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.bean.like.LikePostBean;
 import com.storyshu.storyshu.info.CommentInfo;
 import com.storyshu.storyshu.model.CommentModel;
+import com.storyshu.storyshu.model.LikeModel;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.dialog.PicturePreviewDialog;
 
 import java.util.List;
@@ -22,6 +27,7 @@ import java.util.List;
 public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> implements StoryRoomPresenter {
     private CommentAdapter mCommentAdapter; //评论适配器
     private StoryBean mStoryBean; //故事信息
+    private int isLike = 0; //用户态度是否是喜欢 -1：不喜欢， 1：喜欢
 
     public StoryRoomPresenterIml(Context mContext, StoryRoomView mvpView) {
         super(mContext, mvpView);
@@ -76,7 +82,44 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
 
     @Override
     public void clickLike() {
+        if (TextUtils.isEmpty(mMvpView.getStoryId()))
+            return;
 
+        LikeModel likeModel = new LikeModel(mContext);
+        LikePostBean likePostBean = new LikePostBean(mMvpView.getStoryId(),
+                ISharePreference.getUserId(mContext), isLike != 1);
+        likeModel.likeStory(likePostBean);
+        likeModel.setOnLikeListener(new LikeModel.OnLikeListener() {
+            @Override
+            public void onSucceed() {
+                if (isLike != 1) {
+                    mMvpView.showToast(R.string.like);
+
+                    //更新ui
+                    mMvpView.getLikeButton().setClickedNoListener(true);
+                    mMvpView.getOpposeButton().setClickedNoListener(false);
+
+                    mMvpView.getLikeButton().setNum(mMvpView.getLikeButton().getNum() + 1);
+                    //
+                    isLike = 1;
+                } else {
+                    mMvpView.showToast(R.string.cancel);
+
+                    //更新ui
+                    mMvpView.getLikeButton().setClickedNoListener(false);
+                    mMvpView.getLikeButton().setNum(mMvpView.getLikeButton().getNum() - 1);
+                    //
+                    isLike -= 1;
+                }
+                //记录
+
+            }
+
+            @Override
+            public void onFailed(String error) {
+                mMvpView.showToast(R.string.net_error);
+            }
+        });
     }
 
     @Override
@@ -91,23 +134,24 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
 
     @Override
     public void getStoryInfo() {
-        if (mMvpView.getStoryIdBean() != null) {
-            StoryModel storyModel = new StoryModel(mContext);
-            storyModel.getStoryInfo(mMvpView.getStoryIdBean().getStoryId());
-            storyModel.setOnStoryModelListener(new StoryModel.OnStoryGetListener() {
-                @Override
-                public void onStoriesGot(List<StoryBean> storyList) {
-                    mStoryBean = storyList.get(0);
-                    mMvpView.setStoryData(mStoryBean);
-                }
+        if (TextUtils.isEmpty(mMvpView.getStoryId()))
+            return;
 
-                @Override
-                public void onFailed(String error) {
-                    mMvpView.showToast(error);
-                }
-            });
+        StoryModel storyModel = new StoryModel(mContext);
+        storyModel.getStoryInfo(mMvpView.getStoryId());
+        storyModel.setOnStoryModelListener(new StoryModel.OnStoryGetListener() {
+            @Override
+            public void onStoriesGot(List<StoryBean> storyList) {
+                mStoryBean = storyList.get(0);
+                mMvpView.setStoryData(mStoryBean);
+            }
 
-        }
+            @Override
+            public void onFailed(String error) {
+                mMvpView.showToast(error);
+            }
+        });
+
     }
 
 

@@ -1,27 +1,25 @@
-package com.storyshu.storyshu.bean.issueStory;
-
-import com.storyshu.storyshu.bean.BaseResponseBean;
+package com.storyshu.storyshu.bean;
 
 /**
  * 创建故事的返回值
  * Created by bear on 2017/5/11.
  */
 
-public class IssuseResponseBean extends BaseResponseBean {
+public class OnlyDataResponseBean extends BaseResponseBean {
     private String data;
 
-    public IssuseResponseBean() {
+    public OnlyDataResponseBean() {
     }
 
-    public IssuseResponseBean(int code, String message) {
+    public OnlyDataResponseBean(int code, String message) {
         super(code, message);
     }
 
-    public IssuseResponseBean(String data) {
+    public OnlyDataResponseBean(String data) {
         this.data = data;
     }
 
-    public IssuseResponseBean(int code, String message, String data) {
+    public OnlyDataResponseBean(int code, String message, String data) {
         super(code, message);
         this.data = data;
     }

@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +27,7 @@ public class ClickButton extends LinearLayout {
     private int margin; //外边距
     private int mTextColor;
     private String mString; //数量
+    private int num; //数量
 
     private CheckBox mDrawableCb; //图标的控件
     private TextView mTextView; //文本的控件
@@ -57,11 +57,21 @@ public class ClickButton extends LinearLayout {
      * @param num
      */
     public void setNum(int num) {
+        this.num = num;
         if (num > 999)
             mString = "999+";
         else
             mString = num + "";
         mTextView.setText(mString);
+    }
+
+    /**
+     * 获取数量
+     *
+     * @return
+     */
+    public int getNum() {
+        return num;
     }
 
     /**
@@ -85,6 +95,17 @@ public class ClickButton extends LinearLayout {
         if (onClickButtonLisener != null)
             onClickButtonLisener.onCLicked(isClicked);
     }
+
+    /**
+     * 设置点击状态
+     *
+     * @param clicked
+     */
+    public void setClickedNoListener(boolean clicked) {
+        isClicked = clicked;
+        mDrawableCb.setChecked(isClicked);
+    }
+
 
     /**
      * 设置点击状态
@@ -239,36 +260,36 @@ public class ClickButton extends LinearLayout {
 
     private float downX, downY; //手指按下的坐标
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                downX = event.getX();
-                downY = event.getY();
-                if (downX > 0 && downX < getWidth())
-                    if (downY > 0 && downY < getHeight()) {
-                        if (mType == Type.COMMENT)
-                            mDrawableCb.setBackgroundResource(R.drawable.comment_on);
-                    }
-                break;
-
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-
-                if (mType == Type.COMMENT)
-                    mDrawableCb.setBackgroundResource(R.drawable.comment);
-
-                float upX, upY;
-                upX = event.getX();
-                upY = event.getY();
-                if (upX > 0 && upX < getWidth())
-                    if (upY > 0 && upY < getHeight()) {
-                        setClicked();
-                    }
-                break;
-        }
-
-        return true;
-
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                downX = event.getX();
+//                downY = event.getY();
+//                if (downX > 0 && downX < getWidth())
+//                    if (downY > 0 && downY < getHeight()) {
+//                        if (mType == Type.COMMENT)
+//                            mDrawableCb.setBackgroundResource(R.drawable.comment_on);
+//                    }
+//                break;
+//
+//            case MotionEvent.ACTION_CANCEL:
+//            case MotionEvent.ACTION_UP:
+//
+//                if (mType == Type.COMMENT)
+//                    mDrawableCb.setBackgroundResource(R.drawable.comment);
+//
+//                float upX, upY;
+//                upX = event.getX();
+//                upY = event.getY();
+//                if (upX > 0 && upX < getWidth())
+//                    if (upY > 0 && upY < getHeight()) {
+//                        setClicked();
+//                    }
+//                break;
+//        }
+//
+//        return true;
+//
+//    }
 }

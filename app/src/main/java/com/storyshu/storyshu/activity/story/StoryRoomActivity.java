@@ -125,7 +125,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
         mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
             public void onLeftClick() {
-                finish();
+                onBackPressed();
             }
 
             @Override
@@ -166,12 +166,12 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
     @Override
     public void showToast(String s) {
-
+        ToastUtil.Show(StoryRoomActivity.this, s);
     }
 
     @Override
     public void showToast(int stringRes) {
-
+        ToastUtil.Show(StoryRoomActivity.this, stringRes);
     }
 
     /**
@@ -180,7 +180,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     private ClickButton.OnClickButtonListener likeClickListener = new ClickButton.OnClickButtonListener() {
         @Override
         public void onCLicked(boolean isClicked) {
-
+            mStoryRoomPresenter.clickLike();
         }
     };
 
@@ -190,7 +190,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     private ClickButton.OnClickButtonListener opposeClickListener = new ClickButton.OnClickButtonListener() {
         @Override
         public void onCLicked(boolean isClicked) {
-
+            mStoryRoomPresenter.clickOppose();
         }
     };
 
@@ -200,18 +200,9 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     private ClickButton.OnClickButtonListener commentClickListener = new ClickButton.OnClickButtonListener() {
         @Override
         public void onCLicked(boolean isClicked) {
-
+            mStoryRoomPresenter.clickComment();
         }
     };
-
-    /**
-     * 初始化点赞、评论、喝倒彩按钮
-     */
-    private void initCheckTextClick() {
-        mLike.setOnClickButtonListener(likeClickListener);
-        mOppose.setOnClickButtonListener(opposeClickListener);
-        mComment.setOnClickButtonListener(commentClickListener);
-    }
 
     /**
      * 初始化事件处理
@@ -225,7 +216,9 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mLike.setOnClickListener(this);
 
-        initCheckTextClick();
+        mOppose.setOnClickListener(this);
+
+        mComment.setOnClickListener(this);
 
     }
 
@@ -238,6 +231,16 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
             case R.id.report:
                 ToastUtil.Show(StoryRoomActivity.this, R.string.report);
+                break;
+
+            case R.id.like:
+                mStoryRoomPresenter.clickLike();
+                break;
+            case R.id.oppose:
+                mStoryRoomPresenter.clickOppose();
+                break;
+            case R.id.comment:
+                mStoryRoomPresenter.clickComment();
                 break;
         }
     }
@@ -268,8 +271,12 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     }
 
     @Override
-    public StoryIdBean getStoryIdBean() {
-        return mStoryIdBean;
+    public String getStoryId() {
+        if (mStoryIdBean != null)
+            return mStoryIdBean.getStoryId();
+        if (mStoryBean != null)
+            return mStoryBean.getStoryId();
+        return "";
     }
 
     @Override
@@ -313,6 +320,9 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
         mCreateTime.setText(TimeUtils.convertCurrentTime(this, storyData.getCreateTime()));
 
         mDeathTime.setText(TimeUtils.leftTime(this, storyData.getDestroyTime()));
+
+        mLike.setNum(storyData.getLikeNum());
+        mOppose.setNum(storyData.getOpposeNum());
     }
 
     @Override

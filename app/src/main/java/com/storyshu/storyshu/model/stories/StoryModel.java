@@ -6,7 +6,7 @@ import android.util.Log;
 import com.amap.api.maps.model.LatLng;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.bean.issueStory.IssueStoryBean;
-import com.storyshu.storyshu.bean.issueStory.IssuseResponseBean;
+import com.storyshu.storyshu.bean.OnlyDataResponseBean;
 import com.storyshu.storyshu.bean.getStory.LocationBean;
 import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
@@ -231,10 +231,10 @@ public class StoryModel {
      * @param storyBean
      */
     private void startIssue(IssueStoryBean storyBean) {
-        Call<IssuseResponseBean> call = RetrofitManager.getInstance().getService().issueStory(storyBean);
-        call.enqueue(new Callback<IssuseResponseBean>() {
+        Call<OnlyDataResponseBean> call = RetrofitManager.getInstance().getService().issueStory(storyBean);
+        call.enqueue(new Callback<OnlyDataResponseBean>() {
             @Override
-            public void onResponse(Call<IssuseResponseBean> call, Response<IssuseResponseBean> response) {
+            public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {
                 Log.i(TAG, "onResponse: " + response.body().getMessage()
                         + "\n内容：" + response.body().getData());
                 if (response.body().getCode() == CodeUtil.Succeed) {
@@ -249,7 +249,7 @@ public class StoryModel {
             }
 
             @Override
-            public void onFailure(Call<IssuseResponseBean> call, Throwable t) {
+            public void onFailure(Call<OnlyDataResponseBean> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t);
                 if (onStoryIssuseListener != null)
                     onStoryIssuseListener.onFailed(mContext.getString(R.string.issue_failed));

@@ -1,8 +1,6 @@
 package com.storyshu.storyshu.utils.net;
 
 
-import android.database.Observable;
-
 import com.storyshu.storyshu.bean.LauncherResponseBean;
 import com.storyshu.storyshu.bean.TokenResponseBean;
 import com.storyshu.storyshu.bean.checkForUpdate.VersionResponseBean;
@@ -11,22 +9,18 @@ import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.bean.getStory.StoryReponseBean;
 import com.storyshu.storyshu.bean.issueStory.IssueStoryBean;
-import com.storyshu.storyshu.bean.issueStory.IssuseResponseBean;
+import com.storyshu.storyshu.bean.OnlyDataResponseBean;
+import com.storyshu.storyshu.bean.like.LikePostBean;
 import com.storyshu.storyshu.bean.user.RegisterResponseBean;
 import com.storyshu.storyshu.bean.user.UserIdBean;
 import com.storyshu.storyshu.bean.user.UserLoginResponseBean;
 import com.storyshu.storyshu.info.LoginInfo;
 import com.storyshu.storyshu.info.RegisterUserInfo;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Streaming;
-import retrofit2.http.Url;
 
 /**
  * 接口方法
@@ -85,7 +79,7 @@ public interface ApiService {
      * @return
      */
     @POST("issueStory.php")
-    Call<IssuseResponseBean> issueStory(@Body IssueStoryBean issueStoryBean);
+    Call<OnlyDataResponseBean> issueStory(@Body IssueStoryBean issueStoryBean);
 
     /**
      * 获取故事的详细信息
@@ -114,23 +108,12 @@ public interface ApiService {
     Call<VersionResponseBean> checkForUpdate();
 
     /**
-     * 下载文件
+     * 喜欢和不喜欢的接口
      *
-     * @param url 网络地址
+     * @param likePostBean
      * @return
      */
-    @Streaming
-    @GET
-    Call<ResponseBody> downloadFile(@Url String url);
+    @POST("likeStory.php")
+    Call<OnlyDataResponseBean> likeStory(@Body LikePostBean likePostBean);
 
-    /**
-     * 断点下载
-     *
-     * @param range
-     * @param url
-     * @return
-     */
-    @GET
-    @Streaming
-    Observable<Response<ResponseBody>> resumeDownload(@Header("Range") String range, @Url String url);
 }

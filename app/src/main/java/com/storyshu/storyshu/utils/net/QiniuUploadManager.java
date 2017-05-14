@@ -178,8 +178,6 @@ public class QiniuUploadManager {
                             progress = 95 * ((mCurIndex - 1) / mPicSize * (1 + percent));
                         }
 
-//                        Log.d(TAG, "progress: " + progress);
-
                         if (mQiniuUploadProgressListener != null)
                             mQiniuUploadProgressListener.onProgress((int) progress);
                     }
