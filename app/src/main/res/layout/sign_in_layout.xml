@@ -41,7 +41,7 @@
             android:text="@string/ok"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/font_big"
-            app:bgColor="@color/colorGoldLight"
+            app:mBgColor="@color/colorGoldLight"
             app:roundSize="@dimen/border_radius_normal"
             app:roundType="roundBottom" />
     </RelativeLayout>

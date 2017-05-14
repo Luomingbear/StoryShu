@@ -12,6 +12,7 @@ import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.bean.getStory.StoryReponseBean;
+import com.storyshu.storyshu.tool.observable.EventObservable;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.net.CodeUtil;
 import com.storyshu.storyshu.utils.net.QiniuUploadManager;
@@ -196,6 +197,7 @@ public class StoryModel {
         if (issueStoryBean.getStoryPictures().size() > 0) {
             QiniuUploadManager qiniuUploadService = new QiniuUploadManager();
             qiniuUploadService.uploadFileList(issueStoryBean.getStoryPictures());
+            //上传完成的监听完成
             qiniuUploadService.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
                 @Override
                 public void onSucceed(List<String> pathList) {
@@ -206,6 +208,15 @@ public class StoryModel {
                 @Override
                 public void onFailed(List<String> errorPathList) {
                     Log.e(TAG, "onFailed: " + errorPathList);
+                }
+            });
+
+            //上传进度的监听
+            qiniuUploadService.setQiniuUploadProgressListener(new QiniuUploadManager.QiniuUploadProgressListener() {
+                @Override
+                public void onProgress(int progress) {
+                    Log.i(TAG, "onProgress: 上传进度：" + progress);
+                    EventObservable.getInstance().notifyObservers(R.id.line_progress_bar, progress);
                 }
             });
         } else {
@@ -228,6 +239,7 @@ public class StoryModel {
                         + "\n内容：" + response.body().getData());
                 if (response.body().getCode() == CodeUtil.Succeed) {
                     ToastUtil.Show(mContext, response.body().getMessage());
+                    EventObservable.getInstance().notifyObservers(R.id.line_progress_bar, 100);
                     if (onStoryIssuseListener != null)
                         onStoryIssuseListener.onSucceed();
                 } else {

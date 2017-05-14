@@ -106,9 +106,11 @@
             <enum name="roundRect" value="0" />
             <enum name="roundTop" value="1" />
             <enum name="roundBottom" value="2" />
+            <enum name="leftBottom" value="3" />
+            <enum name="rightBottom" value="4" />
         </attr>
         <attr name="roundSize" format="dimension" />
-        <attr name="bgColor" format="color" />
+        <attr name="mBgColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="IBookView">
@@ -176,5 +178,10 @@
             <enum name="rectangle" value="0" />
             <enum name="circle" value="1" />
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LineProgressBar">
+        <attr name="progressBgColor" format="color|reference" />
+        <attr name="progressFgColor" format="color|reference" />
     </declare-styleable>
 </resources>

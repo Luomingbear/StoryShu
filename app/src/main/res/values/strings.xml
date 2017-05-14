@@ -157,4 +157,7 @@
     <!--选择生命期-->
     <string name="day_unit">天</string>
     <string name="hour_unit">小时</string>
+
+    <!--更新软件-->
+    <string name="download_failed">下载失败</string>
 </resources>

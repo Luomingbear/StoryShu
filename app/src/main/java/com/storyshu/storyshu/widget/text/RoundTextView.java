@@ -20,13 +20,18 @@ public class RoundTextView extends AppCompatTextView {
     private int mBgColor; //背景颜色
     private float mRoundSize; //圆角的值
     private RoundType mRoundType = RoundType.ROUND_RECT; //圆角的类型
+    private RectF rectF;
 
     public enum RoundType {
         ROUND_RECT,
 
         ROUND_TOP,
 
-        ROUND_BOTTOM
+        ROUND_BOTTOM,
+
+        LEFT_BOTTOM,
+
+        RIGHT_BOTTOM
     }
 
     public RoundTextView(Context context) {
@@ -41,7 +46,7 @@ public class RoundTextView extends AppCompatTextView {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundTextView);
         mRoundSize = typedArray.getDimension(R.styleable.RoundTextView_roundSize, getResources().getDimension(R.dimen.border_radius_normal));
-        mBgColor = typedArray.getColor(R.styleable.RoundTextView_bgColor, getResources().getColor(R.color.colorGrayLight));
+        mBgColor = typedArray.getColor(R.styleable.RoundTextView_mBgColor, getResources().getColor(R.color.colorGrayLight));
         mRoundType = RoundType.values()[typedArray.getInt(R.styleable.RoundTextView_roundType, 0)];
         typedArray.recycle();
         init();
@@ -78,10 +83,15 @@ public class RoundTextView extends AppCompatTextView {
     }
 
     @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        rectF = new RectF(0, 0, right, bottom);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         mPaint.setColor(mBgColor);
         mPaint.setAntiAlias(true);
-        RectF rectF = new RectF(0, 0, getWidth(), getHeight());
         canvas.drawRoundRect(rectF, mRoundSize, mRoundSize, mPaint);
         switch (mRoundType) {
             case ROUND_RECT:
@@ -93,6 +103,18 @@ public class RoundTextView extends AppCompatTextView {
             case ROUND_BOTTOM:
                 canvas.drawRect(0, 0, mRoundSize, mRoundSize, mPaint);
                 canvas.drawRect(getWidth() - mRoundSize, 0, getWidth(), mRoundSize, mPaint);
+                break;
+
+            case LEFT_BOTTOM:
+                canvas.drawRect(0, 0, mRoundSize, mRoundSize, mPaint);
+                canvas.drawRect(getWidth() - mRoundSize, 0, getWidth(), mRoundSize, mPaint);
+                canvas.drawRect(getWidth() - mRoundSize, getHeight() - mRoundSize, getWidth(), getHeight(), mPaint);
+                break;
+
+            case RIGHT_BOTTOM:
+                canvas.drawRect(0, 0, mRoundSize, mRoundSize, mPaint);
+                canvas.drawRect(getWidth() - mRoundSize, 0, getWidth(), mRoundSize, mPaint);
+                canvas.drawRect(0, getHeight() - mRoundSize, mRoundSize, getHeight(), mPaint);
                 break;
         }
         super.onDraw(canvas);

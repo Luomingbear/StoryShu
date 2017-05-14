@@ -197,7 +197,7 @@
             android:text="1"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/font_big"
-            app:bgColor="@color/colorRed"
+            app:mBgColor="@color/colorRed"
             app:roundSize="@dimen/font_big" />
 
         <com.storyshu.storyshu.widget.text.RoundTextView
@@ -212,7 +212,7 @@
             android:text="2"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/font_big"
-            app:bgColor="@color/colorGray"
+            app:mBgColor="@color/colorGray"
             app:roundSize="@dimen/font_big" />
 
         <View

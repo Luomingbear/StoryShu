@@ -13,12 +13,17 @@ import com.storyshu.storyshu.fragement.AirportFragment;
 import com.storyshu.storyshu.fragement.MessageFragment;
 import com.storyshu.storyshu.fragement.MineFragment;
 import com.storyshu.storyshu.fragement.StoryMapFragment;
+import com.storyshu.storyshu.mvp.main.MainPresenterIml;
+import com.storyshu.storyshu.mvp.main.MainView;
+import com.storyshu.storyshu.tool.observable.EventObservable;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
+import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.CreateButton;
+import com.storyshu.storyshu.widget.LineProgressBar;
 import com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar;
 
-public class MainActivity extends IPermissionActivity {
+public class MainActivity extends IPermissionActivity implements MainView {
     private static final String TAG = "MainActivity";
     private StoryMapFragment mStoryMapFragment; //地图fragment；
     private AirportFragment mAirportFragment; //候机厅fragment；
@@ -30,6 +35,8 @@ public class MainActivity extends IPermissionActivity {
 
     private BottomNavigationBar mNavigationBar; //底部导航栏
 
+    private MainPresenterIml mMainPresenterIml; //主页的逻辑实现
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +45,9 @@ public class MainActivity extends IPermissionActivity {
 
         initView();
 
-        initEvent();
+        mMainPresenterIml = new MainPresenterIml(MainActivity.this, MainActivity.this);
 
+        initEvent();
     }
 
 
@@ -65,7 +73,7 @@ public class MainActivity extends IPermissionActivity {
 //            回调更新图标
             StoryMapFragment.getInstance().updateStoryIcons();
         } else if (requestCode == PERMISSION_INTENT) {
-            
+
         }
     }
 
@@ -127,6 +135,10 @@ public class MainActivity extends IPermissionActivity {
         mFragmentManager = getSupportFragmentManager();
         setSelection(0); //默认显示第一页
 
+
+        //统一的进度条
+        LineProgressBar lineProgressBar = (LineProgressBar) findViewById(R.id.line_progress_bar);
+        EventObservable.getInstance().addObserver(lineProgressBar); //添加到观察者
     }
 
     /**
@@ -137,12 +149,13 @@ public class MainActivity extends IPermissionActivity {
 
     }
 
+
     /**
      * 初始化事件
      */
     private void initEvent() {
-        //初始化图片加载器
-        initImageLoader();
+        //获取版本信息
+        mMainPresenterIml.checkForUpdate();
     }
 
     /**
@@ -154,6 +167,7 @@ public class MainActivity extends IPermissionActivity {
         //开始
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         hideFragments(transaction);
+
         switch (index) {
             case 0:
                 //检查位置权限
@@ -208,5 +222,15 @@ public class MainActivity extends IPermissionActivity {
         if (mMeFragment != null) {
             transaction.hide(mMeFragment);
         }
+    }
+
+    @Override
+    public void showToast(String s) {
+        ToastUtil.Show(MainActivity.this, s);
+    }
+
+    @Override
+    public void showToast(int stringRes) {
+        ToastUtil.Show(MainActivity.this, stringRes);
     }
 }

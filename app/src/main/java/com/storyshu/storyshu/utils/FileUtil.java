@@ -58,6 +58,23 @@ public class FileUtil {
     }
 
     /**
+     * 获取带后缀的文件名
+     *
+     * @param filePath
+     * @return
+     */
+    public static String getFileNameWithExtension(String filePath) {
+        if (!TextUtils.isEmpty(filePath)) {
+            int start = filePath.lastIndexOf("/");
+            if (start != -1) {
+                return filePath.substring(start);
+            } else {
+                return null;
+            }
+        } else return "";
+    }
+
+    /**
      * 获取文件的后缀名
      *
      * @param filename 文件名

@@ -171,7 +171,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     public void updateStoryIcons() {
         //发布故事之后的回调，更新地图信息
         hideCardWindow();
-        mStoryMapPresenter.showStoryIcons();
+        mStoryMapPresenter.getNearStory();
     }
 
     @Override
@@ -197,7 +197,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     public void initEvents() {
         mStoryMapPresenter.initMap();
 
-        mStoryMapPresenter.showStoryIcons();
+        mStoryMapPresenter.getNearStory();
 
         mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
@@ -223,7 +223,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         });
 
         //显示图标
-//        mStoryMapPresenter.showStoryIcons();
+//        mStoryMapPresenter.getNearStory();
     }
 
     @Override

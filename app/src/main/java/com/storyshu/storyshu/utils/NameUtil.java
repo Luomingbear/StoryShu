@@ -25,5 +25,8 @@ public class NameUtil {
     public static final String NICKNAME = "nickname";
     public static final String AVATAR = "avatar";
 
+    //下载的软件更新文件
+    public static final String APP_NAME = "storyshu";
+
 
 }

@@ -44,7 +44,7 @@
             android:text="@string/cancel"
             android:textColor="?attr/textColor3"
             android:textSize="@dimen/font_big"
-            app:bgColor="@color/colorWhite" />
+            app:mBgColor="@color/colorWhite" />
 
         <View
             android:layout_width="0.5dp"
@@ -60,7 +60,7 @@
             android:text="@string/ok"
             android:textColor="@color/colorGoldLight"
             android:textSize="@dimen/font_big"
-            app:bgColor="@color/colorWhite" />
+            app:mBgColor="@color/colorWhite" />
     </LinearLayout>
 
 </LinearLayout>
