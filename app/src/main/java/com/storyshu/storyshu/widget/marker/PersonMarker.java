@@ -30,9 +30,14 @@ public class PersonMarker extends IMarker {
     private PersonView mPersonView; //
     private StoryBean mStoryInfo; //故事的数据
 
+
     public PersonMarker(Context mContext, AMap mAMap, StoryBean storyInfo) {
         super(mContext, mAMap, storyInfo.getLatLng());
         this.mStoryInfo = storyInfo;
+    }
+
+    public StoryBean getStoryInfo() {
+        return mStoryInfo;
     }
 
     /**

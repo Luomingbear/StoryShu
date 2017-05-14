@@ -220,6 +220,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
     public void getNearStory() {
         mStoryModel.getNearStories(ISharePreference.getUserId(mContext),
                 ISharePreference.getLatLngData(mContext), (int) mMvpView.getMapView().getMap().getCameraPosition().zoom);
+        Log.i(TAG, "getNearStory: zoom:"+(int) mMvpView.getMapView().getMap().getCameraPosition().zoom);
         mStoryModel.setOnStoryModelListener(onStoryModelListener);
 
     }

@@ -197,7 +197,6 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     public void initEvents() {
         mStoryMapPresenter.initMap();
 
-        mStoryMapPresenter.getNearStory();
 
         mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
@@ -223,7 +222,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         });
 
         //显示图标
-//        mStoryMapPresenter.getNearStory();
+        mStoryMapPresenter.getNearStory();
     }
 
     @Override

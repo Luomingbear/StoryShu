@@ -43,7 +43,7 @@ public class IMapManager {
     private MyCircleMarker mMyPositionMarker; //个人位置点图标
     private List<PersonMarker> mPersonMarkerList; //故事集图标列表
     private PersonMarker mSelectedMarker; //显示的选中的图标
-    private int markerMinDistance = 10; //图标之间的最小距离，小于这个距离就只会显示一个！
+    private int markerMinDistance = 15; //图标之间的最小距离，小于这个距离就只会显示一个！
 
     protected IMapManager() {
     }
@@ -82,12 +82,10 @@ public class IMapManager {
         /**
          * 显示地图
          */
-        LatLng latLng = ISharePreference.getLatLngData(mContext);
-        if (latLng == null || latLng.equals(mLatLng)) {
-            return;
-        }
         //获得最近一次的位置数据
         mLatLng = ISharePreference.getLatLngData(mContext);
+        if (mLatLng == null)
+            return;
 
         /**
          * 点击事件
@@ -277,9 +275,40 @@ public class IMapManager {
      */
     public void showStoriesIcons(ArrayList<StoryBean> storyList) {
 //        Log.d(TAG, "showStoriesIcons: 绘制图标！！！");
+
         for (StoryBean storyInfo : storyList) {
             showStoryIcon(storyInfo);
         }
+
+        //移除不在数据源里面的图标
+        List<PersonMarker> removeList = new ArrayList<>();
+        for (PersonMarker personMarker : mPersonMarkerList) {
+            if (!isInList(personMarker.getStoryInfo().getStoryId(), storyList)) {
+                personMarker.remove();
+                removeList.add(personMarker);
+            }
+        }
+        for (PersonMarker p : removeList) {
+            if (mPersonMarkerList.contains(p)) {
+                mPersonMarkerList.remove(p);
+            }
+        }
+
+    }
+
+    /**
+     * 判断该故事是否是在新的数据源里面
+     *
+     * @param storyId
+     * @param storyBeanList
+     * @return
+     */
+    private boolean isInList(String storyId, List<StoryBean> storyBeanList) {
+        for (StoryBean storyBean : storyBeanList) {
+            if (storyBean.getStoryId().equals(storyId))
+                return true;
+        }
+        return false;
     }
 
 
@@ -302,7 +331,7 @@ public class IMapManager {
     public void animate2Position(LatLng latLng) {
         if (mAMap == null)
             return;
-        mLatLng = latLng;
+//        mLatLng = latLng;
         mAMap.animateCamera(CameraUpdateFactory.newCameraPosition(
                 new CameraPosition(latLng,
                         mZoomLevel, //新的缩放级别
@@ -332,7 +361,7 @@ public class IMapManager {
     public void animate2Position(LatLng latLng, int time) {
         if (mAMap == null)
             return;
-        mLatLng = latLng;
+//        mLatLng = latLng;
         mAMap.animateCamera(CameraUpdateFactory.newCameraPosition(
                 new CameraPosition(latLng,
                         mZoomLevel, //新的缩放级别
@@ -369,9 +398,9 @@ public class IMapManager {
     public void move2Position(LatLng latLng) {
         if (mAMap == null)
             return;
-        mLatLng = latLng;
+//        mLatLng = latLng;
         mAMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
-                mLatLng,
+                latLng,
                 mZoomLevel,
                 0,
                 0
