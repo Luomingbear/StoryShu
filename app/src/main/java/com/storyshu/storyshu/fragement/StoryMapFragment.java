@@ -80,6 +80,7 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
         //每次返回地图页面的时候就重新获取位置，并刷新图标
         mStoryMapPresenter.getLocation();
+
     }
 
     @Override

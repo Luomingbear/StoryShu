@@ -55,7 +55,10 @@ public class IssueStoryBean {
     }
 
     public String getCover() {
-        return cover;
+        if (storyPictures != null && storyPictures.size() > 0)
+            return storyPictures.get(0);
+
+        return null;
     }
 
     public void setCover(String cover) {

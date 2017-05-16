@@ -273,7 +273,7 @@ public class IMapManager {
     /**
      * 显示所有图标
      */
-    public void showStoriesIcons(ArrayList<StoryBean> storyList) {
+    public void showStoriesIcons(List<StoryBean> storyList) {
 //        Log.d(TAG, "showStoriesIcons: 绘制图标！！！");
 
         for (StoryBean storyInfo : storyList) {

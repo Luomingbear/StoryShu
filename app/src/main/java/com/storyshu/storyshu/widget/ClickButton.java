@@ -243,53 +243,41 @@ public class ClickButton extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        switch (mGravity) {
-            case LEFT:
-            case RIGHT:
-                setMeasuredDimension(margin * 2 + mDrawableWidth + mTextView.getMeasuredWidth(),
-                        mDrawableWidth);
-                break;
-            case TOP:
-            case BOTTOM:
-                setMeasuredDimension(Math.max(mTextView.getMeasuredWidth() + margin * 2, mDrawableWidth),
-                        mDrawableWidth + mTextView.getMeasuredHeight() + margin * 2);
-                break;
+
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        if (widthMode == MeasureSpec.AT_MOST) {
+            switch (mGravity) {
+                case LEFT:
+                case RIGHT:
+                    widthSize = margin * 2 + mDrawableWidth + mTextView.getMeasuredWidth();
+                    break;
+                case TOP:
+                case BOTTOM:
+                    widthSize = mTextView.getMeasuredWidth() + margin * 2;
+                    break;
+            }
         }
+
+        if (heightMode == MeasureSpec.AT_MOST) {
+            switch (mGravity) {
+                case LEFT:
+                case RIGHT:
+                    heightSize = mDrawableWidth;
+                    break;
+                case TOP:
+                case BOTTOM:
+                    heightSize = mDrawableWidth + mTextView.getMeasuredHeight() + margin * 2;
+                    break;
+            }
+        }
+
+        setMeasuredDimension(widthSize, heightSize);
+
     }
 
 
-    private float downX, downY; //手指按下的坐标
-
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                downX = event.getX();
-//                downY = event.getY();
-//                if (downX > 0 && downX < getWidth())
-//                    if (downY > 0 && downY < getHeight()) {
-//                        if (mType == Type.COMMENT)
-//                            mDrawableCb.setBackgroundResource(R.drawable.comment_on);
-//                    }
-//                break;
-//
-//            case MotionEvent.ACTION_CANCEL:
-//            case MotionEvent.ACTION_UP:
-//
-//                if (mType == Type.COMMENT)
-//                    mDrawableCb.setBackgroundResource(R.drawable.comment);
-//
-//                float upX, upY;
-//                upX = event.getX();
-//                upY = event.getY();
-//                if (upX > 0 && upX < getWidth())
-//                    if (upY > 0 && upY < getHeight()) {
-//                        setClicked();
-//                    }
-//                break;
-//        }
-//
-//        return true;
-//
-//    }
 }

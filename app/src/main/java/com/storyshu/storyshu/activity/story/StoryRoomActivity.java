@@ -101,7 +101,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mOppose = (ClickButton) findViewById(R.id.oppose);
 
-        mComment = (ClickButton) findViewById(R.id.comment_content);
+        mComment = (ClickButton) findViewById(R.id.comment);
 
 //      mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
 
@@ -175,36 +175,6 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     }
 
     /**
-     * 点击了赞
-     */
-    private ClickButton.OnClickButtonListener likeClickListener = new ClickButton.OnClickButtonListener() {
-        @Override
-        public void onCLicked(boolean isClicked) {
-            mStoryRoomPresenter.clickLike();
-        }
-    };
-
-    /**
-     * 点击了喝倒彩
-     */
-    private ClickButton.OnClickButtonListener opposeClickListener = new ClickButton.OnClickButtonListener() {
-        @Override
-        public void onCLicked(boolean isClicked) {
-            mStoryRoomPresenter.clickOppose();
-        }
-    };
-
-    /**
-     * 点击了评论
-     */
-    private ClickButton.OnClickButtonListener commentClickListener = new ClickButton.OnClickButtonListener() {
-        @Override
-        public void onCLicked(boolean isClicked) {
-            mStoryRoomPresenter.clickComment();
-        }
-    };
-
-    /**
      * 初始化事件处理
      */
     private void initEvent() {
@@ -219,6 +189,8 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
         mOppose.setOnClickListener(this);
 
         mComment.setOnClickListener(this);
+
+        findViewById(R.id.edit_comment).setOnClickListener(this);
 
     }
 
@@ -240,6 +212,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
                 mStoryRoomPresenter.clickOppose();
                 break;
             case R.id.comment:
+            case R.id.edit_comment:
                 mStoryRoomPresenter.clickComment();
                 break;
         }

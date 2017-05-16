@@ -2,7 +2,7 @@ package com.storyshu.storyshu.info;
 
 import android.os.Parcel;
 
-import com.amap.api.maps.model.LatLng;
+import com.storyshu.storyshu.bean.getStory.StoryBean;
 
 import java.util.List;
 
@@ -27,14 +27,20 @@ public class AirPortPushInfo extends CardInfo {
         this.adUrl = adUrl;
     }
 
-    public AirPortPushInfo(int likeNum, int opposeNum, int pushType, String adUrl) {
-        super(likeNum, opposeNum);
+    public AirPortPushInfo(boolean like, boolean oppose, int pushType, String adUrl) {
+        super(like, oppose);
         this.pushType = pushType;
         this.adUrl = adUrl;
     }
 
-    public AirPortPushInfo(String storyId, String cover, List<String> storyPic, String content, BaseUserInfo userInfo, String createDate, String destroyTime, String content1, LatLng latLng, String location, boolean isAnonymous, int likeNum, int opposeNum, int pushType, String adUrl) {
-        super(storyId, cover, storyPic, content, userInfo, createDate, destroyTime, content1, latLng, location, isAnonymous, likeNum, opposeNum);
+    public AirPortPushInfo(StoryBean storyBean, int pushType, String adUrl) {
+        super(storyBean);
+        this.pushType = pushType;
+        this.adUrl = adUrl;
+    }
+
+    public AirPortPushInfo(BaseUserInfo userInfo, String storyId, String content, String cover, List<String> storyPictures, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean anonymous, int likeNum, int opposeNum, boolean like, boolean oppose, int pushType, String adUrl) {
+        super(userInfo, storyId, content, cover, storyPictures, locationTitle, latitude, longitude, createTime, destroyTime, anonymous, likeNum, opposeNum, like, oppose);
         this.pushType = pushType;
         this.adUrl = adUrl;
     }

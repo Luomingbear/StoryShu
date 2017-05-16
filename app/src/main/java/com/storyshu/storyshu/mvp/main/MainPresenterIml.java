@@ -47,7 +47,7 @@ public class MainPresenterIml extends IBasePresenter<MainView> implements MainPr
                 case 1:
                     CustomDialog versionDialog = new CustomDialog.Builder(mContext)
                             .title(appUpdateBean.getTitle())
-                            .description(appUpdateBean.getDescription())
+                            .description(appUpdateBean.getDescription().replace("\\n", "\n"))
                             .leftString(R.string.cancel)
                             .rightString(R.string.ok)
                             .onDialogClickListener(new CustomDialog.OnDialogClickListener() {
@@ -101,7 +101,6 @@ public class MainPresenterIml extends IBasePresenter<MainView> implements MainPr
 
     @Override
     public void downloadNewApp() {
-
         //
         FileModel fileModel = new FileModel(mContext);
 

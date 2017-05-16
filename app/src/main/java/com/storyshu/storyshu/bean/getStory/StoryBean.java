@@ -75,7 +75,9 @@ public class StoryBean implements Parcelable {
     }
 
     public String getCover() {
-        return cover;
+        if (storyPictures != null && storyPictures.size() > 0)
+            return storyPictures.get(0);
+        return null;
     }
 
     public void setCover(String cover) {
@@ -196,7 +198,7 @@ public class StoryBean implements Parcelable {
         this.opposeNum = in.readInt();
     }
 
-    public static final Parcelable.Creator<StoryBean> CREATOR = new Parcelable.Creator<StoryBean>() {
+    public static final Creator<StoryBean> CREATOR = new Creator<StoryBean>() {
         @Override
         public StoryBean createFromParcel(Parcel source) {
             return new StoryBean(source);

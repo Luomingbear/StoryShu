@@ -52,10 +52,9 @@ public class DownloadAsyncTask extends AsyncTask<String, Integer, Void> {
 //            OutputStream outputStream = null;
 
             try {
-
                 File dir = new File(savePath);
                 if (!dir.exists()) {
-                    dir.mkdirs();
+                    dir.getParentFile().mkdirs();
                 }
 
 

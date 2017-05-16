@@ -33,31 +33,49 @@
                 android:layout_marginLeft="@dimen/margin_normal"
                 android:src="@drawable/gray_rectangle" />
 
-            <CheckBox
-                android:id="@+id/oppose"
-                android:layout_width="@dimen/icon_small"
-                android:layout_height="@dimen/icon_small"
+            <LinearLayout
+                android:id="@+id/oppose_layout"
+                android:layout_width="@dimen/icon_large"
+                android:layout_height="@dimen/icon_large"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_normal"
-                android:background="@drawable/button_oppose"
-                android:button="@null" />
+                android:gravity="center">
 
-            <CheckBox
-                android:id="@+id/like"
-                android:layout_width="@dimen/icon_small"
-                android:layout_height="@dimen/icon_small"
+                <CheckBox
+                    android:id="@+id/oppose"
+                    android:layout_width="@dimen/icon_small"
+                    android:layout_height="@dimen/icon_small"
+                    android:background="@drawable/button_oppose"
+                    android:button="@null"
+                    android:clickable="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/like_layout"
+                android:layout_width="@dimen/icon_large"
+                android:layout_height="@dimen/icon_large"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_big"
-                android:layout_toLeftOf="@id/oppose"
-                android:background="@drawable/button_like"
-                android:button="@null" />
+                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_toLeftOf="@id/oppose_layout"
+                android:gravity="center">
+
+                <CheckBox
+                    android:id="@+id/like"
+                    android:layout_width="@dimen/icon_small"
+                    android:layout_height="@dimen/icon_small"
+                    android:background="@drawable/button_like"
+                    android:button="@null"
+                    android:clickable="false" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_small"
-                android:layout_toLeftOf="@id/like"
+                android:layout_toLeftOf="@id/like_layout"
                 android:layout_toRightOf="@id/avatar"
                 android:gravity="center_vertical"
                 android:orientation="vertical">

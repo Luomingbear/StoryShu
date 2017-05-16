@@ -6,15 +6,19 @@ import android.text.TextUtils;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.CommentAdapter;
+import com.storyshu.storyshu.bean.comment.CommentBean;
+import com.storyshu.storyshu.bean.comment.CommentPostBean;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.bean.like.LikePostBean;
-import com.storyshu.storyshu.info.CommentInfo;
 import com.storyshu.storyshu.model.CommentModel;
 import com.storyshu.storyshu.model.LikeModel;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.dialog.PicturePreviewDialog;
+import com.storyshu.storyshu.widget.inputview.InputDialog;
 
 import java.util.List;
 
@@ -40,27 +44,24 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
          */
         CommentModel commentModel = new CommentModel(mContext);
         //设置评论的数量
-        commentModel.getCommentsNum(new CommentModel.OnCommentSizeListener() {
+        commentModel.getCommentsNum(mMvpView.getStoryId());
+        commentModel.setOnCommentSizeListener(new CommentModel.OnCommentSizeListener() {
             @Override
             public void onCommentSizeGot(int size) {
                 mMvpView.getCommentButton().setNum(size);
             }
+
+            @Override
+            public void onFailed(String error) {
+                mMvpView.showToast(error);
+            }
         });
 
         //获取评论的数据
-        commentModel.setOnComentsGotListener(new CommentModel.OnCommentsGotListener() {
+        commentModel.getHotComments(new StoryIdBean(mMvpView.getStoryId()));
+        commentModel.setOnCommentsGotListener(new CommentModel.OnCommentsGotListener() {
             @Override
-            public void onHotCommentsGot(List<CommentInfo> commentList) {
-
-            }
-
-            @Override
-            public void onNewCommentsGot(List<CommentInfo> commentList) {
-
-            }
-
-            @Override
-            public void onCommentsGot(List<CommentInfo> commentList) {
+            public void onHotCommentsGot(List<CommentBean> commentList) {
                 mCommentAdapter = new CommentAdapter(mContext, commentList);
 
                 //layoutmanager
@@ -69,9 +70,22 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
                 //设置数据
                 mMvpView.getCommentRV().setAdapter(mCommentAdapter);
             }
-        });
 
-        commentModel.getComments();
+            @Override
+            public void onNewCommentsGot(List<CommentBean> commentList) {
+
+            }
+
+            @Override
+            public void onCommentsGot(List<CommentBean> commentList) {
+
+            }
+
+            @Override
+            public void onFiled(String error) {
+                mMvpView.showToast(error);
+            }
+        });
     }
 
     @Override
@@ -129,7 +143,47 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
 
     @Override
     public void clickComment() {
+        //显示输入弹窗
+        final InputDialog inputDialog = new InputDialog(mContext);
+        inputDialog.init(new InputDialog.OnInputChangeListener() {
+            @Override
+            public void onTextChange(CharSequence s, int start, int before, int count) {
 
+            }
+
+            @Override
+            public void onSendClick(String content) {
+                if (TextUtils.isEmpty(content)) {
+                    mMvpView.showToast(R.string.comment_issue_empty);
+                    return;
+                }
+
+                CommentPostBean commentPostBean = new CommentPostBean();
+                commentPostBean.setComment(content);
+                commentPostBean.setCreateTime(TimeUtils.getCurrentTime());
+                commentPostBean.setStoryId(mMvpView.getStoryId());
+                commentPostBean.setUserId(ISharePreference.getUserId(mContext));
+
+                CommentModel commentModel = new CommentModel(mContext);
+                commentModel.issueComment(commentPostBean);
+                commentModel.setOnCommentIssueListener(new CommentModel.OnCommentIssueListener() {
+                    @Override
+                    public void onSucceed() {
+                        mMvpView.showToast(R.string.issue_succeed);
+
+                        //更新评论
+                        getComments();
+
+                        inputDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailed(String error) {
+                        mMvpView.showToast(error);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -151,8 +205,6 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
                 mMvpView.showToast(error);
             }
         });
-
     }
-
 
 }

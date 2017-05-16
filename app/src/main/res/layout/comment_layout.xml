@@ -54,7 +54,7 @@
     <com.storyshu.storyshu.widget.ClickButton
         android:id="@+id/oppose"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/icon_large"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/margin_normal"
         app:cDrawableWidth="@dimen/icon_min"
@@ -63,7 +63,7 @@
     <com.storyshu.storyshu.widget.ClickButton
         android:id="@+id/like"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/icon_large"
         android:layout_marginRight="@dimen/margin_normal"
         android:layout_marginTop="@dimen/margin_normal"
         android:layout_toLeftOf="@id/oppose"

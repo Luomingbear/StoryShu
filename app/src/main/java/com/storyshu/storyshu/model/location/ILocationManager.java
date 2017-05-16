@@ -10,7 +10,7 @@ import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -173,7 +173,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param storyList
      */
-    public void showStoriesIcons(ArrayList<StoryBean> storyList) {
+    public void showStoriesIcons(List<StoryBean> storyList) {
         if (mMapManager == null || storyList == null)
             return;
         //显示故事集图标

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.info.CommentInfo;
+import com.storyshu.storyshu.bean.comment.CommentBean;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
@@ -24,9 +24,9 @@ import java.util.List;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold> {
     private ViewHold viewHolder;
     private Context mContext;
-    private List<CommentInfo> mCommentList;
+    private List<CommentBean> mCommentList;
 
-    public CommentAdapter(Context mContext, List<CommentInfo> mCommentList) {
+    public CommentAdapter(Context mContext, List<CommentBean> mCommentList) {
         this.mContext = mContext;
         this.mCommentList = mCommentList;
     }
@@ -42,9 +42,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public void onBindViewHolder(ViewHold holder, int position) {
         viewHolder = holder;
 
-        final CommentInfo commentInfo = mCommentList.get(position);
+        final CommentBean commentInfo = mCommentList.get(position);
 
-        Glide.with(mContext).load(commentInfo.getAvatar()).into(holder.avatar);
+        Glide.with(mContext).load(commentInfo.getUserInfo().getAvatar()).into(holder.avatar);
 
         //分割线
         if (position == 0)
@@ -52,13 +52,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         if (position == 3) {
             viewHolder.line.setBackgroundResource(R.color.colorGrayLight);
         }
-        //标签
-        if (position < 3) {
-            viewHolder.tag.setText("HOT");
-//            viewHolder.tag.setTextColor(mContext.getResources().getColor(R.color.colorRedLight));
-        }
 
-        viewHolder.nickname.setText(commentInfo.getNickname());
+        //标签
+        viewHolder.tag.setText(commentInfo.getTag());
+
+        viewHolder.nickname.setText(commentInfo.getUserInfo().getNickname());
         viewHolder.createTime.setText(TimeUtils.convertCurrentTime(mContext, commentInfo.getCreateTime()));
         viewHolder.comment_content.setText(commentInfo.getComment());
 

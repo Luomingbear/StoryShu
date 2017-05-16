@@ -13,6 +13,7 @@
     <string name="left_minute">剩余%1$d分钟</string>
     <string name="story_overdue">故事已过期</string>
     <string name="cancel">取消</string>
+    <string name="send">发送</string>
 
 
     <!--欢迎页-->
@@ -119,8 +120,13 @@
     <string name="story_detail">故事详情</string>
     <string name="report">举报</string>
     <string name="like">喜欢</string>
+    <string name="oppose">不喜欢</string>
     <string name="communicate">写信</string>
     <string name="collect">收藏</string>
+
+    <!--评论-->
+    <string name="comment_issue_empty">写两个字呗～</string>
+    <string name="edit_comment">添加评论</string>
 
     <!--候机厅-->
     <string name="search_hint">搜索你想到达的地方</string>

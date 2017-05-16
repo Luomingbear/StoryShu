@@ -67,7 +67,6 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
                  */
                 issueInfo.setUserId(ISharePreference.getUserId(mContext));
                 issueInfo.setContent(mMvpView.getStoryContent());
-                issueInfo.setCover(mMvpView.getStoryPic().size() > 0 ? mMvpView.getStoryPic().get(0) : "");
                 issueInfo.setStoryPictures(mMvpView.getStoryPic());
                 issueInfo.setCityName(ISharePreference.getCityName(mContext));
                 issueInfo.setLocationTitle(mMvpView.getLocationTv().getText().toString());

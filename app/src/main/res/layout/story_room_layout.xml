@@ -53,8 +53,8 @@
 
                 <com.storyshu.storyshu.widget.card.AutoScaleLayout
                     android:layout_width="wrap_content"
-                    android:layout_margin="@dimen/margin_normal"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_normal"
                     app:scaleRate="1">
 
                     <ImageView
@@ -136,29 +136,27 @@
                         android:src="@drawable/gray_rectangle" />
 
                     <com.storyshu.storyshu.widget.ClickButton
-                        android:id="@+id/comment_content"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/comment"
+                        android:layout_width="@dimen/icon_large"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_normal"
                         android:layout_marginRight="@dimen/margin_normal"
                         app:cGravity="top"
                         app:cType="comment" />
 
                     <com.storyshu.storyshu.widget.ClickButton
                         android:id="@+id/oppose"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/icon_large"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_normal"
-                        android:layout_toLeftOf="@id/comment_content"
+                        android:layout_toLeftOf="@id/comment"
                         app:cGravity="top"
                         app:cType="oppose" />
 
                     <com.storyshu.storyshu.widget.ClickButton
                         android:id="@+id/like"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/icon_large"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
@@ -210,11 +208,22 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/edit_comment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/selector_height"
+                android:background="@drawable/button_red_bg"
+                android:gravity="center"
+                android:text="@string/edit_comment"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_big" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/comment_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:background="@drawable/card_view_bg"
                 android:nestedScrollingEnabled="false">
 

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.base.IBaseAdapter;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
@@ -25,13 +25,18 @@ import java.util.List;
 
 public class CardAdapter extends IBaseAdapter {
     private static final String TAG = "CardAdapter";
+    private OnCardClickedListener onCardClickListener;
 
     public CardAdapter(Context context, List<?> mList) {
         super(context, mList);
     }
 
+    public void setOnCardClickListener(OnCardClickedListener onCardClickListener) {
+        this.onCardClickListener = onCardClickListener;
+    }
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = getInflater().inflate(R.layout.card_item_layout, null);
 
@@ -39,6 +44,8 @@ public class CardAdapter extends IBaseAdapter {
 
             viewHolder.avatar = (AvatarImageView) convertView.findViewById(R.id.avatar);
             viewHolder.nickName = (TextView) convertView.findViewById(R.id.nickname);
+            viewHolder.likeButton = convertView.findViewById(R.id.like_layout);
+            viewHolder.opposeButton = convertView.findViewById(R.id.oppose_layout);
             viewHolder.like = (CheckBox) convertView.findViewById(R.id.like);
             viewHolder.oppose = (CheckBox) convertView.findViewById(R.id.oppose);
             viewHolder.extract = (TextView) convertView.findViewById(R.id.content);
@@ -49,7 +56,7 @@ public class CardAdapter extends IBaseAdapter {
         } else
             viewHolder = (ViewHolder) convertView.getTag();
 
-        StoryBean cardInfo = (StoryBean) getItem(position);
+        CardInfo cardInfo = (CardInfo) getItem(position);
         if (cardInfo == null)
             return convertView;
 
@@ -69,11 +76,33 @@ public class CardAdapter extends IBaseAdapter {
 
         viewHolder.destroyTime.setText(TimeUtils.leftTime(getContext(), cardInfo.getDestroyTime()));
 
+        viewHolder.like.setChecked(cardInfo.isLike());
+        viewHolder.oppose.setChecked(cardInfo.isOppose());
+
         viewHolder.extract.setText(cardInfo.getContent());
         if (!TextUtils.isEmpty(cardInfo.getCover())) {
             viewHolder.cover.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(cardInfo.getCover()).dontAnimate().into(viewHolder.cover);
         }
+
+        /**
+         * 点击
+         */
+        viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onCardClickListener != null)
+                    onCardClickListener.onLikeClick(position);
+            }
+        });
+        viewHolder.opposeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onCardClickListener != null)
+                    onCardClickListener.onOpposeClick(position);
+            }
+        });
+
         return convertView;
     }
 
@@ -87,7 +116,17 @@ public class CardAdapter extends IBaseAdapter {
         CheckBox like; //点赞
         CheckBox oppose;  //喝倒彩
 
+        View likeButton; //点赞按钮
+        View opposeButton; //喝倒彩按钮
+
+
         TextView extract; //故事摘要
         ImageView cover; //故事的详情图
+    }
+
+    public interface OnCardClickedListener {
+        void onLikeClick(int position);
+
+        void onOpposeClick(int position);
     }
 }

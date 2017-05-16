@@ -88,7 +88,7 @@ public class SendStoryDialog extends PopupWindow {
                 }
 
                 @Override
-                public void onSendClick() {
+                public void onSendClick(String content) {
                     inputDialog.hideKeyboard();
                     mTagFrameLayout.addTag(tag);
                 }

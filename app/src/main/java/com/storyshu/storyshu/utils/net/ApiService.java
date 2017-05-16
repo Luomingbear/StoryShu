@@ -4,6 +4,9 @@ package com.storyshu.storyshu.utils.net;
 import com.storyshu.storyshu.bean.LauncherResponseBean;
 import com.storyshu.storyshu.bean.TokenResponseBean;
 import com.storyshu.storyshu.bean.checkForUpdate.VersionResponseBean;
+import com.storyshu.storyshu.bean.comment.CommentPostBean;
+import com.storyshu.storyshu.bean.comment.CommentReponseBean;
+import com.storyshu.storyshu.bean.comment.CommentSizeResponseBean;
 import com.storyshu.storyshu.bean.getStory.LocationBean;
 import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
@@ -116,4 +119,39 @@ public interface ApiService {
     @POST("likeStory.php")
     Call<OnlyDataResponseBean> likeStory(@Body LikePostBean likePostBean);
 
+    /**
+     * 发表评论
+     *
+     * @param commentPostBean
+     * @return
+     */
+    @POST("issueComment.php")
+    Call<OnlyDataResponseBean> issueComment(@Body CommentPostBean commentPostBean);
+
+    /**
+     * 获取热门评论数据
+     *
+     * @param storyIdBean
+     * @return
+     */
+    @POST("getHotComment.php")
+    Call<CommentReponseBean> getHotComment(@Body StoryIdBean storyIdBean);
+
+    /**
+     * 获取最新的评论 返回10条数据
+     *
+     * @param storyIdBean
+     * @return
+     */
+    @POST("getNestComment.php")
+    Call<CommentReponseBean> getNestComment(@Body StoryIdBean storyIdBean);
+
+    /**
+     * 获取评论的数量
+     *
+     * @param storyIdBean
+     * @return
+     */
+    @POST("getCommentSize.php")
+    Call<CommentSizeResponseBean> getCommentSize(@Body StoryIdBean storyIdBean);
 }

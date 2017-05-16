@@ -127,7 +127,7 @@ public class InputDialog extends IBaseDialog {
             public void afterTextChanged(Editable s) {
                 //由文本的时候按钮高亮,否则就是灰的
                 if (s.length() != 0)
-                    mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorRedLight));
+                    mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorRed));
                 else
                     mSend.setBackgroundColor(getContext().getResources().getColor(R.color.colorGrayLight));
             }
@@ -139,7 +139,7 @@ public class InputDialog extends IBaseDialog {
             @Override
             public void onClick(View v) {
                 if (onInputChangeListener != null)
-                    onInputChangeListener.onSendClick();
+                    onInputChangeListener.onSendClick(mEditText.getText().toString());
                 //
             }
         });
@@ -168,7 +168,7 @@ public class InputDialog extends IBaseDialog {
         void onTextChange(CharSequence s, int start, int before, int count);
 
         //发送按钮被点击
-        void onSendClick();
+        void onSendClick(String content);
     }
 
 }

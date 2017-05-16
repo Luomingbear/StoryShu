@@ -85,7 +85,8 @@ public class RoundTextView extends AppCompatTextView {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        rectF = new RectF(0, 0, right, bottom);
+        if (changed)
+            rectF = new RectF(0, 0, right, bottom);
     }
 
     @Override
@@ -107,14 +108,14 @@ public class RoundTextView extends AppCompatTextView {
 
             case LEFT_BOTTOM:
                 canvas.drawRect(0, 0, mRoundSize, mRoundSize, mPaint);
-                canvas.drawRect(getWidth() - mRoundSize, 0, getWidth(), mRoundSize, mPaint);
+                canvas.drawRect(0, getHeight() - mRoundSize, mRoundSize, getHeight(), mPaint);
                 canvas.drawRect(getWidth() - mRoundSize, getHeight() - mRoundSize, getWidth(), getHeight(), mPaint);
                 break;
 
             case RIGHT_BOTTOM:
-                canvas.drawRect(0, 0, mRoundSize, mRoundSize, mPaint);
                 canvas.drawRect(getWidth() - mRoundSize, 0, getWidth(), mRoundSize, mPaint);
                 canvas.drawRect(0, getHeight() - mRoundSize, mRoundSize, getHeight(), mPaint);
+                canvas.drawRect(getWidth() - mRoundSize, getHeight() - mRoundSize, getWidth(), getHeight(), mPaint);
                 break;
         }
         super.onDraw(canvas);

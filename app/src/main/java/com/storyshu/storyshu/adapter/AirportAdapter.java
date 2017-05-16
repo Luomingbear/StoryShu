@@ -69,7 +69,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                 holder.like.setNum(pushInfo.getLikeNum());
                 holder.oppose.setNum(pushInfo.getOpposeNum());
                 holder.content.setText(pushInfo.getContent());
-                holder.location.setText(pushInfo.getLocation());
+                holder.location.setText(pushInfo.getLocationTitle());
 
                 if (!TextUtils.isEmpty(pushInfo.getCover())) {
                     holder.cover.setVisibility(View.VISIBLE);
