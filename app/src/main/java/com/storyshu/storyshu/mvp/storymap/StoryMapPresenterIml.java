@@ -45,7 +45,6 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
         super(mContext, mvpView);
         mStoryModel = new StoryModel(mContext);
         mStoryList = new ArrayList<>();
-
     }
 
     /**
@@ -179,6 +178,8 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
             super.handleMessage(msg);
 
             if (msg.what == 1) {
+
+            } else if (msg.what == 2) {
                 getNearStory();
             }
         }
@@ -188,12 +189,12 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
     public void initMap() {
         Log.i(TAG, "initMap: 初始化地图");
         //初始化地图管家
-        ILocationManager.getInstance().init(mContext, mMvpView.getMapView());
+        ILocationManager.getInstance().init(mContext, mMvpView.getAMap());
 
         /**
          * 点击和滑动地图就让故事卡片隐藏
          */
-        mMvpView.getMapView().getMap().setOnMapTouchListener(onMapTouchListener);
+        mMvpView.getAMap().setOnMapTouchListener(onMapTouchListener);
 
         //marker的点击事件
         ILocationManager.getInstance().setOnLocationMarkerClickListener(onMarkClickListener);
@@ -209,15 +210,12 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
         mMvpView.getStoryWindow().setOnCardClickListener(cardClickListener);
         mMvpView.getStoryWindow().setOnCardSlidingListener(cardSlidingListener);
 
-        /**
-         * 获取附近的故事
-         */
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Message message = new Message();
-                message.what = 1;
+                message.what = 2;
                 handler.sendMessage(message);
             }
         }, 2 * 1000);
@@ -302,20 +300,10 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
     public void getNearStory() {
         Log.i(TAG, "getNearStory: 刷新故事。。。");
         mStoryModel.getNearStories(ISharePreference.getUserId(mContext),
-                ISharePreference.getLatLngData(mContext), (int) mMvpView.getMapView().getMap().getCameraPosition().zoom);
-        Log.i(TAG, "getNearStory: zoom:" + (int) mMvpView.getMapView().getMap().getCameraPosition().zoom);
+                ISharePreference.getLatLngData(mContext), (int) mMvpView.getAMap().getCameraPosition().zoom);
+        Log.i(TAG, "getNearStory: zoom:" + (int) mMvpView.getAMap().getCameraPosition().zoom);
         mStoryModel.setOnStoryModelListener(onStoryModelListener);
 
-    }
-
-    @Override
-    public void showSignDialog() {
-        if (!isSign) {
-            mMvpView.showSignDialog(mSignDays);
-            isSign = true;
-        } else {
-//            mMvpView.showToast(R.string.sign_in_yes);
-        }
     }
 
     /**

@@ -18,8 +18,4 @@ public interface StoryMapPresenter {
      */
     void getNearStory();
 
-    /**
-     * 显示签到弹窗
-     */
-    void showSignDialog();
 }

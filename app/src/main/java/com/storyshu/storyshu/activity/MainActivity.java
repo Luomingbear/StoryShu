@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.amap.api.maps.SupportMapFragment;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
 import com.storyshu.storyshu.activity.story.CreateStoryActivity;
@@ -25,7 +26,8 @@ import com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar;
 
 public class MainActivity extends IPermissionActivity implements MainView {
     private static final String TAG = "MainActivity";
-    private StoryMapFragment mStoryMapFragment; //地图fragment；
+    private StoryMapFragment mStoryMapFragment; //地图界面fragment；
+    private SupportMapFragment mMapFragment; //地图控件fragment
     private AirportFragment mAirportFragment; //候机厅fragment；
     private MessageFragment mMessageFragment; //消息fragment；
     private MineFragment mMeFragment; //我的fragment；
@@ -175,8 +177,11 @@ public class MainActivity extends IPermissionActivity implements MainView {
                 //
                 if (mStoryMapFragment == null) {
                     mStoryMapFragment = StoryMapFragment.getInstance();
+
                     transaction.add(R.id.content, mStoryMapFragment);
-                } else transaction.show(mStoryMapFragment);
+                } else {
+                    transaction.show(mStoryMapFragment);
+                }
                 break;
 
             case 1:

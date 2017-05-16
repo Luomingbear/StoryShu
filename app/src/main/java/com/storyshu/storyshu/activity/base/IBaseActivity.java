@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -18,7 +19,7 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
  * Created by bear on 2016/12/6.
  */
 
-public class IBaseActivity extends AppCompatActivity {
+public class IBaseActivity extends FragmentActivity {
 
     public final int REQUEST_CODE_IMAGE = 1;
 

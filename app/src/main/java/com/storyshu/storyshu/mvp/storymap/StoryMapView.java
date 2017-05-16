@@ -1,10 +1,8 @@
 package com.storyshu.storyshu.mvp.storymap;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
-import com.amap.api.maps.TextureMapView;
+import com.amap.api.maps.AMap;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
@@ -22,25 +20,11 @@ public interface StoryMapView extends IBaseView {
     void initView(Bundle savedInstanceState);
 
     /**
-     * 显示签到的弹窗
-     *
-     * @param signDays 累计签到的天数
-     */
-    void showSignDialog(int signDays);
-
-    /**
      * 获得地图控件
      *
      * @return mapView
      */
-    TextureMapView getMapView();
-
-    /**
-     * 获得标题栏签到提示文本控件
-     *
-     * @return
-     */
-    TextView getSignInTV();
+    AMap getAMap();
 
     /**
      * 获取卡片的显示控件
@@ -48,13 +32,6 @@ public interface StoryMapView extends IBaseView {
      * @return StoriesAdapterView
      */
     StoriesAdapterView getStoryWindow();
-
-    /**
-     * 获取定位的按钮
-     *
-     * @return
-     */
-    View getLocationBtn();
 
     /**
      * 更新故事的图标

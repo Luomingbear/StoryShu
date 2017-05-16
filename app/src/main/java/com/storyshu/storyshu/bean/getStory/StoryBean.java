@@ -81,7 +81,8 @@ public class StoryBean implements Parcelable {
     }
 
     public void setCover(String cover) {
-        this.cover = cover;
+        if (storyPictures != null && storyPictures.size() > 0)
+            this.cover = storyPictures.get(0);
     }
 
     public List<String> getStoryPictures() {

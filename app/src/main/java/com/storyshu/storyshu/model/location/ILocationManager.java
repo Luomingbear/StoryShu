@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.maps.TextureMapView;
+import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
@@ -25,7 +25,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
     private Context mAppContext; //应用上下文
 
-    private TextureMapView mMapView; //地图视图
+    private AMap mAMap; //地图视图
 
     private ILocationSever mLocationSever; //定位服务
 
@@ -60,22 +60,24 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param appContext appContext
      */
-    public ILocationManager init(Context appContext, TextureMapView mapView) {
+    public ILocationManager init(Context appContext, AMap aMap) {
+        if (aMap == null)
+            return this;
 //        if (this.mAppContext == null)
         this.mAppContext = appContext.getApplicationContext();
-//        if (this.mMapView == null)
-        this.mMapView = mapView;
+//        if (this.mAMap == null)
+        this.mAMap = aMap;
 //        if (this.mLocationQueryTool == null)
         this.mLocationQueryTool = new ILocationQueryTool(appContext);
 
 //        if (mMapManager == null) {
-        mMapManager = new IMapManager(mAppContext, mMapView);
+        mMapManager = new IMapManager(mAppContext, mAMap);
         mMapManager.init();
         mMapManager.setOnMarkerClickedListener(this);
 //        }
 
         TransparentInfoWindowAdapter adapter = new TransparentInfoWindowAdapter(mAppContext);
-        mMapView.getMap().setInfoWindowAdapter(adapter);
+        mAMap.setInfoWindowAdapter(adapter);
 
         move2CurrentPosition();
 
@@ -90,7 +92,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     public boolean isInit() {
         if (this.mAppContext == null)
             return false;
-        if (this.mMapView == null)
+        if (this.mAMap == null)
             return false;
         if (this.mLocationQueryTool == null)
             return false;
@@ -103,7 +105,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      */
     public void start() {
         Log.i(TAG, "start: 定位管家开始服务！！！");
-        if (mAppContext == null || mMapView == null) {
+        if (mAppContext == null || mAMap == null) {
             Log.e(TAG, "start: 定位启动失败！");
             return;
         }
@@ -137,7 +139,8 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 销毁定位
      */
     public void destroy() {
-        mMapView.getMap().clear();
+        if (mAMap != null)
+            mAMap.clear();
         //清除定位服务
         if (mLocationSever != null) {
             mLocationSever.destroy();
@@ -246,6 +249,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
 
         //保存位置信息到本地
         saveLatlngPreference(latLng);
+
         //保存城市名
         ISharePreference.saveCityName(mAppContext, aMapLocation.getCity());
     }
@@ -281,4 +285,6 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
     public interface OnLocationMarkerClickListener {
         void OnMarkerClick(Marker marker);
     }
+
+
 }

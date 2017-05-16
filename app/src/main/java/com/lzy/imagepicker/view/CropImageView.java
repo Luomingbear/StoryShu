@@ -23,7 +23,6 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 
 import com.storyshu.storyshu.R;
 

@@ -1,6 +1,5 @@
 package com.storyshu.storyshu.widget;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;

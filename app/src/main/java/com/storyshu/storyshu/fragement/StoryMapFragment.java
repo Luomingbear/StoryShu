@@ -2,28 +2,23 @@ package com.storyshu.storyshu.fragement;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
 
+import com.amap.api.maps.AMap;
 import com.amap.api.maps.TextureMapView;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.story.StoryRoomActivity;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
-import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.storymap.StoryMapPresenterIml;
 import com.storyshu.storyshu.mvp.storymap.StoryMapView;
 import com.storyshu.storyshu.tool.observable.EventObservable;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
-import com.storyshu.storyshu.widget.dialog.SignDialog;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 import com.storyshu.storyshu.widget.title.TitleView;
-
-import java.util.ArrayList;
 
 /**
  * 故事地图的fragment
@@ -33,12 +28,9 @@ import java.util.ArrayList;
 public class StoryMapFragment extends IBaseStatusFragment implements StoryMapView {
     private static final String TAG = "StoryMapFragment";
     private static StoryMapFragment instance;
-    private TextView mSinInTv; //标题栏提示签到的文本
+    private TextureMapView mMapView; //地图控件
     private TitleView mTitleView; //标题栏
-    private TextureMapView mMapView; //地图
     private StoriesAdapterView mStoryCardWindow; //故事卡片的窗口
-    private View mGetLocationButton;//定位按钮
-    private ArrayList<CardInfo> mCardInfoList; //数据源，卡片数据列表
 
     private int mAnimateTime = 260; //动画执行时间 毫秒
     private boolean isStoryShow = false; //故事是否隐藏了 否
@@ -63,8 +55,8 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
 
     @Override
     public void onDestroy() {
-        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mMapView.onDestroy();
+
         ILocationManager.getInstance().destroy();
         mStoryMapPresenter.distach();
 
@@ -74,29 +66,15 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     @Override
     public void onResume() {
         super.onResume();
-
-        //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
-
-        //每次返回地图页面的时候就重新获取位置，并刷新图标
-        mStoryMapPresenter.getLocation();
-
+        mStoryMapPresenter.getNearStory();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mMapView.onPause();
-
         ILocationManager.getInstance().pause();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
-        mMapView.onSaveInstanceState(outState);
     }
 
     @Override
@@ -105,57 +83,23 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
             return;
         //状态栏
         setStatusBackgroundColor(R.color.colorRed);
-
         //
         mTitleView = (TitleView) mRootView.findViewById(R.id.title_view);
         EventObservable.getInstance().addObserver(mTitleView);
 
-        //位置的显示，观察者模式
-//        NotifyTextView textView = (NotifyTextView) mRootView.findViewById(R.id.location_title);
-//        textView.setQuestionId(R.id.location_title);
-//        EventObservable.getInstance().addObserver(textView);
-
-        //签到
-//        mSinInTv = (TextView) mRootView.findViewById(R.id.sign_in);
-//        mSinInTv.setOnClickListener(this);
-
         //地图
         mMapView = (TextureMapView) mRootView.findViewById(R.id.story_map_map_view);
-        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mMapView.onCreate(savedInstanceState);
 
         //故事卡片窗口
         mStoryCardWindow = (StoriesAdapterView) mRootView.findViewById(R.id.story_card_window);
 
-        /**
-         * 定位按钮
-         */
-//        mGetLocationButton = mRootView.findViewById(R.id.get_location);
-//        mGetLocationButton.setOnClickListener(this);
-
         mStoryMapPresenter = new StoryMapPresenterIml(getContext(), this);
     }
 
     @Override
-    public void showSignDialog(final int signDays) {
-        SignDialog signDialog = new SignDialog(getContext(), R.style.TransparentDialogTheme);
-        signDialog.setTextAndShow(getString(R.string.sign_in_day_dialog, signDays));
-        signDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                mSinInTv.setText(getString(R.string.sign_in_day, signDays));
-            }
-        });
-    }
-
-    @Override
-    public TextureMapView getMapView() {
-        return mMapView;
-    }
-
-    @Override
-    public TextView getSignInTV() {
-        return mSinInTv;
+    public AMap getAMap() {
+        return mMapView.getMap();
     }
 
     @Override
@@ -163,10 +107,6 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
         return mStoryCardWindow;
     }
 
-    @Override
-    public View getLocationBtn() {
-        return mGetLocationButton;
-    }
 
     @Override
     public void updateStoryIcons() {
@@ -197,8 +137,6 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     @Override
     public void initEvents() {
         mStoryMapPresenter.initMap();
-
-
         mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
             public void onLeftClick() {
@@ -222,8 +160,8 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
             }
         });
 
-        //显示图标
-        mStoryMapPresenter.getNearStory();
+        //每次返回地图页面的时候就重新获取位置，并刷新图标
+        mStoryMapPresenter.getLocation();
     }
 
     @Override

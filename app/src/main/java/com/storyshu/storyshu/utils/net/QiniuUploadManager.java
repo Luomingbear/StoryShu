@@ -145,7 +145,7 @@ public class QiniuUploadManager {
                         if (info.isOK()) {
                             Log.i("qiniu", "Upload Succeed");
 
-                            mCloudPathList.add(UrlUtil.BASE_QINIU_URL + key);
+                            mCloudPathList.add(UrlUtil.BASE_IMAGE_URL + key);
 
                             if (mPathList.size() > 0) {
                                 uploadFileOnNet(mPathList.get(0));
