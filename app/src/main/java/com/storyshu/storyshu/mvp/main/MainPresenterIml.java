@@ -49,7 +49,7 @@ public class MainPresenterIml extends IBasePresenter<MainView> implements MainPr
                             .title(appUpdateBean.getTitle())
                             .description(appUpdateBean.getDescription().replace("\\n", "\n"))
                             .leftString(R.string.cancel)
-                            .rightString(R.string.ok)
+                            .rightString(R.string.update)
                             .onDialogClickListener(new CustomDialog.OnDialogClickListener() {
                                 @Override
                                 public void onLeftClick() {

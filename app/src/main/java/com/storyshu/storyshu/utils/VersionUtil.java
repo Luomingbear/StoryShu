@@ -6,6 +6,5 @@ package com.storyshu.storyshu.utils;
  */
 
 public class VersionUtil {
-    public static final float version = 0.016f; //当前的软件版本号
-
+    public static final float version = 0.017f; //当前的软件版本号
 }

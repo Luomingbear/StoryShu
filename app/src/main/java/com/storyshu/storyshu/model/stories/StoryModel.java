@@ -195,7 +195,7 @@ public class StoryModel {
         storyBean = issueStoryBean;
 
         if (issueStoryBean.getStoryPictures().size() > 0) {
-            QiniuUploadManager qiniuUploadService = new QiniuUploadManager();
+            QiniuUploadManager qiniuUploadService = new QiniuUploadManager(mContext);
             qiniuUploadService.uploadFileList(issueStoryBean.getStoryPictures());
             //上传完成的监听完成
             qiniuUploadService.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {

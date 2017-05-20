@@ -67,14 +67,16 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     public void onResume() {
         super.onResume();
         mMapView.onResume();
+//
         mStoryMapPresenter.getNearStory();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mMapView.onPause();
         ILocationManager.getInstance().pause();
+        mMapView.onPause();
+
     }
 
     @Override
@@ -160,7 +162,6 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
             }
         });
 
-        //每次返回地图页面的时候就重新获取位置，并刷新图标
         mStoryMapPresenter.getLocation();
     }
 

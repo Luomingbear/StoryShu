@@ -1,8 +1,10 @@
 package com.storyshu.storyshu.utils.net;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.nanchen.compresshelper.CompressHelper;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -15,6 +17,7 @@ import com.storyshu.storyshu.utils.PasswordUtil;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,7 @@ import retrofit2.Response;
 
 public class QiniuUploadManager {
     private static final String TAG = "QiniuUploadManager";
+    private Context mContext;
     private UploadManager mUploadManager; //上传的管理
     private String mToken; //上传图片使用的token
     private List<String> mPathList; //待上传的文件的地址
@@ -59,7 +63,8 @@ public class QiniuUploadManager {
         this.mQiniuUploadProgressListener = mQiniuUploadProgressListener;
     }
 
-    public QiniuUploadManager() {
+    public QiniuUploadManager(Context context) {
+        mContext = context.getApplicationContext();
         Configuration mConfiguration = new Configuration.Builder().build();
 
         mUploadManager = new UploadManager(mConfiguration);
@@ -135,7 +140,8 @@ public class QiniuUploadManager {
         String key = PasswordUtil.getSampleEncodePassword(System.currentTimeMillis() + FileUtil.getFileName(path))
                 + "." + FileUtil.getExtensionName(path);
 
-        mUploadManager.put(path, key, mToken,
+        File compressFile = CompressHelper.getDefault(mContext).compressToFile(new File(path));
+        mUploadManager.put(compressFile, key, mToken,
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo info, JSONObject res) {

@@ -55,7 +55,7 @@ public class UserModel {
         /**
          * 上传头像并获取网络地址
          */
-        QiniuUploadManager qiniuUploadManager = new QiniuUploadManager();
+        QiniuUploadManager qiniuUploadManager = new QiniuUploadManager(mAppContext);
         qiniuUploadManager.uploadFile(userInfo.getAvatar());
         qiniuUploadManager.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
             @Override
