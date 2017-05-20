@@ -51,7 +51,8 @@ public class AirportPresenterIml extends IBasePresenter<AirportView> implements 
             mPushList.clear();
             for (AirPortPushInfo airPortPushInfo : pushList)
                 mPushList.add(airPortPushInfo);
-            showPushList();
+
+            mAirportAdapter.notifyDataSetChanged();
 
             mMvpView.getRefreshLayout().setRefreshing(false);
         }
@@ -76,7 +77,6 @@ public class AirportPresenterIml extends IBasePresenter<AirportView> implements 
     public void showPushList() {
         if (mMvpView.getPushRv() != null) {
             //设置布局类型
-            mAirportAdapter.notifyDataSetChanged();
         }
     }
 

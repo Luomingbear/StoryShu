@@ -66,7 +66,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHold holder, final int position) {
+    public void onBindViewHolder(ViewHold holder, int position) {
         AirPortPushInfo pushInfo = mPushList.get(position);
         switch (pushInfo.getPushType()) {
             case AirPortPushInfo.TYPE_AD:
@@ -77,7 +77,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
             case AirPortPushInfo.TYPE_STORY:
 
                 if (pushInfo.getAnonymous()) {
-                    holder.avatar.setBackgroundResource(R.drawable.avatar_wolverine);
+                    holder.avatar.setImageResource(R.drawable.avatar_wolverine);
                     holder.nickName.setVisibility(View.GONE);
                 } else {
                     Glide.with(mContext).load(pushInfo.getUserInfo().getAvatar()).into(holder.avatar);
@@ -92,6 +92,8 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                 if (!TextUtils.isEmpty(pushInfo.getCover())) {
                     holder.cover.setVisibility(View.VISIBLE);
                     Glide.with(mContext).load(pushInfo.getCover()).into(holder.cover);
+                } else {
+                    holder.cover.setVisibility(View.GONE);
                 }
 
                 holder.destroyTime.setText(TimeUtils.leftTime(mContext, pushInfo.getDestroyTime()));

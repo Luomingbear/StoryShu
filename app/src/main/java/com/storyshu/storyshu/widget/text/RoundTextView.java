@@ -82,11 +82,11 @@ public class RoundTextView extends AppCompatTextView {
         mPaint = new Paint();
     }
 
+
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        if (changed)
-            rectF = new RectF(0, 0, right, bottom);
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        rectF = new RectF(0, 0, w, h);
     }
 
     @Override

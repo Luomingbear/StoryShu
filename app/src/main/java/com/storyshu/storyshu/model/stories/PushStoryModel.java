@@ -54,7 +54,6 @@ public class PushStoryModel {
 
     public PushStoryModel(Context context) {
         mAppContext = context.getApplicationContext();
-        mPushList = new ArrayList<>();
     }
 
     /**
@@ -63,14 +62,13 @@ public class PushStoryModel {
      * @param recommendPostBean
      */
     public void startGetPushList(RecommendPostBean recommendPostBean) {
-        mPushList.clear();
 
         Call<NearStoriesRsponseBean> call = RetrofitManager.getInstance().getService().getRecommendStory(recommendPostBean);
         call.enqueue(new Callback<NearStoriesRsponseBean>() {
             @Override
             public void onResponse(Call<NearStoriesRsponseBean> call, Response<NearStoriesRsponseBean> response) {
                 if (response.body().getCode() == CodeUtil.Succeed) {
-
+                    mPushList = new ArrayList<AirPortPushInfo>();
                     if (response.body().getData() != null && response.body().getData().size() > 0) {
                         for (StoryBean storyBean : response.body().getData())
                             mPushList.add(new AirPortPushInfo(storyBean, AirPortPushInfo.TYPE_STORY, ""));
