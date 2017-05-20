@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
     android:background="@color/cardview_light_background"
-    android:elevation="@dimen/height_normal"
+    android:elevation="@dimen/height_big"
+    android:padding="@dimen/margin_small"
     app:cardCornerRadius="@dimen/border_radius_normal">
 
     <LinearLayout

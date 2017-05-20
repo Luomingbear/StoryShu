@@ -377,11 +377,12 @@ public class TitleView extends RelativeLayout implements EventObserver {
      */
     private RelativeLayout newImageButton(final int gravity, int resId) {
         RelativeLayout relativeLayout = new RelativeLayout(getContext());
-        LayoutParams p = new LayoutParams(mIconWidth, mTitleViewHeight);
-        p.setMargins((int) (getResources().getDimension(R.dimen.margin_normal)), 0,
-                (int) (getResources().getDimension(R.dimen.margin_small)), 0);
+        LayoutParams p = new LayoutParams((int) (mIconWidth + (2 * getResources().getDimension(R.dimen.margin_normal))), mTitleViewHeight);
+
         p.addRule(gravity);
         relativeLayout.setLayoutParams(p);
+        relativeLayout.setPadding((int) (getResources().getDimension(R.dimen.margin_normal)), 0,
+                (int) (getResources().getDimension(R.dimen.margin_small)), 0);
         relativeLayout.setGravity(Gravity.CENTER);
 
         relativeLayout.addView(newImageView(resId));

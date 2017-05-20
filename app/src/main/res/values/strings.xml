@@ -70,7 +70,7 @@
 
     <!--底部导航栏-->
     <string name="story_map">地图</string>
-    <string name="airport">机场</string>
+    <string name="airport">候机厅</string>
     <string name="message">消息</string>
     <string name="mine">我的</string>
 

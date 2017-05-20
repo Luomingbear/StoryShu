@@ -240,7 +240,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
     @Override
     public List<String> getStoryPic() {
-        return mStoryBean.getStoryPictures();
+        return mStoryBean == null ? null : mStoryBean.getStoryPictures();
     }
 
     @Override

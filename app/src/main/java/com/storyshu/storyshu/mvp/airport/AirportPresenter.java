@@ -1,5 +1,7 @@
 package com.storyshu.storyshu.mvp.airport;
 
+import com.storyshu.storyshu.bean.getStory.StoryBean;
+
 /**
  * 候机厅的逻辑接口
  * Created by bear on 2017/3/20.
@@ -15,7 +17,7 @@ public interface AirportPresenter {
     /**
      * 跳转到故事屋
      */
-    void intent2StoryRoom();
+    void intent2StoryRoom(StoryBean storyBean);
 
     /**
      * 跳转到广告页

@@ -24,8 +24,18 @@ import java.util.ArrayList;
  */
 
 public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold> {
+    private static final String TAG = "AirportAdapter";
     private Context mContext;
     private ArrayList<AirPortPushInfo> mPushList;
+    private OnAirportCardClickListener mAirportCardClickListener;
+
+    public interface OnAirportCardClickListener {
+        void onClick(int position);
+    }
+
+    public void setAirportCardClickListener(OnAirportCardClickListener mAirportCardClickListener) {
+        this.mAirportCardClickListener = mAirportCardClickListener;
+    }
 
     public AirportAdapter(Context context, ArrayList<AirPortPushInfo> pushList) {
         mContext = context;
@@ -49,13 +59,14 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
             case AirPortPushInfo.TYPE_STORY:
                 view = LayoutInflater.from(mContext).inflate(R.layout.push_card_layout, parent, false);
                 viewHold = new ViewHold(view, viewType);
+
                 return viewHold;
         }
         return null;
     }
 
     @Override
-    public void onBindViewHolder(ViewHold holder, int position) {
+    public void onBindViewHolder(ViewHold holder, final int position) {
         AirPortPushInfo pushInfo = mPushList.get(position);
         switch (pushInfo.getPushType()) {
             case AirPortPushInfo.TYPE_AD:
@@ -64,8 +75,15 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                 break;
 
             case AirPortPushInfo.TYPE_STORY:
-                Glide.with(mContext).load(pushInfo.getUserInfo().getAvatar()).into(holder.avatar);
-                holder.nickName.setText(pushInfo.getUserInfo().getNickname());
+
+                if (pushInfo.getAnonymous()) {
+                    holder.avatar.setBackgroundResource(R.drawable.avatar_wolverine);
+                    holder.nickName.setVisibility(View.GONE);
+                } else {
+                    Glide.with(mContext).load(pushInfo.getUserInfo().getAvatar()).into(holder.avatar);
+                    holder.nickName.setText(pushInfo.getUserInfo().getNickname());
+                }
+
                 holder.like.setNum(pushInfo.getLikeNum());
                 holder.oppose.setNum(pushInfo.getOpposeNum());
                 holder.content.setText(pushInfo.getContent());
@@ -87,7 +105,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         return mPushList == null ? 0 : mPushList.size();
     }
 
-    protected class ViewHold extends RecyclerView.ViewHolder {
+    protected class ViewHold extends RecyclerView.ViewHolder implements View.OnClickListener {
         AvatarImageView avatar; //用户头像
         TextView nickName; //用户昵称
         TextView destroyTime; //剩余时间
@@ -102,6 +120,8 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
 
         ViewHold(View itemView, int pushType) {
             super(itemView);
+            //整体点击⌚️
+            itemView.setOnClickListener(this);
 
             switch (pushType) {
                 case AirPortPushInfo.TYPE_AD:
@@ -120,6 +140,12 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                     break;
             }
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mAirportCardClickListener != null)
+                mAirportCardClickListener.onClick(getLayoutPosition());
         }
     }
 }

@@ -2,6 +2,7 @@ package com.storyshu.storyshu.utils.net;
 
 
 import com.storyshu.storyshu.bean.LauncherResponseBean;
+import com.storyshu.storyshu.bean.RecommendPostBean;
 import com.storyshu.storyshu.bean.TokenResponseBean;
 import com.storyshu.storyshu.bean.checkForUpdate.VersionResponseBean;
 import com.storyshu.storyshu.bean.comment.CommentPostBean;
@@ -154,4 +155,13 @@ public interface ApiService {
      */
     @POST("getCommentSize.php")
     Call<CommentSizeResponseBean> getCommentSize(@Body StoryIdBean storyIdBean);
+
+    /**
+     * 获取推荐的故事
+     *
+     * @param recommendPostBean
+     * @return
+     */
+    @POST("getRecommendStory.php")
+    Call<NearStoriesRsponseBean> getRecommendStory(@Body RecommendPostBean recommendPostBean);
 }

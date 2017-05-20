@@ -98,13 +98,20 @@
             android:background="@color/colorRed" />
     </RelativeLayout>
 
-    <!--候机厅官方推荐-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/airport_push_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_layout"
-        android:background="@color/colorGrayLight">
+        android:layout_below="@id/title_layout">
 
-    </android.support.v7.widget.RecyclerView>
+        <!--候机厅官方推荐-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/airport_push_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorGrayLight">
+
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

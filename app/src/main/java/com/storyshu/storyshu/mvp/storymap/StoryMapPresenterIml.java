@@ -141,6 +141,7 @@ public class StoryMapPresenterIml extends IBasePresenter<StoryMapView> implement
             public void onSucceed() {
                 mMvpView.showToast(R.string.like);
                 mStoryList.get(position).setLike(true);
+                mCardAdapter.notifyDataSetChanged();
             }
 
             @Override
