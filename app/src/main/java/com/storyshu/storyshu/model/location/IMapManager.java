@@ -319,9 +319,11 @@ public class IMapManager {
     public void animate2Position() {
         if (mAMap == null)
             return;
-        if (mLatLng == null)
+        if (mLatLng == null) {
             mLatLng = ISharePreference.getLatLngData(mContext);
-        animate2Position(mLatLng);
+            if (mLatLng != null)
+                animate2Position(mLatLng);
+        }
     }
 
     /**

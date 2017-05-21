@@ -59,6 +59,8 @@ public class AirportPresenterIml extends IBasePresenter<AirportView> implements 
 
         @Override
         public void onDataGotFailed(String error) {
+            mMvpView.showToast(error);
+            mMvpView.getRefreshLayout().setRefreshing(false);
 
         }
     };
@@ -69,15 +71,6 @@ public class AirportPresenterIml extends IBasePresenter<AirportView> implements 
         pushStoryModel.startGetPushList(new RecommendPostBean(ISharePreference.getUserId(mContext),
                 ISharePreference.getCityName(mContext)));
         pushStoryModel.setOnPushStoryModelListener(pushStoryModelListener);
-    }
-
-    /**
-     * 显示推送数据
-     */
-    public void showPushList() {
-        if (mMvpView.getPushRv() != null) {
-            //设置布局类型
-        }
     }
 
     @Override
