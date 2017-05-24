@@ -13,13 +13,16 @@ public class StoryMessageInfo implements Parcelable {
     private BaseUserInfo userInfo; //用户信息
     private String createTime; //创建时间
     private String storyId; //故事id
+    private String commentId; //评论id
     private String storyContent; //故事的内容
     private String cover; //故事的第一张图片
     private String comment; //评论
-    private MessageType messageType = MessageType.LIKE; //类型
+    private MessageType messageType = MessageType.LIKE_STORY; //类型
+    private int unReadNum = 0; //未读信息
 
     public enum MessageType {
-        LIKE,
+        LIKE_STORY,
+        LIKE_COMMENT,
         COMMENT,
         SYSTEM
     }
@@ -28,14 +31,17 @@ public class StoryMessageInfo implements Parcelable {
     }
 
     public StoryMessageInfo(BaseUserInfo userInfo, String createTime, String storyId,
-                            String storyContent, String cover, String comment, MessageType messageType) {
+                            String commentId, String storyContent, String cover,
+                            String comment, MessageType messageType, int unReadNum) {
         this.userInfo = userInfo;
         this.createTime = createTime;
         this.storyId = storyId;
+        this.commentId = commentId;
         this.storyContent = storyContent;
         this.cover = cover;
         this.comment = comment;
         this.messageType = messageType;
+        this.unReadNum = unReadNum;
     }
 
     public BaseUserInfo getUserInfo() {
@@ -82,6 +88,14 @@ public class StoryMessageInfo implements Parcelable {
         return comment;
     }
 
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -92,6 +106,14 @@ public class StoryMessageInfo implements Parcelable {
 
     public void setMessageType(MessageType messageType) {
         this.messageType = messageType;
+    }
+
+    public int getUnReadNum() {
+        return unReadNum;
+    }
+
+    public void setUnReadNum(int unReadNum) {
+        this.unReadNum = unReadNum;
     }
 
     @Override

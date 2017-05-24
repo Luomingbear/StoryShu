@@ -3,7 +3,6 @@ package com.storyshu.storyshu.activity.story;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.activity.DiscussActivity;
+import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.info.CardInfo;
@@ -32,7 +33,7 @@ import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.List;
 
-public class StoryRoomActivity extends AppCompatActivity implements StoryRoomView, View.OnClickListener {
+public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, View.OnClickListener {
     private static final String TAG = "StoryRoomActivity";
     private TitleView mTitleView; //标题栏
     private TextView mStoryContent; //故事的内容
@@ -150,7 +151,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
             @Override
             public void onRightClick() {
-
+                intent2Discuss();
             }
         });
 
@@ -366,6 +367,12 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mDeathTime.setText(TimeUtils.convertDestroyTime(this, storyData.getDestroyTime()));
 
+        if (TimeUtils.isOutOfDate(storyData.getDestroyTime())) {
+            findViewById(R.id.input_layout).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.input_layout).setVisibility(View.VISIBLE);
+        }
+
         mLike.setNum(storyData.getLikeNum());
         mOppose.setNum(storyData.getOpposeNum());
 
@@ -383,6 +390,11 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
             mPicSize.setVisibility(View.VISIBLE);
             mPicSize.setText(mStoryBean.getStoryPictures().size() + "");
         } else mPicSize.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void intent2Discuss() {
+        intentTo(DiscussActivity.class);
     }
 
     @Override

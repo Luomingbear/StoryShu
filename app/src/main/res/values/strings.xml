@@ -124,6 +124,7 @@
     <string name="oppose">不喜欢</string>
     <string name="communicate">写信</string>
     <string name="collect">收藏</string>
+    <string name="discuss">讨论</string>
 
     <!--评论-->
     <string name="comment_issue_empty">写两个字呗</string>

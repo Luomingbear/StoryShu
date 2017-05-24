@@ -7,12 +7,16 @@ import android.widget.ExpandableListView;
 import com.storyshu.storyshu.adapter.MessageExpandableAdapter;
 import com.storyshu.storyshu.adapter.SystemMessageAdapter;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
+import com.storyshu.storyshu.bean.read.ReadCommentPostBean;
+import com.storyshu.storyshu.bean.read.ReadStoryLikeBean;
+import com.storyshu.storyshu.bean.read.ReadStoryLikePostBean;
 import com.storyshu.storyshu.info.StoryMessageInfo;
 import com.storyshu.storyshu.info.SystemMessageInfo;
 import com.storyshu.storyshu.model.MessageModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * mvp模式
@@ -21,8 +25,8 @@ import java.util.ArrayList;
  */
 
 public class MessagePresenterIml extends IBasePresenter<MessageView> implements MessagePresenter {
+    private static final String TAG = "MessagePresenterIml";
     private MessageModel mMessageModel; //信息更新的model
-    private ArrayList<StoryMessageInfo.MessageType> mGroupList; //组别列表
     private ArrayList<StoryMessageInfo> mLikeList; //喜欢我的列表
     private ArrayList<StoryMessageInfo> mCommentList; //评论我的列表
     private ArrayList<SystemMessageInfo> mSystemMessageList; //系统消息的列表
@@ -36,27 +40,64 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
     }
 
     private void init() {
-        mGroupList = new ArrayList<>();
+        mLikeList = new ArrayList<>();
+        mCommentList = new ArrayList<>();
+        mSystemMessageList = new ArrayList<>();
+
+        mLikeExpandableAdapter = new MessageExpandableAdapter(mContext, mLikeList);
+        mMvpView.getLikeMessageList().setAdapter(mLikeExpandableAdapter);
+        mMvpView.getLikeMessageList().setVisibility(View.GONE);
+
+        mCommentExpandableAdapter = new MessageExpandableAdapter(mContext, mCommentList);
+        mMvpView.getCommentMessageList().setAdapter(mCommentExpandableAdapter);
+        mMvpView.getCommentMessageList().setVisibility(View.GONE);
+
+        mSystemExpandableAdapter = new SystemMessageAdapter(mContext, mSystemMessageList);
+        mMvpView.getSystemMessageList().setAdapter(mSystemExpandableAdapter);
+        mMvpView.getSystemMessageList().setVisibility(View.GONE);
+
+
+        //点击选项
+        setClickEvents();
     }
 
     private MessageModel.OnMessageModelListener messageModelListener = new MessageModel.OnMessageModelListener() {
         @Override
         public void onLikeDataGot(ArrayList<StoryMessageInfo> messageInfoList) {
-            mLikeList = messageInfoList;
-            mGroupList.add(StoryMessageInfo.MessageType.LIKE);
+
+            mLikeList.clear();
+            if (messageInfoList != null && messageInfoList.size() > 0) {
+                for (StoryMessageInfo storyMessageInfo : messageInfoList) {
+                    mLikeList.add(storyMessageInfo);
+                }
+            }
+
             if (mLikeList.size() == 0)
                 mMvpView.getLikeMessageList().setVisibility(View.GONE);
-            else mMvpView.getLikeMessageList().setVisibility(View.VISIBLE);
+            else {
+                mMvpView.getLikeMessageList().setVisibility(View.VISIBLE);
+                mLikeExpandableAdapter.notifyDataSetChanged();
+            }
+
+
         }
 
         @Override
         public void onCommentDataGot(ArrayList<StoryMessageInfo> messageList) {
-            mCommentList = messageList;
-            mGroupList.add(StoryMessageInfo.MessageType.COMMENT);
+
+            mCommentList.clear();
+            if (messageList != null && messageList.size() > 0) {
+                for (StoryMessageInfo storyMessageInfo : messageList) {
+                    mCommentList.add(storyMessageInfo);
+                }
+            }
+
             if (mCommentList.size() == 0)
                 mMvpView.getCommentMessageList().setVisibility(View.GONE);
-            else
+            else {
                 mMvpView.getCommentMessageList().setVisibility(View.VISIBLE);
+                mCommentExpandableAdapter.notifyDataSetChanged();
+            }
 
         }
 
@@ -71,6 +112,8 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
                 //显示
                 showMessageList();
             }
+
+            mMvpView.getRefreshLayout().setRefreshing(false);
         }
     };
 
@@ -84,8 +127,49 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
         mMessageModel.updateMessageData(messageModelListener);
     }
 
+    /**
+     * 标记我收到的赞为已读
+     */
+    private void readStoryLike() {
+        MessageModel messageModel = new MessageModel(mContext);
+        List<ReadStoryLikeBean> readStoryLikeBeanList = new ArrayList<>();
+        for (StoryMessageInfo storyMessageInfo : mLikeList) {
+            readStoryLikeBeanList.add(new ReadStoryLikeBean(storyMessageInfo.getUserInfo().getUserId(),
+                    storyMessageInfo.getStoryId()));
+        }
+        messageModel.updateStoryLikeRead(new ReadStoryLikePostBean(readStoryLikeBeanList));
+    }
+
+    /**
+     * 标记我收到的评论为已读
+     */
+    private void readComment() {
+        MessageModel messageModel = new MessageModel(mContext);
+        List<String> list = new ArrayList<>();
+        for (StoryMessageInfo storyMessageInfo : mCommentList) {
+            list.add(storyMessageInfo.getCommentId());
+        }
+        messageModel.updateStoryCommentRead(new ReadCommentPostBean(list));
+    }
+
+    /**
+     * 初始化点击事件
+     */
     private void setClickEvents() {
         //点赞列表
+        mMvpView.getLikeMessageList().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (mLikeList.size() == 0)
+                    return false;
+
+                mLikeList.get(0).setUnReadNum(0);
+                mLikeExpandableAdapter.notifyDataSetChanged();
+                //
+                readStoryLike();
+                return false;
+            }
+        });
         mMvpView.getLikeMessageList().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -95,11 +179,23 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
         });
 
         //评论列表
+        mMvpView.getCommentMessageList().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (mCommentList.size() == 0)
+                    return false;
+
+                mCommentList.get(0).setUnReadNum(0);
+                mCommentExpandableAdapter.notifyDataSetChanged();
+                //
+                readComment();
+                return false;
+            }
+        });
         mMvpView.getCommentMessageList().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                mMvpView.intent2StoryRoom(new StoryIdBean(mLikeList.get(childPosition).getStoryId()));
-
+                mMvpView.intent2StoryRoom(new StoryIdBean(mCommentList.get(childPosition).getStoryId()));
                 return false;
             }
         });
@@ -108,8 +204,7 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
         mMvpView.getSystemMessageList().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                mMvpView.intent2StoryRoom(new StoryIdBean(mLikeList.get(childPosition).getStoryId()));
-
+//                    mMvpView.intent2StoryRoom(new StoryIdBean(mSystemMessageList.get(childPosition).getStoryId()));
                 return false;
             }
         });
@@ -117,16 +212,8 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
 
     @Override
     public void showMessageList() {
-        mLikeExpandableAdapter = new MessageExpandableAdapter(mContext, mLikeList);
-        mMvpView.getLikeMessageList().setAdapter(mLikeExpandableAdapter);
 
-        mCommentExpandableAdapter = new MessageExpandableAdapter(mContext, mCommentList);
-        mMvpView.getCommentMessageList().setAdapter(mCommentExpandableAdapter);
 
-        mSystemExpandableAdapter = new SystemMessageAdapter(mContext, mSystemMessageList);
-        mMvpView.getSystemMessageList().setAdapter(mSystemExpandableAdapter);
-
-        setClickEvents();
     }
 
     @Override

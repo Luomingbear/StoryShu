@@ -101,4 +101,9 @@ public interface StoryRoomView extends IBaseActivityView {
      * @param storyPics
      */
     void setStoryPic(List<String> storyPics);
+
+    /**
+     * 跳转到讨论页面
+     */
+    void intent2Discuss();
 }

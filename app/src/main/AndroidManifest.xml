@@ -55,6 +55,10 @@
         <activity
             android:name=".activity.story.StoryRoomActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.DiscussActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.story.CreateStoryActivity"
             android:screenOrientation="portrait" />

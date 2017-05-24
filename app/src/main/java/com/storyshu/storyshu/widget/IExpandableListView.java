@@ -29,6 +29,5 @@ public class IExpandableListView extends ExpandableListView {
 
         //将重新计算的高度传递回去
         super.onMeasure(widthMeasureSpec, expandSpec);
-
     }
 }

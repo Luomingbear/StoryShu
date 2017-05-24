@@ -5,8 +5,13 @@ import android.util.Log;
 
 import com.storyshu.storyshu.bean.OnlyDataResponseBean;
 import com.storyshu.storyshu.bean.like.LikePostBean;
+import com.storyshu.storyshu.bean.message.StoryLikeBean;
+import com.storyshu.storyshu.bean.message.StoryLikeResponseBean;
+import com.storyshu.storyshu.bean.user.UserIdBean;
 import com.storyshu.storyshu.utils.net.CodeUtil;
 import com.storyshu.storyshu.utils.net.RetrofitManager;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,11 +26,22 @@ public class LikeModel {
     private static final String TAG = "LikeModel";
     private Context mContext;
     private OnLikeListener onLikeListener;
+    private OnGotStoryLikeListener onGotStoryLikeListener;
 
     public interface OnLikeListener {
         void onSucceed();
 
         void onFailed(String error);
+    }
+
+    public interface OnGotStoryLikeListener {
+        void onSucceed(List<StoryLikeBean> storyLikeBeanList);
+
+        void onFailed(String error);
+    }
+
+    public void setOnGotStoryLikeListener(OnGotStoryLikeListener onGotStoryLikeListener) {
+        this.onGotStoryLikeListener = onGotStoryLikeListener;
     }
 
     public void setOnLikeListener(OnLikeListener onLikeListener) {
@@ -60,6 +76,36 @@ public class LikeModel {
 
                 if (onLikeListener != null)
                     onLikeListener.onFailed(t.getMessage());
+            }
+        });
+    }
+
+
+    /**
+     * 获取用户的故事收到的赞
+     * 未读的消息
+     *
+     * @param userId
+     */
+    public void getStoryLike(int userId) {
+        Call<StoryLikeResponseBean> call = RetrofitManager.getInstance().getService().getStoryLike(new UserIdBean(userId));
+        call.enqueue(new Callback<StoryLikeResponseBean>() {
+            @Override
+            public void onResponse(Call<StoryLikeResponseBean> call, Response<StoryLikeResponseBean> response) {
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    if (onGotStoryLikeListener != null)
+                        onGotStoryLikeListener.onSucceed(response.body().getData());
+                } else {
+                    if (onGotStoryLikeListener != null)
+                        onGotStoryLikeListener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StoryLikeResponseBean> call, Throwable t) {
+                if (onGotStoryLikeListener != null)
+                    onGotStoryLikeListener.onFailed(t.getMessage());
+
             }
         });
     }

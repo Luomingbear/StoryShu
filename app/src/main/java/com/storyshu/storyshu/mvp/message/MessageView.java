@@ -1,5 +1,7 @@
 package com.storyshu.storyshu.mvp.message;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.IExpandableListView;
@@ -11,6 +13,13 @@ import com.storyshu.storyshu.widget.IExpandableListView;
  */
 
 public interface MessageView extends IBaseView {
+
+    /**
+     * 获取下拉刷新
+     * @return
+     */
+    SwipeRefreshLayout getRefreshLayout();
+
     /**
      * 获取点赞折叠的列表控件
      *

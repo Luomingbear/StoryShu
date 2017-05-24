@@ -1,11 +1,27 @@
 package com.storyshu.storyshu.model;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.storyshu.storyshu.bean.OnlyDataResponseBean;
+import com.storyshu.storyshu.bean.message.StoryCommentBean;
+import com.storyshu.storyshu.bean.message.StoryCommentResponseBean;
+import com.storyshu.storyshu.bean.message.StoryLikeBean;
+import com.storyshu.storyshu.bean.read.ReadCommentPostBean;
+import com.storyshu.storyshu.bean.read.ReadStoryLikePostBean;
+import com.storyshu.storyshu.bean.user.UserIdBean;
 import com.storyshu.storyshu.info.StoryMessageInfo;
 import com.storyshu.storyshu.info.SystemMessageInfo;
+import com.storyshu.storyshu.utils.net.CodeUtil;
+import com.storyshu.storyshu.utils.net.RetrofitManager;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * "与我有关的信息"的数据操作
@@ -13,6 +29,7 @@ import java.util.ArrayList;
  */
 
 public class MessageModel {
+    private static final String TAG = "MessageModel";
     private Context mContext;
     private OnMessageModelListener onMessageModelListener;
 
@@ -39,54 +56,62 @@ public class MessageModel {
      * 获取点赞的列表数据
      */
     private void getLikeList() {
-        // TODO: 2017/5/12 获取点赞数据 
-        ArrayList<StoryMessageInfo> likeList = new ArrayList<>();
-//        for (int i = 0; i < 4; i++) {
-//            StoryMessageInfo info = new StoryMessageInfo();
-//            BaseUserInfo userInfo = new BaseUserInfo();
-//            userInfo.setNickname("西瓜su" + i);
-//            userInfo.setUserId(22222222 + i);
-//            userInfo.setAvatar("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490098140866&di=aeb868c2a86cbb95f356868dcb0e8c2d&imgtype=0&src=http%3A%2F%2Fup.qqjia.com%2Fz%2F24%2Ftu29448_13.jpg");
-//            info.setUserInfo(userInfo);
-//            info.setStoryId("149457722010003");
-//            info.setCreateTime(TimeUtils.convert2TimeText(new Date(System.currentTimeMillis())));
-//            info.setStoryContent("每个人的生命里都有想要逃离的日常，唯有碍于良善才能带我们找到真正的温暖");
-//            info.setMessageType(StoryMessageInfo.MessageType.LIKE);
-//            info.setCover("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490099987302&di=fbc6bb7d2af5aa5ed8456f4abbe1be06&imgtype=0&src=http%3A%2F%2Fc15.eoemarket.net%2Fapp0%2F652%2F652549%2Fscreen%2F3260012.png");
-//            likeList.add(info);
-//        }
-//
-//        likeList.get(2).setCover("");
-//        likeList.get(3).setCover("");
-        if (onMessageModelListener != null)
-            onMessageModelListener.onLikeDataGot(likeList);
+        LikeModel likeModel = new LikeModel(mContext);
+        likeModel.getStoryLike(ISharePreference.getUserId(mContext));
+        likeModel.setOnGotStoryLikeListener(new LikeModel.OnGotStoryLikeListener() {
+            @Override
+            public void onSucceed(List<StoryLikeBean> storyLikeBeanList) {
+                final ArrayList<StoryMessageInfo> likeList = new ArrayList<>();
+                if (storyLikeBeanList != null && storyLikeBeanList.size() > 0) {
+                    for (StoryLikeBean storyLikeBean : storyLikeBeanList)
+                        likeList.add(new StoryMessageInfo(storyLikeBean.getUserInfo(), storyLikeBean.getCreateTime(),
+                                storyLikeBean.getStoryId(), "", storyLikeBean.getContent(), storyLikeBean.getCover(), "",
+                                StoryMessageInfo.MessageType.LIKE_STORY, storyLikeBeanList.size()));
+                }
+                if (onMessageModelListener != null)
+                    onMessageModelListener.onLikeDataGot(likeList);
+            }
+
+            @Override
+            public void onFailed(String error) {
+
+            }
+        });
+
     }
 
     /**
      * 获取评论数据
      */
     private void getCommentList() {
-        // TODO: 2017/5/12 获取评论数据 
-        ArrayList<StoryMessageInfo> commentList = new ArrayList<>();
-//        for (int i = 0; i < 2; i++) {
-//            StoryMessageInfo info = new StoryMessageInfo();
-//            BaseUserInfo userInfo = new BaseUserInfo();
-//            userInfo.setNickname("西瓜su" + i);
-//            userInfo.setUserId(222222222 + +i);
-//            userInfo.setAvatar("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490098140866&di=aeb868c2a86cbb95f356868dcb0e8c2d&imgtype=0&src=http%3A%2F%2Fup.qqjia.com%2Fz%2F24%2Ftu29448_13.jpg");
-//            info.setUserInfo(userInfo);
-//            info.setStoryId("149457722010003");
-//            info.setCreateTime(TimeUtils.getCurrentTime());
-//            info.setStoryContent("每个人的生命里都有想要逃离的日常，唯有碍于良善才能带我们找到真正的温暖");
-//            info.setMessageType(StoryMessageInfo.MessageType.COMMENT);
-//            info.setComment("喜欢你的故事，喜欢");
-//            info.setCover("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490099987302&di=fbc6bb7d2af5aa5ed8456f4abbe1be06&imgtype=0&src=http%3A%2F%2Fc15.eoemarket.net%2Fapp0%2F652%2F652549%2Fscreen%2F3260012.png");
-//            commentList.add(info);
-//        }
-//
-//        commentList.get(1).setCover("");
-        if (onMessageModelListener != null)
-            onMessageModelListener.onCommentDataGot(commentList);
+        Call<StoryCommentResponseBean> call = RetrofitManager.getInstance().getService().getStoryComment(new UserIdBean(ISharePreference.getUserId(mContext)));
+        call.enqueue(new Callback<StoryCommentResponseBean>() {
+            @Override
+            public void onResponse(Call<StoryCommentResponseBean> call, Response<StoryCommentResponseBean> response) {
+                Log.i(TAG, "onResponse: " + response.body());
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    ArrayList<StoryMessageInfo> list = new ArrayList<>();
+                    if (response.body().getData() != null && response.body().getData().size() > 0) {
+                        for (StoryCommentBean storyCommentBean : response.body().getData()) {
+                            list.add(new StoryMessageInfo(storyCommentBean.getUserInfo(), storyCommentBean.getCreateTime(),
+                                    storyCommentBean.getStoryId(), storyCommentBean.getCommentId(), storyCommentBean.getContent(),
+                                    storyCommentBean.getCover(), storyCommentBean.getComment(), StoryMessageInfo.MessageType.COMMENT,
+                                    response.body().getData().size()));
+                        }
+                        if (onMessageModelListener != null)
+                            onMessageModelListener.onCommentDataGot(list);
+                    }
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StoryCommentResponseBean> call, Throwable t) {
+
+            }
+        });
     }
 
     /**
@@ -96,13 +121,6 @@ public class MessageModel {
         // TODO: 2017/5/12 获取系统信息
         ArrayList<SystemMessageInfo> systemList = new ArrayList<>();
 
-//        for (int i = 0; i < 1; i++) {
-//            SystemMessageInfo info = new SystemMessageInfo();
-//            info.setCreateTime(TimeUtils.getCurrentTime());
-//            info.setDescribe("不亦说乎网络科技有限公司在纳斯达克上市了，为了报答每一位用户，送每人一辆跑车！");
-//            info.setUrl("www.storyshu.com");
-//            systemList.add(info);
-//        }
         if (onMessageModelListener != null)
             onMessageModelListener.onSystemDataGot(systemList);
     }
@@ -115,5 +133,52 @@ public class MessageModel {
         getLikeList();
         getCommentList();
         getSystemList();
+    }
+
+    /**
+     * 标记我收到的赞为已读
+     *
+     * @param readStoryLikePostBean
+     */
+    public void updateStoryLikeRead(ReadStoryLikePostBean readStoryLikePostBean) {
+        Call<OnlyDataResponseBean> call = RetrofitManager.getInstance().getService().updateStoryLikeRead(readStoryLikePostBean);
+        call.enqueue(new Callback<OnlyDataResponseBean>() {
+            @Override
+            public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {
+                if (response.body().getCode() == CodeUtil.Succeed) {
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OnlyDataResponseBean> call, Throwable t) {
+
+            }
+        });
+    }
+
+    /**
+     * 更新我收到的评论为已读
+     *
+     * @param readCommentPostBean
+     */
+    public void updateStoryCommentRead(ReadCommentPostBean readCommentPostBean) {
+        Call<OnlyDataResponseBean> call = RetrofitManager.getInstance().getService().updateStoryCommentRead(readCommentPostBean);
+        call.enqueue(new Callback<OnlyDataResponseBean>() {
+            @Override
+            public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {
+                if (response.body().getCode() == CodeUtil.Succeed) {
+
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OnlyDataResponseBean> call, Throwable t) {
+
+            }
+        });
     }
 }

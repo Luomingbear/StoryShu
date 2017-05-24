@@ -172,7 +172,6 @@ public class TimeUtils {
     }
 
 
-
     /**
      * 获取时间
      *
@@ -309,5 +308,28 @@ public class TimeUtils {
         else {
             return minute / 24 / 60 + context.getString(R.string.day_unit);
         }
+    }
+
+    /**
+     * 是否过期
+     *
+     * @param destroyTime
+     * @return
+     */
+    public static boolean isOutOfDate(String destroyTime) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(destroyTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (date == null)
+            return true;
+
+        if (date.compareTo(new Date(System.currentTimeMillis())) <= 0)
+            return true;
+        else return false;
     }
 }

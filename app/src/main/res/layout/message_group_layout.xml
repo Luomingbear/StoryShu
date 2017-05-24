@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/title_height">
 
@@ -20,6 +21,20 @@
         android:text="@string/like2me"
         android:textColor="?attr/textColor2"
         android:textSize="@dimen/font_normal" />
+
+    <com.storyshu.storyshu.widget.text.RoundTextView
+        android:id="@+id/num"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/font_big"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_toRightOf="@id/message_text"
+        android:gravity="center"
+        android:paddingLeft="@dimen/margin_min"
+        android:paddingRight="@dimen/margin_min"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_small"
+        app:mBgColor="@color/colorRedLight" />
 
     <ImageView
         android:id="@+id/expand_icon"

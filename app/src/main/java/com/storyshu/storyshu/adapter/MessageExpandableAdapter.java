@@ -14,6 +14,7 @@ import com.storyshu.storyshu.adapter.base.IBaseExpandableListAdapter;
 import com.storyshu.storyshu.info.StoryMessageInfo;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
+import com.storyshu.storyshu.widget.text.RoundTextView;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,7 @@ public class MessageExpandableAdapter extends IBaseExpandableListAdapter {
 
             mGroupHolder.expandIcon = (ImageView) convertView.findViewById(R.id.expand_icon);
             mGroupHolder.groupTitle = (TextView) convertView.findViewById(R.id.message_text);
+            mGroupHolder.num = (RoundTextView) convertView.findViewById(R.id.num);
             mGroupHolder.groupIcon = (ImageView) convertView.findViewById(R.id.message_icon);
             convertView.setTag(mGroupHolder);
         } else mGroupHolder = (GroupHolder) convertView.getTag();
@@ -48,18 +50,32 @@ public class MessageExpandableAdapter extends IBaseExpandableListAdapter {
             StoryMessageInfo storyMessageInfo = (StoryMessageInfo) (getList().get(0));
 
             switch (storyMessageInfo.getMessageType()) {
-                case LIKE:
+                case LIKE_COMMENT:
+                case LIKE_STORY:
                     mGroupHolder.groupIcon.setBackgroundResource(R.drawable.message_mylove);
                     mGroupHolder.groupTitle.setText(R.string.like2me);
                     break;
+
                 case COMMENT:
                     mGroupHolder.groupIcon.setBackgroundResource(R.drawable.message_comment);
                     mGroupHolder.groupTitle.setText(R.string.comment2me);
                     break;
+
                 case SYSTEM:
                     mGroupHolder.groupIcon.setBackgroundResource(R.drawable.message_computer);
                     mGroupHolder.groupTitle.setText(R.string.system2me);
                     break;
+            }
+
+            /**
+             * 未读信息
+             */
+            if (storyMessageInfo.getUnReadNum() != 0) {
+                mGroupHolder.num.setVisibility(View.VISIBLE);
+                mGroupHolder.num.setText(storyMessageInfo.getUnReadNum() + "");
+            } else {
+//                mGroupHolder.num.setText("");
+                mGroupHolder.num.setVisibility(View.GONE);
             }
         }
 
@@ -97,8 +113,11 @@ public class MessageExpandableAdapter extends IBaseExpandableListAdapter {
             mChildHolder.createTime.setText(TimeUtils.convertCurrentTime(getContext(),
                     messageInfo.getCreateTime()));
             switch (messageInfo.getMessageType()) {
-                case LIKE:
+                case LIKE_STORY:
                     mChildHolder.content.setText(R.string.like_my_story);
+                    break;
+                case LIKE_COMMENT:
+                    mChildHolder.content.setText(R.string.like_my_comment);
                     break;
                 case COMMENT:
                     mChildHolder.content.setText(messageInfo.getComment());
@@ -128,6 +147,7 @@ public class MessageExpandableAdapter extends IBaseExpandableListAdapter {
         ImageView groupIcon; //组别的图标
         TextView groupTitle; //组别的描述
         ImageView expandIcon; //折叠的图标
+        RoundTextView num; //数量
     }
 
     private class ChildHolder {

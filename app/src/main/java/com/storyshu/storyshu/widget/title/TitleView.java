@@ -68,7 +68,15 @@ public class TitleView extends RelativeLayout implements EventObserver {
         /**
          * 消息-粉丝
          */
-        MESSAGE_FRIEND
+        MESSAGE_FRIEND,
+
+
+        /**
+         * 返回-标题-即时讨论
+         */
+        BACK_TILE_IM,
+
+
     }
 
     public TitleView(Context context) {
@@ -118,7 +126,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
             case BACK_TILE:
                 //left
                 addLeftButton(R.drawable.back);
-//                addBackButton();
                 //title
                 addTitle();
                 //line
@@ -128,7 +135,6 @@ public class TitleView extends RelativeLayout implements EventObserver {
             case BACK_TILE_GO:
                 //left
                 addLeftButton(R.drawable.back);
-//                addBackButton();
                 //go
                 addRightButton(R.drawable.go);
                 //title
@@ -141,7 +147,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
                 //left
                 addBackButton();
                 //screenShot
-//                addRightButton(R.drawable.screenshot);
+                addRightButton(R.drawable.search);
                 //title
                 addTitle();
                 break;
@@ -149,13 +155,9 @@ public class TitleView extends RelativeLayout implements EventObserver {
             case BACK_TILE_SEND:
                 //left
                 addLeftButton(R.drawable.back);
-                //select_text
-//                addRightButton(R.drawable.select_text);
                 addRightText(R.string.issue);
                 //title
                 addTitle();
-                //line
-//                addBottomLine();
                 break;
 
             case POSITION_TITLE:
@@ -165,6 +167,14 @@ public class TitleView extends RelativeLayout implements EventObserver {
             case MESSAGE_FRIEND:
                 addTitle();
                 addRightText(R.string.friend);
+                break;
+
+            case BACK_TILE_IM:
+                //left
+                addLeftButton(R.drawable.back);
+                addRightText(R.string.discuss);
+                //title
+                addTitle();
                 break;
 
         }

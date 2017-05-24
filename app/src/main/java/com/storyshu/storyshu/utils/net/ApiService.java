@@ -18,6 +18,10 @@ import com.storyshu.storyshu.bean.getStory.UserStoryPostBean;
 import com.storyshu.storyshu.bean.getStory.UserStoryResponseBean;
 import com.storyshu.storyshu.bean.issueStory.IssueStoryBean;
 import com.storyshu.storyshu.bean.like.LikePostBean;
+import com.storyshu.storyshu.bean.message.StoryCommentResponseBean;
+import com.storyshu.storyshu.bean.message.StoryLikeResponseBean;
+import com.storyshu.storyshu.bean.read.ReadCommentPostBean;
+import com.storyshu.storyshu.bean.read.ReadStoryLikePostBean;
 import com.storyshu.storyshu.bean.user.RegisterResponseBean;
 import com.storyshu.storyshu.bean.user.UserIdBean;
 import com.storyshu.storyshu.bean.user.UserLoginResponseBean;
@@ -185,4 +189,40 @@ public interface ApiService {
      */
     @POST("getStoryPic.php")
     Call<StoryPicResponseBean> getStoryPic(@Body StoryIdBean storyIdBean);
+
+    /**
+     * 获取用户的故事收到的赞
+     *
+     * @param userIdBean
+     * @return
+     */
+    @POST("getStoryLike.php")
+    Call<StoryLikeResponseBean> getStoryLike(@Body UserIdBean userIdBean);
+
+    /**
+     * 获取用户的故事评论
+     *
+     * @param userIdBean
+     * @return
+     */
+    @POST("getStoryComment.php")
+    Call<StoryCommentResponseBean> getStoryComment(@Body UserIdBean userIdBean);
+
+    /**
+     * 标记故事赞为已读
+     *
+     * @param readStoryLikePostBean
+     * @return
+     */
+    @POST("updateStoryLikeRead.php")
+    Call<OnlyDataResponseBean> updateStoryLikeRead(@Body ReadStoryLikePostBean readStoryLikePostBean);
+
+    /**
+     * 标记收到的评论为已读
+     *
+     * @param readCommentPostBean
+     * @return
+     */
+    @POST("updateStoryCommentRead.php")
+    Call<OnlyDataResponseBean> updateStoryCommentRead(@Body ReadCommentPostBean readCommentPostBean);
 }
