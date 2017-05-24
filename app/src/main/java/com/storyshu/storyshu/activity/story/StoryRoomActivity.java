@@ -5,8 +5,11 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,14 +17,17 @@ import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomPresenterIml;
 import com.storyshu.storyshu.mvp.storyroom.StoryRoomView;
+import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
+import com.storyshu.storyshu.widget.text.RoundTextView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
 import java.util.List;
@@ -40,6 +46,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     private TextView mDeathTime; //剩余时间
 
     private ClickButton mLike, mOppose, mComment; //按钮
+    private RoundTextView mSend; //发送按钮
 
     private NestedScrollView mScrollView; //滚动布局
     private SwipeRefreshLayout mRefreshLayout; //下拉刷新控件
@@ -67,7 +74,7 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     protected void onResume() {
         super.onResume();
 
-        mStoryRoomPresenter.getComments();
+        mStoryRoomPresenter.updateComments();
     }
 
     /**
@@ -103,7 +110,10 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mComment = (ClickButton) findViewById(R.id.comment);
 
-//      mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        mSend = (RoundTextView) findViewById(R.id.send);
+
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        mRefreshLayout.setColorSchemeResources(R.color.colorRedLight, R.color.colorRed);
 
         mScrollView = (NestedScrollView) findViewById(R.id.scroll_view);
 
@@ -151,7 +161,8 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
      */
     @Override
     public void initData() {
-        mStoryBean = getIntent().getParcelableExtra(NameUtil.STORY_INFO);
+        if (getIntent().getParcelableExtra(NameUtil.CARD_INFO) != null)
+            mStoryBean = new StoryBean((CardInfo) getIntent().getParcelableExtra(NameUtil.CARD_INFO));
         mStoryIdBean = getIntent().getParcelableExtra(NameUtil.STORY_ID_BEAN);
         if (mStoryBean != null) {
             setStoryData(mStoryBean);
@@ -175,6 +186,33 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     }
 
     /**
+     * 初始化评论输入框
+     */
+    private void initCommentEdit() {
+        getCommentEdit().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0)
+                    mSend.setBgColor(R.color.colorRed);
+                else
+                    mSend.setBgColor(R.color.colorGrayLight);
+            }
+        });
+
+        findViewById(R.id.hide_keyboard_layout).setOnClickListener(this);
+    }
+
+    /**
      * 初始化事件处理
      */
     private void initEvent() {
@@ -188,9 +226,16 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mOppose.setOnClickListener(this);
 
-        mComment.setOnClickListener(this);
+        mSend.setOnClickListener(this);
 
-        findViewById(R.id.edit_comment).setOnClickListener(this);
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mStoryRoomPresenter.getStoryInfo();
+            }
+        });
+
+        initCommentEdit();
 
     }
 
@@ -211,11 +256,20 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
             case R.id.oppose:
                 mStoryRoomPresenter.clickOppose();
                 break;
-            case R.id.comment:
-            case R.id.edit_comment:
-                mStoryRoomPresenter.clickComment();
+
+            case R.id.send:
+                mStoryRoomPresenter.clickSend();
+                break;
+
+            case R.id.hide_keyboard_layout:
+                KeyBordUtil.hideKeyboard(StoryRoomActivity.this, getCommentEdit());
                 break;
         }
+    }
+
+    @Override
+    public SwipeRefreshLayout getRefreshLayout() {
+        return mRefreshLayout;
     }
 
     @Override
@@ -234,8 +288,23 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
     }
 
     @Override
+    public EditText getCommentEdit() {
+        return (EditText) findViewById(R.id.edit_comment);
+    }
+
+    @Override
+    public RoundTextView getSendButton() {
+        return (RoundTextView) findViewById(R.id.send);
+    }
+
+    @Override
     public RecyclerView getCommentRV() {
         return mCommentRV;
+    }
+
+    @Override
+    public TextView getHotCommentHit() {
+        return (TextView) findViewById(R.id.hot_comment_hit);
     }
 
     @Override
@@ -261,13 +330,16 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
         mStoryContent.setText(storyData.getContent());
 
         if (!TextUtils.isEmpty(storyData.getCover())) {
-            Glide.with(this).load(storyData.getCover()).into(mStoryCover);
+            mStoryCover.setVisibility(View.VISIBLE);
+            Glide.with(this).load(storyData.getCover()).dontAnimate().into(mStoryCover);
 
-            if (storyData.getStoryPictures().size() > 1)
+            if (storyData.getStoryPictures() != null && storyData.getStoryPictures().size() > 1) {
+                mPicSize.setVisibility(View.VISIBLE);
                 mPicSize.setText(storyData.getStoryPictures().size() + "");
-            else mPicSize.setVisibility(View.GONE);
+            } else mPicSize.setVisibility(View.GONE);
 
         } else {
+            mStoryCover.clearAnimation(); //清除动画
             mStoryCover.setVisibility(View.GONE);
             mPicSize.setVisibility(View.GONE);
         }
@@ -292,10 +364,25 @@ public class StoryRoomActivity extends AppCompatActivity implements StoryRoomVie
 
         mCreateTime.setText(TimeUtils.convertCurrentTime(this, storyData.getCreateTime()));
 
-        mDeathTime.setText(TimeUtils.leftTime(this, storyData.getDestroyTime()));
+        mDeathTime.setText(TimeUtils.convertDestroyTime(this, storyData.getDestroyTime()));
 
         mLike.setNum(storyData.getLikeNum());
         mOppose.setNum(storyData.getOpposeNum());
+
+        /**
+         * 获取配图
+         */
+        mStoryRoomPresenter.getStoryPic();
+    }
+
+    @Override
+    public void setStoryPic(List<String> storyPics) {
+        mStoryBean.setStoryPictures(storyPics);
+
+        if (mStoryBean.getStoryPictures() != null && mStoryBean.getStoryPictures().size() > 1) {
+            mPicSize.setVisibility(View.VISIBLE);
+            mPicSize.setText(mStoryBean.getStoryPictures().size() + "");
+        } else mPicSize.setVisibility(View.GONE);
     }
 
     @Override

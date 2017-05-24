@@ -10,7 +10,7 @@ public interface StoryRoomPresenter {
     /**
      * 获取评论的数据
      */
-    void getComments();
+    void updateComments();
 
     /**
      * 显示故事配图预览的弹窗
@@ -30,10 +30,15 @@ public interface StoryRoomPresenter {
     /**
      * 点击添加评论
      */
-    void clickComment();
+    void clickSend();
 
     /**
      * 获取故事详情
      */
     void getStoryInfo();
+
+    /**
+     * 获取故事配图
+     */
+    void getStoryPic();
 }

@@ -3,6 +3,7 @@ package com.storyshu.storyshu.mvp.storyroom;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.CommentAdapter;
@@ -14,11 +15,12 @@ import com.storyshu.storyshu.bean.like.LikePostBean;
 import com.storyshu.storyshu.model.CommentModel;
 import com.storyshu.storyshu.model.LikeModel;
 import com.storyshu.storyshu.model.stories.StoryModel;
+import com.storyshu.storyshu.model.stories.StoryPicModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
+import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.dialog.PicturePreviewDialog;
-import com.storyshu.storyshu.widget.inputview.InputDialog;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
     }
 
     @Override
-    public void getComments() {
+    public void updateComments() {
         /**
          * 初始化评论数据
          */
@@ -69,6 +71,11 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
 
                 //设置数据
                 mMvpView.getCommentRV().setAdapter(mCommentAdapter);
+
+                if (commentList == null || commentList.size() == 0) {
+                    mMvpView.getHotCommentHit().setVisibility(View.GONE);
+                } else
+                    mMvpView.getHotCommentHit().setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -90,6 +97,7 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
 
     @Override
     public void showStoryPicDialog() {
+
         PicturePreviewDialog previewDialog = new PicturePreviewDialog(mContext);
         previewDialog.setStoryListShow(mMvpView.getStoryPic());
     }
@@ -142,48 +150,39 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
     }
 
     @Override
-    public void clickComment() {
-        //显示输入弹窗
-        final InputDialog inputDialog = new InputDialog(mContext);
-        inputDialog.init(new InputDialog.OnInputChangeListener() {
-            @Override
-            public void onTextChange(CharSequence s, int start, int before, int count) {
+    public void clickSend() {
+        if (mMvpView.getCommentEdit().getText().length() == 0) {
+            mMvpView.showToast(R.string.comment_issue_empty);
+            return;
+        }
 
+        CommentPostBean commentPostBean = new CommentPostBean();
+        commentPostBean.setComment(mMvpView.getCommentEdit().getText().toString());
+        commentPostBean.setCreateTime(TimeUtils.getCurrentTime());
+        commentPostBean.setStoryId(mMvpView.getStoryId());
+        commentPostBean.setUserId(ISharePreference.getUserId(mContext));
+
+        CommentModel commentModel = new CommentModel(mContext);
+        commentModel.issueComment(commentPostBean);
+        commentModel.setOnCommentIssueListener(new CommentModel.OnCommentIssueListener() {
+            @Override
+            public void onSucceed() {
+                mMvpView.showToast(R.string.issue_succeed);
+
+                //更新评论
+                updateComments();
+                mMvpView.getCommentEdit().setText("");
             }
 
             @Override
-            public void onSendClick(String content) {
-                if (TextUtils.isEmpty(content)) {
-                    mMvpView.showToast(R.string.comment_issue_empty);
-                    return;
-                }
-
-                CommentPostBean commentPostBean = new CommentPostBean();
-                commentPostBean.setComment(content);
-                commentPostBean.setCreateTime(TimeUtils.getCurrentTime());
-                commentPostBean.setStoryId(mMvpView.getStoryId());
-                commentPostBean.setUserId(ISharePreference.getUserId(mContext));
-
-                CommentModel commentModel = new CommentModel(mContext);
-                commentModel.issueComment(commentPostBean);
-                commentModel.setOnCommentIssueListener(new CommentModel.OnCommentIssueListener() {
-                    @Override
-                    public void onSucceed() {
-                        mMvpView.showToast(R.string.issue_succeed);
-
-                        //更新评论
-                        getComments();
-
-                        inputDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onFailed(String error) {
-                        mMvpView.showToast(error);
-                    }
-                });
+            public void onFailed(String error) {
+                mMvpView.showToast(error);
+                mMvpView.getCommentEdit().setText("");
             }
         });
+
+        //隐藏键盘
+        KeyBordUtil.hideKeyboard(mContext, mMvpView.getCommentEdit());
     }
 
     @Override
@@ -193,11 +192,32 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
 
         StoryModel storyModel = new StoryModel(mContext);
         storyModel.getStoryInfo(mMvpView.getStoryId());
+
         storyModel.setOnStoryModelListener(new StoryModel.OnStoryGetListener() {
             @Override
             public void onStoriesGot(List<StoryBean> storyList) {
                 mStoryBean = storyList.get(0);
                 mMvpView.setStoryData(mStoryBean);
+                mMvpView.getRefreshLayout().setRefreshing(false);
+            }
+
+            @Override
+            public void onFailed(String error) {
+                mMvpView.showToast(error);
+                mMvpView.getRefreshLayout().setRefreshing(false);
+            }
+        });
+
+    }
+
+    @Override
+    public void getStoryPic() {
+        StoryPicModel storyPicModel = new StoryPicModel();
+        storyPicModel.getStoryPic(mMvpView.getStoryId());
+        storyPicModel.setOnStoryPicGotListener(new StoryPicModel.OnStoryPicGotListener() {
+            @Override
+            public void onSucceed(List<String> picList) {
+                mMvpView.setStoryPic(picList);
             }
 
             @Override
@@ -206,5 +226,4 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
             }
         });
     }
-
 }

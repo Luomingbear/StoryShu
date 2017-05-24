@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.login.LoginActivity;
+import com.storyshu.storyshu.activity.story.MyStoryActivity;
 import com.storyshu.storyshu.mvp.mine.MinePresenterIml;
 import com.storyshu.storyshu.mvp.mine.MineView;
 import com.storyshu.storyshu.utils.ToastUtil;
@@ -42,6 +43,8 @@ public class MineFragment extends IBaseStatusFragment implements MineView, View.
         mRootView.findViewById(R.id.my_ticket).setOnClickListener(this);
 
         mRootView.findViewById(R.id.my_ornament).setOnClickListener(this);
+
+        mRootView.findViewById(R.id.quit_app).setOnClickListener(this);
 
 
         mMinePresenterIml = new MinePresenterIml(getContext(), this);
@@ -112,10 +115,16 @@ public class MineFragment extends IBaseStatusFragment implements MineView, View.
     }
 
     @Override
+    public void goMyStory() {
+        intentTo(MyStoryActivity.class);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setting:
                 mMinePresenterIml.clickSetting();
+                break;
             case R.id.my_story:
                 mMinePresenterIml.clickMyStory();
                 break;
@@ -130,6 +139,9 @@ public class MineFragment extends IBaseStatusFragment implements MineView, View.
                 break;
             case R.id.my_ornament:
                 mMinePresenterIml.clickMyOrnament();
+                break;
+            case R.id.quit_app:
+                mMinePresenterIml.clickQuitApp();
                 break;
         }
     }

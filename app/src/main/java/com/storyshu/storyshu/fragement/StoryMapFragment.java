@@ -10,7 +10,7 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.TextureMapView;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.story.StoryRoomActivity;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.storymap.StoryMapPresenterIml;
 import com.storyshu.storyshu.mvp.storymap.StoryMapView;
@@ -128,8 +128,8 @@ public class StoryMapFragment extends IBaseStatusFragment implements StoryMapVie
     }
 
     @Override
-    public void intent2StoryRoomActivity(StoryBean storyInfo) {
-        intentWithParcelable(StoryRoomActivity.class, NameUtil.STORY_INFO, storyInfo);
+    public void intent2StoryRoomActivity(CardInfo cardInfo) {
+        intentWithParcelable(StoryRoomActivity.class, NameUtil.CARD_INFO, cardInfo);
     }
 
     @Override

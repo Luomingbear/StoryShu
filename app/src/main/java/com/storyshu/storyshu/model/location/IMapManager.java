@@ -11,7 +11,7 @@ import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.SysUtils;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -188,7 +188,7 @@ public class IMapManager {
     /**
      * 显示故事图标
      */
-    public void showStoryIcon(StoryBean storyInfo) {
+    public void showStoryIcon(CardInfo storyInfo) {
         Log.i(TAG, "showStoryIcon: 显示默认的图标+size:" + mPersonMarkerList.size());
 
         //如果选中的图标仍然显示着，就需要判断选中的图标是否是当前的这个图标，是就把他移除
@@ -221,7 +221,7 @@ public class IMapManager {
     /**
      * 显示选中的故事图标
      */
-    public void showSelectedStoryIcon(StoryBean storyInfo) {
+    public void showSelectedStoryIcon(CardInfo storyInfo) {
         Log.i(TAG, "showSelectedStoryIcon: 显示大图标");
         //移除之前选中的大图标
         if (mSelectedMarker != null) {
@@ -274,10 +274,10 @@ public class IMapManager {
     /**
      * 显示所有图标
      */
-    public void showStoriesIcons(List<StoryBean> storyList) {
+    public void showStoriesIcons(List<CardInfo> storyList) {
 //        Log.d(TAG, "showStoriesIcons: 绘制图标！！！");
 
-        for (StoryBean storyInfo : storyList) {
+        for (CardInfo storyInfo : storyList) {
             showStoryIcon(storyInfo);
         }
 
@@ -304,8 +304,8 @@ public class IMapManager {
      * @param storyBeanList
      * @return
      */
-    private boolean isInList(String storyId, List<StoryBean> storyBeanList) {
-        for (StoryBean storyBean : storyBeanList) {
+    private boolean isInList(String storyId, List<CardInfo> storyBeanList) {
+        for (CardInfo storyBean : storyBeanList) {
             if (storyBean.getStoryId().equals(storyId))
                 return true;
         }
@@ -321,9 +321,9 @@ public class IMapManager {
             return;
         if (mLatLng == null) {
             mLatLng = ISharePreference.getLatLngData(mContext);
-            if (mLatLng != null)
-                animate2Position(mLatLng);
         }
+        if (mLatLng != null)
+            animate2Position(mLatLng);
     }
 
     /**

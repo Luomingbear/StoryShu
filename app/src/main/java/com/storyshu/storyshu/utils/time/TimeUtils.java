@@ -84,24 +84,114 @@ public class TimeUtils {
         } else if (diff < 60 * 60 * 24 * 7 && diff >= 60 * 60 * 24) { //天数
             current = context.getResources().getString(R.string.before_day, diff / 60 / 60 / 24);
         } else {
-            SimpleDateFormat format = new SimpleDateFormat("(yyyy.MM.dd");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
             current = format.format(date);
         }
         return current;
     }
 
+//    /**
+//     * 将date转化为字符串形式
+//     *
+//     * @param date
+//     * @return
+//     */
+//    public static String convert2TimeText(Object date) {
+//        String current;
+//        //HH表示24小时制
+//        //hh表示12小时制
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        current = simpleDateFormat.format(date);
+//        return current;
+//    }
+
     /**
-     * 将date转化为字符串形式
+     * 获取日期
      *
-     * @param date
+     * @param dateText
      * @return
      */
-    public static String convert2TimeText(Object date) {
-        String current;
-        //HH表示24小时制
-        //hh表示12小时制
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        current = simpleDateFormat.format(date);
+    public static String getDate(String dateText) {
+        if (TextUtils.isEmpty(dateText))
+            return "Empty!";
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(dateText);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat format = new SimpleDateFormat("MM.dd");
+        String current = format.format(date);
+        return current;
+    }
+
+    /**
+     * 获取月
+     *
+     * @param dateText
+     * @return
+     */
+    public static String getMonth(String dateText) {
+        if (TextUtils.isEmpty(dateText))
+            return "Empty!";
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(dateText);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat format = new SimpleDateFormat("M");
+        String current = format.format(date);
+        return current;
+    }
+
+    /**
+     * 获取日
+     *
+     * @param dateText
+     * @return
+     */
+    public static String getDay(String dateText) {
+        if (TextUtils.isEmpty(dateText))
+            return "Empty!";
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(dateText);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat format = new SimpleDateFormat("d");
+        String current = format.format(date);
+        return current;
+    }
+
+
+
+    /**
+     * 获取时间
+     *
+     * @param dateText
+     * @return
+     */
+    public static String getTime(String dateText) {
+        if (TextUtils.isEmpty(dateText))
+            return "Empty!";
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(dateText);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        String current = format.format(date);
         return current;
     }
 //
@@ -113,7 +203,7 @@ public class TimeUtils {
 //     * @param lifeTime   单位分钟
 //     * @return
 //     */
-//    public static String leftTime(Context context, String createTime, int lifeTime) {
+//    public static String convertDestroyTime(Context context, String createTime, int lifeTime) {
 //        String destroyTime;
 //        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        Date date = null;
@@ -146,7 +236,7 @@ public class TimeUtils {
      * @param destroyTime 故事消失的时间
      * @return
      */
-    public static String leftTime(Context context, String destroyTime) {
+    public static String convertDestroyTime(Context context, String destroyTime) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {

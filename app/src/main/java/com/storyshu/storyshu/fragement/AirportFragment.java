@@ -10,8 +10,8 @@ import android.widget.EditText;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.story.SearchLocationActivity;
 import com.storyshu.storyshu.activity.story.StoryRoomActivity;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.info.AirPortPushInfo;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.mvp.airport.AirportPresenterIml;
 import com.storyshu.storyshu.mvp.airport.AirportView;
 import com.storyshu.storyshu.utils.NameUtil;
@@ -115,7 +115,7 @@ public class AirportFragment extends IBaseStatusFragment implements AirportView 
     }
 
     @Override
-    public void intent2StoryRoom(StoryBean storyBean) {
-        intentWithParcelable(StoryRoomActivity.class, NameUtil.STORY_INFO, storyBean);
+    public void intent2StoryRoom(CardInfo cardInfo) {
+        intentWithParcelable(StoryRoomActivity.class, NameUtil.CARD_INFO, cardInfo);
     }
 }

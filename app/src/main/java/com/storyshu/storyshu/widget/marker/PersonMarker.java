@@ -17,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.ViewBitmapTool;
 
 /**
@@ -28,15 +28,15 @@ import com.storyshu.storyshu.utils.ViewBitmapTool;
 public class PersonMarker extends IMarker {
     private static final String TAG = "PersonMarker";
     private PersonView mPersonView; //
-    private StoryBean mStoryInfo; //故事的数据
+    private CardInfo mStoryInfo; //故事的数据
 
 
-    public PersonMarker(Context mContext, AMap mAMap, StoryBean storyInfo) {
+    public PersonMarker(Context mContext, AMap mAMap, CardInfo storyInfo) {
         super(mContext, mAMap, storyInfo.getLatLng());
         this.mStoryInfo = storyInfo;
     }
 
-    public StoryBean getStoryInfo() {
+    public CardInfo getStoryInfo() {
         return mStoryInfo;
     }
 

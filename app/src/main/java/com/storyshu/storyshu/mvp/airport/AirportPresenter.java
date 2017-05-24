@@ -1,6 +1,6 @@
 package com.storyshu.storyshu.mvp.airport;
 
-import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 
 /**
  * 候机厅的逻辑接口
@@ -17,7 +17,7 @@ public interface AirportPresenter {
     /**
      * 跳转到故事屋
      */
-    void intent2StoryRoom(StoryBean storyBean);
+    void intent2StoryRoom(CardInfo cardInfo);
 
     /**
      * 跳转到广告页

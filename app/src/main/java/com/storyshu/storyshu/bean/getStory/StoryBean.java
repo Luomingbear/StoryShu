@@ -3,8 +3,8 @@ package com.storyshu.storyshu.bean.getStory;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.amap.api.maps.model.LatLng;
 import com.storyshu.storyshu.info.BaseUserInfo;
+import com.storyshu.storyshu.info.CardInfo;
 
 import java.util.List;
 
@@ -13,77 +13,34 @@ import java.util.List;
  * Created by bear on 2017/5/12.
  */
 
-public class StoryBean implements Parcelable {
-    private BaseUserInfo userInfo;
-    private String storyId;
-    private String content;
-    private String cover;
+public class StoryBean extends CardInfo implements Parcelable {
     private List<String> storyPictures;
-    private String locationTitle;
-    private double latitude;
-    private double longitude;
-    private String createTime;
-    private String destroyTime;
-    private Boolean anonymous;
-    private int likeNum;
-    private int opposeNum;
 
     public StoryBean() {
     }
 
-    public StoryBean(BaseUserInfo userInfo, String storyId, String content, String cover,
-                     List<String> storyPictures, String locationTitle, double latitude,
-                     double longitude, String createTime, String destroyTime, Boolean anonymous,
-                     int likeNum, int opposeNum) {
-        this.userInfo = userInfo;
-        this.storyId = storyId;
-        this.content = content;
-        this.cover = cover;
+    public StoryBean(List<String> storyPictures, int likeNum, int opposeNum) {
         this.storyPictures = storyPictures;
-        this.locationTitle = locationTitle;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.createTime = createTime;
-        this.destroyTime = destroyTime;
-        this.anonymous = anonymous;
-        this.likeNum = likeNum;
-        this.opposeNum = opposeNum;
     }
 
-    public BaseUserInfo getUserInfo() {
-        return userInfo;
+    public StoryBean(List<String> storyPictures) {
+        this.storyPictures = storyPictures;
     }
 
-    public void setUserInfo(BaseUserInfo userInfo) {
-        this.userInfo = userInfo;
+    public StoryBean(BaseUserInfo userInfo, String storyId, String content, String cover, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean anonymous, Boolean like, Boolean oppose, int likeNum, int opposeNum, int commentNum, List<String> storyPictures) {
+        super(userInfo, storyId, content, cover, locationTitle, latitude, longitude, createTime, destroyTime, anonymous, like, oppose, likeNum, opposeNum, commentNum);
+        this.storyPictures = storyPictures;
     }
 
-    public String getStoryId() {
-        return storyId;
+    public StoryBean(Parcel in, List<String> storyPictures) {
+        super(in);
+        this.storyPictures = storyPictures;
     }
 
-    public void setStoryId(String storyId) {
-        this.storyId = storyId;
+    public StoryBean(CardInfo cardInfo) {
+        super(cardInfo.getUserInfo(), cardInfo.getStoryId(), cardInfo.getContent(), cardInfo.getCover(), cardInfo.getLocationTitle(), cardInfo.getLatitude(), cardInfo.getLongitude(), cardInfo.getCreateTime(), cardInfo.getDestroyTime(), cardInfo.getAnonymous(), cardInfo.getLike(), cardInfo.getOppose(), cardInfo.getLikeNum(), cardInfo.getOpposeNum(), cardInfo.getCommentNum());
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getCover() {
-        if (storyPictures != null && storyPictures.size() > 0)
-            return storyPictures.get(0);
-        return null;
-    }
-
-    public void setCover(String cover) {
-        if (storyPictures != null && storyPictures.size() > 0)
-            this.cover = storyPictures.get(0);
-    }
 
     public List<String> getStoryPictures() {
         return storyPictures;
@@ -93,74 +50,6 @@ public class StoryBean implements Parcelable {
         this.storyPictures = storyPictures;
     }
 
-    public String getLocationTitle() {
-        return locationTitle;
-    }
-
-    public void setLocationTitle(String locationTitle) {
-        this.locationTitle = locationTitle;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getDestroyTime() {
-        return destroyTime;
-    }
-
-    public void setDestroyTime(String destroyTime) {
-        this.destroyTime = destroyTime;
-    }
-
-    public Boolean getAnonymous() {
-        return anonymous;
-    }
-
-    public void setAnonymous(Boolean anonymous) {
-        this.anonymous = anonymous;
-    }
-
-    public int getLikeNum() {
-        return likeNum;
-    }
-
-    public void setLikeNum(int likeNum) {
-        this.likeNum = likeNum;
-    }
-
-    public int getOpposeNum() {
-        return opposeNum;
-    }
-
-    public void setOpposeNum(int opposeNum) {
-        this.opposeNum = opposeNum;
-    }
-
-    public LatLng getLatLng() {
-        return new LatLng(latitude, longitude);
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -168,35 +57,13 @@ public class StoryBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.userInfo, flags);
-        dest.writeString(this.storyId);
-        dest.writeString(this.content);
-        dest.writeString(this.cover);
+        super.writeToParcel(dest, flags);
         dest.writeStringList(this.storyPictures);
-        dest.writeString(this.locationTitle);
-        dest.writeDouble(this.latitude);
-        dest.writeDouble(this.longitude);
-        dest.writeString(this.createTime);
-        dest.writeString(this.destroyTime);
-        dest.writeValue(this.anonymous);
-        dest.writeInt(this.likeNum);
-        dest.writeInt(this.opposeNum);
     }
 
     protected StoryBean(Parcel in) {
-        this.userInfo = in.readParcelable(BaseUserInfo.class.getClassLoader());
-        this.storyId = in.readString();
-        this.content = in.readString();
-        this.cover = in.readString();
+        super(in);
         this.storyPictures = in.createStringArrayList();
-        this.locationTitle = in.readString();
-        this.latitude = in.readDouble();
-        this.longitude = in.readDouble();
-        this.createTime = in.readString();
-        this.destroyTime = in.readString();
-        this.anonymous = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.likeNum = in.readInt();
-        this.opposeNum = in.readInt();
     }
 
     public static final Creator<StoryBean> CREATOR = new Creator<StoryBean>() {
@@ -211,3 +78,4 @@ public class StoryBean implements Parcelable {
         }
     };
 }
+

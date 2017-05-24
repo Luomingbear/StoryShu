@@ -84,6 +84,36 @@ public class ISharePreference {
         return sp.getInt(USER_ID, -1);
     }
 
+    public static void saveNickname(Context context, String nickname) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(NICK_NAME, nickname);
+        editor.apply();
+    }
+
+    public static String getNickName(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        return sp.getString(NICK_NAME, "");
+    }
+
+    public static void saveAvatar(Context context, String avatar) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(AVATAR, avatar);
+        editor.apply();
+    }
+
+    public static String getAVATAR(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        return sp.getString(AVATAR, "");
+    }
+
 //    public static BaseUserInfo getUserData(Context context) {
 //        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
 //                Activity.MODE_PRIVATE);

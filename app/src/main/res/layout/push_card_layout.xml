@@ -12,15 +12,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height">
-
-        <com.storyshu.storyshu.widget.imageview.RoundImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/title_height"
-            android:layout_margin="0.5dp"
-            android:src="?attr/cardTopBg"
-            app:BorderRadius="@dimen/border_radius_normal"
-            app:RoundType="round_top_left_top_right" />
+        android:layout_height="@dimen/title_height"
+        android:layout_margin="0.5dp"
+        android:background="@drawable/card_view_top">
 
         <com.storyshu.storyshu.widget.imageview.AvatarImageView
             android:id="@+id/avatar"
@@ -30,12 +24,23 @@
             android:layout_marginLeft="@dimen/margin_normal" />
 
         <com.storyshu.storyshu.widget.ClickButton
-            android:id="@+id/oppose"
+            android:id="@+id/comment"
             android:layout_width="@dimen/icon_small"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_normal"
+            android:button="@null"
+            app:cGravity="top"
+            app:cType="comment" />
+
+        <com.storyshu.storyshu.widget.ClickButton
+            android:id="@+id/oppose"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:layout_toLeftOf="@id/comment"
             android:button="@null"
             app:cGravity="top"
             app:cType="oppose" />
@@ -45,7 +50,7 @@
             android:layout_width="@dimen/icon_small"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_big"
+            android:layout_marginRight="@dimen/margin_normal"
             android:layout_toLeftOf="@id/oppose"
             android:button="@null"
             app:cGravity="top"
@@ -65,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textColor="?attr/textColor1"
+                android:textColor="?attr/textColor2"
                 android:textSize="@dimen/font_normal" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -102,7 +107,7 @@
             android:ellipsize="end"
             android:lineSpacingExtra="@dimen/line_space_big"
             android:maxLines="2"
-            android:textColor="?attr/textColor2"
+            android:textColor="?attr/textColor1"
             android:textSize="14dp" />
 
         <ImageView

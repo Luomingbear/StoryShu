@@ -3,7 +3,7 @@ package com.storyshu.storyshu.mvp.storymap;
 import android.os.Bundle;
 
 import com.amap.api.maps.AMap;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 import com.storyshu.storyshu.widget.story.StoriesAdapterView;
 
@@ -51,5 +51,5 @@ public interface StoryMapView extends IBaseView {
     /**
      * 跳转到故事屋页面
      */
-    void intent2StoryRoomActivity(StoryBean storyInfo);
+    void intent2StoryRoomActivity(CardInfo cardInfo);
 }

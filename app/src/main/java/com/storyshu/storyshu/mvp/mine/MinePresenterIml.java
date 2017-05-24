@@ -52,6 +52,8 @@ public class MinePresenterIml extends IBasePresenter<MineView> implements MinePr
             @Override
             public void onSucceed(BaseUserInfo userInfo) {
                 mUserInfo = userInfo;
+                ISharePreference.saveAvatar(mContext, userInfo.getAvatar());
+                ISharePreference.saveNickname(mContext, userInfo.getNickname());
                 setHead();
             }
 
@@ -78,13 +80,11 @@ public class MinePresenterIml extends IBasePresenter<MineView> implements MinePr
 
     @Override
     public void clickSetting() {
-        //测试！！！
-        mMvpView.goLogin();
     }
 
     @Override
     public void clickMyStory() {
-
+        mMvpView.goMyStory();
     }
 
     @Override
@@ -105,5 +105,10 @@ public class MinePresenterIml extends IBasePresenter<MineView> implements MinePr
     @Override
     public void clickMyOrnament() {
 
+    }
+
+    @Override
+    public void clickQuitApp() {
+        mMvpView.goLogin();
     }
 }

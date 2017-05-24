@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.storyshu.storyshu.bean.RecommendPostBean;
 import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.info.AirPortPushInfo;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.net.CodeUtil;
 import com.storyshu.storyshu.utils.net.RetrofitManager;
 
@@ -68,9 +68,9 @@ public class PushStoryModel {
             @Override
             public void onResponse(Call<NearStoriesRsponseBean> call, Response<NearStoriesRsponseBean> response) {
                 if (response.body().getCode() == CodeUtil.Succeed) {
-                    mPushList = new ArrayList<AirPortPushInfo>();
+                    mPushList = new ArrayList<>();
                     if (response.body().getData() != null && response.body().getData().size() > 0) {
-                        for (StoryBean storyBean : response.body().getData())
+                        for (CardInfo storyBean : response.body().getData())
                             mPushList.add(new AirPortPushInfo(storyBean, AirPortPushInfo.TYPE_STORY, ""));
                     }
 

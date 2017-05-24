@@ -75,4 +75,9 @@ public interface MineView extends IBaseView {
      * 登录页面
      */
     void goLogin();
+
+    /**
+     * 跳转到我的故事页面
+     */
+    void goMyStory();
 }

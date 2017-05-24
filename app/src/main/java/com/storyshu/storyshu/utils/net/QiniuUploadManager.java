@@ -140,7 +140,15 @@ public class QiniuUploadManager {
         String key = PasswordUtil.getSampleEncodePassword(System.currentTimeMillis() + FileUtil.getFileName(path))
                 + "." + FileUtil.getExtensionName(path);
 
-        File compressFile = CompressHelper.getDefault(mContext).compressToFile(new File(path));
+        //压缩
+        File compressFile;
+        if (!FileUtil.getExtensionName(path).equals("gif")) {
+            compressFile = CompressHelper.getDefault(mContext).compressToFile(new File(path));
+        } else {
+            compressFile = new File(path);
+        }
+
+        //
         mUploadManager.put(compressFile, key, mToken,
                 new UpCompletionHandler() {
                     @Override

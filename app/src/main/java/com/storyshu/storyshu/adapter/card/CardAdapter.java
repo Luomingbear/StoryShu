@@ -74,10 +74,10 @@ public class CardAdapter extends IBaseAdapter {
             viewHolder.nickName.setText(cardInfo.getUserInfo().getNickname());
         }
 
-        viewHolder.destroyTime.setText(TimeUtils.leftTime(getContext(), cardInfo.getDestroyTime()));
+        viewHolder.destroyTime.setText(TimeUtils.convertDestroyTime(getContext(), cardInfo.getDestroyTime()));
 
-        viewHolder.like.setChecked(cardInfo.isLike());
-        viewHolder.oppose.setChecked(cardInfo.isOppose());
+        viewHolder.like.setChecked(cardInfo.getLike());
+        viewHolder.oppose.setChecked(cardInfo.getOppose());
 
         viewHolder.extract.setText(cardInfo.getContent());
         if (!TextUtils.isEmpty(cardInfo.getCover())) {

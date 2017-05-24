@@ -32,7 +32,7 @@ public class PicturePreviewDialog extends IBaseDialog {
      * 设置图片的数据显示
      */
     public void setStoryListShow(List<String> list) {
-        if (list.size() == 0)
+        if (list == null || list.size() == 0)
             return;
 
         show();

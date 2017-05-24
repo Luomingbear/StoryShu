@@ -2,10 +2,6 @@ package com.storyshu.storyshu.info;
 
 import android.os.Parcel;
 
-import com.storyshu.storyshu.bean.getStory.StoryBean;
-
-import java.util.List;
-
 /**
  * 候机厅推送的故事信息结构
  * Created by bear on 2017/3/19.
@@ -14,7 +10,6 @@ import java.util.List;
 public class AirPortPushInfo extends CardInfo {
     private int pushType = TYPE_STORY; //类型ad：广告 story：故事
     private String adUrl; //广告的网络链接
-
 
     public final static int TYPE_STORY = 0;
     public final static int TYPE_AD = TYPE_STORY + 1;
@@ -27,22 +22,16 @@ public class AirPortPushInfo extends CardInfo {
         this.adUrl = adUrl;
     }
 
-    public AirPortPushInfo(boolean like, boolean oppose, int pushType, String adUrl) {
-        super(like, oppose);
+    public AirPortPushInfo(BaseUserInfo userInfo, String storyId, String content, String cover, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean anonymous, Boolean like, Boolean oppose, int likeNum, int opposeNum, int commentNum, int pushType, String adUrl) {
+        super(userInfo, storyId, content, cover, locationTitle, latitude, longitude, createTime, destroyTime, anonymous, like, oppose, likeNum, opposeNum, commentNum);
         this.pushType = pushType;
         this.adUrl = adUrl;
     }
 
-    public AirPortPushInfo(StoryBean storyBean, int pushType, String adUrl) {
-        super(storyBean);
-        this.pushType = pushType;
-        this.adUrl = adUrl;
-    }
-
-    public AirPortPushInfo(BaseUserInfo userInfo, String storyId, String content, String cover, List<String> storyPictures, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean anonymous, int likeNum, int opposeNum, boolean like, boolean oppose, int pushType, String adUrl) {
-        super(userInfo, storyId, content, cover, storyPictures, locationTitle, latitude, longitude, createTime, destroyTime, anonymous, likeNum, opposeNum, like, oppose);
-        this.pushType = pushType;
-        this.adUrl = adUrl;
+    public AirPortPushInfo(CardInfo cardInfo, int pushType, String adUrl) {
+        super(cardInfo.getUserInfo(), cardInfo.getStoryId(), cardInfo.getContent(), cardInfo.getCover(), cardInfo.getLocationTitle(), cardInfo.getLatitude(), cardInfo.getLongitude(), cardInfo.getCreateTime(), cardInfo.getDestroyTime(), cardInfo.getAnonymous(), cardInfo.getLike(), cardInfo.getOppose(), cardInfo.getLikeNum(), cardInfo.getOpposeNum(), cardInfo.getCommentNum());
+        this.setPushType(pushType);
+        this.setAdUrl(adUrl);
     }
 
     public AirPortPushInfo(Parcel in, int pushType, String adUrl) {

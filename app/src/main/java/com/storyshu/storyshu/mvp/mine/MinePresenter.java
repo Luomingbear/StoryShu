@@ -42,4 +42,9 @@ public interface MinePresenter {
      */
     void clickMyOrnament();
 
+    /**
+     * 退出登录
+     */
+    void clickQuitApp();
+
 }

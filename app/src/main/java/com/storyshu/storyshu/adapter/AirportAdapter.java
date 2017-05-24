@@ -16,7 +16,7 @@ import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 生成候机厅的推送卡片
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold> {
     private static final String TAG = "AirportAdapter";
     private Context mContext;
-    private ArrayList<AirPortPushInfo> mPushList;
+    private List<AirPortPushInfo> mPushList;
     private OnAirportCardClickListener mAirportCardClickListener;
 
     public interface OnAirportCardClickListener {
@@ -37,7 +37,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         this.mAirportCardClickListener = mAirportCardClickListener;
     }
 
-    public AirportAdapter(Context context, ArrayList<AirPortPushInfo> pushList) {
+    public AirportAdapter(Context context, List<AirPortPushInfo> pushList) {
         mContext = context;
         mPushList = pushList;
     }
@@ -71,7 +71,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
         switch (pushInfo.getPushType()) {
             case AirPortPushInfo.TYPE_AD:
                 Glide.with(mContext).load(pushInfo.getCover()).into(holder.cover);
-                holder.destroyTime.setText(TimeUtils.leftTime(mContext, pushInfo.getDestroyTime()));
+                holder.destroyTime.setText(TimeUtils.convertDestroyTime(mContext, pushInfo.getDestroyTime()));
                 break;
 
             case AirPortPushInfo.TYPE_STORY:
@@ -81,11 +81,13 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                     holder.nickName.setVisibility(View.GONE);
                 } else {
                     Glide.with(mContext).load(pushInfo.getUserInfo().getAvatar()).into(holder.avatar);
+                    holder.nickName.setVisibility(View.VISIBLE);
                     holder.nickName.setText(pushInfo.getUserInfo().getNickname());
                 }
 
                 holder.like.setNum(pushInfo.getLikeNum());
                 holder.oppose.setNum(pushInfo.getOpposeNum());
+                holder.comment.setNum(pushInfo.getCommentNum());
                 holder.content.setText(pushInfo.getContent());
                 holder.location.setText(pushInfo.getLocationTitle());
 
@@ -96,7 +98,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                     holder.cover.setVisibility(View.GONE);
                 }
 
-                holder.destroyTime.setText(TimeUtils.leftTime(mContext, pushInfo.getDestroyTime()));
+                holder.destroyTime.setText(TimeUtils.convertDestroyTime(mContext, pushInfo.getDestroyTime()));
                 break;
         }
     }
@@ -114,6 +116,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
 
         ClickButton like; //点赞
         ClickButton oppose;  //喝倒彩
+        ClickButton comment;  //喝倒彩
 
         TextView content; //故事摘要
         ImageView cover; //故事的详情图/广告详情图
@@ -135,6 +138,7 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                     nickName = (TextView) itemView.findViewById(R.id.nickname);
                     like = (ClickButton) itemView.findViewById(R.id.like);
                     oppose = (ClickButton) itemView.findViewById(R.id.oppose);
+                    comment = (ClickButton) itemView.findViewById(R.id.comment);
                     content = (TextView) itemView.findViewById(R.id.content);
                     destroyTime = (TextView) itemView.findViewById(R.id.destroy_time);
                     cover = (ImageView) itemView.findViewById(R.id.cover_pic);

@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small"
-    android:background="@color/cardview_light_background"
-    android:elevation="@dimen/height_big"
-    android:padding="@dimen/margin_small"
-    app:cardCornerRadius="@dimen/border_radius_normal">
+    android:orientation="vertical"
+    android:paddingRight="@dimen/margin_normal">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="5日"
+        android:textColor="?attr/textColor2"
+        android:textSize="@dimen/font_title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/day"
+        android:layout_marginLeft="@dimen/margin_min"
+        android:layout_toRightOf="@id/day"
+        android:text="4月"
+        android:textColor="?attr/textColor2"
+        android:textSize="@dimen/font_small"
+        android:textStyle="bold" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/day"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@drawable/card_view_bg"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_height"
-            android:layout_margin="1px"
+            android:layout_margin="0.5dp"
             android:background="@drawable/card_view_top">
 
             <com.storyshu.storyshu.widget.imageview.AvatarImageView
@@ -25,52 +50,46 @@
                 android:layout_width="@dimen/image_normal"
                 android:layout_height="@dimen/image_normal"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:src="@drawable/gray_rectangle" />
+                android:layout_marginLeft="@dimen/margin_normal" />
 
-            <LinearLayout
-                android:id="@+id/oppose_layout"
-                android:layout_width="@dimen/icon_large"
-                android:layout_height="@dimen/icon_large"
+            <com.storyshu.storyshu.widget.ClickButton
+                android:id="@+id/comment"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_normal"
-                android:gravity="center">
+                android:button="@null"
+                app:cGravity="top"
+                app:cType="comment" />
 
-                <CheckBox
-                    android:id="@+id/oppose"
-                    android:layout_width="@dimen/icon_small"
-                    android:layout_height="@dimen/icon_small"
-                    android:background="@drawable/button_oppose"
-                    android:button="@null"
-                    android:clickable="false" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/like_layout"
-                android:layout_width="@dimen/icon_large"
-                android:layout_height="@dimen/icon_large"
+            <com.storyshu.storyshu.widget.ClickButton
+                android:id="@+id/oppose"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_normal"
-                android:layout_toLeftOf="@id/oppose_layout"
-                android:gravity="center">
+                android:layout_toLeftOf="@id/comment"
+                android:button="@null"
+                app:cGravity="top"
+                app:cType="oppose" />
 
-                <CheckBox
-                    android:id="@+id/like"
-                    android:layout_width="@dimen/icon_small"
-                    android:layout_height="@dimen/icon_small"
-                    android:background="@drawable/button_like"
-                    android:button="@null"
-                    android:clickable="false" />
-            </LinearLayout>
-
+            <com.storyshu.storyshu.widget.ClickButton
+                android:id="@+id/like"
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_toLeftOf="@id/oppose"
+                android:button="@null"
+                app:cGravity="top"
+                app:cType="like" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_small"
-                android:layout_toLeftOf="@id/like_layout"
+                android:layout_toLeftOf="@id/like"
                 android:layout_toRightOf="@id/avatar"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -102,6 +121,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -128,6 +148,18 @@
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
         </LinearLayout>
-    </LinearLayout>
 
-</android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:ellipsize="start"
+            android:maxLines="1"
+            android:textColor="?attr/textColor3"
+            android:textSize="@dimen/font_small" />
+
+    </LinearLayout>
+</RelativeLayout>

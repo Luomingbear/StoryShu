@@ -67,8 +67,13 @@
             android:name=".activity.story.SearchLocationActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.story.MyStoryActivity"
+            android:screenOrientation="portrait" />
+
         <!--图片选择器-->
         <activity android:name="com.lzy.imagepicker.ui.ImageBaseActivity" />
+
         <activity
             android:name="com.lzy.imagepicker.ui.ImageGridActivity"
             android:configChanges="orientation|screenSize"

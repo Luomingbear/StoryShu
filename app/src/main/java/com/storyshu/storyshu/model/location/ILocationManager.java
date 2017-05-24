@@ -7,7 +7,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 
 import java.util.List;
@@ -104,9 +104,9 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      * 开始定位
      */
     public void start() {
-        Log.i(TAG, "start: 定位管家开始服务！！！");
+        Log.i(TAG, "page: 定位管家开始服务！！！");
         if (mAppContext == null || mAMap == null) {
-            Log.e(TAG, "start: 定位启动失败！");
+            Log.e(TAG, "page: 定位启动失败！");
             return;
         }
         if (mLocationSever == null)
@@ -176,7 +176,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param storyList
      */
-    public void showStoriesIcons(List<StoryBean> storyList) {
+    public void showStoriesIcons(List<CardInfo> storyList) {
         if (mMapManager == null || storyList == null)
             return;
         //显示故事集图标
@@ -188,7 +188,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param storyInfo
      */
-    public void showSelectedIcon(StoryBean storyInfo) {
+    public void showSelectedIcon(CardInfo storyInfo) {
         if (mMapManager == null || storyInfo == null)
             return;
         //显示故事集图标
@@ -210,7 +210,7 @@ public class ILocationManager implements IMapManager.OnMarkerClickedListener, IL
      *
      * @param storyInfo
      */
-    public void showDefIcon(StoryBean storyInfo) {
+    public void showDefIcon(CardInfo storyInfo) {
         if (mMapManager == null || storyInfo == null)
             return;
         //显示故事集图标

@@ -570,7 +570,7 @@ public class StoriesAdapterView extends AdapterView {
              * 开始动画
              */
             translationAnimator.start();
-//            scaleXAnimator.start();
+//            scaleXAnimator.page();
 
             /**
              * 设置动画监听器

@@ -19,6 +19,7 @@
             <enum name="BackTitleShot" value="2" />
             <enum name="BackTitleSend" value="3" />
             <enum name="PositionTitle" value="4" />
+            <enum name="MessageFriend" value="5" />
         </attr>
     </declare-styleable>
 

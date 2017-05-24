@@ -2,7 +2,9 @@ package com.storyshu.storyshu.utils.net;
 
 
 import com.storyshu.storyshu.bean.LauncherResponseBean;
+import com.storyshu.storyshu.bean.OnlyDataResponseBean;
 import com.storyshu.storyshu.bean.RecommendPostBean;
+import com.storyshu.storyshu.bean.StoryPicResponseBean;
 import com.storyshu.storyshu.bean.TokenResponseBean;
 import com.storyshu.storyshu.bean.checkForUpdate.VersionResponseBean;
 import com.storyshu.storyshu.bean.comment.CommentPostBean;
@@ -12,8 +14,9 @@ import com.storyshu.storyshu.bean.getStory.LocationBean;
 import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.bean.getStory.StoryReponseBean;
+import com.storyshu.storyshu.bean.getStory.UserStoryPostBean;
+import com.storyshu.storyshu.bean.getStory.UserStoryResponseBean;
 import com.storyshu.storyshu.bean.issueStory.IssueStoryBean;
-import com.storyshu.storyshu.bean.OnlyDataResponseBean;
 import com.storyshu.storyshu.bean.like.LikePostBean;
 import com.storyshu.storyshu.bean.user.RegisterResponseBean;
 import com.storyshu.storyshu.bean.user.UserIdBean;
@@ -164,4 +167,22 @@ public interface ApiService {
      */
     @POST("getRecommendStory.php")
     Call<NearStoriesRsponseBean> getRecommendStory(@Body RecommendPostBean recommendPostBean);
+
+    /**
+     * 获取用户的故事
+     *
+     * @param userStoryPostBean
+     * @return
+     */
+    @POST("getUserStory.php")
+    Call<UserStoryResponseBean> getUserStory(@Body UserStoryPostBean userStoryPostBean);
+
+    /**
+     * 获取故事配图
+     *
+     * @param storyIdBean
+     * @return
+     */
+    @POST("getStoryPic.php")
+    Call<StoryPicResponseBean> getStoryPic(@Body StoryIdBean storyIdBean);
 }

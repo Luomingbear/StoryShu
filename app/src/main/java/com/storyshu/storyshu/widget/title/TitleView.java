@@ -64,6 +64,11 @@ public class TitleView extends RelativeLayout implements EventObserver {
          * 中间是位置标题
          */
         POSITION_TITLE,
+
+        /**
+         * 消息-粉丝
+         */
+        MESSAGE_FRIEND
     }
 
     public TitleView(Context context) {
@@ -155,6 +160,11 @@ public class TitleView extends RelativeLayout implements EventObserver {
 
             case POSITION_TITLE:
                 addPositionTitle();
+                break;
+
+            case MESSAGE_FRIEND:
+                addTitle();
+                addRightText(R.string.friend);
                 break;
 
         }

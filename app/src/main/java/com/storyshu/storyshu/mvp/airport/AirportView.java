@@ -3,8 +3,8 @@ package com.storyshu.storyshu.mvp.airport;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 
-import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.info.AirPortPushInfo;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
 
 /**
@@ -42,7 +42,7 @@ public interface AirportView extends IBaseView {
     /**
      * 跳转到故事详情
      */
-    void intent2StoryRoom(StoryBean storyBean);
+    void intent2StoryRoom(CardInfo cardInfo);
 
 
 }

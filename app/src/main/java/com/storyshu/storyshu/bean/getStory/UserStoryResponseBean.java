@@ -6,25 +6,25 @@ import com.storyshu.storyshu.info.CardInfo;
 import java.util.List;
 
 /**
- * 获取附近的故事时返回的值
- * Created by bear on 2017/5/12.
+ * 获取用户的故事的返回值
+ * Created by bear on 2017/5/23.
  */
 
-public class NearStoriesRsponseBean extends BaseResponseBean {
+public class UserStoryResponseBean extends BaseResponseBean {
     private List<CardInfo> data;
 
-    public NearStoriesRsponseBean() {
+    public UserStoryResponseBean() {
     }
 
-    public NearStoriesRsponseBean(int code, String message) {
+    public UserStoryResponseBean(int code, String message) {
         super(code, message);
     }
 
-    public NearStoriesRsponseBean(List<CardInfo> data) {
+    public UserStoryResponseBean(List<CardInfo> data) {
         this.data = data;
     }
 
-    public NearStoriesRsponseBean(int code, String message, List<CardInfo> data) {
+    public UserStoryResponseBean(int code, String message, List<CardInfo> data) {
         super(code, message);
         this.data = data;
     }

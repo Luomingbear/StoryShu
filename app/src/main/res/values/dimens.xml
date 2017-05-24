@@ -18,7 +18,7 @@
     <dimen name="sift_round_size">5dp</dimen>
 
     <!--选项-->
-    <dimen name="selector_height">46dp</dimen>
+    <dimen name="selector_height">45dp</dimen>
 
     <!--图标的大小-->
     <dimen name="icon_min">16dp</dimen>
@@ -33,8 +33,8 @@
     <dimen name="image_big">58dp</dimen>
 
     <!--字体大小-->
-    <dimen name="font_min">8dp</dimen>
-    <dimen name="font_small">11dp</dimen>
+    <dimen name="font_min">9dp</dimen>
+    <dimen name="font_small">12dp</dimen>
     <dimen name="font_normal_small">14dp</dimen>
     <dimen name="font_normal">15dp</dimen>
     <dimen name="font_big">18dp</dimen>

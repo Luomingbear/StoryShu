@@ -11,7 +11,7 @@
     <string name="left_day">剩余%1$d天</string>
     <string name="left_hour">剩余%1$d小时</string>
     <string name="left_minute">剩余%1$d分钟</string>
-    <string name="story_overdue">故事已过期</string>
+    <string name="story_overdue">已过期</string>
     <string name="cancel">取消</string>
     <string name="send">发送</string>
     <string name="update">更新</string>
@@ -106,7 +106,7 @@
     <string name="edit_location">所在位置</string>
     <string name="custom_location">找不到你的位置？</string>
     <string name="custom_location_ok">确定</string>
-    <string name="create_story_hint">在这里写下你的故事吧～</string>
+    <string name="create_story_hint">在这里写下你的故事吧</string>
     <string name="story_length_too_long">字数以达到上线%1$d个字</string>
     <string name="story_length_too_sort">再写点什么呗～</string>
     <string name="issue">发布</string>
@@ -126,15 +126,16 @@
     <string name="collect">收藏</string>
 
     <!--评论-->
-    <string name="comment_issue_empty">写两个字呗～</string>
+    <string name="comment_issue_empty">写两个字呗</string>
     <string name="edit_comment">添加评论</string>
+    <string name="hot_comment">热门评论</string>
 
     <!--候机厅-->
     <string name="search_hint">搜索你想到达的地方</string>
     <string name="search">搜索</string>
     <string name="ad">广告</string>
     <string name="go_here">到这去</string>
-    <string name="search_error_empty">没有找到这个地方，重新输入试试～</string>
+    <string name="search_error_empty">没有找到这个地方，重新输入试试</string>
 
     <!--信息-->
     <string name="like2me">我收到的赞</string>
@@ -142,6 +143,10 @@
     <string name="system2me">系统消息</string>
     <string name="like_my_story">赞了我的故事</string>
     <string name="like_my_comment">赞了我的评论</string>
+    <string name="friend">好友</string>
+
+    <!--我的页面-->
+    <string name="quit_app">退出登录</string>
 
     <!--标签控件-->
     <string name="add_tag">添加标签</string>
@@ -172,4 +177,8 @@
     <!--错误提示-->
     <string name="net_error">网络错误，稍后重试</string>
     <string name="un_know_error">未知错误，稍后重试</string>
+
+
+    <!--单位-->
+    <string name="unit_month">%1$s月</string>
 </resources>

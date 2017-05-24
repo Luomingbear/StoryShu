@@ -5,8 +5,8 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.storyshu.storyshu.adapter.AirportAdapter;
 import com.storyshu.storyshu.bean.RecommendPostBean;
-import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.info.AirPortPushInfo;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.stories.PushStoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
@@ -74,8 +74,8 @@ public class AirportPresenterIml extends IBasePresenter<AirportView> implements 
     }
 
     @Override
-    public void intent2StoryRoom(StoryBean storyBean) {
-        mMvpView.intent2StoryRoom(storyBean);
+    public void intent2StoryRoom(CardInfo cardInfo) {
+        mMvpView.intent2StoryRoom(cardInfo);
     }
 
     @Override
