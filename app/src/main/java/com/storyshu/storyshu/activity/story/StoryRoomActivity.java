@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.DiscussActivity;
+import com.storyshu.storyshu.activity.UserIntroductionActivity;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
@@ -223,6 +224,8 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
         mReport.setOnClickListener(this);
 
+        mAvatar.setOnClickListener(this);
+
         mLike.setOnClickListener(this);
 
         mOppose.setOnClickListener(this);
@@ -249,6 +252,10 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
             case R.id.report:
                 ToastUtil.Show(StoryRoomActivity.this, R.string.report);
+                break;
+
+            case R.id.author_avatar:
+                intent2UserInfo();
                 break;
 
             case R.id.like:
@@ -395,6 +402,11 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     @Override
     public void intent2Discuss() {
         intentTo(DiscussActivity.class);
+    }
+
+    @Override
+    public void intent2UserInfo() {
+        intentTo(UserIntroductionActivity.class);
     }
 
     @Override

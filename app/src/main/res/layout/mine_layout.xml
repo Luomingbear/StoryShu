@@ -36,8 +36,8 @@
 
         <com.storyshu.storyshu.widget.imageview.AvatarImageView
             android:id="@id/avatar"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
+            android:layout_width="@dimen/image_big_more"
+            android:layout_height="@dimen/image_big_more"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="?attr/actionBarSize"
             app:avatarType="border" />

@@ -31,6 +31,7 @@
     <dimen name="image_small">32dp</dimen>
     <dimen name="image_normal">42dp</dimen>
     <dimen name="image_big">58dp</dimen>
+    <dimen name="image_big_more">88dp</dimen>
 
     <!--字体大小-->
     <dimen name="font_min">9dp</dimen>

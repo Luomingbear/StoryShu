@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <com.storyshu.storyshu.widget.title.TitleView
+        android:id="@id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        app:title_color="@color/colorWhite"
+        app:title_mode="BackTitle"
+        app:title_string="@string/app_name">
+
+    </com.storyshu.storyshu.widget.title.TitleView>
+
+    <LinearLayout
+        android:id="@+id/avatar_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_view"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.storyshu.storyshu.widget.imageview.AvatarImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/image_big"
+            android:layout_height="@dimen/image_big"
+            android:src="@drawable/test" />
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@string/app_name"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/font_normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/following_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/avatar_layout"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_toRightOf="@id/avatar_layout"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="580"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/font_big"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_min"
+            android:text="@string/following"
+            android:textColor="@color/colorBlackLight"
+            android:textSize="@dimen/font_small" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/follower_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/avatar_layout"
+        android:layout_marginLeft="@dimen/margin_big"
+        android:layout_toRightOf="@id/following_layout"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2350"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/font_big"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_min"
+            android:text="@string/follower"
+            android:textColor="@color/colorBlackLight"
+            android:textSize="@dimen/font_small" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/follow_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/avatar_layout"
+        android:layout_alignLeft="@id/following_layout"
+        android:layout_below="@id/following_layout"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:background="@drawable/button_red"
+        android:gravity="center"
+        android:minWidth="100dp"
+        android:text="@string/following"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_big" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/avatar_layout"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:background="@color/colorGrayLight" />
+
+    <TextView
+        android:id="@+id/near_story_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:text="公开动态" />
+
+    <com.yarolegovich.discretescrollview.DiscreteScrollView
+        android:id="@+id/card_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/near_story_hint"
+        android:layout_marginBottom="@dimen/margin_big"
+        android:layout_marginTop="@dimen/margin_normal">
+
+    </com.yarolegovich.discretescrollview.DiscreteScrollView>
+
+</RelativeLayout>

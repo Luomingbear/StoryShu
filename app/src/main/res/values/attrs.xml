@@ -186,4 +186,11 @@
         <attr name="progressBgColor" format="color|reference" />
         <attr name="progressFgColor" format="color|reference" />
     </declare-styleable>
+
+    <declare-styleable name="DiscreteScrollView">
+        <attr name="dsv_orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>

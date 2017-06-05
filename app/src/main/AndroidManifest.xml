@@ -74,6 +74,9 @@
         <activity
             android:name=".activity.story.MyStoryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserIntroductionActivity"
+            android:screenOrientation="portrait" />
 
         <!--图片选择器-->
         <activity android:name="com.lzy.imagepicker.ui.ImageBaseActivity" />

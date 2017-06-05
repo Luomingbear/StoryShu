@@ -148,6 +148,8 @@
 
     <!--我的页面-->
     <string name="quit_app">退出登录</string>
+    <string name="follower">粉丝</string>
+    <string name="following">关注</string>
 
     <!--标签控件-->
     <string name="add_tag">添加标签</string>

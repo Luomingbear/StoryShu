@@ -106,4 +106,9 @@ public interface StoryRoomView extends IBaseActivityView {
      * 跳转到讨论页面
      */
     void intent2Discuss();
+
+    /**
+     * 跳转到用户简介页面
+     */
+    void intent2UserInfo();
 }
