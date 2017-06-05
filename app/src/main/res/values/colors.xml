@@ -10,6 +10,7 @@
 
     <!--蓝色-->
     <color name="colorBlue">#0d5db6</color>
+    <color name="colorBlueLight">#79b8ff</color>
 
     <color name="colorOrange">#ff6100</color>
     <!--白色-->

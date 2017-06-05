@@ -9,6 +9,8 @@ public class UrlUtil {
     //api接口
     public static String BASE_API_URL = "https://api.storyshu.com/";
 
+    public static String BASE_HOST = "118.89.144.204";
+
     //七牛云绑定的图片存储的地址
     public static String BASE_IMAGE_URL = "https://image.storyshu.com/";
 }

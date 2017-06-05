@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.amap.api.maps.model.LatLng;
+import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.info.BaseUserInfo;
 
 /**
  * 简单数据的本地保存
@@ -114,15 +116,15 @@ public class ISharePreference {
         return sp.getString(AVATAR, "");
     }
 
-//    public static BaseUserInfo getUserData(Context context) {
-//        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
-//                Activity.MODE_PRIVATE);
-//        BaseUserInfo userInfo = new BaseUserInfo();
-//        userInfo.setNickname(sp.getString(NICK_NAME, context.getResources().getString(R.string.app_name)));
-//        userInfo.setAvatar(sp.getString(AVATAR, ""));
-//        userInfo.setUserId(sp.getInt(USER_ID, -1));
-//        return userInfo;
-//    }
+    public static BaseUserInfo getUserData(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        BaseUserInfo userInfo = new BaseUserInfo();
+        userInfo.setNickname(sp.getString(NICK_NAME, context.getResources().getString(R.string.app_name)));
+        userInfo.setAvatar(sp.getString(AVATAR, ""));
+        userInfo.setUserId(sp.getInt(USER_ID, -1));
+        return userInfo;
+    }
 
     /**
      * 保存正在编辑的故事标题

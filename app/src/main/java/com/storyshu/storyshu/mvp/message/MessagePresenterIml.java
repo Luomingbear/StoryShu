@@ -56,7 +56,6 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
         mMvpView.getSystemMessageList().setAdapter(mSystemExpandableAdapter);
         mMvpView.getSystemMessageList().setVisibility(View.GONE);
 
-
         //点击选项
         setClickEvents();
     }
@@ -212,7 +211,6 @@ public class MessagePresenterIml extends IBasePresenter<MessageView> implements 
 
     @Override
     public void showMessageList() {
-
 
     }
 

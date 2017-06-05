@@ -7,6 +7,14 @@ package com.storyshu.storyshu.mvp.discuss;
  */
 
 public interface DiscussPresenter {
+    /**
+     * 初始化讨论数据
+     */
+    void initDiscussData();
 
+    /**
+     * 发送信息
+     */
+    void sendMessage();
 
 }

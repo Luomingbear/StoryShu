@@ -11,7 +11,8 @@ import android.widget.EditText;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.mvp.discuss.DisscussView;
+import com.storyshu.storyshu.mvp.discuss.DiscussPresenterIml;
+import com.storyshu.storyshu.mvp.discuss.DiscussView;
 import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.widget.text.RoundTextView;
@@ -22,12 +23,13 @@ import com.storyshu.storyshu.widget.title.TitleView;
  * Created by bear on 2017/5/24.
  */
 
-public class DiscussActivity extends IBaseActivity implements DisscussView {
+public class DiscussActivity extends IBaseActivity implements DiscussView, View.OnClickListener {
     private TitleView mTitleView;
     private RecyclerView mRecyclerView; //讨论记录的Rv
     private SwipeRefreshLayout mRefreshLayout; //下拉刷新
     private EditText mEditText; //文本输入
     private RoundTextView mSend; //发送
+    private DiscussPresenterIml mDiscussPresenterIml;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class DiscussActivity extends IBaseActivity implements DisscussView {
 
         setContentView(R.layout.activity_discuss_layout);
         initView();
+
+        mDiscussPresenterIml = new DiscussPresenterIml(this, this);
 
         initEvent();
     }
@@ -45,6 +49,7 @@ public class DiscussActivity extends IBaseActivity implements DisscussView {
         mTitleView = (TitleView) findViewById(R.id.title_view);
 
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        mRefreshLayout.setColorSchemeResources(R.color.colorRedLight, R.color.colorRed);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.listView);
 
@@ -118,6 +123,10 @@ public class DiscussActivity extends IBaseActivity implements DisscussView {
 
         initEditText();
 
+        mSend.setOnClickListener(this);
+
+        mDiscussPresenterIml.initDiscussData();
+
     }
 
     @Override
@@ -128,5 +137,24 @@ public class DiscussActivity extends IBaseActivity implements DisscussView {
     @Override
     public void showToast(int stringRes) {
 
+    }
+
+    @Override
+    public RecyclerView getDiscussRv() {
+        return mRecyclerView;
+    }
+
+    @Override
+    public EditText getEditText() {
+        return mEditText;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.send:
+                mDiscussPresenterIml.sendMessage();
+                break;
+        }
     }
 }

@@ -8,14 +8,16 @@ package com.storyshu.storyshu.bean.like;
 public class LikePostBean {
     private String storyId;
     private int userId;
+    private String createTime;
     private Boolean sure;
 
     public LikePostBean() {
     }
 
-    public LikePostBean(String storyId, int userId, Boolean sure) {
+    public LikePostBean(String storyId, int userId, String createTime, Boolean sure) {
         this.storyId = storyId;
         this.userId = userId;
+        this.createTime = createTime;
         this.sure = sure;
     }
 
@@ -33,6 +35,14 @@ public class LikePostBean {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public Boolean getSure() {

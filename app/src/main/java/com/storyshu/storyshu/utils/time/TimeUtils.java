@@ -286,7 +286,7 @@ public class TimeUtils {
      * @param lifeMinute 故事的保质期 分钟
      * @return
      */
-    public static String getDestoryTime(int lifeMinute) {
+    public static String getDestroyTime(int lifeMinute) {
         long createTime = System.currentTimeMillis();
         long destroyTime = createTime + lifeMinute * 60 * 1000;
         Date date = new Date(destroyTime);

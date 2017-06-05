@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.storyshu.storyshu.widget.imageview.AvatarImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/image_normal"
+        android:layout_height="@dimen/image_normal"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small" />
+
+    <TextView
+        android:id="@+id/nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/avatar"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_toLeftOf="@id/avatar"
+        android:text="@string/app_name"
+        android:textColor="@color/colorGrayDeep"
+        android:textSize="@dimen/font_small" />
+
+    <TextView
+        android:id="@id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nickname"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_big"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_toLeftOf="@id/avatar"
+        android:background="@drawable/message_me"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="@dimen/line_space_small"
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingLeft="@dimen/margin_small"
+        android:paddingRight="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_small"
+        android:text="你？"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/font_normal" />
+
+    <TextView
+        android:id="@id/create_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:text="10:25"
+        android:textColor="@color/colorGrayDeep"
+        android:textSize="@dimen/font_small" />
+
+</RelativeLayout>

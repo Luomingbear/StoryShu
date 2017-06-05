@@ -76,7 +76,7 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
                 issueInfo.setLongitude(latLng.longitude);
 
                 issueInfo.setCreateTime(TimeUtils.getCurrentTime());
-                issueInfo.setDestroyTime(TimeUtils.getDestoryTime(mLifeTimeMinute));
+                issueInfo.setDestroyTime(TimeUtils.getDestroyTime(mLifeTimeMinute));
                 issueInfo.setIsAnonymous(mMvpView.isAnonymous());
 
 

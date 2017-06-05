@@ -109,7 +109,7 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
 
         LikeModel likeModel = new LikeModel(mContext);
         LikePostBean likePostBean = new LikePostBean(mMvpView.getStoryId(),
-                ISharePreference.getUserId(mContext), isLike != 1);
+                ISharePreference.getUserId(mContext), TimeUtils.getCurrentTime(), isLike != 1);
         likeModel.likeStory(likePostBean);
         likeModel.setOnLikeListener(new LikeModel.OnLikeListener() {
             @Override
