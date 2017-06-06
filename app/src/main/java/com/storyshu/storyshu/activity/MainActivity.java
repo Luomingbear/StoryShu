@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.View;
 
 import com.amap.api.maps.SupportMapFragment;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
-import com.storyshu.storyshu.activity.story.CreateStoryActivity;
+import com.storyshu.storyshu.activity.create.CreateMicStoryActivity;
 import com.storyshu.storyshu.fragement.AirportFragment;
 import com.storyshu.storyshu.fragement.MessageFragment;
 import com.storyshu.storyshu.fragement.MineFragment;
@@ -33,6 +35,7 @@ public class MainActivity extends IPermissionActivity implements MainView {
     private MineFragment mMeFragment; //我的fragment；
     private FragmentManager mFragmentManager; //fragment管家
 
+    private View mTranslateView; //半透明的view，当新建故事选项显示的时候显示
     private CreateButton mCreateButton; //创建故事的按钮
 
     private BottomNavigationBar mNavigationBar; //底部导航栏
@@ -111,10 +114,33 @@ public class MainActivity extends IPermissionActivity implements MainView {
      */
     private CreateButton.OnCreateClickListener createClickListener = new CreateButton.OnCreateClickListener() {
         @Override
-        public void onClick() {
+        public void showingStoryType() {
+            Log.i(TAG, "showingStoryType: ");
+            mTranslateView.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void dismissStoryType() {
+            Log.i(TAG, "dismissStoryType: ");
+            mTranslateView.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onClick(int position) {
+            Log.i(TAG, "onClick: position::::::" + position);
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this, CreateStoryActivity.class);
-            startActivityForResult(intent, NameUtil.REQUST_CREATE);
+            switch (position) {
+                case 0:
+                    break;
+                case 1: //短文字
+                    intent.setClass(MainActivity.this, CreateMicStoryActivity.class);
+                    startActivityForResult(intent, NameUtil.REQUST_CREATE);
+                    break;
+                case 2:
+                    break;
+            }
+
+
         }
     };
 
@@ -124,6 +150,9 @@ public class MainActivity extends IPermissionActivity implements MainView {
     private void initView() {
         //状态栏
         StatusBarUtils.setTranslucentForImageViewInFragment(MainActivity.this, null);
+
+        //半透明view
+        mTranslateView = findViewById(R.id.translate_view);
 
         //创建故事按钮
         mCreateButton = (CreateButton) findViewById(R.id.create_story);

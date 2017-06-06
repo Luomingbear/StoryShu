@@ -60,7 +60,7 @@
             android:name=".activity.DiscussActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.story.CreateStoryActivity"
+            android:name=".activity.create.CreateMicStoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RegisterActivity"

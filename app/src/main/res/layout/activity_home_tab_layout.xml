@@ -13,6 +13,15 @@
 
     </FrameLayout>
 
+    <View
+        android:id="@+id/translate_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/content"
+        android:visibility="gone"
+        android:layout_alignTop="@id/content"
+        android:background="@color/colorTranslateDark" />
+
     <com.storyshu.storyshu.widget.LineProgressBar
         android:id="@+id/line_progress_bar"
         android:layout_width="match_parent"
@@ -29,10 +38,16 @@
 
     </com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/navigation_bar"
+        android:background="@color/colorGrayLight" />
+
     <com.storyshu.storyshu.widget.CreateButton
         android:id="@+id/create_story"
-        android:layout_width="@dimen/navigation_height"
-        android:layout_height="@dimen/navigation_height"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="2dp" />

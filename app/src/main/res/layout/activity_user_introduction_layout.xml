@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:text="580"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/font_big"
+            android:textSize="@dimen/font_normal"
             android:textStyle="bold" />
 
         <TextView
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:text="2350"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/font_big"
+            android:textSize="@dimen/font_normal"
             android:textStyle="bold" />
 
         <TextView

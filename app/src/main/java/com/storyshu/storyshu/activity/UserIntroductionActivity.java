@@ -5,24 +5,22 @@ import android.support.annotation.Nullable;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.adapter.card.CardViewAdapter;
-import com.storyshu.storyshu.info.CardInfo;
+import com.storyshu.storyshu.mvp.userInroduction.UserIntroductionPresenterIml;
+import com.storyshu.storyshu.mvp.userInroduction.UserIntroductionView;
 import com.storyshu.storyshu.utils.StatusBarUtils;
+import com.storyshu.storyshu.utils.ToastUtil;
+import com.storyshu.storyshu.widget.title.TitleView;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
-import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 用户的简介界面
  * Created by bear on 2017/6/5.
  */
 
-public class UserIntroductionActivity extends IBaseActivity {
+public class UserIntroductionActivity extends IBaseActivity implements UserIntroductionView {
+    private TitleView mTitleView;
     private DiscreteScrollView mRecyclerView;
-    private List<CardInfo> mList; //动态数据
-    private CardViewAdapter mCardViewAdapter;
+    private UserIntroductionPresenterIml mPresenterIml;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,34 +29,65 @@ public class UserIntroductionActivity extends IBaseActivity {
         setContentView(R.layout.activity_user_introduction_layout);
 
         initView();
+
+        mPresenterIml = new UserIntroductionPresenterIml(this, this);
+
         initEvent();
         initData();
     }
 
+    private void initTitle() {
+        mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
+            @Override
+            public void onLeftClick() {
+                onBackPressed();
+            }
+
+            @Override
+            public void onCenterClick() {
+
+            }
+
+            @Override
+            public void onCenterDoubleClick() {
+
+            }
+
+            @Override
+            public void onRightClick() {
+
+            }
+        });
+    }
+
     private void initView() {
         StatusBarUtils.setColor(UserIntroductionActivity.this, R.color.colorRed);
+
+        mTitleView = (TitleView) findViewById(R.id.title_view);
         //
         mRecyclerView = (DiscreteScrollView) findViewById(R.id.card_list);
     }
 
     private void initEvent() {
-        mList = new ArrayList<>();
-        mCardViewAdapter = new CardViewAdapter(mList, UserIntroductionActivity.this);
-
-        mRecyclerView.setAdapter(mCardViewAdapter);
-        mRecyclerView.setItemTransformer(new ScaleTransformer.Builder()
-                .setMinScale(0.9f)
-                .build()
-        );
+        initTitle();
     }
 
     private void initData() {
-        for (int i = 0; i < 3; i++) {
-            CardInfo cardInfo = new CardInfo();
-            cardInfo.setLikeNum(22);
-            mList.add(cardInfo);
-        }
+        mPresenterIml.initData();
+    }
 
-        mCardViewAdapter.notifyDataSetChanged();
+    @Override
+    public void showToast(String s) {
+        ToastUtil.Show(this, s);
+    }
+
+    @Override
+    public void showToast(int stringRes) {
+        ToastUtil.Show(this, stringRes);
+    }
+
+    @Override
+    public DiscreteScrollView getRecyclerView() {
+        return mRecyclerView;
     }
 }

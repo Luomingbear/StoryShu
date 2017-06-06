@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.activity.story;
+package com.storyshu.storyshu.activity.create;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,8 +29,11 @@ import com.storyshu.storyshu.widget.title.TitleView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateStoryActivity extends IBaseActivity implements CreateStoryView, View.OnClickListener {
-    private static final String TAG = "CreateStoryActivity";
+/**
+ * 编辑短文字
+ */
+public class CreateMicStoryActivity extends IBaseActivity implements CreateStoryView, View.OnClickListener {
+    private static final String TAG = "CreateMicStoryActivity";
     private TitleView mTitleView; //标题栏
     private EditText mStoryEdit; //写故事的edit
     private GridLayout mPicGridLayout; //故事图片的布局
@@ -64,7 +67,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
         initEvents();
 
-        mCreateStoryPresenter = new CreateStoryPresenterImpl(CreateStoryActivity.this, CreateStoryActivity.this);
+        mCreateStoryPresenter = new CreateStoryPresenterImpl(CreateMicStoryActivity.this, CreateMicStoryActivity.this);
     }
 
     @Override
@@ -116,7 +119,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
     private TitleView.OnTitleClickListener onTitleClickListener = new TitleView.OnTitleClickListener() {
         @Override
         public void onLeftClick() {
-            KeyBordUtil.hideKeyboard(CreateStoryActivity.this, mTitleView);
+            KeyBordUtil.hideKeyboard(CreateMicStoryActivity.this, mTitleView);
             onBackPressed();
         }
 
@@ -254,7 +257,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
         if (mChangePicPathList != null && mChangePicPathList.size() > 0) {
             for (ImageItem item : mChangePicPathList) {
-                ImageView imageView = new ImageView(CreateStoryActivity.this);
+                ImageView imageView = new ImageView(CreateMicStoryActivity.this);
                 RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(width, width);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(p);
                 params.setMargins(margin, margin, 0, 0);

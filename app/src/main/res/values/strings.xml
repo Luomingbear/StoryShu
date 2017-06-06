@@ -103,6 +103,10 @@
     <string name="sift_hot">热门</string>
 
     <!--创建故事-->
+    <string name="mic_story">短文</string>
+    <string name="long_story">文章</string>
+    <string name="video">视频</string>
+
     <string name="edit_location">所在位置</string>
     <string name="custom_location">找不到你的位置？</string>
     <string name="custom_location_ok">确定</string>
