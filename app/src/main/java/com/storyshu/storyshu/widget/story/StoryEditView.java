@@ -48,7 +48,7 @@ public class StoryEditView extends LinearLayout {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.StoryEditView);
         mTextColor = typedArray.getColor(R.styleable.StoryEditView_contentColor, getResources().getColor(R.color.colorBlack));
-        mTextSize = typedArray.getDimension(R.styleable.StoryEditView_contentSize, getResources().getDimension(R.dimen.font_small));
+        mTextSize = typedArray.getDimension(R.styleable.StoryEditView_contentSize, getResources().getDimension(R.dimen.font_normal));
         mLineSpace = (int) typedArray.getDimension(R.styleable.StoryEditView_lineSpace, getResources().getDimension(R.dimen.line_space_big));
         typedArray.recycle();
         init(context);
@@ -85,14 +85,15 @@ public class StoryEditView extends LinearLayout {
         mEditTextList = new ArrayList<>();
 
         //默认添加一个textView
-        addNewEditText();
+        addNewEditText(getResources().getString(R.string.content_hint));
     }
 
     /**
      * 添加文本编辑框
      */
-    private void addNewEditText() {
+    private void addNewEditText(String hint) {
         IBaseEditText editText = newEditText();
+        editText.setHint(hint);
         mEditTextList.add(editText);
         //请求输入的焦点
         editText.requestFocus();
@@ -108,7 +109,8 @@ public class StoryEditView extends LinearLayout {
     private IBaseEditText newEditText() {
         final IBaseEditText edit = new IBaseEditText(mContext);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-//        params.setMargins(0, mEditTextSpace, 0, 0);
+        int margin = (int) getResources().getDimension(R.dimen.margin_normal);
+        params.setMargins(margin, 0, margin, 0);
         edit.setLayoutParams(params);
 
         edit.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);

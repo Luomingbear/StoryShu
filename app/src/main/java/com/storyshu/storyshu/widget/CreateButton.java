@@ -92,6 +92,13 @@ public class CreateButton extends View {
     public void setShowStoryType(boolean showStoryType) {
         isShowStoryType = showStoryType;
         postInvalidate();
+
+        //返回显示状态
+        if (listener != null) {
+            if (isShowStoryType)
+                listener.showingStoryType();
+            else listener.dismissStoryType();
+        }
     }
 
     public void setCreateClickListener(OnCreateClickListener listener) {
@@ -284,31 +291,13 @@ public class CreateButton extends View {
             }
         });
 
-
-        /**
-         * 手指按下去的时候不显示选项动画，抬起来才显示
-         */
-//        if (!isDown) {
-//            isShowStoryType = true;
-//        } else isShowStoryType = false;
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                /**
-                 * 点击创建按钮则显示选项动画
-                 * 点击选项则返回点击的位置
-                 * 否则不显示选项
-                 */
-                if (event.getX() < mCenterX + mButtonWidth / 2 && event.getX() > mCenterX - mButtonWidth / 2) {
-                    if (event.getY() < mCenterY + mButtonWidth / 2 && event.getY() > mCenterY - mButtonWidth / 2) {
-                        mFgColor = mDownFgColor;
-                        animatePlus(true);
-                        return true;
-                    }
-                }
+
 
                 //如果点击的地方是选项
                 if (isShowStoryType) {
@@ -320,6 +309,19 @@ public class CreateButton extends View {
                             if (event.getY() > y - mButtonWidth / 2 && event.getY() < y + mButtonWidth / 2) {
                                 return true;
                             }
+                        }
+                    }
+                } else {
+                    /**
+                     * 点击创建按钮则显示选项动画
+                     * 点击选项则返回点击的位置
+                     * 否则不显示选项
+                     */
+                    if (event.getX() < mCenterX + mButtonWidth / 2 && event.getX() > mCenterX - mButtonWidth / 2) {
+                        if (event.getY() < mCenterY + mButtonWidth / 2 && event.getY() > mCenterY - mButtonWidth / 2) {
+                            mFgColor = mDownFgColor;
+                            animatePlus(true);
+                            return true;
                         }
                     }
                 }

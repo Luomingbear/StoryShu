@@ -217,7 +217,7 @@ public class TimeUtils {
 //
 //        Date currentDate = new Date(System.currentTimeMillis());
 //        //时间差 /1000变成秒为单位
-//        long diff = (date.getTime() + lifeTime * 60 * 1000 - currentDate.getTime()) / 1000;
+//        longs diff = (date.getTime() + lifeTime * 60 * 1000 - currentDate.getTime()) / 1000;
 //        //小于一天就显示小时
 //        if (diff < 60 * 60 * 24) {
 //            destroyTime = context.getResources().getString(R.string.left_hour, diff / 60 / 60);

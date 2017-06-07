@@ -2,18 +2,18 @@ package com.storyshu.storyshu.widget.imageview;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /**
  * 这只是一个简单的ImageView，可以存放Bitmap和Path等信息
  *
  * @author xmuSistone
- *
  */
-public class DataImageView extends ImageView {
+public class DataImageView extends AppCompatImageView {
 
     private String absolutePath;
+    private String descripte; //描述
 
     private Bitmap bitmap;
 
@@ -45,4 +45,11 @@ public class DataImageView extends ImageView {
         this.bitmap = bitmap;
     }
 
+    public String getDescripte() {
+        return descripte;
+    }
+
+    public void setDescripte(String descripte) {
+        this.descripte = descripte;
+    }
 }

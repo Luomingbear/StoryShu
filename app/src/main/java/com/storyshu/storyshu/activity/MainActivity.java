@@ -11,6 +11,7 @@ import android.view.View;
 import com.amap.api.maps.SupportMapFragment;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
+import com.storyshu.storyshu.activity.create.CreateLongStoryActivity;
 import com.storyshu.storyshu.activity.create.CreateMicStoryActivity;
 import com.storyshu.storyshu.fragement.AirportFragment;
 import com.storyshu.storyshu.fragement.MessageFragment;
@@ -127,10 +128,12 @@ public class MainActivity extends IPermissionActivity implements MainView {
 
         @Override
         public void onClick(int position) {
-            Log.i(TAG, "onClick: position::::::" + position);
+            //跳转页面
             Intent intent = new Intent();
             switch (position) {
                 case 0:
+                    intent.setClass(MainActivity.this, CreateLongStoryActivity.class);
+                    startActivityForResult(intent, NameUtil.REQUST_CREATE);
                     break;
                 case 1: //短文字
                     intent.setClass(MainActivity.this, CreateMicStoryActivity.class);
@@ -187,6 +190,13 @@ public class MainActivity extends IPermissionActivity implements MainView {
     private void initEvent() {
         //获取版本信息
         mMainPresenterIml.checkForUpdate();
+
+        mTranslateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCreateButton.setShowStoryType(false);
+            }
+        });
     }
 
     /**
