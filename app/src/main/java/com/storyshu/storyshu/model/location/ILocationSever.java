@@ -10,6 +10,9 @@ import com.amap.api.location.AMapLocationListener;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.tool.observable.EventObservable;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * 具体实现定位服务的类
  * Created by bear on 2016/11/23.
@@ -22,6 +25,7 @@ public class ILocationSever {
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
     private int mIntervalTime = 2000; //定位间隔时间毫秒
+    private Timer mTimer; //用于重新定位服务
 
     public ILocationSever(Context applicationContext) {
         //初始化定位
@@ -39,11 +43,25 @@ public class ILocationSever {
                     //可在其中解析amapLocation获取相应内容。
                     if (onLocationChange != null)
                         onLocationChange.onLocationChange(aMapLocation);
+                    Log.i(TAG, "onLocationChanged: " + aMapLocation);
+                    mTimer.cancel();
+                    mTimer = null;
+
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e("AmapError", "location Error, ErrCode:"
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
+
+                    if (mTimer == null) {
+                        mTimer = new Timer();
+                        mTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                start();
+                            }
+                        }, 1000, 1000);
+                    }
                 }
             }
         }

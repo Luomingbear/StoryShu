@@ -19,6 +19,7 @@ import com.storyshu.storyshu.activity.RegisterActivity;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.mvp.login.LoginPresenterIml;
 import com.storyshu.storyshu.mvp.login.LoginView;
+import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 
@@ -91,6 +92,8 @@ public class LoginActivity extends IBaseActivity implements LoginView, View.OnCl
 
     @Override
     public void intent2MainActivity() {
+        KeyBordUtil.hideKeyboard(LoginActivity.this, mPasswordEdit);
+
         intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 

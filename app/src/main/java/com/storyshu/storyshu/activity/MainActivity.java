@@ -17,6 +17,7 @@ import com.storyshu.storyshu.fragement.AirportFragment;
 import com.storyshu.storyshu.fragement.MessageFragment;
 import com.storyshu.storyshu.fragement.MineFragment;
 import com.storyshu.storyshu.fragement.StoryMapFragment;
+import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.main.MainPresenterIml;
 import com.storyshu.storyshu.mvp.main.MainView;
 import com.storyshu.storyshu.tool.observable.EventObservable;
@@ -79,7 +80,7 @@ public class MainActivity extends IPermissionActivity implements MainView {
 //            回调更新图标
             StoryMapFragment.getInstance().updateStoryIcons();
         } else if (requestCode == PERMISSION_INTENT) {
-
+            ILocationManager.getInstance().init(getApplicationContext(), StoryMapFragment.getInstance().getAMap()).start();
         }
     }
 

@@ -76,6 +76,23 @@ public class ISharePreference {
     }
 
     /**
+     * 保存使用者的用户id
+     *
+     * @param context
+     * @param userInfo
+     */
+    public static void saveUserInfo(Context context, BaseUserInfo userInfo) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(USER_ID, userInfo.getUserId());
+        editor.putString(USER_ID, userInfo.getAvatar());
+        editor.putString(USER_ID, userInfo.getNickname());
+        editor.apply();
+    }
+
+    /**
      * 获取用户的id
      *
      * @return
@@ -260,11 +277,8 @@ public class ISharePreference {
          * latitude - 地点的纬度，在-90 与90 之间的double 型数值。
          longitude - 地点的经度，在-180 与180 之间的double 型数值。
          */
-        LatLng latLng = new LatLng(sp.getFloat(LAT, 360),
-                sp.getFloat(LNG, 360));
-        if (latLng.latitude == 360 && latLng.longitude == 360)
-            return null;
-        return latLng;
+
+        return new LatLng(sp.getFloat(LAT, 30), sp.getFloat(LNG, 120));
     }
 
     /**

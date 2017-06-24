@@ -130,6 +130,8 @@ public class RegisterActivity extends IBaseActivity implements RegisterView, Vie
 
     @Override
     public void toMainActivity() {
+        KeyBordUtil.hideKeyboard(RegisterActivity.this, mNicknameEdit);
+
         //跳转到首页
         intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }

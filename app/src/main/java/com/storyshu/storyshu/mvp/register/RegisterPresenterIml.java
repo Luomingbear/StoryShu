@@ -101,7 +101,7 @@ public class RegisterPresenterIml extends IBasePresenter<RegisterView> implement
             public void onSucceed(BaseUserInfo userInfo) {
                 ToastUtil.Show(mContext, R.string.register_succeed);
                 //保存用户id到本地
-                ISharePreference.saveUserId(mContext, userInfo.getUserId());
+                ISharePreference.saveUserInfo(mContext, userInfo);
                 //把用户的基本数据保存在本地数据库
                 DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext.getApplicationContext());
                 dateBaseHelperIml.insertUserData(userInfo);
