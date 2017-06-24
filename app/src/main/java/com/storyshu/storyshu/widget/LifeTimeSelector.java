@@ -37,7 +37,7 @@ public class LifeTimeSelector extends View {
     private ArrayList<Integer> mDayList; //天数的数值
     private ArrayList<Integer> mHourList; //小时的数值
     private ArrayList<String> mUnitList; //单位的值
-    private int mDayIndex = 0; //当前选择的下标
+    private int mDayIndex = 6; //当前选择的下标
     private int mHourIndex = 0; //当前选择的下标
     private int mUnitIndex = 0; //当前选择的下标
     private float mNumY = 0; //数值列表的第一个元素的y坐标

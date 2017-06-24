@@ -29,6 +29,7 @@ import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
+import com.storyshu.storyshu.widget.text.RichTextEditor;
 import com.storyshu.storyshu.widget.text.RoundTextView;
 import com.storyshu.storyshu.widget.title.TitleView;
 
@@ -37,6 +38,7 @@ import java.util.List;
 public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, View.OnClickListener {
     private static final String TAG = "StoryRoomActivity";
     private TitleView mTitleView; //标题栏
+    private RichTextEditor mRichTextEditor; //富文本显示框架
     private TextView mStoryContent; //故事的内容
     private ImageView mStoryCover; //故事的配图
     private TextView mPicSize; //配图的数量
@@ -87,6 +89,8 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
         StatusBarUtils.setColor(this, R.color.colorRed);
 
         mTitleView = (TitleView) findViewById(R.id.title_view);
+
+        mRichTextEditor = (RichTextEditor) findViewById(R.id.rich_text_edit);
 
         mStoryContent = (TextView) findViewById(R.id.story_content);
 
@@ -334,6 +338,8 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
         if (storyData == null)
             return;
         mStoryBean = storyData;
+
+        mRichTextEditor.parseXml(mStoryBean.getContent());
 
         mStoryContent.setText(storyData.getContent());
 

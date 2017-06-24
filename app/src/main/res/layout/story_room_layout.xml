@@ -37,6 +37,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <com.storyshu.storyshu.widget.text.RichTextEditor
+                    android:id="@+id/rich_text_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.storyshu.storyshu.widget.text.RichTextEditor>
+
                 <LinearLayout
                     android:id="@+id/story_detail_layout"
                     android:layout_width="match_parent"

@@ -3,8 +3,19 @@ package com.storyshu.storyshu.mvp.create.longs;
 import android.content.Context;
 import android.view.View;
 
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.RegeocodeAddress;
+import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.bean.issueStory.BaseIssueStoryBean;
+import com.storyshu.storyshu.bean.issueStory.IssueLongStoryBean;
+import com.storyshu.storyshu.model.location.ILocationQueryTool;
+import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
+
+import java.util.List;
 
 /**
  * mvp
@@ -13,9 +24,12 @@ import com.storyshu.storyshu.widget.text.RichTextEditor;
  */
 
 public class CreateLongStoryPresenterIml extends IBasePresenter<CreateLongStoryView> implements CreateLongStoryPresenter {
+    private static final String TAG = "CreateLongStoryPresente";
+    private IssueLongStoryBean longStoryBean;
 
     public CreateLongStoryPresenterIml(Context mContext, CreateLongStoryView mvpView) {
         super(mContext, mvpView);
+        longStoryBean = new IssueLongStoryBean();
     }
 
 
@@ -41,6 +55,68 @@ public class CreateLongStoryPresenterIml extends IBasePresenter<CreateLongStoryV
                 if (hasFocus) {
                     mMvpView.getBottomLayout().setVisibility(View.VISIBLE);
                 }
+            }
+        });
+    }
+
+    private void queryLocation() {
+        ILocationQueryTool locationQueryTool = new ILocationQueryTool(mContext);
+        locationQueryTool.setOnLocationQueryListener(new ILocationQueryTool.OnLocationQueryListener() {
+            @Override
+            public void onRegeocodeSearched(RegeocodeAddress regeocodeAddress) {
+                if (regeocodeAddress.getPois().size() > 0) {
+                    longStoryBean.setLocationTitle(regeocodeAddress.getPois().get(0).getTitle());
+                    /**
+                     * 上传故事
+                     */
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startIssue();
+                        }
+                    });
+
+                    thread.start();
+
+                    mMvpView.backActivity();
+                }
+            }
+
+            @Override
+            public void onGeocodeSearched(List<GeocodeAddress> geocodeAddressList) {
+
+            }
+        });
+        locationQueryTool.startRegeocodeQuery(ISharePreference.getLatLngData(mContext), 100);
+    }
+
+    @Override
+    public void issueLongStory() {
+        longStoryBean.setUserId(ISharePreference.getUserId(mContext));
+        longStoryBean.setTitle(mMvpView.getTitleEdit().getText().toString());
+        longStoryBean.setContent(mMvpView.getRichTextEditor().getEditData());
+        longStoryBean.setCreateTime(TimeUtils.getCurrentTime());
+        longStoryBean.setLatLng(ISharePreference.getLatLngData(mContext));
+        longStoryBean.setCityName(ISharePreference.getCityName(mContext));
+        longStoryBean.setTag(BaseIssueStoryBean.TAG_LONG_STORY);
+        queryLocation();
+    }
+
+    /**
+     * 开始发布
+     */
+    private void startIssue() {
+        StoryModel storyModel = new StoryModel(mContext);
+        storyModel.issueLongStory(longStoryBean);
+        storyModel.setOnStoryIssuseListener(new StoryModel.OnStoryIssuseListener() {
+            @Override
+            public void onSucceed() {
+                mMvpView.showToast(R.string.issue_succeed);
+            }
+
+            @Override
+            public void onFailed(String error) {
+                mMvpView.showToast(error);
             }
         });
     }

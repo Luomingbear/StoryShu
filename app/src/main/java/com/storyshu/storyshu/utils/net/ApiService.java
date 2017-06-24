@@ -16,6 +16,7 @@ import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.bean.getStory.StoryReponseBean;
 import com.storyshu.storyshu.bean.getStory.UserStoryPostBean;
 import com.storyshu.storyshu.bean.getStory.UserStoryResponseBean;
+import com.storyshu.storyshu.bean.issueStory.IssueLongStoryBean;
 import com.storyshu.storyshu.bean.issueStory.IssueStoryBean;
 import com.storyshu.storyshu.bean.like.LikePostBean;
 import com.storyshu.storyshu.bean.message.StoryCommentResponseBean;
@@ -84,13 +85,22 @@ public interface ApiService {
     Call<UserLoginResponseBean> getUserInfo(@Body UserIdBean userIdBean);
 
     /**
-     * 新建故事
+     * 新建短文
      *
      * @param issueStoryBean
      * @return
      */
     @POST("issueStory.php")
     Call<OnlyDataResponseBean> issueStory(@Body IssueStoryBean issueStoryBean);
+
+    /**
+     * 新建文章
+     *
+     * @param longStoryBean
+     * @return
+     */
+    @POST("issueLongStory.php")
+    Call<OnlyDataResponseBean> issueLongStory(@Body IssueLongStoryBean longStoryBean);
 
     /**
      * 获取故事的详细信息

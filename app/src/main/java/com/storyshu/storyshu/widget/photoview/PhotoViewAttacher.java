@@ -350,7 +350,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
                 case MotionEvent.ACTION_CANCEL:
                 case MotionEvent.ACTION_UP:
-                    // If the user has zoomed less than min scale, zoom back
+                    // If the user has zoomed less than min scale, zoom backActivity
                     // to min scale
                     if (getScale() < mMinScale) {
                         RectF rect = getDisplayRect();
@@ -537,7 +537,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     }
 
     /**
-     * Resets the Matrix back to FIT_CENTER, and then displays its contents
+     * Resets the Matrix backActivity to FIT_CENTER, and then displays its contents
      */
     private void resetMatrix() {
         mSuppMatrix.reset();

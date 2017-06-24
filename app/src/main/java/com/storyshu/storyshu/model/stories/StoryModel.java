@@ -13,6 +13,7 @@ import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.bean.getStory.StoryReponseBean;
 import com.storyshu.storyshu.bean.getStory.UserStoryPostBean;
 import com.storyshu.storyshu.bean.getStory.UserStoryResponseBean;
+import com.storyshu.storyshu.bean.issueStory.IssueLongStoryBean;
 import com.storyshu.storyshu.bean.issueStory.IssueStoryBean;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.tool.observable.EventObservable;
@@ -168,7 +169,6 @@ public class StoryModel {
         } else {
             startIssue(issueStoryBean);
         }
-
     }
 
     /**
@@ -178,6 +178,38 @@ public class StoryModel {
      */
     private void startIssue(IssueStoryBean storyBean) {
         Call<OnlyDataResponseBean> call = RetrofitManager.getInstance().getService().issueStory(storyBean);
+        call.enqueue(new Callback<OnlyDataResponseBean>() {
+            @Override
+            public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {
+                Log.i(TAG, "onResponse: " + response.body().getMessage()
+                        + "\n内容：" + response.body().getData());
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    ToastUtil.Show(mContext, response.body().getMessage());
+                    EventObservable.getInstance().notifyObservers(R.id.line_progress_bar, 100);
+                    if (onStoryIssuseListener != null)
+                        onStoryIssuseListener.onSucceed();
+                } else {
+                    if (onStoryIssuseListener != null)
+                        onStoryIssuseListener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OnlyDataResponseBean> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t);
+                if (onStoryIssuseListener != null)
+                    onStoryIssuseListener.onFailed(mContext.getString(R.string.issue_failed));
+            }
+        });
+    }
+
+    /**
+     * 上传长文章
+     *
+     * @param longStoryBean
+     */
+    public void issueLongStory(IssueLongStoryBean longStoryBean) {
+        Call<OnlyDataResponseBean> call = RetrofitManager.getInstance().getService().issueLongStory(longStoryBean);
         call.enqueue(new Callback<OnlyDataResponseBean>() {
             @Override
             public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {

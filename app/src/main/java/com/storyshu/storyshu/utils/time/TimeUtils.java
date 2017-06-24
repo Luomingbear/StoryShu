@@ -236,6 +236,9 @@ public class TimeUtils {
      * @return
      */
     public static String convertDestroyTime(Context context, String destroyTime) {
+        if (TextUtils.isEmpty(destroyTime))
+            return "";
+
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {
@@ -317,6 +320,9 @@ public class TimeUtils {
      * @return
      */
     public static boolean isOutOfDate(String destroyTime) {
+        if (TextUtils.isEmpty(destroyTime))
+            return false;
+
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {

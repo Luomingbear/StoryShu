@@ -99,7 +99,7 @@ public class CreateLongStoryActivity extends IBaseActivity implements CreateLong
 
             @Override
             public void onRightClick() {
-
+                mPresenter.issueLongStory();
             }
         });
     }
@@ -147,6 +147,11 @@ public class CreateLongStoryActivity extends IBaseActivity implements CreateLong
 
             mStoryEditView.insertImage(list);
         }
+    }
+
+    @Override
+    public void backActivity() {
+        onBackPressed();
     }
 
     @Override

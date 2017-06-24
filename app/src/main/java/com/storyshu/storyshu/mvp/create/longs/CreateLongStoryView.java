@@ -13,6 +13,11 @@ import com.storyshu.storyshu.widget.text.RichTextEditor;
 public interface CreateLongStoryView extends IBaseView {
 
     /**
+     * 点击返回按钮
+     */
+    void backActivity();
+
+    /**
      * 获取标题输入框
      *
      * @return

@@ -16,7 +16,6 @@
 
     </com.storyshu.storyshu.widget.title.TitleView>
 
-
     <!--底部工具栏-->
     <LinearLayout
         android:id="@+id/bottom_layout"
@@ -78,9 +77,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:paddingBottom="@dimen/margin_normal"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_normal">
 
             <EditText
                 android:id="@+id/title_edit"
