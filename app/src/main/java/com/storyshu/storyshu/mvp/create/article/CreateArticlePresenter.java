@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.mvp.create.longs;
+package com.storyshu.storyshu.mvp.create.article;
 
 /**
  * mvp
@@ -6,7 +6,7 @@ package com.storyshu.storyshu.mvp.create.longs;
  * Created by bear on 2017/6/7.
  */
 
-public interface CreateLongStoryPresenter {
+public interface CreateArticlePresenter {
 
     /**
      * 初始化标题输入框

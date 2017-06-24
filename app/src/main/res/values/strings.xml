@@ -138,6 +138,7 @@
     <string name="comment_issue_empty">写两个字呗</string>
     <string name="edit_comment">添加评论</string>
     <string name="hot_comment">热门评论</string>
+    <string name="no_comment">暂无评论</string>
 
     <!--候机厅-->
     <string name="search_hint">搜索你想到达的地方</string>
@@ -145,6 +146,7 @@
     <string name="ad">广告</string>
     <string name="go_here">到这去</string>
     <string name="search_error_empty">没有找到这个地方，重新输入试试</string>
+    <string name="story_type_article">文章：%s</string>
 
     <!--信息-->
     <string name="like2me">我收到的赞</string>

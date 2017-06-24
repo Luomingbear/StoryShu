@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.mvp.create;
+package com.storyshu.storyshu.mvp.create.story;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,8 +8,8 @@ import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.bean.issueStory.BaseIssueStoryBean;
 import com.storyshu.storyshu.bean.issueStory.IssueStoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationQueryTool;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
@@ -31,7 +31,7 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
     private static final String TAG = "CreateStoryPresenterImp";
     private String mTempContent; //故事的临时内容
     private int minStoryContent = 1; //故事内容最少的字符
-    private int mLifeTimeMinute = 24 * 60; //故事保留时间,分钟
+    private int mLifeTimeMinute = 7 * 24 * 60; //故事保留时间,分钟
     private List<PoiItem> mLocationList; //位置列表
     private int radius = 50; //单位米
     private IssueStoryBean issueInfo = new IssueStoryBean();
@@ -79,7 +79,7 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
                 issueInfo.setCreateTime(TimeUtils.getCurrentTime());
                 issueInfo.setDestroyTime(TimeUtils.getDestroyTime(mLifeTimeMinute));
                 issueInfo.setIsAnonymous(mMvpView.isAnonymous());
-                issueInfo.setTag(BaseIssueStoryBean.TAG_SORT_STORY);
+                issueInfo.setStoryType(CardInfo.STORY);
 
                 /**
                  * 上传故事

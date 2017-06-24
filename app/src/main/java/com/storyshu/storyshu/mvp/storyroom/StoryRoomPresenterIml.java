@@ -3,7 +3,6 @@ package com.storyshu.storyshu.mvp.storyroom;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.CommentAdapter;
@@ -73,9 +72,9 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
                 mMvpView.getCommentRV().setAdapter(mCommentAdapter);
 
                 if (commentList == null || commentList.size() == 0) {
-                    mMvpView.getHotCommentHit().setVisibility(View.GONE);
+                    mMvpView.getHotCommentHit().setText(R.string.no_comment);
                 } else
-                    mMvpView.getHotCommentHit().setVisibility(View.VISIBLE);
+                    mMvpView.getHotCommentHit().setText(R.string.hot_comment);
             }
 
             @Override

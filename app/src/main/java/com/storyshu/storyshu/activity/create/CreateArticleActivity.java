@@ -10,9 +10,9 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.mvp.create.longs.CreateLongStoryPresenter;
-import com.storyshu.storyshu.mvp.create.longs.CreateLongStoryPresenterIml;
-import com.storyshu.storyshu.mvp.create.longs.CreateLongStoryView;
+import com.storyshu.storyshu.mvp.create.article.CreateArticlePresenter;
+import com.storyshu.storyshu.mvp.create.article.CreateArticlePresenterIml;
+import com.storyshu.storyshu.mvp.create.article.CreateArticleView;
 import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
@@ -27,7 +27,7 @@ import java.util.List;
  * Created by bear on 2017/6/7.
  */
 
-public class CreateLongStoryActivity extends IBaseActivity implements CreateLongStoryView, View.OnClickListener {
+public class CreateArticleActivity extends IBaseActivity implements CreateArticleView, View.OnClickListener {
 
     private TitleView mTitleView;
     private EditText mTitleEdit; //标题输入
@@ -37,7 +37,7 @@ public class CreateLongStoryActivity extends IBaseActivity implements CreateLong
     private View mUndo; //撤销
     private View mRedo; //恢复
 
-    private CreateLongStoryPresenter mPresenter;
+    private CreateArticlePresenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,14 +46,14 @@ public class CreateLongStoryActivity extends IBaseActivity implements CreateLong
 
         initView();
 
-        mPresenter = new CreateLongStoryPresenterIml(this, this);
+        mPresenter = new CreateArticlePresenterIml(this, this);
 
         initEvent();
 
     }
 
     private void initView() {
-        StatusBarUtils.setColor(CreateLongStoryActivity.this, R.color.colorRed);
+        StatusBarUtils.setColor(CreateArticleActivity.this, R.color.colorRed);
 
         mTitleView = (TitleView) findViewById(R.id.title_view);
 
@@ -83,7 +83,7 @@ public class CreateLongStoryActivity extends IBaseActivity implements CreateLong
         mTitleView.setOnTitleClickListener(new TitleView.OnTitleClickListener() {
             @Override
             public void onLeftClick() {
-                KeyBordUtil.hideKeyboard(CreateLongStoryActivity.this, mTitleView);
+                KeyBordUtil.hideKeyboard(CreateArticleActivity.this, mTitleView);
                 onBackPressed();
             }
 

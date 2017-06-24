@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.mvp.create.longs;
+package com.storyshu.storyshu.mvp.create.article;
 
 import android.content.Context;
 import android.view.View;
@@ -6,8 +6,8 @@ import android.view.View;
 import com.amap.api.services.geocoder.GeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.bean.issueStory.BaseIssueStoryBean;
 import com.storyshu.storyshu.bean.issueStory.IssueLongStoryBean;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationQueryTool;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
@@ -23,11 +23,11 @@ import java.util.List;
  * Created by bear on 2017/6/7.
  */
 
-public class CreateLongStoryPresenterIml extends IBasePresenter<CreateLongStoryView> implements CreateLongStoryPresenter {
+public class CreateArticlePresenterIml extends IBasePresenter<CreateArticleView> implements CreateArticlePresenter {
     private static final String TAG = "CreateLongStoryPresente";
     private IssueLongStoryBean longStoryBean;
 
-    public CreateLongStoryPresenterIml(Context mContext, CreateLongStoryView mvpView) {
+    public CreateArticlePresenterIml(Context mContext, CreateArticleView mvpView) {
         super(mContext, mvpView);
         longStoryBean = new IssueLongStoryBean();
     }
@@ -96,9 +96,12 @@ public class CreateLongStoryPresenterIml extends IBasePresenter<CreateLongStoryV
         longStoryBean.setTitle(mMvpView.getTitleEdit().getText().toString());
         longStoryBean.setContent(mMvpView.getRichTextEditor().getEditData());
         longStoryBean.setCreateTime(TimeUtils.getCurrentTime());
+        //默认保存7天
+        longStoryBean.setDestroyTime(TimeUtils.getDestroyTime(7 * 24 * 60));
+
         longStoryBean.setLatLng(ISharePreference.getLatLngData(mContext));
         longStoryBean.setCityName(ISharePreference.getCityName(mContext));
-        longStoryBean.setTag(BaseIssueStoryBean.TAG_LONG_STORY);
+        longStoryBean.setStoryType(CardInfo.ARTICLE);
         queryLocation();
     }
 

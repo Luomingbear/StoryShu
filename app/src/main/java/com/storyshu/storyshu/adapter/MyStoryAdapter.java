@@ -81,7 +81,6 @@ public class MyStoryAdapter extends RecyclerView.Adapter<MyStoryAdapter.ViewHold
         Glide.with(mContext).load(cardInfo.getUserInfo().getAvatar()).into(holder.avatar);
         holder.nickName.setText(cardInfo.getUserInfo().getNickname());
 
-        holder.content.setText(cardInfo.getContent());
         holder.location.setText(cardInfo.getLocationTitle());
         holder.destoryTime.setText(TimeUtils.convertDestroyTime(mContext, cardInfo.getDestroyTime()));
 
@@ -94,6 +93,18 @@ public class MyStoryAdapter extends RecyclerView.Adapter<MyStoryAdapter.ViewHold
         } else {
             holder.cover.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(cardInfo.getCover()).into(holder.cover);
+        }
+
+        switch (cardInfo.getStoryType()) {
+            case CardInfo.STORY:
+                holder.content.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
+                holder.content.setText(cardInfo.getContent());
+                break;
+
+            case CardInfo.ARTICLE:
+                holder.content.setTextColor(mContext.getResources().getColor(R.color.colorRedLight));
+                holder.content.setText(mContext.getString(R.string.story_type_article, cardInfo.getTitle()));
+                break;
         }
     }
 

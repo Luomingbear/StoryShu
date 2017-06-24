@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.storyshu.storyshu.widget.title.TitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="?attr/colorPrimary"
+        app:title_color="@color/colorWhite"
+        app:title_mode="BackTitleIm"
+        app:title_string="@string/story_detail">
+
+    </com.storyshu.storyshu.widget.title.TitleView>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_view"
+        android:layout_weight="1">
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                android:id="@+id/hide_keyboard_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_normal"
+                    android:background="@color/colorWhite"
+                    android:lineSpacingExtra="@dimen/line_space_normal"
+                    android:textColor="?attr/textColor2"
+                    android:textSize="@dimen/font_title"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/dotted_line"
+                    android:layerType="software"
+                    android:visibility="gone" />
+
+                <com.storyshu.storyshu.widget.text.RichTextEditor
+                    android:id="@+id/rich_text_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.storyshu.storyshu.widget.text.RichTextEditor>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/margin_normal"
+                        android:layout_marginRight="@dimen/margin_normal"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text="@string/report"
+                        android:textColor="?attr/textColor3"
+                        android:textSize="@dimen/font_small" />
+
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/margin_normal"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_toLeftOf="@id/report"
+                        android:ellipsize="start"
+                        android:maxLines="1"
+                        android:textColor="?attr/textColor3"
+                        android:textSize="@dimen/font_small" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_height"
+                    android:layout_below="@id/location"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small">
+
+                    <View
+                        android:id="@+id/line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/colorGrayLight" />
+
+                    <com.storyshu.storyshu.widget.imageview.RoundImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_height"
+                        android:layout_margin="0.5dp"
+                        android:src="?attr/cardTopBg"
+                        app:BorderRadius="@dimen/border_radius_normal"
+                        app:RoundType="round_bottom_left_bottom_right" />
+
+
+                    <com.storyshu.storyshu.widget.imageview.AvatarImageView
+                        android:id="@+id/author_avatar"
+                        android:layout_width="@dimen/image_normal"
+                        android:layout_height="@dimen/image_normal"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_normal"
+                        android:src="@drawable/gray_rectangle" />
+
+                    <com.storyshu.storyshu.widget.ClickButton
+                        android:id="@+id/comment"
+                        android:layout_width="@dimen/icon_large"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_normal"
+                        app:cGravity="top"
+                        app:cType="comment" />
+
+                    <com.storyshu.storyshu.widget.ClickButton
+                        android:id="@+id/oppose"
+                        android:layout_width="@dimen/icon_large"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/comment"
+                        app:cGravity="top"
+                        app:cType="oppose" />
+
+                    <com.storyshu.storyshu.widget.ClickButton
+                        android:id="@+id/like"
+                        android:layout_width="@dimen/icon_large"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_toLeftOf="@id/oppose"
+                        app:cGravity="top"
+                        app:cType="like" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_toLeftOf="@id/like"
+                        android:layout_toRightOf="@id/author_avatar"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/author_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/textColor2"
+                            android:textSize="@dimen/font_normal" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_min"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/create_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_min"
+                                android:textColor="?attr/textColor3"
+                                android:textSize="@dimen/font_small" />
+
+                            <TextView
+                                android:id="@+id/destroy_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_min"
+                                android:textColor="?attr/textColor3"
+                                android:textSize="@dimen/font_small" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/colorGrayLight" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/hot_comment_hit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:text="@string/hot_comment"
+                    android:textColor="@color/colorGrayDeep" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:background="@color/colorGrayLight" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/comment_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:nestedScrollingEnabled="false">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite">
+
+        <com.storyshu.storyshu.widget.text.RoundTextView
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/image_small"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_small"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_normal"
+            android:paddingRight="@dimen/margin_normal"
+            android:text="@string/send"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_normal"
+            app:mBgColor="@color/colorGrayLight" />
+
+        <EditText
+            android:id="@+id/edit_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_toLeftOf="@id/send"
+            android:hint="@string/edit_comment"
+            android:lineSpacingExtra="@dimen/line_space_normal"
+            android:minHeight="@dimen/selector_height"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/font_normal" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGray" />
+    </RelativeLayout>
+</LinearLayout>

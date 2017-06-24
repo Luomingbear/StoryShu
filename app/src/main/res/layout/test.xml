@@ -6,11 +6,11 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.storyshu.storyshu.widget.tag.TagFrameLayout
+    <com.storyshu.storyshu.widget.storyType.TagFrameLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
 
-    </com.storyshu.storyshu.widget.tag.TagFrameLayout>
+    </com.storyshu.storyshu.widget.storyType.TagFrameLayout>
 
     <com.storyshu.storyshu.widget.LocationSelector
         android:id="@+id/select_location"

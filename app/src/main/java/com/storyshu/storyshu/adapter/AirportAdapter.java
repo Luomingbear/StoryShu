@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.AirPortPushInfo;
+import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
@@ -88,7 +89,6 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                 holder.like.setNum(pushInfo.getLikeNum());
                 holder.oppose.setNum(pushInfo.getOpposeNum());
                 holder.comment.setNum(pushInfo.getCommentNum());
-                holder.content.setText(pushInfo.getContent());
                 holder.location.setText(pushInfo.getLocationTitle());
 
                 if (!TextUtils.isEmpty(pushInfo.getCover())) {
@@ -99,6 +99,18 @@ public class AirportAdapter extends RecyclerView.Adapter<AirportAdapter.ViewHold
                 }
 
                 holder.destroyTime.setText(TimeUtils.convertDestroyTime(mContext, pushInfo.getDestroyTime()));
+
+                switch (pushInfo.getStoryType()) {
+                    case CardInfo.STORY:
+                        holder.content.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
+                        holder.content.setText(pushInfo.getContent());
+                        break;
+
+                    case CardInfo.ARTICLE:
+                        holder.content.setTextColor(mContext.getResources().getColor(R.color.colorRedLight));
+                        holder.content.setText(mContext.getString(R.string.story_type_article, pushInfo.getTitle()));
+                        break;
+                }
                 break;
         }
     }

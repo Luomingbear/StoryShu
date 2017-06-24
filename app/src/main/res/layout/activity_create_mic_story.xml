@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/bgColorDeep"
-    tools:context="com.storyshu.storyshu.activity.create.CreateMicStoryActivity">
+    tools:context="com.storyshu.storyshu.activity.create.CreateStoryActivity">
 
     <com.storyshu.storyshu.widget.title.TitleView
         android:id="@+id/title_view"

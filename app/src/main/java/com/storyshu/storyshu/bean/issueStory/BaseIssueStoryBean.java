@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.bean.issueStory;
 
 import com.amap.api.maps.model.LatLng;
+import com.storyshu.storyshu.info.CardInfo;
 
 /**
  * 发布动态的基本数据信息
@@ -15,17 +16,15 @@ public class BaseIssueStoryBean {
     private double latitude;
     private double longitude;
     private String createTime; //发布时间
+    private String destroyTime; //保存时间
     private Boolean isAnonymous = false;
 
-    private int tag = TAG_SORT_STORY;
-
-    public static final int TAG_SORT_STORY = 0;
-    public static final int TAG_LONG_STORY = TAG_SORT_STORY + 1;
+    private int storyType = CardInfo.STORY;
 
     public BaseIssueStoryBean() {
     }
 
-    public BaseIssueStoryBean(int userId, String content, String cityName, String locationTitle, double latitude, double longitude, String createTime, Boolean isAnonymous, int tag) {
+    public BaseIssueStoryBean(int userId, String content, String cityName, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean isAnonymous, int storyType) {
         this.userId = userId;
         this.content = content;
         this.cityName = cityName;
@@ -33,8 +32,9 @@ public class BaseIssueStoryBean {
         this.latitude = latitude;
         this.longitude = longitude;
         this.createTime = createTime;
+        this.destroyTime = destroyTime;
         this.isAnonymous = isAnonymous;
-        this.tag = tag;
+        this.storyType = storyType;
     }
 
     public int getUserId() {
@@ -106,11 +106,19 @@ public class BaseIssueStoryBean {
         isAnonymous = anonymous;
     }
 
-    public int getTag() {
-        return tag;
+    public int getStoryType() {
+        return storyType;
     }
 
-    public void setTag(int tag) {
-        this.tag = tag;
+    public void setStoryType(int storyType) {
+        this.storyType = storyType;
+    }
+
+    public String getDestroyTime() {
+        return destroyTime;
+    }
+
+    public void setDestroyTime(String destroyTime) {
+        this.destroyTime = destroyTime;
     }
 }

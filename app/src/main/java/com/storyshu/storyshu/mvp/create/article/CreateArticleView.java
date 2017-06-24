@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.mvp.create.longs;
+package com.storyshu.storyshu.mvp.create.article;
 
 import android.view.View;
 import android.widget.EditText;
@@ -10,7 +10,7 @@ import com.storyshu.storyshu.widget.text.RichTextEditor;
  * Created by bear on 2017/6/7.
  */
 
-public interface CreateLongStoryView extends IBaseView {
+public interface CreateArticleView extends IBaseView {
 
     /**
      * 点击返回按钮

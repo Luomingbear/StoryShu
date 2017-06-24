@@ -23,12 +23,8 @@ public class StoryBean extends CardInfo implements Parcelable {
         this.storyPictures = storyPictures;
     }
 
-    public StoryBean(List<String> storyPictures) {
-        this.storyPictures = storyPictures;
-    }
-
-    public StoryBean(BaseUserInfo userInfo, String storyId, String content, String cover, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean anonymous, Boolean like, Boolean oppose, int likeNum, int opposeNum, int commentNum, List<String> storyPictures) {
-        super(userInfo, storyId, content, cover, locationTitle, latitude, longitude, createTime, destroyTime, anonymous, like, oppose, likeNum, opposeNum, commentNum);
+    public StoryBean(BaseUserInfo userInfo, String storyId, String content, String cover, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean anonymous, Boolean like, Boolean oppose, String title, int storyType, int likeNum, int opposeNum, int commentNum, List<String> storyPictures) {
+        super(userInfo, storyId, content, cover, locationTitle, latitude, longitude, createTime, destroyTime, anonymous, like, oppose, title, storyType, likeNum, opposeNum, commentNum);
         this.storyPictures = storyPictures;
     }
 
@@ -38,7 +34,10 @@ public class StoryBean extends CardInfo implements Parcelable {
     }
 
     public StoryBean(CardInfo cardInfo) {
-        super(cardInfo.getUserInfo(), cardInfo.getStoryId(), cardInfo.getContent(), cardInfo.getCover(), cardInfo.getLocationTitle(), cardInfo.getLatitude(), cardInfo.getLongitude(), cardInfo.getCreateTime(), cardInfo.getDestroyTime(), cardInfo.getAnonymous(), cardInfo.getLike(), cardInfo.getOppose(), cardInfo.getLikeNum(), cardInfo.getOpposeNum(), cardInfo.getCommentNum());
+        super(cardInfo.getUserInfo(), cardInfo.getStoryId(), cardInfo.getContent(), cardInfo.getCover(),
+                cardInfo.getLocationTitle(), cardInfo.getLatitude(), cardInfo.getLongitude(), cardInfo.getCreateTime(),
+                cardInfo.getDestroyTime(), cardInfo.getAnonymous(), cardInfo.getLike(), cardInfo.getOppose(),
+                cardInfo.getTitle(), cardInfo.getStoryType(), cardInfo.getLikeNum(), cardInfo.getOpposeNum(), cardInfo.getCommentNum());
     }
 
 

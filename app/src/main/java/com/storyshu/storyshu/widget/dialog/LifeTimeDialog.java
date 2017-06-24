@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.widget.dialog;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.storyshu.storyshu.R;
@@ -12,6 +13,7 @@ import com.storyshu.storyshu.widget.LifeTimeSelector;
  */
 
 public class LifeTimeDialog extends IBaseDialog {
+    private static final String TAG = "LifeTimeDialog";
     private OnLifeSelectedListener onLifeSelectedListener;
 
     public void setOnLifeSelectedListener(OnLifeSelectedListener onLifeSelectedListener) {
@@ -56,6 +58,7 @@ public class LifeTimeDialog extends IBaseDialog {
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "onClick: 选择的时间：" + lifeTimeSelector.getLifeTime());
                 if (onLifeSelectedListener != null)
                     onLifeSelectedListener.onSelected(lifeTimeSelector.getLifeTime());
                 dismiss();

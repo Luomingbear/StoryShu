@@ -11,8 +11,8 @@ import android.view.View;
 import com.amap.api.maps.SupportMapFragment;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
-import com.storyshu.storyshu.activity.create.CreateLongStoryActivity;
-import com.storyshu.storyshu.activity.create.CreateMicStoryActivity;
+import com.storyshu.storyshu.activity.create.CreateArticleActivity;
+import com.storyshu.storyshu.activity.create.CreateStoryActivity;
 import com.storyshu.storyshu.fragement.AirportFragment;
 import com.storyshu.storyshu.fragement.MessageFragment;
 import com.storyshu.storyshu.fragement.MineFragment;
@@ -132,11 +132,11 @@ public class MainActivity extends IPermissionActivity implements MainView {
             Intent intent = new Intent();
             switch (position) {
                 case 0:
-                    intent.setClass(MainActivity.this, CreateLongStoryActivity.class);
+                    intent.setClass(MainActivity.this, CreateArticleActivity.class);
                     startActivityForResult(intent, NameUtil.REQUST_CREATE);
                     break;
                 case 1: //短文字
-                    intent.setClass(MainActivity.this, CreateMicStoryActivity.class);
+                    intent.setClass(MainActivity.this, CreateStoryActivity.class);
                     startActivityForResult(intent, NameUtil.REQUST_CREATE);
                     break;
                 case 2:

@@ -12,6 +12,7 @@ import com.storyshu.storyshu.info.CardInfo;
 import java.util.List;
 
 /**
+ * 滑动rv的测试adapter
  * Created by bear on 2017/6/5.
  */
 

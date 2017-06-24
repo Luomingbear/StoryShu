@@ -17,8 +17,8 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
-import com.storyshu.storyshu.mvp.create.CreateStoryPresenterImpl;
-import com.storyshu.storyshu.mvp.create.CreateStoryView;
+import com.storyshu.storyshu.mvp.create.story.CreateStoryPresenterImpl;
+import com.storyshu.storyshu.mvp.create.story.CreateStoryView;
 import com.storyshu.storyshu.utils.KeyBordUtil;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
@@ -32,8 +32,8 @@ import java.util.List;
 /**
  * 编辑短文字
  */
-public class CreateMicStoryActivity extends IBaseActivity implements CreateStoryView, View.OnClickListener {
-    private static final String TAG = "CreateMicStoryActivity";
+public class CreateStoryActivity extends IBaseActivity implements CreateStoryView, View.OnClickListener {
+    private static final String TAG = "CreateStoryActivity";
     private TitleView mTitleView; //标题栏
     private EditText mStoryEdit; //写故事的edit
     private GridLayout mPicGridLayout; //故事图片的布局
@@ -67,7 +67,7 @@ public class CreateMicStoryActivity extends IBaseActivity implements CreateStory
 
         initEvents();
 
-        mCreateStoryPresenter = new CreateStoryPresenterImpl(CreateMicStoryActivity.this, CreateMicStoryActivity.this);
+        mCreateStoryPresenter = new CreateStoryPresenterImpl(CreateStoryActivity.this, CreateStoryActivity.this);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class CreateMicStoryActivity extends IBaseActivity implements CreateStory
     private TitleView.OnTitleClickListener onTitleClickListener = new TitleView.OnTitleClickListener() {
         @Override
         public void onLeftClick() {
-            KeyBordUtil.hideKeyboard(CreateMicStoryActivity.this, mTitleView);
+            KeyBordUtil.hideKeyboard(CreateStoryActivity.this, mTitleView);
             onBackPressed();
         }
 
@@ -257,7 +257,7 @@ public class CreateMicStoryActivity extends IBaseActivity implements CreateStory
 
         if (mChangePicPathList != null && mChangePicPathList.size() > 0) {
             for (ImageItem item : mChangePicPathList) {
-                ImageView imageView = new ImageView(CreateMicStoryActivity.this);
+                ImageView imageView = new ImageView(CreateStoryActivity.this);
                 RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(width, width);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(p);
                 params.setMargins(margin, margin, 0, 0);

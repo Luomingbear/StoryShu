@@ -21,11 +21,12 @@ public class IssueStoryBean extends BaseIssueStoryBean {
         this.destroyTime = destroyTime;
     }
 
-    public IssueStoryBean(int userId, String content, String cityName, String locationTitle, double latitude, double longitude, String createTime, Boolean isAnonymous, int tag, String cover, List<String> storyPictures, String destroyTime) {
-        super(userId, content, cityName, locationTitle, latitude, longitude, createTime, isAnonymous, tag);
+    public IssueStoryBean(int userId, String content, String cityName, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean isAnonymous,
+                          int storyType, String cover, List<String> storyPictures, String destroyTime1) {
+        super(userId, content, cityName, locationTitle, latitude, longitude, createTime, destroyTime, isAnonymous, storyType);
         this.cover = cover;
         this.storyPictures = storyPictures;
-        this.destroyTime = destroyTime;
+        this.destroyTime = destroyTime1;
     }
 
     public List<String> getStoryPictures() {

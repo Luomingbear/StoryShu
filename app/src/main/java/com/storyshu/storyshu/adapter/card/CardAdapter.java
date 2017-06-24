@@ -79,7 +79,18 @@ public class CardAdapter extends IBaseAdapter {
         viewHolder.like.setChecked(cardInfo.getLike());
         viewHolder.oppose.setChecked(cardInfo.getOppose());
 
-        viewHolder.extract.setText(cardInfo.getContent());
+        switch (cardInfo.getStoryType()) {
+            case CardInfo.STORY:
+                viewHolder.extract.setTextColor(getContext().getResources().getColor(R.color.colorBlack));
+                viewHolder.extract.setText(cardInfo.getContent());
+                break;
+
+            case CardInfo.ARTICLE:
+                viewHolder.extract.setTextColor(getContext().getResources().getColor(R.color.colorRedLight));
+                viewHolder.extract.setText(getContext().getString(R.string.story_type_article, cardInfo.getTitle()));
+                break;
+        }
+
         if (!TextUtils.isEmpty(cardInfo.getCover())) {
             viewHolder.cover.setVisibility(View.VISIBLE);
             Glide.with(getContext()).load(cardInfo.getCover()).dontAnimate().into(viewHolder.cover);

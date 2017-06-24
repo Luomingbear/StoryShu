@@ -48,6 +48,7 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     private TextView mNickname; //作者昵称
     private TextView mCreateTime; //发布时间
     private TextView mDeathTime; //剩余时间
+    private TextView mTitle; //标题
 
     private ClickButton mLike, mOppose, mComment; //按钮
     private RoundTextView mSend; //发送按钮
@@ -64,14 +65,37 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.story_room_layout);
-
-        initView();
-        mStoryRoomPresenter = new StoryRoomPresenterIml(StoryRoomActivity.this, StoryRoomActivity.this);
-
         initData();
 
+        setContentView(getLayoutRes());
+
+        initView();
+
         initEvent();
+    }
+
+
+    /**
+     * 获取需要加载的视图信息
+     *
+     * @return
+     */
+    private int getLayoutRes() {
+        if (mStoryBean == null)
+            return R.layout.story_room_layout;
+
+        switch (mStoryBean.getStoryType()) {
+            case CardInfo.STORY: //短文
+                return R.layout.story_room_layout;
+
+            case CardInfo.ARTICLE: //文章
+                return R.layout.activity_story_room_long_layout;
+
+            case CardInfo.VIDEO: //视频
+                return R.layout.story_room_layout;
+        }
+
+        return R.layout.story_room_layout;
     }
 
     @Override
@@ -92,9 +116,6 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
         mRichTextEditor = (RichTextEditor) findViewById(R.id.rich_text_edit);
 
-        mStoryContent = (TextView) findViewById(R.id.story_content);
-
-        mStoryCover = (ImageView) findViewById(R.id.story_pic);
 
         mPicSize = (TextView) findViewById(R.id.pic_size);
 
@@ -125,13 +146,35 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
         mCommentRV = (RecyclerView) findViewById(R.id.comment_list);
 
+        /**
+         * 短文界面特有
+         */
+        if (mStoryBean.getStoryType() == CardInfo.STORY) {
+        }
+
+        switch (mStoryBean.getStoryType()) {
+            case CardInfo.STORY:
+                mStoryCover = (ImageView) findViewById(R.id.story_pic);
+                mStoryContent = (TextView) findViewById(R.id.story_content);
+                break;
+
+            case CardInfo.ARTICLE:
+                mTitle = (TextView) findViewById(R.id.title_tv);
+                break;
+        }
+
         //修复打开页面的自动滚动问题
         mScrollView.post(new Runnable() {
             @Override
             public void run() {
                 mScrollView.scrollTo(0, 0);
+
+                //隐藏键盘
+                KeyBordUtil.hideKeyboard(StoryRoomActivity.this, mTitleView);
             }
         });
+
+        mStoryRoomPresenter = new StoryRoomPresenterIml(StoryRoomActivity.this, StoryRoomActivity.this);
     }
 
     /**
@@ -170,15 +213,11 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
         if (getIntent().getParcelableExtra(NameUtil.CARD_INFO) != null)
             mStoryBean = new StoryBean((CardInfo) getIntent().getParcelableExtra(NameUtil.CARD_INFO));
         mStoryIdBean = getIntent().getParcelableExtra(NameUtil.STORY_ID_BEAN);
-        if (mStoryBean != null) {
-            setStoryData(mStoryBean);
-        } else if (mStoryIdBean != null) {
-            mStoryRoomPresenter.getStoryInfo();
-        }
     }
 
     @Override
     public void initEvents() {
+
     }
 
     @Override
@@ -222,9 +261,15 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
      * 初始化事件处理
      */
     private void initEvent() {
-        initTitle();
 
-        mStoryCover.setOnClickListener(this);
+        if (mStoryBean != null) {
+            setStoryData(mStoryBean);
+        } else if (mStoryIdBean != null) {
+            mStoryRoomPresenter.getStoryInfo();
+        }
+
+        //
+        initTitle();
 
         mReport.setOnClickListener(this);
 
@@ -244,6 +289,9 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
         });
 
         initCommentEdit();
+
+        if (mStoryBean.getStoryType() == CardInfo.STORY)
+            mStoryCover.setOnClickListener(this);
 
     }
 
@@ -339,41 +387,53 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
             return;
         mStoryBean = storyData;
 
-        mRichTextEditor.parseXml(mStoryBean.getContent());
 
-        mStoryContent.setText(storyData.getContent());
+        switch (mStoryBean.getStoryType()) {
+            case CardInfo.STORY:
+                mStoryContent.setText(storyData.getContent());
 
-        if (!TextUtils.isEmpty(storyData.getCover())) {
-            mStoryCover.setVisibility(View.VISIBLE);
-            Glide.with(this).load(storyData.getCover()).dontAnimate().into(mStoryCover);
+                if (!TextUtils.isEmpty(storyData.getCover())) {
+                    mStoryCover.setVisibility(View.VISIBLE);
+                    Glide.with(this).load(storyData.getCover()).dontAnimate().into(mStoryCover);
 
-            if (storyData.getStoryPictures() != null && storyData.getStoryPictures().size() > 1) {
-                mPicSize.setVisibility(View.VISIBLE);
-                mPicSize.setText(storyData.getStoryPictures().size() + "");
-            } else mPicSize.setVisibility(View.GONE);
+                    if (storyData.getStoryPictures() != null && storyData.getStoryPictures().size() > 1) {
+                        mPicSize.setVisibility(View.VISIBLE);
+                        mPicSize.setText(storyData.getStoryPictures().size() + "");
+                    } else mPicSize.setVisibility(View.GONE);
 
-        } else {
-            mStoryCover.clearAnimation(); //清除动画
-            mStoryCover.setVisibility(View.GONE);
-            mPicSize.setVisibility(View.GONE);
+                } else {
+                    mStoryCover.clearAnimation(); //清除动画
+                    mStoryCover.setVisibility(View.GONE);
+                    mPicSize.setVisibility(View.GONE);
+                }
+
+                /**
+                 * 获取配图
+                 */
+                mStoryRoomPresenter.getStoryPic();
+                break;
+
+            case CardInfo.ARTICLE:
+                mRichTextEditor.parseXml(mStoryBean.getContent());
+                mTitle.setText(mStoryBean.getTitle());
+                break;
         }
 
         /**
          * 检测是否是匿名的
          */
         if (storyData.getAnonymous()) {
-            findViewById(R.id.story_detail_layout).setBackgroundResource(R.drawable.card_view_black_bg);
-            findViewById(R.id.line).setVisibility(View.GONE);
-            mStoryContent.setTextColor(getResources().getColor(R.color.colorWhiteDeep));
-            mLocation.setTextColor(getResources().getColor(R.color.colorGray));
-            mReport.setTextColor(getResources().getColor(R.color.colorGray));
+//            findViewById(R.id.story_detail_layout).setBackgroundResource(R.drawable.card_view_black_bg);
+//            findViewById(R.id.line).setVisibility(View.GONE);
+//            mStoryContent.setTextColor(getResources().getColor(R.color.colorWhiteDeep));
+//            mLocation.setTextColor(getResources().getColor(R.color.colorGray));
+//            mReport.setTextColor(getResources().getColor(R.color.colorGray));
             mAvatar.setImageResource(R.drawable.avatar_wolverine);
             mNickname.setVisibility(View.GONE);
         } else {
             Glide.with(this).load(storyData.getUserInfo().getAvatar()).into(mAvatar);
             mNickname.setText(storyData.getUserInfo().getNickname());
         }
-
         mLocation.setText(storyData.getLocationTitle());
 
         mCreateTime.setText(TimeUtils.convertCurrentTime(this, storyData.getCreateTime()));
@@ -388,11 +448,6 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
         mLike.setNum(storyData.getLikeNum());
         mOppose.setNum(storyData.getOpposeNum());
-
-        /**
-         * 获取配图
-         */
-        mStoryRoomPresenter.getStoryPic();
     }
 
     @Override

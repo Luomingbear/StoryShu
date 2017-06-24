@@ -16,8 +16,8 @@ public class IssueLongStoryBean extends BaseIssueStoryBean {
         this.title = title;
     }
 
-    public IssueLongStoryBean(int userId, String content, String cityName, String locationTitle, double latitude, double longitude, String createTime, Boolean isAnonymous, int tag, String title) {
-        super(userId, content, cityName, locationTitle, latitude, longitude, createTime, isAnonymous, tag);
+    public IssueLongStoryBean(int userId, String content, String cityName, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean isAnonymous, int storyType, String title) {
+        super(userId, content, cityName, locationTitle, latitude, longitude, createTime, destroyTime, isAnonymous, storyType);
         this.title = title;
     }
 

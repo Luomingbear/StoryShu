@@ -1,7 +1,6 @@
 package com.storyshu.storyshu.widget.text;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -22,6 +21,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.EditLineData;
 import com.storyshu.storyshu.utils.DipPxConversion;
 import com.storyshu.storyshu.utils.KeyBordUtil;
+import com.storyshu.storyshu.utils.net.QiniuUploadManager;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.imageview.DataImageView;
 
@@ -94,7 +94,6 @@ public class RichTextEditor extends ScrollView {
         // 1. 初始化allLayout
         allLayout = new LinearLayout(context);
         allLayout.setOrientation(LinearLayout.VERTICAL);
-        allLayout.setBackgroundColor(Color.WHITE);
 
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
@@ -332,7 +331,9 @@ public class RichTextEditor extends ScrollView {
 
         //隐藏键盘
         KeyBordUtil.hideKeyboard(getContext(), lastFocusEdit);
+
     }
+
 
     /**
      * 生成图片，仅限用于根据数据转化为view
@@ -408,7 +409,6 @@ public class RichTextEditor extends ScrollView {
         imageView.setLayoutParams(lp);
 
         // onActivityResult无法触发动画，此处post处理
-
         allLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -416,6 +416,31 @@ public class RichTextEditor extends ScrollView {
             }
         });
 
+        //上传图片
+        uploadImage(imageView);
+
+    }
+
+
+    private QiniuUploadManager qiniuUploadManager;  //七牛云上传管家
+
+    /**
+     * 上传图片
+     */
+    private void uploadImage(final DataImageView dataImageView) {
+        qiniuUploadManager = new QiniuUploadManager(getContext());
+        qiniuUploadManager.uploadFile(dataImageView.getAbsolutePath());
+        qiniuUploadManager.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
+            @Override
+            public void onSucceed(List<String> pathList) {
+                dataImageView.setAbsolutePath(pathList.get(0));
+            }
+
+            @Override
+            public void onFailed(List<String> errorPathList) {
+
+            }
+        });
     }
 
     /**

@@ -8,14 +8,14 @@
     android:orientation="vertical"
     android:padding="@dimen/margin_normal">
 
-    <com.storyshu.storyshu.widget.tag.TagFrameLayout
+    <com.storyshu.storyshu.widget.storyType.TagFrameLayout
         android:id="@+id/tag_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         app:tagTextSize="@dimen/font_small">
 
-    </com.storyshu.storyshu.widget.tag.TagFrameLayout>
+    </com.storyshu.storyshu.widget.storyType.TagFrameLayout>
 
     <com.storyshu.storyshu.widget.LocationSelector
         android:id="@+id/select_location"

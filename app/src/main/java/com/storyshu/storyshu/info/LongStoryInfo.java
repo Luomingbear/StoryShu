@@ -13,7 +13,6 @@ public class LongStoryInfo {
     private double latitude;
     private double longitude;
 
-
     private Boolean anonymous;
     private Boolean like = false; //点赞
     private Boolean oppose = false; //反对

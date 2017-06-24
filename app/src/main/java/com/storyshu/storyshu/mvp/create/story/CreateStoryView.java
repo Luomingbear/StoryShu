@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.mvp.create;
+package com.storyshu.storyshu.mvp.create.story;
 
 import android.widget.TextView;
 
