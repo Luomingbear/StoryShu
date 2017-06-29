@@ -78,4 +78,14 @@ public class AutoScaleLayout extends RelativeLayout {
         params.height = (int) height;
         setLayoutParams(params);
     }
+
+    public float getScaleRate() {
+        return mScaleRate;
+    }
+
+    public void setScaleRate(float mScaleRate) {
+        this.mScaleRate = mScaleRate;
+
+        requestLayout();
+    }
 }

@@ -24,7 +24,8 @@ public class BaseIssueStoryBean {
     public BaseIssueStoryBean() {
     }
 
-    public BaseIssueStoryBean(int userId, String content, String cityName, String locationTitle, double latitude, double longitude, String createTime, String destroyTime, Boolean isAnonymous, int storyType) {
+    public BaseIssueStoryBean(int userId, String content, String cityName, String locationTitle, double latitude,
+                              double longitude, String createTime, String destroyTime, Boolean isAnonymous, int storyType) {
         this.userId = userId;
         this.content = content;
         this.cityName = cityName;

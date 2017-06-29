@@ -1,5 +1,6 @@
 package com.storyshu.storyshu.activity.story;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,9 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +33,7 @@ import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
+import com.storyshu.storyshu.widget.card.AutoScaleLayout;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
 import com.storyshu.storyshu.widget.text.RoundTextView;
@@ -38,6 +44,7 @@ import java.util.List;
 public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, View.OnClickListener {
     private static final String TAG = "StoryRoomActivity";
     private TitleView mTitleView; //标题栏
+    private LinearLayout mStoryLayout; //故事显示的布局
     private RichTextEditor mRichTextEditor; //富文本显示框架
     private TextView mStoryContent; //故事的内容
     private ImageView mStoryCover; //故事的配图
@@ -65,11 +72,12 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
 
         setContentView(getLayoutRes());
 
         initView();
+
+        initData();
 
         initEvent();
     }
@@ -117,8 +125,6 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
         mRichTextEditor = (RichTextEditor) findViewById(R.id.rich_text_edit);
 
 
-        mPicSize = (TextView) findViewById(R.id.pic_size);
-
         mLocation = (TextView) findViewById(R.id.location);
 
         mReport = (TextView) findViewById(R.id.report);
@@ -146,22 +152,24 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
         mCommentRV = (RecyclerView) findViewById(R.id.comment_list);
 
-        /**
-         * 短文界面特有
-         */
-        if (mStoryBean.getStoryType() == CardInfo.STORY) {
-        }
+        mStoryLayout = (LinearLayout) findViewById(R.id.story_detail_layout);
 
-        switch (mStoryBean.getStoryType()) {
-            case CardInfo.STORY:
-                mStoryCover = (ImageView) findViewById(R.id.story_pic);
-                mStoryContent = (TextView) findViewById(R.id.story_content);
-                break;
-
-            case CardInfo.ARTICLE:
-                mTitle = (TextView) findViewById(R.id.title_tv);
-                break;
-        }
+//        /**
+//         * 短文界面特有
+//         */
+//
+//        if (mStoryBean != null) {
+//            switch (mStoryBean.getStoryType()) {
+//                case CardInfo.STORY:
+//                    mStoryCover = (ImageView) findViewById(R.id.story_pic);
+//                    mStoryContent = (TextView) findViewById(R.id.story_content);
+//                    break;
+//
+//                case CardInfo.ARTICLE:
+//                    mTitle = (TextView) findViewById(R.id.title_tv);
+//                    break;
+//            }
+//        }
 
         //修复打开页面的自动滚动问题
         mScrollView.post(new Runnable() {
@@ -211,7 +219,7 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     @Override
     public void initData() {
         if (getIntent().getParcelableExtra(NameUtil.CARD_INFO) != null)
-            mStoryBean = new StoryBean((CardInfo) getIntent().getParcelableExtra(NameUtil.CARD_INFO));
+            setStoryData(new StoryBean((CardInfo) getIntent().getParcelableExtra(NameUtil.CARD_INFO)));
         mStoryIdBean = getIntent().getParcelableExtra(NameUtil.STORY_ID_BEAN);
     }
 
@@ -290,15 +298,12 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
         initCommentEdit();
 
-        if (mStoryBean.getStoryType() == CardInfo.STORY)
-            mStoryCover.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.story_pic:
+            case R.id.story_cover:
                 mStoryRoomPresenter.showStoryPicDialog();
                 break;
 
@@ -385,9 +390,16 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     public void setStoryData(StoryBean storyData) {
         if (storyData == null)
             return;
-        mStoryBean = storyData;
 
+        /**
+         * 首次获取到数据需要设置布局
+         */
+        if (mStoryBean == null) {
+            mStoryBean = storyData;
+            setLayout();
+        } else mStoryBean = storyData;
 
+        //
         switch (mStoryBean.getStoryType()) {
             case CardInfo.STORY:
                 mStoryContent.setText(storyData.getContent());
@@ -448,6 +460,90 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
         mLike.setNum(storyData.getLikeNum());
         mOppose.setNum(storyData.getOpposeNum());
+    }
+
+    /**
+     * 根据数据类型生产不同的布局
+     */
+    private void setLayout() {
+        switch (mStoryBean.getStoryType()) {
+            case CardInfo.STORY:
+                createStoryLayout();
+                break;
+            case CardInfo.ARTICLE:
+                createArticleLayout();
+                break;
+        }
+
+    }
+
+    /**
+     * 生成故事的布局
+     */
+    private void createStoryLayout() {
+
+        //内容
+        mStoryContent = new TextView(StoryRoomActivity.this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int margin = (int) getResources().getDimension(R.dimen.margin_normal);
+        mStoryContent.setLayoutParams(params);
+        mStoryContent.setPadding(margin, margin, margin, 0);
+        mStoryContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_normal));
+        mStoryContent.setTextColor(getResources().getColor(R.color.colorBlack));
+        mStoryContent.setLineSpacing(getResources().getDimension(R.dimen.line_space_normal), 1);
+        mStoryLayout.addView(mStoryContent, 0);
+
+        AutoScaleLayout scaleLayout = new AutoScaleLayout(StoryRoomActivity.this);
+        RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params2.setMargins(margin, margin, margin, margin);
+        scaleLayout.setLayoutParams(params2);
+        scaleLayout.setScaleRate(1);
+
+        mStoryCover = new ImageView(StoryRoomActivity.this);
+        mStoryCover.setLayoutParams(params);
+        mStoryCover.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        mStoryCover.setId(R.id.story_cover);
+        mStoryCover.setOnClickListener(this);
+
+        //图片的数量
+        mPicSize = new TextView(StoryRoomActivity.this);
+        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        params1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mPicSize.setLayoutParams(params1);
+        //
+        mPicSize.setTextColor(Color.WHITE);
+        mPicSize.setBackgroundResource(R.color.colorBlackLight);
+        mPicSize.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_small));
+        mPicSize.setPadding(10, 10, 10, 10);
+
+        scaleLayout.addView(mStoryCover);
+        scaleLayout.addView(mPicSize);
+
+        if (!TextUtils.isEmpty(mStoryBean.getCover()))
+            mStoryLayout.addView(scaleLayout, 1);
+    }
+
+    /**
+     * 生成文章的布局
+     */
+    private void createArticleLayout() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        mTitle = new TextView(StoryRoomActivity.this);
+        mTitle.setLayoutParams(params);
+        int padding = (int) getResources().getDimension(R.dimen.margin_normal);
+        mTitle.setPadding(padding, padding, padding, padding);
+        mTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_title));
+        mTitle.setLineSpacing(getResources().getDimension(R.dimen.line_space_normal), 1);
+        mTitle.setTextColor(getResources().getColor(R.color.colorBlackLight));
+
+        mStoryLayout.addView(mTitle, 0);
+
+        mRichTextEditor = new RichTextEditor(StoryRoomActivity.this);
+        mRichTextEditor.setLayoutParams(params);
+
+        mStoryLayout.addView(mRichTextEditor, 1);
     }
 
     @Override

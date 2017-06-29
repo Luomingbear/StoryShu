@@ -82,7 +82,7 @@ public class LineProgressBar extends View implements EventObserver {
 
     public void setProgress(int progress) {
         this.progress = progress;
-        invalidate();
+        postInvalidate();
     }
 
     public int getProgress() {

@@ -1,7 +1,6 @@
 package com.storyshu.storyshu.utils;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +19,8 @@ public class DownloadAsyncTask extends AsyncTask<String, Integer, Void> {
     private int curThreadIndex = 1; //当前下载的线程
     private int maxThead = 1; //最大的下载线程
     private String savePath;
+    private int total_length = 0; //当前下载的总量
+
 
     private OnDownloadAsyncTaskListener onDownloadAsyncTaskListener;
 
@@ -72,8 +73,8 @@ public class DownloadAsyncTask extends AsyncTask<String, Integer, Void> {
                  * 设置下载的起点和终点
                  */
                 long blockLength = file_length / maxThead;
-                long beginPosition = (curThreadIndex - 1) * blockLength;  //开始下载的位置
-                long endPosition = (curThreadIndex) * blockLength; //结束下载的位置
+                long beginPosition = (curThreadIndex) * blockLength;  //开始下载的位置
+                long endPosition = (curThreadIndex + 1) * blockLength; //结束下载的位置
 
 
                 URLConnection conn = url.openConnection();
@@ -86,7 +87,6 @@ public class DownloadAsyncTask extends AsyncTask<String, Integer, Void> {
 
 
                 int len;
-                int total_length = 0;
                 byte[] data = new byte[1024];
 
                 //保存的文件
@@ -122,14 +122,17 @@ public class DownloadAsyncTask extends AsyncTask<String, Integer, Void> {
         return null;
     }
 
+    public int getDownloadedSize() {
+        return total_length;
+    }
+
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
 
         if (onDownloadAsyncTaskListener != null)
             onDownloadAsyncTaskListener.onProgressUpdate(values[0]);
-        Log.i(TAG, "onProgressUpdate: " + values[0] + "-----------" + curThreadIndex);
-//        EventObservable.getInstance().notifyObservers(R.id.describe, values[0]);
+//        Log.i(TAG, "onProgressUpdate: " + values[0] + "-----------" + curThreadIndex);
     }
 
     @Override

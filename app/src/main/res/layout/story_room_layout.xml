@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrayLight"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <com.storyshu.storyshu.widget.title.TitleView
@@ -21,7 +21,6 @@
         android:id="@id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_view"
         android:layout_weight="1">
 
         <android.support.v4.widget.NestedScrollView
@@ -33,7 +32,6 @@
                 android:id="@+id/hide_keyboard_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -44,43 +42,45 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/story_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_normal"
-                        android:layout_marginRight="@dimen/margin_normal"
-                        android:layout_marginTop="@dimen/margin_normal"
-                        android:lineSpacingExtra="@dimen/line_space_normal"
-                        android:text="@string/search_error_empty"
-                        android:textColor="?attr/textColor1"
-                        android:textSize="@dimen/font_normal" />
 
-                    <com.storyshu.storyshu.widget.card.AutoScaleLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_normal"
-                        app:scaleRate="1">
 
-                        <ImageView
-                            android:id="@+id/story_pic"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/gray_rectangle" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/story_content"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="@dimen/margin_normal"-->
+                        <!--android:layout_marginRight="@dimen/margin_normal"-->
+                        <!--android:layout_marginTop="@dimen/margin_normal"-->
+                        <!--android:lineSpacingExtra="@dimen/line_space_normal"-->
+                        <!--android:text="@string/search_error_empty"-->
+                        <!--android:textColor="?attr/textColor1"-->
+                        <!--android:textSize="@dimen/font_normal" />-->
 
-                        <TextView
-                            android:id="@+id/pic_size"
-                            android:layout_width="@dimen/font_normal"
-                            android:layout_height="@dimen/font_normal"
-                            android:layout_alignBottom="@id/story_pic"
-                            android:layout_alignRight="@id/story_pic"
-                            android:background="@color/colorBlack"
-                            android:gravity="center"
-                            android:textColor="@color/colorGrayLight"
-                            android:textSize="@dimen/font_small" />
-                    </com.storyshu.storyshu.widget.card.AutoScaleLayout>
+                    <!--<com.storyshu.storyshu.widget.card.AutoScaleLayout-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="@dimen/margin_normal"-->
+                        <!--app:scaleRate="1">-->
+
+                        <!--<ImageView-->
+                            <!--android:id="@+id/story_pic"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_marginTop="@dimen/margin_small"-->
+                            <!--android:scaleType="centerCrop"-->
+                            <!--android:src="@drawable/gray_rectangle" />-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/pic_size"-->
+                            <!--android:layout_width="@dimen/font_normal"-->
+                            <!--android:layout_height="@dimen/font_normal"-->
+                            <!--android:layout_alignBottom="@id/story_pic"-->
+                            <!--android:layout_alignRight="@id/story_pic"-->
+                            <!--android:background="@color/colorBlack"-->
+                            <!--android:gravity="center"-->
+                            <!--android:textColor="@color/colorGrayLight"-->
+                            <!--android:textSize="@dimen/font_small" />-->
+                    <!--</com.storyshu.storyshu.widget.card.AutoScaleLayout>-->
 
                     <RelativeLayout
                         android:layout_width="match_parent"

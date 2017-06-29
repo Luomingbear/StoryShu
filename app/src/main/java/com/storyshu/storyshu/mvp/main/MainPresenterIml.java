@@ -96,7 +96,7 @@ public class MainPresenterIml extends IBasePresenter<MainView> implements MainPr
                     }
                 });
             }
-        }, 4 * 1000);
+        }, 3 * 1000);
     }
 
     @Override

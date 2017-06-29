@@ -43,7 +43,7 @@ public class ILocationSever {
                     //可在其中解析amapLocation获取相应内容。
                     if (onLocationChange != null)
                         onLocationChange.onLocationChange(aMapLocation);
-                    Log.i(TAG, "onLocationChanged: " + aMapLocation);
+//                    Log.i(TAG, "onLocationChanged: " + aMapLocation);
                     mTimer.cancel();
                     mTimer = null;
 

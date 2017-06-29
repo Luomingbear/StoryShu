@@ -2,7 +2,7 @@ package com.storyshu.storyshu.utils.net;
 
 import android.util.Log;
 
-import com.storyshu.storyshu.utils.DownloadThread;
+import com.storyshu.storyshu.utils.DownloadAsyncTask;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +27,9 @@ public class DownLoadManager extends Thread {
     private int isfinished = 0;
     private int downloadedAllSize = 0;
     private long file_length;
-    private DownloadThread threads[];
+    private DownloadAsyncTask threads[];
+
+    private int postEndIndex = 0; //当前下载完成几个线程
 
     public void setOnDownloadListener(OnDownloadListener onDownloadListener) {
         this.onDownloadListener = onDownloadListener;
@@ -48,7 +50,7 @@ public class DownLoadManager extends Thread {
         this.savePath = savePath;
     }
 
-    Timer timer = new Timer();
+    private Timer timer = new Timer(); //刷新检测进度
 
     @Override
     public void run() {
@@ -61,51 +63,54 @@ public class DownLoadManager extends Thread {
             // 获取文件流大小，用于更新进度
             file_length = conn.getContentLength();
 
-            threads = new DownloadThread[maxThread];
+            threads = new DownloadAsyncTask[maxThread];
 
             for (int i = 0; i < maxThread; i++) {
-                long start = file_length / maxThread * i;
-                long end = file_length / maxThread * (i + 1);
+                threads[i] = new DownloadAsyncTask(i, maxThread, savePath);
+                threads[i].execute(downloadUrl);
+                threads[i].setOnDownloadAsyncTaskListener(new DownloadAsyncTask.OnDownloadAsyncTaskListener() {
+                    @Override
+                    public void onProgressUpdate(int progress) {
 
-                threads[i] = new DownloadThread(downloadUrl, savePath, start, end);
-                threads[i].start();
+                    }
 
-
+                    @Override
+                    public void onPostExecute() {
+                        isfinished += 1;
+                        if (isfinished == maxThread)
+                            if (onDownloadListener != null) {
+                                onDownloadListener.onSucceed();
+                            }
+                    }
+                });
             }
 
             /**
              * 监听下载进度
              */
 
-            downloadedAllSize = 0;
 
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
+                    downloadedAllSize = 0;
+
                     for (int i = 0; i < maxThread; i++) {
-                        downloadedAllSize += threads[i].getDownloadLength();
-                        if (threads[i].isCompleted()) {
-                            isfinished++;
-                        }
+                        downloadedAllSize += threads[i].getDownloadedSize();
 
                         if (onDownloadListener != null) {
                             onDownloadListener.onProgressUpdate((int) (downloadedAllSize * 100 / file_length));
                         }
 
-//                        Log.i(TAG, "download: 进度：" + (downloadedAllSize * 100 / file_length));
                     }
 
                     if (isfinished == maxThread) {
                         timer.cancel();
-                        if (onDownloadListener != null) {
-                            onDownloadListener.onSucceed();
-                        }
-
+                        timer = null;
                     }
                 }
             }, 40, 40);
 
-//            Log.i(TAG, "run: 下载完成！");
 
         } catch (IOException e) {
             e.printStackTrace();

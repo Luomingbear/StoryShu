@@ -24,6 +24,7 @@ public class DownloadThread extends Thread {
 
     private long downloadLength = 0; //已经下载的大小
     private float progress = 0;
+
     /**
      * 当前下载是否完成
      */
