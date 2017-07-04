@@ -9,9 +9,11 @@ import android.os.Parcelable;
  */
 
 public class BaseUserInfo implements Parcelable {
-    private int userId = -1; //用户id 默认游客身份
+    private int userId = VISITOR; //用户id 默认游客身份
     private String nickname; //昵称
     private String avatar; //头像
+
+    public static final int VISITOR = -1; //游客id
 
     public BaseUserInfo() {
     }

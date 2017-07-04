@@ -77,15 +77,31 @@
         app:cType="like" />
 
     <TextView
-        android:id="@+id/comment_content"
+        android:id="@+id/reply_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/create_time"
-        android:layout_marginBottom="@dimen/margin_normal"
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_toRightOf="@id/avatar"
         android:lineSpacingExtra="@dimen/line_space_normal"
+        android:text="@string/create_story_hint"
         android:textColor="?attr/textColor1"
         android:textSize="@dimen/font_normal" />
+
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/comment_content"
+        android:layout_below="@id/reply_content"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_toRightOf="@id/avatar"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/margin_small"
+        android:text="@string/create_story_hint"
+        android:textColor="@color/colorGrayDeep"
+        android:textSize="@dimen/font_small" />
 </RelativeLayout>

@@ -139,6 +139,7 @@
     <string name="edit_comment">添加评论</string>
     <string name="hot_comment">热门评论</string>
     <string name="no_comment">暂无评论</string>
+    <string name="reply_to">回复%1$s:%2$s</string>
 
     <!--候机厅-->
     <string name="search_hint">搜索你想到达的地方</string>

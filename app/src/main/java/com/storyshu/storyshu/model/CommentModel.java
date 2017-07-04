@@ -7,6 +7,7 @@ import com.storyshu.storyshu.bean.comment.CommentBean;
 import com.storyshu.storyshu.bean.comment.CommentPostBean;
 import com.storyshu.storyshu.bean.comment.CommentReponseBean;
 import com.storyshu.storyshu.bean.comment.CommentSizeResponseBean;
+import com.storyshu.storyshu.bean.comment.ReplyPostBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.utils.net.CodeUtil;
 import com.storyshu.storyshu.utils.net.RetrofitManager;
@@ -201,5 +202,33 @@ public class CommentModel {
 
             }
         });
+    }
+
+    /**
+     * 回复评论
+     */
+    public void replyComment(ReplyPostBean replyPostBean) {
+        Call<OnlyDataResponseBean> call = RetrofitManager.getInstance().getService().replyComment(replyPostBean);
+        call.enqueue(new Callback<OnlyDataResponseBean>() {
+            @Override
+            public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    if (onCommentIssueListener != null)
+                        onCommentIssueListener.onSucceed();
+                } else {
+                    if (onCommentIssueListener != null)
+                        onCommentIssueListener.onFailed(response.body().getMessage());
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<OnlyDataResponseBean> call, Throwable t) {
+                if (onCommentIssueListener != null)
+                    onCommentIssueListener.onFailed(t.getMessage());
+            }
+        });
+
     }
 }

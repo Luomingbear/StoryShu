@@ -22,9 +22,13 @@ import java.util.List;
  */
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold> {
-    private ViewHold viewHolder;
     private Context mContext;
     private List<CommentBean> mCommentList;
+    private OnCommentClickListener onCommentClickListener;
+
+    public void setOnCommentClickListener(OnCommentClickListener onCommentClickListener) {
+        this.onCommentClickListener = onCommentClickListener;
+    }
 
     public CommentAdapter(Context mContext, List<CommentBean> mCommentList) {
         this.mContext = mContext;
@@ -32,16 +36,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     @Override
-    public ViewHold onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.comment_layout, parent, false);
-        ViewHold viewHolder = new ViewHold(view);
+    public int getItemViewType(int position) {
+        return mCommentList == null ? 0 : mCommentList.get(position).getCommentType();
+    }
 
-        return viewHolder;
+    @Override
+    public ViewHold onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        switch (viewType) {
+            case CommentBean.COMMENT:
+                View view1 = LayoutInflater.from(mContext).inflate(R.layout.comment_layout, parent, false);
+                ViewHold viewHolder1 = new ViewHold(view1, viewType);
+                return viewHolder1;
+            case CommentBean.REPLY:
+                View view2 = LayoutInflater.from(mContext).inflate(R.layout.reply_layout, parent, false);
+                ViewHold viewHolder2 = new ViewHold(view2, viewType);
+                return viewHolder2;
+        }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(ViewHold holder, int position) {
-        viewHolder = holder;
 
         final CommentBean commentInfo = mCommentList.get(position);
 
@@ -49,20 +65,26 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         //分割线
         if (position == 0)
-            viewHolder.line.setVisibility(View.GONE);
-        if (position == 3) {
-            viewHolder.line.setBackgroundResource(R.color.colorGrayLight);
+            holder.line.setVisibility(View.GONE);
+
+        switch (commentInfo.getCommentType()) {
+            case CommentBean.COMMENT:
+                holder.comment_content.setText(commentInfo.getComment());
+                break;
+            case CommentBean.REPLY:
+                holder.comment_content.setText(commentInfo.getReplyUser() + ": " + commentInfo.getComment());
+                holder.replay_content.setText(mContext.getString(R.string.reply_to, commentInfo.getReplyUser(), commentInfo.getReply()));
+                break;
         }
 
         //标签
-        viewHolder.tag.setText(commentInfo.getTag());
+        holder.tag.setText(position + 1 + "#");
 
-        viewHolder.nickname.setText(commentInfo.getUserInfo().getNickname());
-        viewHolder.createTime.setText(TimeUtils.convertCurrentTime(mContext, commentInfo.getCreateTime()));
-        viewHolder.comment_content.setText(commentInfo.getComment());
+        holder.nickname.setText(commentInfo.getUserInfo().getNickname());
+        holder.createTime.setText(TimeUtils.convertCurrentTime(mContext, commentInfo.getCreateTime()));
 
-        viewHolder.like.setNum(commentInfo.getLikeNum());
-        viewHolder.oppose.setNum(commentInfo.getOpposeNum());
+        holder.like.setNum(commentInfo.getLikeNum());
+        holder.oppose.setNum(commentInfo.getOpposeNum());
     }
 
 
@@ -71,7 +93,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return mCommentList == null ? 0 : mCommentList.size();
     }
 
-    class ViewHold extends RecyclerView.ViewHolder {
+    class ViewHold extends RecyclerView.ViewHolder implements View.OnClickListener {
         private View line; //分割线
         private AvatarImageView avatar;
         private TextView nickname;
@@ -81,7 +103,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         private ClickButton oppose;
         private TextView comment_content;
 
-        public ViewHold(View itemView) {
+        private TextView replay_content;
+
+        public ViewHold(View itemView, int type) {
             super(itemView);
             line = itemView.findViewById(R.id.line);
             avatar = (AvatarImageView) itemView.findViewById(R.id.avatar);
@@ -89,11 +113,31 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             createTime = (TextView) itemView.findViewById(R.id.create_time);
             like = (ClickButton) itemView.findViewById(R.id.like);
             oppose = (ClickButton) itemView.findViewById(R.id.oppose);
-
             tag = (TextView) itemView.findViewById(R.id.floor_tag);
-            comment_content = (TextView) itemView.findViewById(R.id.comment_content);
+
+            switch (type) {
+                case CommentBean.COMMENT:
+                    comment_content = (TextView) itemView.findViewById(R.id.comment_content);
+
+                    break;
+                case CommentBean.REPLY:
+                    comment_content = (TextView) itemView.findViewById(R.id.comment_content);
+                    replay_content = (TextView) itemView.findViewById(R.id.reply_content);
+                    break;
+            }
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            if (onCommentClickListener != null)
+                onCommentClickListener.onClick(getLayoutPosition());
+        }
+    }
+
+    public interface OnCommentClickListener {
+        void onClick(int position);
     }
 
     /**

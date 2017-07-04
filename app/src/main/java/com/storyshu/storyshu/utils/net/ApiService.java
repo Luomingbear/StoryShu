@@ -10,6 +10,7 @@ import com.storyshu.storyshu.bean.checkForUpdate.VersionResponseBean;
 import com.storyshu.storyshu.bean.comment.CommentPostBean;
 import com.storyshu.storyshu.bean.comment.CommentReponseBean;
 import com.storyshu.storyshu.bean.comment.CommentSizeResponseBean;
+import com.storyshu.storyshu.bean.comment.ReplyPostBean;
 import com.storyshu.storyshu.bean.getStory.LocationBean;
 import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
@@ -145,6 +146,15 @@ public interface ApiService {
      */
     @POST("issueComment.php")
     Call<OnlyDataResponseBean> issueComment(@Body CommentPostBean commentPostBean);
+
+    /**
+     * 回复对象的评论
+     *
+     * @param replyPostBean
+     * @return
+     */
+    @POST("replyComment.php")
+    Call<OnlyDataResponseBean> replyComment(@Body ReplyPostBean replyPostBean);
 
     /**
      * 获取热门评论数据

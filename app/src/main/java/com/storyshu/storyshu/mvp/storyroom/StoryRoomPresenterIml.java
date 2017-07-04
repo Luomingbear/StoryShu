@@ -8,6 +8,7 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.CommentAdapter;
 import com.storyshu.storyshu.bean.comment.CommentBean;
 import com.storyshu.storyshu.bean.comment.CommentPostBean;
+import com.storyshu.storyshu.bean.comment.ReplyPostBean;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.bean.like.LikePostBean;
@@ -30,9 +31,12 @@ import java.util.List;
  */
 
 public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> implements StoryRoomPresenter {
+    private static final String TAG = "StoryRoomPresenterIml";
     private CommentAdapter mCommentAdapter; //评论适配器
     private StoryBean mStoryBean; //故事信息
     private int isLike = 0; //用户态度是否是喜欢 -1：不喜欢， 1：喜欢
+    private List<CommentBean> mCommentBeanList; //评论列表
+    private String mReplyCommentId; //回复的评论的id ：-1表示直接评论故事，其他值表示回复别人的评论
 
     public StoryRoomPresenterIml(Context mContext, StoryRoomView mvpView) {
         super(mContext, mvpView);
@@ -63,7 +67,9 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
         commentModel.setOnCommentsGotListener(new CommentModel.OnCommentsGotListener() {
             @Override
             public void onHotCommentsGot(List<CommentBean> commentList) {
+                mCommentBeanList = commentList;
                 mCommentAdapter = new CommentAdapter(mContext, commentList);
+                mCommentAdapter.setOnCommentClickListener(onCommentClickListener);
 
                 //layoutmanager
                 mMvpView.getCommentRV().setLayoutManager(new LinearLayoutManager(mContext));
@@ -93,6 +99,21 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
             }
         });
     }
+
+    /**
+     * 评论点击回调接口
+     */
+    private CommentAdapter.OnCommentClickListener onCommentClickListener = new CommentAdapter.OnCommentClickListener() {
+        @Override
+        public void onClick(int position) {
+
+            String nickname = mCommentBeanList.get(position).getUserInfo().getNickname();
+            mReplyCommentId = mCommentBeanList.get(position).getCommentId();
+            mMvpView.getCommentEdit().requestFocus();
+            KeyBordUtil.showKeyboard(mContext, mMvpView.getCommentEdit());
+            mMvpView.getCommentEdit().setHint(mContext.getString(R.string.reply_to, nickname, ""));
+        }
+    };
 
     @Override
     public void showStoryPicDialog() {
@@ -154,7 +175,39 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
             mMvpView.showToast(R.string.comment_issue_empty);
             return;
         }
+        if (!TextUtils.isEmpty(mReplyCommentId)) {
+            sendReply();
+            mReplyCommentId = "";
+            mMvpView.getCommentEdit().setHint(mContext.getString(R.string.edit_comment));
+        } else {
+            sendComment();
+        }
 
+        //隐藏键盘
+        KeyBordUtil.hideKeyboard(mContext, mMvpView.getCommentEdit());
+    }
+
+    private CommentModel.OnCommentIssueListener onCommentIssueListener = new CommentModel.OnCommentIssueListener() {
+        @Override
+        public void onSucceed() {
+            mMvpView.showToast(R.string.issue_succeed);
+
+            //更新评论
+            updateComments();
+            mMvpView.getCommentEdit().setText("");
+        }
+
+        @Override
+        public void onFailed(String error) {
+            mMvpView.showToast(error);
+            mMvpView.getCommentEdit().setText("");
+        }
+    };
+
+    /**
+     * 发送评论
+     */
+    private void sendComment() {
         CommentPostBean commentPostBean = new CommentPostBean();
         commentPostBean.setComment(mMvpView.getCommentEdit().getText().toString());
         commentPostBean.setCreateTime(TimeUtils.getCurrentTime());
@@ -163,25 +216,23 @@ public class StoryRoomPresenterIml extends IBasePresenter<StoryRoomView> impleme
 
         CommentModel commentModel = new CommentModel(mContext);
         commentModel.issueComment(commentPostBean);
-        commentModel.setOnCommentIssueListener(new CommentModel.OnCommentIssueListener() {
-            @Override
-            public void onSucceed() {
-                mMvpView.showToast(R.string.issue_succeed);
+        commentModel.setOnCommentIssueListener(onCommentIssueListener);
+    }
 
-                //更新评论
-                updateComments();
-                mMvpView.getCommentEdit().setText("");
-            }
+    /**
+     * 发送回复
+     */
+    private void sendReply() {
+        ReplyPostBean replyPostBean = new ReplyPostBean();
+        replyPostBean.setComment(mMvpView.getCommentEdit().getText().toString());
+        replyPostBean.setCreateTime(TimeUtils.getCurrentTime());
+        replyPostBean.setReplyId(mReplyCommentId);
+        replyPostBean.setUserId(ISharePreference.getUserId(mContext));
+        replyPostBean.setStoryId(mMvpView.getStoryId());
 
-            @Override
-            public void onFailed(String error) {
-                mMvpView.showToast(error);
-                mMvpView.getCommentEdit().setText("");
-            }
-        });
-
-        //隐藏键盘
-        KeyBordUtil.hideKeyboard(mContext, mMvpView.getCommentEdit());
+        CommentModel commentModel = new CommentModel(mContext);
+        commentModel.replyComment(replyPostBean);
+        commentModel.setOnCommentIssueListener(onCommentIssueListener);
     }
 
     @Override
