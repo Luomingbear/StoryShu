@@ -185,14 +185,15 @@ public class CommentModel {
         call.enqueue(new Callback<OnlyDataResponseBean>() {
             @Override
             public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {
-                if (response.body().getCode() == CodeUtil.Succeed) {
-                    if (onCommentIssueListener != null)
-                        onCommentIssueListener.onSucceed();
-                } else {
-                    if (onCommentIssueListener != null)
-                        onCommentIssueListener.onFailed(response.body().getMessage());
 
-                }
+//                if (response.body().getCode() == CodeUtil.Succeed) {
+//                    if (onCommentIssueListener != null)
+//                        onCommentIssueListener.onSucceed();
+//                } else {
+//                    if (onCommentIssueListener != null)
+//                        onCommentIssueListener.onFailed(response.body().getMessage());
+//
+//                }
             }
 
             @Override

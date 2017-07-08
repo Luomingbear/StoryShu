@@ -1,12 +1,14 @@
 package com.storyshu.storyshu.bean;
 
+import com.storyshu.storyshu.utils.net.CodeUtil;
+
 /**
  * 基本的返回数据
  * Created by bear on 2017/5/11.
  */
 
 public class BaseResponseBean {
-    private int code;
+    private int code = CodeUtil.Succeed;
     private String message;
 
     public BaseResponseBean() {

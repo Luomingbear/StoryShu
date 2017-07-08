@@ -173,7 +173,7 @@ class StoryRoomPresenterIml(mContext: Context, mvpView: StoryRoomView) : IBasePr
         }
 
         override fun onFailed(error: String) {
-            mMvpView.showToast(error)
+//            mMvpView.showToast(error)
             mMvpView.commentEdit.setText("")
         }
     }
