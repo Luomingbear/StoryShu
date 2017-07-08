@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.mvp.message;
+package com.storyshu.storyshu.mvp.message
 
 /**
  * mvp模式
@@ -6,11 +6,11 @@ package com.storyshu.storyshu.mvp.message;
  * Created by bear on 2017/3/21.
  */
 
-public interface MessagePresenter {
+interface MessagePresenter {
     /**
      * 列表的类型
      */
-    enum ListType {
+    enum class ListType {
         LIKE,
 
         COMMENT,
@@ -21,30 +21,30 @@ public interface MessagePresenter {
     /**
      * 获取信息列表数据；
      */
-    void getMessageData();
+    fun getMessageData()
 
     /**
      * 显示信息列表
      */
-    void showMessageList();
+    fun showMessageList()
 
     /**
      * 展开列表
      */
-    void unFoldList(ListType listType);
+    fun unFoldList(listType: ListType)
 
     /**
      * 折叠列表
      */
-    void FoldList(ListType listType);
+    fun FoldList(listType: ListType)
 
     /**
      * 跳转到故事屋
      */
-    void toStoryRoom();
+    fun toStoryRoom()
 
     /**
      * 跳转系统信息详情
      */
-    void toComputerMessage();
+    fun toComputerMessage()
 }

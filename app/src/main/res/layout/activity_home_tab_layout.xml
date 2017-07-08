@@ -18,9 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@id/content"
-        android:visibility="gone"
         android:layout_alignTop="@id/content"
-        android:background="@color/colorTranslateDark" />
+        android:background="@color/colorTranslateDark"
+        android:visibility="gone" />
 
     <com.storyshu.storyshu.widget.LineProgressBar
         android:id="@+id/line_progress_bar"
@@ -29,14 +29,15 @@
         app:progressBgColor="@color/colorGrayLight"
         app:progressFgColor="@color/colorRedLight" />
 
-    <com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar
+
+    <com.storyshu.storyshu.widget.BottomNavigationBar
         android:id="@+id/navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:layout_alignParentBottom="true"
         android:background="@color/colorWhite">
 
-    </com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar>
+    </com.storyshu.storyshu.widget.BottomNavigationBar>
 
     <View
         android:layout_width="match_parent"

@@ -10,7 +10,7 @@ import com.storyshu.storyshu.mvp.userInroduction.UserIntroductionView;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.title.TitleView;
-import com.yarolegovich.discretescrollview.DiscreteScrollView;
+import com.storyshu.storyshu.widget.discretescrollview.DiscreteScrollView;
 
 /**
  * 用户的简介界面

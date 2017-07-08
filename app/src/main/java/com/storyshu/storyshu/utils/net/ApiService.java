@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.utils.net;
 
 
+import com.storyshu.storyshu.bean.ClientIdBean;
 import com.storyshu.storyshu.bean.LauncherResponseBean;
 import com.storyshu.storyshu.bean.OnlyDataResponseBean;
 import com.storyshu.storyshu.bean.RecommendPostBean;
@@ -245,4 +246,22 @@ public interface ApiService {
      */
     @POST("updateStoryCommentRead.php")
     Call<OnlyDataResponseBean> updateStoryCommentRead(@Body ReadCommentPostBean readCommentPostBean);
+
+    /**
+     * 获取与自己相关的未读信息数目
+     *
+     * @param userIdBean
+     * @return
+     */
+    @POST("getUnReadNum.php")
+    Call<OnlyDataResponseBean> getUnreadNum(@Body UserIdBean userIdBean);
+
+    /**
+     * 上传用户的clientId用于个推推送
+     *
+     * @param clientIdBean
+     * @return
+     */
+    @POST("uploadClientID.php")
+    Call<OnlyDataResponseBean> uploadClientId(@Body ClientIdBean clientIdBean);
 }

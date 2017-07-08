@@ -1,7 +1,7 @@
 package com.storyshu.storyshu.mvp.userInroduction;
 
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
-import com.yarolegovich.discretescrollview.DiscreteScrollView;
+import com.storyshu.storyshu.widget.discretescrollview.DiscreteScrollView;
 
 /**
  * mvp

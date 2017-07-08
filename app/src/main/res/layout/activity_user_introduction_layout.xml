@@ -130,7 +130,7 @@
         android:layout_marginTop="@dimen/margin_normal"
         android:text="公开动态" />
 
-    <com.yarolegovich.discretescrollview.DiscreteScrollView
+    <com.storyshu.storyshu.widget.discretescrollview.DiscreteScrollView
         android:id="@+id/card_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -138,6 +138,6 @@
         android:layout_marginBottom="@dimen/margin_big"
         android:layout_marginTop="@dimen/margin_normal">
 
-    </com.yarolegovich.discretescrollview.DiscreteScrollView>
+    </com.storyshu.storyshu.widget.discretescrollview.DiscreteScrollView>
 
 </RelativeLayout>

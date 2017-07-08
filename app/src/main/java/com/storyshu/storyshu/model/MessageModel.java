@@ -181,4 +181,26 @@ public class MessageModel {
             }
         });
     }
+
+    public void getUnreadNum(int userID, final OnOnlyDataResponseListener listener) {
+        if (listener == null)
+            return;
+
+        Call<OnlyDataResponseBean> call = RetrofitManager.getInstance().getService().getUnreadNum(new UserIdBean(userID));
+        call.enqueue(new Callback<OnlyDataResponseBean>() {
+            @Override
+            public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    listener.onSucceed(Integer.parseInt(response.body().getData()));
+                } else {
+                    listener.onFalied(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OnlyDataResponseBean> call, Throwable t) {
+                listener.onFalied(t.getMessage());
+            }
+        });
+    }
 }

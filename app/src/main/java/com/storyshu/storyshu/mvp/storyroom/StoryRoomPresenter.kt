@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.mvp.storyroom;
+package com.storyshu.storyshu.mvp.storyroom
 
 /**
  * mvp模式
@@ -6,39 +6,39 @@ package com.storyshu.storyshu.mvp.storyroom;
  * Created by bear on 2017/3/30.
  */
 
-public interface StoryRoomPresenter {
+interface StoryRoomPresenter {
     /**
      * 获取评论的数据
      */
-    void updateComments();
+    fun updateComments()
 
     /**
      * 显示故事配图预览的弹窗
      */
-    void showStoryPicDialog();
+    fun showStoryPicDialog()
 
     /**
      * 点赞
      */
-    void clickLike();
+    fun clickLike()
 
     /**
      * 点击喝倒彩
      */
-    void clickOppose();
+    fun clickOppose()
 
     /**
      * 点击添加评论
      */
-    void clickSend();
+    fun clickSend()
 
     /**
      * 获取故事详情
      */
-    void getStoryInfo();
+    fun getStoryInfo()
 
     /**
      * 获取故事配图
      */
-    void getStoryPic();
+    fun getStoryPic()
 }

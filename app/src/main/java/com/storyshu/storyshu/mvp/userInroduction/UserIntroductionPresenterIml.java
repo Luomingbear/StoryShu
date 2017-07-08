@@ -5,7 +5,7 @@ import android.content.Context;
 import com.storyshu.storyshu.adapter.card.CardViewAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
-import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
+import com.storyshu.storyshu.widget.discretescrollview.transform.ScaleTransformer;
 
 import java.util.ArrayList;
 import java.util.List;

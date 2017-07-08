@@ -9,11 +9,14 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.bean.checkForUpdate.AppUpdateBean;
 import com.storyshu.storyshu.bean.checkForUpdate.VersionResponseBean;
 import com.storyshu.storyshu.model.FileModel;
+import com.storyshu.storyshu.model.MessageModel;
+import com.storyshu.storyshu.model.OnOnlyDataResponseListener;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.AutoInstall;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.VersionUtil;
 import com.storyshu.storyshu.utils.net.RetrofitManager;
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.dialog.CustomDialog;
 
 import java.io.File;
@@ -128,6 +131,40 @@ public class MainPresenterIml extends IBasePresenter<MainView> implements MainPr
                 mMvpView.showToast(R.string.download_failed);
             }
         });
+    }
+
+    /**
+     * 设置未读的消息数量
+     */
+    private MessageModel messageModel = new MessageModel(mContext);
+    private Timer timer;
+
+    public void setUnreadNum() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                messageModel.getUnreadNum(ISharePreference.getUserId(mContext), new OnOnlyDataResponseListener() {
+                    @Override
+                    public void onSucceed(Object obj) {
+                        mMvpView.getBottomNavigationBar().setUnreadNum(2, (int) obj);
+                    }
+
+                    @Override
+                    public void onFalied(String error) {
+
+                    }
+                });
+            }
+        }, 400, 400);
+
+    }
+
+    public void stopTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
     }
 
 }

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.amap.api.maps.SupportMapFragment;
+import com.igexin.sdk.PushManager;
+import com.igexin.sdk.PushService;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IPermissionActivity;
 import com.storyshu.storyshu.activity.create.CreateArticleActivity;
@@ -20,15 +22,17 @@ import com.storyshu.storyshu.fragement.StoryMapFragment;
 import com.storyshu.storyshu.model.location.ILocationManager;
 import com.storyshu.storyshu.mvp.main.MainPresenterIml;
 import com.storyshu.storyshu.mvp.main.MainView;
+import com.storyshu.storyshu.tool.PushIntentService;
 import com.storyshu.storyshu.tool.observable.EventObservable;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
+import com.storyshu.storyshu.widget.BottomNavigationBar;
 import com.storyshu.storyshu.widget.CreateButton;
 import com.storyshu.storyshu.widget.LineProgressBar;
-import com.storyshu.storyshu.widget.blurRelativeLayout.BottomNavigationBar;
 
 public class MainActivity extends IPermissionActivity implements MainView {
+
     private static final String TAG = "MainActivity";
     private StoryMapFragment mStoryMapFragment; //地图界面fragment；
     private SupportMapFragment mMapFragment; //地图控件fragment
@@ -71,6 +75,15 @@ public class MainActivity extends IPermissionActivity implements MainView {
          * 查看定位权限是否打开，打开才能开始定位
          */
         checkAndGetPermission(Manifest.permission.ACCESS_COARSE_LOCATION, LOCATION_PERMISSION);
+
+        //获取未读的消息数量
+        mMainPresenterIml.setUnreadNum();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mMainPresenterIml.stopTimer();
     }
 
     @Override
@@ -82,6 +95,12 @@ public class MainActivity extends IPermissionActivity implements MainView {
         } else if (requestCode == PERMISSION_INTENT) {
             ILocationManager.getInstance().init(getApplicationContext(), StoryMapFragment.getInstance().getAMap()).start();
         }
+    }
+
+
+    @Override
+    public BottomNavigationBar getBottomNavigationBar() {
+        return mNavigationBar;
     }
 
     /**
@@ -198,6 +217,13 @@ public class MainActivity extends IPermissionActivity implements MainView {
                 mCreateButton.setShowStoryType(false);
             }
         });
+
+        //
+        // 第三方自定义推送服务
+        PushManager.getInstance().initialize(this.getApplicationContext(), PushService.class);
+        // 自定义的推送服务事件接收类
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(),
+                PushIntentService.class);
     }
 
     /**
