@@ -11,4 +11,6 @@ import com.storyshu.storyshu.widget.BottomNavigationBar;
 
 public interface MainView extends IBaseView {
     BottomNavigationBar getBottomNavigationBar();
+
+    void checkStorgePermission();
 }

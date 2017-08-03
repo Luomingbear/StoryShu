@@ -61,7 +61,7 @@ public class MainPresenterIml extends IBasePresenter<MainView> implements MainPr
 
                                 @Override
                                 public void onRightClick() {
-                                    downloadNewApp();
+                                    mMvpView.checkStorgePermission();
                                 }
                             })
                             .build();

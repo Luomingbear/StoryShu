@@ -5,7 +5,6 @@ import android.content.Context;
 import com.storyshu.storyshu.adapter.card.CardViewAdapter;
 import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
-import com.storyshu.storyshu.widget.discretescrollview.transform.ScaleTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +24,7 @@ public class UserIntroductionPresenterIml extends IBasePresenter<UserIntroductio
         mList = new ArrayList<>();
         mCardViewAdapter = new CardViewAdapter(mList, mContext);
 
-        mMvpView.getRecyclerView().setAdapter(mCardViewAdapter);
-        mMvpView.getRecyclerView().setItemTransformer(new ScaleTransformer.Builder()
-                .setMinScale(0.9f)
-                .build()
-        );
     }
-
 
     @Override
     public void initData() {

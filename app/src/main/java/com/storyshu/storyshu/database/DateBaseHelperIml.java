@@ -1,4 +1,4 @@
-package com.storyshu.storyshu.data;
+package com.storyshu.storyshu.database;
 
 import android.content.ContentValues;
 import android.content.Context;

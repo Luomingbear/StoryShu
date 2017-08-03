@@ -36,6 +36,6 @@ public interface CreateStoryPresenter {
     /**
      * 显示预览
      */
-    void showPicturePreview();
+    void showPicturePreview(int position);
 
 }

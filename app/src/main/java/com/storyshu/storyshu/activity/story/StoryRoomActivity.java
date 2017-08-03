@@ -1,6 +1,5 @@
 package com.storyshu.storyshu.activity.story;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +11,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +20,8 @@ import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.DiscussActivity;
 import com.storyshu.storyshu.activity.UserIntroductionActivity;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
+import com.storyshu.storyshu.adapter.NineGridsAdapter;
+import com.storyshu.storyshu.adapter.base.OnItemClickListener;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
 import com.storyshu.storyshu.info.CardInfo;
@@ -35,6 +35,7 @@ import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
 import com.storyshu.storyshu.widget.card.AutoScaleLayout;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
+import com.storyshu.storyshu.widget.ninegrid.NineGridlayout;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
 import com.storyshu.storyshu.widget.text.RoundTextView;
 import com.storyshu.storyshu.widget.title.TitleView;
@@ -47,8 +48,7 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     private LinearLayout mStoryLayout; //故事显示的布局
     private RichTextEditor mRichTextEditor; //富文本显示框架
     private TextView mStoryContent; //故事的内容
-    private ImageView mStoryCover; //故事的配图
-    private TextView mPicSize; //配图的数量
+    private NineGridlayout mNineGridLayout; //故事的配图
     private TextView mLocation; //发布位置
     private TextView mReport; //举报
     private AvatarImageView mAvatar; //作者头像
@@ -303,9 +303,6 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.story_cover:
-                mStoryRoomPresenter.showStoryPicDialog();
-                break;
 
             case R.id.report:
                 ToastUtil.Show(StoryRoomActivity.this, R.string.report);
@@ -404,25 +401,11 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
             case CardInfo.STORY:
                 mStoryContent.setText(storyData.getContent());
 
-                if (!TextUtils.isEmpty(storyData.getCover())) {
-                    mStoryCover.setVisibility(View.VISIBLE);
-                    Glide.with(this).load(storyData.getCover()).dontAnimate().into(mStoryCover);
-
-                    if (storyData.getStoryPictures() != null && storyData.getStoryPictures().size() > 1) {
-                        mPicSize.setVisibility(View.VISIBLE);
-                        mPicSize.setText(storyData.getStoryPictures().size() + "");
-                    } else mPicSize.setVisibility(View.GONE);
-
-                } else {
-                    mStoryCover.clearAnimation(); //清除动画
-                    mStoryCover.setVisibility(View.GONE);
-                    mPicSize.setVisibility(View.GONE);
-                }
-
                 /**
                  * 获取配图
                  */
                 mStoryRoomPresenter.getStoryPic();
+
                 break;
 
             case CardInfo.ARTICLE:
@@ -499,30 +482,25 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
         scaleLayout.setLayoutParams(params2);
         scaleLayout.setScaleRate(1);
 
-        mStoryCover = new ImageView(StoryRoomActivity.this);
-        mStoryCover.setLayoutParams(params);
-        mStoryCover.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        mStoryCover.setId(R.id.story_cover);
-        mStoryCover.setOnClickListener(this);
 
-        //图片的数量
-        mPicSize = new TextView(StoryRoomActivity.this);
-        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        params1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        mPicSize.setLayoutParams(params1);
-        //
-        mPicSize.setTextColor(Color.WHITE);
-        mPicSize.setBackgroundResource(R.color.colorBlackLight);
-        mPicSize.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_small));
-        mPicSize.setPadding(10, 10, 10, 10);
+        //九宫格
+        mNineGridLayout = new NineGridlayout(StoryRoomActivity.this);
+        mNineGridLayout.setLayoutParams(params);
 
-        scaleLayout.addView(mStoryCover);
-        scaleLayout.addView(mPicSize);
+        mNineGridLayout.setOnItemClickListener(onImageClickListener);
+
+        scaleLayout.addView(mNineGridLayout);
 
         if (!TextUtils.isEmpty(mStoryBean.getCover()))
             mStoryLayout.addView(scaleLayout, 1);
     }
+
+    private OnItemClickListener onImageClickListener = new OnItemClickListener() {
+        @Override
+        public void onClick(int... args) {
+            mStoryRoomPresenter.showStoryPicDialog(args[0]);
+        }
+    };
 
     /**
      * 生成文章的布局
@@ -550,10 +528,8 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     public void setStoryPic(List<String> storyPics) {
         mStoryBean.setStoryPictures(storyPics);
 
-        if (mStoryBean.getStoryPictures() != null && mStoryBean.getStoryPictures().size() > 1) {
-            mPicSize.setVisibility(View.VISIBLE);
-            mPicSize.setText(mStoryBean.getStoryPictures().size() + "");
-        } else mPicSize.setVisibility(View.GONE);
+        NineGridsAdapter adapter = new NineGridsAdapter(this, storyPics);
+        mNineGridLayout.setAdapter(adapter);
     }
 
     @Override

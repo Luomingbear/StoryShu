@@ -1,7 +1,6 @@
 package com.storyshu.storyshu.mvp.userInroduction;
 
 import com.storyshu.storyshu.mvp.view.base.IBaseView;
-import com.storyshu.storyshu.widget.discretescrollview.DiscreteScrollView;
 
 /**
  * mvp
@@ -10,11 +9,5 @@ import com.storyshu.storyshu.widget.discretescrollview.DiscreteScrollView;
  */
 
 public interface UserIntroductionView extends IBaseView {
-    /**
-     * 获取显示卡片的RecyclerView
-     *
-     * @return
-     */
-    DiscreteScrollView getRecyclerView();
 
 }

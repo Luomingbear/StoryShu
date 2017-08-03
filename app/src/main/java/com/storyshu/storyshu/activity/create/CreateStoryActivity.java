@@ -256,22 +256,23 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
         int margin = (int) getResources().getDimension(R.dimen.margin_normal);
 
         if (mChangePicPathList != null && mChangePicPathList.size() > 0) {
-            for (ImageItem item : mChangePicPathList) {
+            for (int i = 0; i < mChangePicPathList.size() - 1; i++) {
                 ImageView imageView = new ImageView(CreateStoryActivity.this);
                 RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(width, width);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(p);
                 params.setMargins(margin, margin, 0, 0);
                 imageView.setLayoutParams(params);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Glide.with(this).load(item.path).into(imageView);
+                Glide.with(this).load(mChangePicPathList.get(i).path).into(imageView);
+                imageView.setTag(i);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mCreateStoryPresenter.showPicturePreview();
+                        mCreateStoryPresenter.showPicturePreview((Integer) v.getTag());
                     }
                 });
 
-                mPicGridLayout.addView(imageView, 0);
+                mPicGridLayout.addView(imageView, mPicGridLayout.getChildCount() - 1);
             }
         }
     }

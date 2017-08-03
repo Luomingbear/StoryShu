@@ -10,7 +10,6 @@ import com.storyshu.storyshu.mvp.userInroduction.UserIntroductionView;
 import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.widget.title.TitleView;
-import com.storyshu.storyshu.widget.discretescrollview.DiscreteScrollView;
 
 /**
  * 用户的简介界面
@@ -19,7 +18,6 @@ import com.storyshu.storyshu.widget.discretescrollview.DiscreteScrollView;
 
 public class UserIntroductionActivity extends IBaseActivity implements UserIntroductionView {
     private TitleView mTitleView;
-    private DiscreteScrollView mRecyclerView;
     private UserIntroductionPresenterIml mPresenterIml;
 
     @Override
@@ -64,8 +62,6 @@ public class UserIntroductionActivity extends IBaseActivity implements UserIntro
         StatusBarUtils.setColor(UserIntroductionActivity.this, R.color.colorRed);
 
         mTitleView = (TitleView) findViewById(R.id.title_view);
-        //
-        mRecyclerView = (DiscreteScrollView) findViewById(R.id.card_list);
     }
 
     private void initEvent() {
@@ -86,8 +82,4 @@ public class UserIntroductionActivity extends IBaseActivity implements UserIntro
         ToastUtil.Show(this, stringRes);
     }
 
-    @Override
-    public DiscreteScrollView getRecyclerView() {
-        return mRecyclerView;
-    }
 }

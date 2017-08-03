@@ -15,7 +15,7 @@ interface StoryRoomPresenter {
     /**
      * 显示故事配图预览的弹窗
      */
-    fun showStoryPicDialog()
+    fun showStoryPicDialog(position:Int)
 
     /**
      * 点赞

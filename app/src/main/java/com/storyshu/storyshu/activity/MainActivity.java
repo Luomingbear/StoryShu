@@ -3,6 +3,7 @@ package com.storyshu.storyshu.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -195,14 +196,23 @@ public class MainActivity extends IPermissionActivity implements MainView {
         EventObservable.getInstance().addObserver(lineProgressBar); //添加到观察者
     }
 
-    /**
-     * 如果imageLoader没有初始化则初始化
-     */
-    private void initImageLoader() {
-        //新建线程初始化图片加载器
-
+    @Override
+    public void checkStorgePermission() {
+        if (checkAndGetPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, FILE_PERMISSION)){
+                mMainPresenterIml.downloadNewApp();
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == FILE_PERMISSION) {
+            if (checkAndGetPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, FILE_PERMISSION)){
+                mMainPresenterIml.downloadNewApp();
+            }
+        }
+    }
 
     /**
      * 初始化事件

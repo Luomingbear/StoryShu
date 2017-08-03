@@ -15,7 +15,11 @@
     <string name="cancel">取消</string>
     <string name="send">发送</string>
     <string name="update">更新</string>
-
+    <string name="loading">正在加载</string>
+    <string name="load_failed">加载失败</string>
+    <string name="load_end">加载完成</string>
+    <string name="see_more">加载更多</string>
+    <string name="no_more">已无更多</string>
 
     <!--欢迎页-->
     <string name="skip">跳过</string>
@@ -114,7 +118,7 @@
     <string name="story_length_too_long">字数以达到上线%1$d个字</string>
     <string name="story_length_too_sort">再写点什么呗～</string>
     <string name="issue">发布</string>
-    <string name="select_life_time_hint">选择消息停留时间（默认一周）</string>
+    <string name="select_life_time_hint">选择消息停留时间（默认三天）</string>
     <string name="select_life_time">选择消息停留时间</string>
     <string name="life_time">故事停留时间</string>
     <string name="issue_failed">发布失败，请稍后重试</string>

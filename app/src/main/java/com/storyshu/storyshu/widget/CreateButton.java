@@ -48,7 +48,7 @@ public class CreateButton extends View {
 
     private List<StoryType> mStoryTypeList; //点击加号弹出的选项
     private boolean isShowStoryType = false; //是否启动选项动画
-    private float mStoryTypeAngle = (float) (Math.PI / 5.0f * 3); //选项所在区域的角度
+    private float mStoryTypeAngle = (float) (Math.PI / 6.0f * 2); //选项所在区域的角度
     private float mStoryTypeDistance; //选项所在区域与创建按钮的距离
     private float mTextSize; //选项按钮的文字大小
     private float mIconWidth; //选项按钮的宽度
@@ -165,7 +165,6 @@ public class CreateButton extends View {
 
         mStoryTypeList.add(storyType1);
         mStoryTypeList.add(storyType2);
-        mStoryTypeList.add(storyType3);
     }
 
     /**

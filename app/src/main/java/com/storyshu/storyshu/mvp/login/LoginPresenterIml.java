@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.data.DateBaseHelperIml;
+import com.storyshu.storyshu.database.DateBaseHelperIml;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.LoginInfo;
 import com.storyshu.storyshu.model.UserModel;

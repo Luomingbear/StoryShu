@@ -31,7 +31,7 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
     private static final String TAG = "CreateStoryPresenterImp";
     private String mTempContent; //故事的临时内容
     private int minStoryContent = 1; //故事内容最少的字符
-    private int mLifeTimeMinute = 7 * 24 * 60; //故事保留时间,分钟
+    private int mLifeTimeMinute = 3 * 24 * 60; //故事保留时间,分钟
     private List<PoiItem> mLocationList; //位置列表
     private int radius = 50; //单位米
     private IssueStoryBean issueInfo = new IssueStoryBean();
@@ -159,9 +159,9 @@ public class CreateStoryPresenterImpl extends IBasePresenter<CreateStoryView> im
     }
 
     @Override
-    public void showPicturePreview() {
+    public void showPicturePreview(int position) {
         PicturePreviewDialog previewDialog = new PicturePreviewDialog(mContext);
-        previewDialog.setStoryListShow(mMvpView.getStoryPic());
+        previewDialog.setStoryListShow(mMvpView.getStoryPic(),position);
     }
 
 }

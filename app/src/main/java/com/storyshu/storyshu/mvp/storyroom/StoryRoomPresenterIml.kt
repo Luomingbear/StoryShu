@@ -28,7 +28,8 @@ import com.storyshu.storyshu.widget.dialog.PicturePreviewDialog
  * Created by bear on 2017/3/30.
  */
 
-class StoryRoomPresenterIml(mContext: Context, mvpView: StoryRoomView) : IBasePresenter<StoryRoomView>(mContext, mvpView), StoryRoomPresenter {
+class StoryRoomPresenterIml(mContext: Context, mvpView: StoryRoomView) :
+        IBasePresenter<StoryRoomView>(mContext, mvpView), StoryRoomPresenter {
     private var mCommentAdapter: CommentAdapter? = null //评论适配器
     private var mStoryBean: StoryBean? = null //故事信息
     private var isLike = 0 //用户态度是否是喜欢 -1：不喜欢， 1：喜欢
@@ -97,10 +98,10 @@ class StoryRoomPresenterIml(mContext: Context, mvpView: StoryRoomView) : IBasePr
         mMvpView.commentEdit.hint = mContext.getString(R.string.reply_to, nickname, "")
     }
 
-    override fun showStoryPicDialog() {
+    override fun showStoryPicDialog(position:Int) {
 
         val previewDialog = PicturePreviewDialog(mContext)
-        previewDialog.setStoryListShow(mMvpView.storyPic)
+        previewDialog.setStoryListShow(mMvpView.storyPic,position)
     }
 
     override fun clickLike() {

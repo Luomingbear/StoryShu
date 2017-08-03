@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.greenrobot.greendao'
 
 
 android {
@@ -32,6 +33,12 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    greendao{
+        schemaVersion 1
+//        daoPackage 'com.daqing.dao'
+        targetGenDir 'src/main/java'
     }
 }
 
@@ -65,6 +72,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.31'
     compile 'com.qiniu:qiniu-android-sdk:7.3.3'
     compile 'com.getui:sdk:2.10.2.0'
+    compile 'org.greenrobot:greendao:3.2.2'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }

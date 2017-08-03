@@ -31,7 +31,7 @@ public class PicturePreviewDialog extends IBaseDialog {
     /**
      * 设置图片的数据显示
      */
-    public void setStoryListShow(List<String> list) {
+    public void setStoryListShow(List<String> list, int position) {
         if (list == null || list.size() == 0)
             return;
 
@@ -70,7 +70,8 @@ public class PicturePreviewDialog extends IBaseDialog {
             pointList.add(point);
         }
 
-        pointList.get(0).setChecked(true);
+        pointList.get(position).setChecked(true);
+        viewPager.setCurrentItem(position, false);
     }
 
     private RadioButton newPoint() {
