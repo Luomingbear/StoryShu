@@ -256,7 +256,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
         int margin = (int) getResources().getDimension(R.dimen.margin_normal);
 
         if (mChangePicPathList != null && mChangePicPathList.size() > 0) {
-            for (int i = 0; i < mChangePicPathList.size() - 1; i++) {
+            for (int i = 0; i < mChangePicPathList.size(); i++) {
                 ImageView imageView = new ImageView(CreateStoryActivity.this);
                 RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(width, width);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(p);
@@ -272,7 +272,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
                     }
                 });
 
-                mPicGridLayout.addView(imageView, mPicGridLayout.getChildCount() - 1);
+                mPicGridLayout.addView(imageView, mPicGridLayout.getChildCount()-1);
             }
         }
     }
