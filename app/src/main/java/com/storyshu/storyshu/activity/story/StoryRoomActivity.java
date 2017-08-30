@@ -534,7 +534,7 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 
     @Override
     public void intent2Discuss() {
-        intentTo(DiscussActivity.class);
+        intentWithParcelable(DiscussActivity.class, NameUtil.STORY_ID_BEAN, new StoryIdBean(mStoryBean.getStoryId()));
     }
 
     @Override

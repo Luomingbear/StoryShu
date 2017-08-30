@@ -12,6 +12,7 @@ import com.storyshu.storyshu.bean.comment.CommentPostBean;
 import com.storyshu.storyshu.bean.comment.CommentReponseBean;
 import com.storyshu.storyshu.bean.comment.CommentSizeResponseBean;
 import com.storyshu.storyshu.bean.comment.ReplyPostBean;
+import com.storyshu.storyshu.bean.getStory.JoinChatRoomBean;
 import com.storyshu.storyshu.bean.getStory.LocationBean;
 import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.getStory.StoryIdBean;
@@ -264,4 +265,13 @@ public interface ApiService {
      */
     @POST("uploadClientID.php")
     Call<OnlyDataResponseBean> uploadClientId(@Body ClientIdBean clientIdBean);
+
+    /**
+     * 获取故事的聊天室id
+     *
+     */
+    @POST("joinRoom.php")
+    Call<OnlyDataResponseBean> joinChatRoom(@Body JoinChatRoomBean joinChatRoomBean);
+
+
 }

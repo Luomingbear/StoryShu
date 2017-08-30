@@ -28,5 +28,8 @@ public class NameUtil {
     //下载的软件更新文件
     public static final String APP_NAME = "storyshu";
 
+    //
+    public static final String CHAT_ROOMID_INFO = "chatRoomInfo";
+
 
 }

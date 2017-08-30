@@ -2,9 +2,11 @@ package com.storyshu.storyshu.mvp.login;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.storyshu.storyshu.R;
-import com.storyshu.storyshu.database.DateBaseHelperIml;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.info.LoginInfo;
 import com.storyshu.storyshu.model.UserModel;
@@ -13,6 +15,7 @@ import com.storyshu.storyshu.utils.EmailFormatCheckUtil;
 import com.storyshu.storyshu.utils.PasswordUtil;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.widget.dialog.LoadingDialog;
 
 /**
  * mvp模式
@@ -21,6 +24,8 @@ import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
  */
 
 public class LoginPresenterIml extends IBasePresenter<LoginView> implements LoginPresenter {
+    private LoadingDialog dialog;
+
     public LoginPresenterIml(Context mContext, LoginView mvpView) {
         super(mContext, mvpView);
     }
@@ -35,7 +40,30 @@ public class LoginPresenterIml extends IBasePresenter<LoginView> implements Logi
      */
     private void login() {
         //如果输入的值正确则登录
-        checkInput();
+        if (checkInput()) {
+            dialog = new LoadingDialog(mContext, R.style.TransparentDialogTheme);
+            dialog.show();
+
+            //
+            UserModel userModel = new UserModel(mContext);
+            userModel.loginUser(new LoginInfo(mMvpView.getUsername(),
+                    PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword())));
+            userModel.setOnUserInfoGetListener(new UserModel.OnUserInfoGetListener() {
+                @Override
+                public void onSucceed(BaseUserInfo userInfo) {
+
+                    //登陆环信服务器
+                    loginHX(String.valueOf(userInfo.getUserId()));
+                }
+
+                @Override
+                public void onFailed(String error) {
+                    ToastUtil.Show(mContext, error);
+                    dialog.dismiss();
+                }
+            });
+
+        }
     }
 
     /**
@@ -53,31 +81,45 @@ public class LoginPresenterIml extends IBasePresenter<LoginView> implements Logi
             return false;
         }
         //密码
-        if (TextUtils.isEmpty(mMvpView.getPassword()))
+        if (TextUtils.isEmpty(mMvpView.getPassword())) {
             mMvpView.showToast(R.string.login_password_empty);
-        else {
-
-            UserModel userModel = new UserModel(mContext);
-            userModel.loginUser(new LoginInfo(mMvpView.getUsername(),
-                    PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword())));
-            userModel.setOnUserInfoGetListener(new UserModel.OnUserInfoGetListener() {
-                @Override
-                public void onSucceed(BaseUserInfo userInfo) {
-                    ToastUtil.Show(mContext, R.string.login_succeed);
-                    DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext);
-                    dateBaseHelperIml.insertUserData(userInfo);
-
-                    ISharePreference.saveUserId(mContext, userInfo.getUserId());
-                    mMvpView.intent2MainActivity();
-                }
-
-                @Override
-                public void onFailed(String error) {
-                    ToastUtil.Show(mContext, error);
-                }
-            });
+            return false;
         }
+
         return true;
+    }
+
+    /**
+     * 登陆环信账号
+     */
+    private void loginHX(final String userId) {
+        EMClient.getInstance().login(userId,
+                PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()),
+                new EMCallBack() {//回调
+                    @Override
+                    public void onSuccess() {
+                        EMClient.getInstance().groupManager().loadAllGroups();
+                        EMClient.getInstance().chatManager().loadAllConversations();
+                        Log.d("main", "登录聊天服务器成功！");
+
+                        ISharePreference.saveUserId(mContext, Integer.parseInt(userId));
+
+                        dialog.dismiss();
+                        mMvpView.intent2MainActivity();
+                    }
+
+                    @Override
+                    public void onProgress(int progress, String status) {
+
+                    }
+
+                    @Override
+                    public void onError(int code, String message) {
+                        dialog.dismiss();
+
+                        Log.d("main", "登录聊天服务器失败!");
+                    }
+                });
     }
 
     @Override

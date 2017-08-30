@@ -12,7 +12,7 @@
         android:background="?attr/colorPrimary"
         app:title_color="@color/colorWhite"
         app:title_mode="BackTitle"
-        app:title_string="@string/app_name">
+        app:title_string="@string/discuss">
 
     </com.storyshu.storyshu.widget.title.TitleView>
 
@@ -60,24 +60,16 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/input_layout"
         android:layout_below="@id/title_view">
 
-        <LinearLayout
-            android:id="@+id/hide_keyboard_layout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorGrayLight"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
+        </android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

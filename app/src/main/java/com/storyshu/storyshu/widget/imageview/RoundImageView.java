@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.utils.DipPxConversion;
@@ -24,7 +23,7 @@ import com.storyshu.storyshu.utils.DipPxConversion;
  * 圆角图片,可以指定某个角为圆角，其他不变
  * Created by bear on 2016/10/8.
  */
-public class RoundImageView extends ImageView {
+public class RoundImageView extends android.support.v7.widget.AppCompatImageView {
     /**
      * 图片的类型，圆形、圆角、指定角圆角
      */

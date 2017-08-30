@@ -6,6 +6,7 @@ import android.util.Log;
 import com.amap.api.maps.model.LatLng;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.bean.OnlyDataResponseBean;
+import com.storyshu.storyshu.bean.getStory.JoinChatRoomBean;
 import com.storyshu.storyshu.bean.getStory.LocationBean;
 import com.storyshu.storyshu.bean.getStory.NearStoriesRsponseBean;
 import com.storyshu.storyshu.bean.getStory.StoryBean;
@@ -80,6 +81,12 @@ public class StoryModel {
      */
     public interface OnStoryIssuseListener {
         void onSucceed();
+
+        void onFailed(String error);
+    }
+
+    public interface OnStoryRoomIDListener {
+        void onSucceed(String roomID);
 
         void onFailed(String error);
     }
@@ -298,4 +305,27 @@ public class StoryModel {
             }
         });
     }
+
+
+    public void getStoryRoomId(JoinChatRoomBean joinChatRoomBean, final OnStoryRoomIDListener listener) {
+        Call<OnlyDataResponseBean> call = RetrofitManager.getInstance().getService().joinChatRoom(joinChatRoomBean);
+        call.enqueue(new Callback<OnlyDataResponseBean>() {
+            @Override
+            public void onResponse(Call<OnlyDataResponseBean> call, Response<OnlyDataResponseBean> response) {
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    listener.onSucceed(response.body().getData());
+                } else {
+                    listener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OnlyDataResponseBean> call, Throwable t) {
+                listener.onFailed(t.getMessage());
+            }
+        });
+
+    }
+
+
 }

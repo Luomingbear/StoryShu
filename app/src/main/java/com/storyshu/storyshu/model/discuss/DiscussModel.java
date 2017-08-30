@@ -1,14 +1,10 @@
 package com.storyshu.storyshu.model.discuss;
 
 import android.content.Context;
+import android.text.TextUtils;
 
-import com.storyshu.storyshu.utils.net.UrlUtil;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.Socket;
+import com.storyshu.storyshu.R;
+import com.storyshu.storyshu.utils.ToastUtil;
 
 /**
  * 讨论的数据管理
@@ -18,8 +14,7 @@ import java.net.Socket;
 public class DiscussModel {
 
     private Context mContext;
-    private Socket mSocket; //进行socket通信
-    private int port = 2293;
+    private String mRoomId; //聊天室id
 
     private OnDiscussMessageListener onDisscusMessageListener;
 
@@ -36,8 +31,9 @@ public class DiscussModel {
         this.onDisscusMessageListener = onDisscusMessageListener;
     }
 
-    public DiscussModel(Context mContext) {
+    public DiscussModel(Context mContext, String roomId) {
         this.mContext = mContext;
+        this.mRoomId = roomId;
     }
 
     /**
@@ -46,14 +42,11 @@ public class DiscussModel {
      * @param msg
      */
     public void sendMessage(String msg) {
-        try {
-            mSocket = new Socket(UrlUtil.BASE_HOST, port);
-
-            PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(mSocket.getOutputStream())), true);
-            //上传数据
-            out.println(msg);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (TextUtils.isEmpty(mRoomId)) {
+            ToastUtil.Show(mContext, R.string.send_message_failed);
+            return;
         }
+
+
     }
 }

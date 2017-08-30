@@ -16,8 +16,9 @@ import java.util.Date;
  */
 
 public class TimeUtils {
-    public static String convertCurrentTime(Context context, Date date) {
+    public static String convertCurrentTime(Context context, long times) {
         String current;
+        Date date = new Date(times);
         Date currentDate = new Date(System.currentTimeMillis());
 
         //时间差 /1000变成秒为单位
@@ -193,6 +194,26 @@ public class TimeUtils {
         String current = format.format(date);
         return current;
     }
+
+    /**
+     * 获取时间
+     *
+     * @param times
+     * @return
+     */
+    public static String getTime(long times) {
+        if (times <= 0)
+            return "Empty!";
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(times);
+
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        String current = format.format(date);
+        return current;
+    }
+
+
 //
 //    /**
 //     * 剩余时间
