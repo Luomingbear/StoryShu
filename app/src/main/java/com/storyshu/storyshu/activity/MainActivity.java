@@ -198,8 +198,8 @@ public class MainActivity extends IPermissionActivity implements MainView {
 
     @Override
     public void checkStorgePermission() {
-        if (checkAndGetPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, FILE_PERMISSION)){
-                mMainPresenterIml.downloadNewApp();
+        if (checkAndGetPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, FILE_PERMISSION)) {
+            mMainPresenterIml.downloadNewApp();
         }
     }
 
@@ -208,7 +208,7 @@ public class MainActivity extends IPermissionActivity implements MainView {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == FILE_PERMISSION) {
-            if (checkAndGetPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, FILE_PERMISSION)){
+            if (checkAndGetPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, FILE_PERMISSION)) {
                 mMainPresenterIml.downloadNewApp();
             }
         }
@@ -234,6 +234,8 @@ public class MainActivity extends IPermissionActivity implements MainView {
         // 自定义的推送服务事件接收类
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(),
                 PushIntentService.class);
+
+        mMainPresenterIml.addConnectListener();
     }
 
     /**
@@ -306,12 +308,23 @@ public class MainActivity extends IPermissionActivity implements MainView {
     }
 
     @Override
-    public void showToast(String s) {
-        ToastUtil.Show(MainActivity.this, s);
+    public void showToast(final String s) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtil.Show(MainActivity.this, s);
+
+            }
+        });
     }
 
     @Override
-    public void showToast(int stringRes) {
-        ToastUtil.Show(MainActivity.this, stringRes);
+    public void showToast(final int stringRes) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtil.Show(MainActivity.this, stringRes);
+            }
+        });
     }
 }

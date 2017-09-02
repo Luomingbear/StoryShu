@@ -13,4 +13,5 @@ public interface MainView extends IBaseView {
     BottomNavigationBar getBottomNavigationBar();
 
     void checkStorgePermission();
+
 }

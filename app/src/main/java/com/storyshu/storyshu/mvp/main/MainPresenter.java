@@ -16,4 +16,6 @@ public interface MainPresenter {
      * 下载最新的软件
      */
     void downloadNewApp();
+
+    void addConnectListener();
 }

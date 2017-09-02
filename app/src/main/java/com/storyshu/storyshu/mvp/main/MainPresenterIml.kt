@@ -4,6 +4,10 @@ import android.content.Context
 import android.os.Environment
 import android.os.Handler
 import android.os.Message
+import com.hyphenate.EMConnectionListener
+import com.hyphenate.EMError
+import com.hyphenate.chat.EMClient
+import com.hyphenate.util.NetUtils
 import com.storyshu.storyshu.R
 import com.storyshu.storyshu.bean.checkForUpdate.AppUpdateBean
 import com.storyshu.storyshu.bean.checkForUpdate.VersionResponseBean
@@ -144,5 +148,37 @@ class MainPresenterIml(mContext: Context, mvpView: MainView) : IBasePresenter<Ma
             timer = null
         }
     }
+
+    /**
+     * 添加网络片状态监听
+     */
+    override fun addConnectListener() {
+        EMClient.getInstance().addConnectionListener(connectListener)
+
+    }
+
+    private val connectListener = object : EMConnectionListener {
+        override fun onConnected() {
+
+        }
+
+        override fun onDisconnected(p0: Int) {
+            if (p0 == EMError.USER_REMOVED) {
+                // 显示帐号已经被移除
+                mMvpView.showToast(R.string.net_error)
+            } else if (p0 == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                // 显示帐号在其他设备登录
+                mMvpView.showToast(R.string.user_logined_error)
+            } else {
+                if (NetUtils.hasNetwork(mContext))
+                    //连接不到聊天服务器
+                    mMvpView.showToast(R.string.service_connect_error)
+                else
+                    //当前网络不可用，请检查网络设置
+                    mMvpView.showToast(R.string.net_error)
+            }
+        }
+    }
+
 
 }
