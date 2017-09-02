@@ -58,7 +58,7 @@ public class CustomDialog extends IBaseDialog {
     }
 
 
-    public static final class Builder {
+    public static class Builder {
         private String title; //标题
         private String description; //详细描述
 
@@ -112,6 +112,7 @@ public class CustomDialog extends IBaseDialog {
                 return null;
 
             final CustomDialog customDialog = new CustomDialog(mContext);
+            customDialog.show();
 
             customDialog.mTitleView.setText(this.title);
             customDialog.mDescriptionView.setText(this.description);

@@ -1,5 +1,6 @@
 package com.storyshu.storyshu.fragement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -111,7 +112,7 @@ public class MineFragment extends IBaseStatusFragment implements MineView, View.
 
     @Override
     public void goLogin() {
-        intentTo(LoginActivity.class);
+        intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     @Override

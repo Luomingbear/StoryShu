@@ -93,6 +93,22 @@ public class ISharePreference {
     }
 
     /**
+     * 移除用户数据
+     * @param context
+     */
+    public static void removeUserInfo(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove(USER_ID);
+        editor.remove(NICK_NAME);
+        editor.remove(AVATAR);
+        editor.apply();
+
+    }
+
+    /**
      * 获取用户的id
      *
      * @return

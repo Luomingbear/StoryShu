@@ -57,7 +57,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/ok"
+            android:text="@string/sure"
             android:textColor="@color/colorGoldLight"
             android:textSize="@dimen/font_big"
             app:mBgColor="@color/colorWhite" />

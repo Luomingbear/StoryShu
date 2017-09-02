@@ -7,7 +7,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import com.hyphenate.chat.EMMessage
 import com.storyshu.storyshu.R
 import com.storyshu.storyshu.activity.base.IBaseActivity
 import com.storyshu.storyshu.bean.getStory.StoryIdBean
@@ -142,6 +141,8 @@ class DiscussActivity : IBaseActivity(), DiscussView, View.OnClickListener {
     override fun notifyData() {
         runOnUiThread {
             listView.adapter.notifyDataSetChanged()
+
+            listView.scrollToPosition(listView.adapter.itemCount - 1)
         }
     }
 

@@ -3,12 +3,15 @@ package com.storyshu.storyshu.mvp.mine;
 import android.content.Context;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.chat.EMClient;
+import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.model.UserModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.BlurTransformation;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
+import com.storyshu.storyshu.widget.dialog.CustomDialog;
 
 /**
  * mvp
@@ -109,6 +112,27 @@ public class MinePresenterIml extends IBasePresenter<MineView> implements MinePr
 
     @Override
     public void clickQuitApp() {
-        mMvpView.goLogin();
+
+        new CustomDialog.Builder(mContext)
+                .title(mContext.getString(R.string.quit_app))
+                .description(mContext.getString(R.string.quit_app_hint))
+                .leftString(mContext.getString(R.string.cancel))
+                .rightString(R.string.sure)
+                .onDialogClickListener(new CustomDialog.OnDialogClickListener() {
+                    @Override
+                    public void onLeftClick() {
+
+                    }
+
+                    @Override
+                    public void onRightClick() {
+                        ISharePreference.removeUserInfo(mContext);
+                        EMClient.getInstance().logout(true);
+                        mMvpView.goLogin();
+
+                    }
+                })
+                .build();
+
     }
 }

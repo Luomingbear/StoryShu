@@ -89,7 +89,7 @@
     <string name="sign_in_day_dialog">您已签到%1$d天～</string>
     <string name="sign_in_day">签到%1$d天</string>
 
-    <string name="ok">确定</string>
+    <string name="sure">确定</string>
 
     <!--菜单-->
     <string name="my_stories">我的故事</string>
@@ -163,6 +163,7 @@
 
     <!--我的页面-->
     <string name="quit_app">退出登录</string>
+    <string name="quit_app_hint">是否确认退出登录，退出会清除之前的数据</string>
     <string name="follower">粉丝</string>
     <string name="following">关注</string>
 
