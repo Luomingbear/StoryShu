@@ -236,6 +236,8 @@ public class MainActivity extends IPermissionActivity implements MainView {
                 PushIntentService.class);
 
         mMainPresenterIml.addConnectListener();
+
+        mMainPresenterIml.initEMConversation();
     }
 
     /**

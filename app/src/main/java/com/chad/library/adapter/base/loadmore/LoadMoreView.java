@@ -2,6 +2,7 @@ package com.chad.library.adapter.base.loadmore;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -54,17 +55,26 @@ public abstract class LoadMoreView {
     }
 
     private void visibleLoading(BaseViewHolder holder, boolean visible) {
-        holder.setVisible(getLoadingViewId(), visible);
+        if (visible)
+            holder.setVisible(getLoadingViewId(), View.VISIBLE);
+        else
+            holder.setVisible(getLoadingViewId(), View.GONE);
     }
 
     private void visibleLoadFail(BaseViewHolder holder, boolean visible) {
-        holder.setVisible(getLoadFailViewId(), visible);
+        if (visible)
+            holder.setVisible(getLoadFailViewId(), View.VISIBLE);
+        else
+            holder.setVisible(getLoadFailViewId(), View.GONE);
     }
 
     private void visibleLoadEnd(BaseViewHolder holder, boolean visible) {
-        final int loadEndViewId=getLoadEndViewId();
+        final int loadEndViewId = getLoadEndViewId();
         if (loadEndViewId != 0) {
-            holder.setVisible(loadEndViewId, visible);
+            if (visible)
+                holder.setVisible(getLoadEndViewId(), View.VISIBLE);
+            else
+                holder.setVisible(getLoadEndViewId(), View.GONE);
         }
     }
 
@@ -72,45 +82,57 @@ public abstract class LoadMoreView {
         this.mLoadMoreEndGone = loadMoreEndGone;
     }
 
-    public final boolean isLoadEndMoreGone(){
-        if(getLoadEndViewId()==0){
+    public final boolean isLoadEndMoreGone() {
+        if (getLoadEndViewId() == 0) {
             return true;
         }
-        return mLoadMoreEndGone;}
+        return mLoadMoreEndGone;
+    }
 
     /**
      * No more data is hidden
+     *
      * @return true for no more data hidden load more
      * @deprecated Use {@link BaseQuickAdapter#loadMoreEnd(boolean)} instead.
      */
     @Deprecated
-    public boolean isLoadEndGone(){return mLoadMoreEndGone;}
+    public boolean isLoadEndGone() {
+        return mLoadMoreEndGone;
+    }
 
     /**
      * load more layout
      *
      * @return
      */
-    public abstract @LayoutRes int getLayoutId();
+    public abstract
+    @LayoutRes
+    int getLayoutId();
 
     /**
      * loading view
      *
      * @return
      */
-    protected abstract @IdRes int getLoadingViewId();
+    protected abstract
+    @IdRes
+    int getLoadingViewId();
 
     /**
      * load fail view
      *
      * @return
      */
-    protected abstract @IdRes int getLoadFailViewId();
+    protected abstract
+    @IdRes
+    int getLoadFailViewId();
 
     /**
      * load end view, you can return 0
      *
      * @return
      */
-    protected abstract @IdRes int getLoadEndViewId();
+    protected abstract
+    @IdRes
+    int getLoadEndViewId();
 }

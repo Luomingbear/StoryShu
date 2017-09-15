@@ -2,6 +2,7 @@ package com.storyshu.storyshu.utils.net;
 
 
 import com.storyshu.storyshu.bean.ClientIdBean;
+import com.storyshu.storyshu.bean.DiscussListResponseBean;
 import com.storyshu.storyshu.bean.LauncherResponseBean;
 import com.storyshu.storyshu.bean.OnlyDataResponseBean;
 import com.storyshu.storyshu.bean.RecommendPostBean;
@@ -268,10 +269,17 @@ public interface ApiService {
 
     /**
      * 获取故事的聊天室id
-     *
      */
     @POST("joinRoom.php")
     Call<OnlyDataResponseBean> joinChatRoom(@Body JoinChatRoomBean joinChatRoomBean);
+
+    /**
+     * 获取用户没有过期的聊天室列表
+     *
+     * @return
+     */
+    @POST("getDiscussList")
+    Call<DiscussListResponseBean> getDiscussList(@Body UserIdBean userIdBean);
 
 
 }

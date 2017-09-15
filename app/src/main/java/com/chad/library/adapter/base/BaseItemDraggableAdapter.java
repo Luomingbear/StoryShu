@@ -78,10 +78,10 @@ public abstract class BaseItemDraggableAdapter<T, K extends BaseViewHolder> exte
 
 
         /**
-         * Set the toggle view's id which will trigger drag event.
-         * If the toggle view id is not set, drag event will be triggered when the item is long pressed.
+         * Set the toggle view's roomId which will trigger drag event.
+         * If the toggle view roomId is not set, drag event will be triggered when the item is long pressed.
          *
-         * @param toggleViewId the toggle view's id
+         * @param toggleViewId the toggle view's roomId
          */
     public void setToggleViewId(int toggleViewId) {
         mToggleViewId = toggleViewId;
@@ -139,7 +139,7 @@ public abstract class BaseItemDraggableAdapter<T, K extends BaseViewHolder> exte
      * Enable drag items. Use the specified view as toggle.
      *
      * @param itemTouchHelper {@link ItemTouchHelper}
-     * @param toggleViewId    The toggle view's id.
+     * @param toggleViewId    The toggle view's roomId.
      * @param dragOnLongPress If true the drag event will be trigger on long press, otherwise on touch down.
      */
     public void enableDragItem(@NonNull ItemTouchHelper itemTouchHelper, int toggleViewId, boolean dragOnLongPress) {

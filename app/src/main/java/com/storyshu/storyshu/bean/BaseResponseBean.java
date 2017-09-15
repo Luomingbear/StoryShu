@@ -9,7 +9,7 @@ import com.storyshu.storyshu.utils.net.CodeUtil;
 
 public class BaseResponseBean {
     private int code = CodeUtil.Succeed;
-    private String message;
+    private String message = "";
 
     public BaseResponseBean() {
     }

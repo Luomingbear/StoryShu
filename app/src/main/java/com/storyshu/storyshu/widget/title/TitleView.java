@@ -433,7 +433,7 @@ public class TitleView extends RelativeLayout implements EventObserver {
         imageLayout.setLayoutParams(p);
         imageLayout.setGravity(Gravity.CENTER);
 
-//        imageLayout.addView(newImageView(R.drawable.image));
+//        imageLayout.addView(newImageView(R.drawable.cover));
 
         imageLayout.setOnClickListener(new OnClickListener() {
             @Override

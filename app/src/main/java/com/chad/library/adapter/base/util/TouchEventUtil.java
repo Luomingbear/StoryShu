@@ -5,7 +5,7 @@ import android.view.MotionEvent;
 public class TouchEventUtil {
 
     public static String getTouchAction(int actionId) {
-        String actionName = "Unknow:id=" + actionId;
+        String actionName = "Unknow:roomId=" + actionId;
         switch (actionId) {
             case MotionEvent.ACTION_DOWN:
                 actionName = "ACTION_DOWN";

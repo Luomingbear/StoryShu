@@ -82,7 +82,7 @@ public class PoiAdapter extends RecyclerView.Adapter<PoiAdapter.ViewHold> implem
             super(view);
 
             this.locationTitle = (IBaseTextView) view.findViewById(R.id.location_title);
-//            this.locationDetail = (IBaseTextView) view.findViewById(R.id.location_details);
+//            this.locationDetail = (IBaseTextView) view.findViewById(R.roomId.location_details);
             this.line = view.findViewById(R.id.line);
         }
     }

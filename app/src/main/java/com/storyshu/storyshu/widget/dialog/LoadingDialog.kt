@@ -1,6 +1,7 @@
 package com.storyshu.storyshu.widget.dialog
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import com.storyshu.storyshu.R
 
 /**
@@ -14,6 +15,7 @@ class LoadingDialog(context: Context, themeResId: Int) :
     }
 
     override fun initView() {
-
+        window.setBackgroundDrawable(BitmapDrawable())
+        setCanceledOnTouchOutside(false)
     }
 }

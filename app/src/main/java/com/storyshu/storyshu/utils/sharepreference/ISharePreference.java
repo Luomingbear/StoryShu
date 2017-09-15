@@ -20,7 +20,7 @@ public class ISharePreference {
     public static final String USER_DATA = "userData";
     private static String NICK_NAME = "nickName"; //昵称
     private static String AVATAR = "avatar"; //头像
-    private static String USER_ID = "userId"; //id
+    private static String USER_ID = "userId"; //roomId
 
 
     /**

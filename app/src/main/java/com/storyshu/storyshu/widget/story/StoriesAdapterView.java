@@ -236,7 +236,7 @@ public class StoriesAdapterView extends AdapterView {
         View card = mAdapter.getView(index, null, this);
         if (index == centerCardIndex) {
             mCenterCard = card;
-//            card.findViewById(R.id.card_layout).setElevation(getResources().getDimension(R.dimen.height_normal));
+//            card.findViewById(R.roomId.card_layout).setElevation(getResources().getDimension(R.dimen.height_normal));
         }
         LayoutParams params = card.getLayoutParams();
         if (params == null)

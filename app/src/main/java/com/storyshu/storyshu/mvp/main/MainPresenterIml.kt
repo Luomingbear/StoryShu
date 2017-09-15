@@ -72,7 +72,7 @@ class MainPresenterIml(mContext: Context, mvpView: MainView) : IBasePresenter<Ma
                 val call = RetrofitManager.getInstance().service.checkForUpdate()
                 call.enqueue(object : Callback<VersionResponseBean> {
                     override fun onResponse(call: Call<VersionResponseBean>, response: Response<VersionResponseBean>) {
-                        appUpdateBean = response.body().data
+                        appUpdateBean = response.body()?.data
 
                         if (VersionUtil.getVersionName(mContext).toFloat() < (appUpdateBean?.version) ?: 0f) {
                             //显示更新提示对话框
@@ -171,14 +171,18 @@ class MainPresenterIml(mContext: Context, mvpView: MainView) : IBasePresenter<Ma
                 mMvpView.showToast(R.string.user_logined_error)
             } else {
                 if (NetUtils.hasNetwork(mContext))
-                    //连接不到聊天服务器
+                //连接不到聊天服务器
                     mMvpView.showToast(R.string.service_connect_error)
                 else
-                    //当前网络不可用，请检查网络设置
+                //当前网络不可用，请检查网络设置
                     mMvpView.showToast(R.string.net_error)
             }
         }
     }
 
+    fun initEMConversation() {
+        EMClient.getInstance().chatManager().loadAllConversations()
+        EMClient.getInstance().groupManager().loadAllGroups()
+    }
 
 }

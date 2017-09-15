@@ -101,7 +101,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Will set the text of a TextView.
      *
-     * @param viewId The view id.
+     * @param viewId The view roomId.
      * @param value  The text to put in the text view.
      * @return The BaseViewHolder for chaining.
      */
@@ -118,10 +118,10 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * Will set the image of an ImageView from a resource id.
+     * Will set the cover of an ImageView from a resource roomId.
      *
-     * @param viewId     The view id.
-     * @param imageResId The image resource id.
+     * @param viewId     The view roomId.
+     * @param imageResId The cover resource roomId.
      * @return The BaseViewHolder for chaining.
      */
     public BaseViewHolder setImageResource(int viewId, @DrawableRes int imageResId) {
@@ -133,8 +133,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Will set background color of a view.
      *
-     * @param viewId The view id.
-     * @param color  A color, not a resource id.
+     * @param viewId The view roomId.
+     * @param color  A color, not a resource roomId.
      * @return The BaseViewHolder for chaining.
      */
     public BaseViewHolder setBackgroundColor(int viewId, int color) {
@@ -146,7 +146,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Will set background of a view.
      *
-     * @param viewId        The view id.
+     * @param viewId        The view roomId.
      * @param backgroundRes A resource to use as a background.
      * @return The BaseViewHolder for chaining.
      */
@@ -159,8 +159,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Will set text color of a TextView.
      *
-     * @param viewId    The view id.
-     * @param textColor The text color (not a resource id).
+     * @param viewId    The view roomId.
+     * @param textColor The text color (not a resource roomId).
      * @return The BaseViewHolder for chaining.
      */
     public BaseViewHolder setTextColor(int viewId, int textColor) {
@@ -171,10 +171,10 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
 
     /**
-     * Will set the image of an ImageView from a drawable.
+     * Will set the cover of an ImageView from a drawable.
      *
-     * @param viewId   The view id.
-     * @param drawable The image drawable.
+     * @param viewId   The view roomId.
+     * @param drawable The cover drawable.
      * @return The BaseViewHolder for chaining.
      */
     public BaseViewHolder setImageDrawable(int viewId, Drawable drawable) {
@@ -184,7 +184,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * Add an action to set the image of an image view. Can be called multiple times.
+     * Add an action to set the cover of an cover view. Can be called multiple times.
      */
     public BaseViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView view = getView(viewId);
@@ -212,20 +212,20 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Set a view visibility to VISIBLE (true) or GONE (false).
      *
-     * @param viewId  The view id.
+     * @param viewId  The view roomId.
      * @param visible True for VISIBLE, false for GONE.
      * @return The BaseViewHolder for chaining.
      */
-    public BaseViewHolder setVisible(int viewId, boolean visible) {
+    public BaseViewHolder setVisible(int viewId, int visible) {
         View view = getView(viewId);
-        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        view.setVisibility(visible );
         return this;
     }
 
     /**
      * Add links into a TextView.
      *
-     * @param viewId The id of the TextView to linkify.
+     * @param viewId The roomId of the TextView to linkify.
      * @return The BaseViewHolder for chaining.
      */
     public BaseViewHolder linkify(int viewId) {
@@ -259,7 +259,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the progress of a ProgressBar.
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param progress The progress.
      * @return The BaseViewHolder for chaining.
      */
@@ -272,7 +272,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the progress and max of a ProgressBar.
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param progress The progress.
      * @param max      The max value of a ProgressBar.
      * @return The BaseViewHolder for chaining.
@@ -287,7 +287,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the range of a ProgressBar to 0...max.
      *
-     * @param viewId The view id.
+     * @param viewId The view roomId.
      * @param max    The max value of a ProgressBar.
      * @return The BaseViewHolder for chaining.
      */
@@ -300,7 +300,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the rating (the number of stars filled) of a RatingBar.
      *
-     * @param viewId The view id.
+     * @param viewId The view roomId.
      * @param rating The rating.
      * @return The BaseViewHolder for chaining.
      */
@@ -313,7 +313,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the rating (the number of stars filled) and max of a RatingBar.
      *
-     * @param viewId The view id.
+     * @param viewId The view roomId.
      * @param rating The rating.
      * @param max    The range of the RatingBar to 0...max.
      * @return The BaseViewHolder for chaining.
@@ -328,7 +328,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the on click listener of the view.
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param listener The on click listener;
      * @return The BaseViewHolder for chaining.
      */
@@ -340,9 +340,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * add childView id
+     * add childView roomId
      *
-     * @param viewId add the child view id   can support childview click
+     * @param viewId add the child view roomId   can support childview click
      * @return if you use adapter bind listener
      * @link {(adapter.setOnItemChildClickListener(listener))}
      * <p>
@@ -371,9 +371,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
 
     /**
-     * set nestview id
+     * set nestview roomId
      *
-     * @param viewId add the child view id   can support childview click
+     * @param viewId add the child view roomId   can support childview click
      * @return
      */
     public BaseViewHolder setNestView(int viewId) {
@@ -384,7 +384,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * add long click view id
+     * add long click view roomId
      *
      * @param viewId
      * @return if you use adapter bind listener
@@ -417,7 +417,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the on touch listener of the view.
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param listener The on touch listener;
      * @return The BaseViewHolder for chaining.
      */
@@ -431,7 +431,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the on long click listener of the view.
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param listener The on long click listener;
      * @return The BaseViewHolder for chaining.
      * Please use {@link #addOnLongClickListener(int)} (adapter.setOnItemChildLongClickListener(listener))}
@@ -446,7 +446,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the listview or gridview's item click listener of the view
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param listener The item on click listener;
      * @return The BaseViewHolder for chaining.
      * Please use {@link #addOnClickListener(int)} (int)} (adapter.setOnItemChildClickListener(listener))}
@@ -461,7 +461,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the listview or gridview's item long click listener of the view
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param listener The item long click listener;
      * @return The BaseViewHolder for chaining.
      */
@@ -474,7 +474,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the listview or gridview's item selected click listener of the view
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param listener The item selected click listener;
      * @return The BaseViewHolder for chaining.
      */
@@ -487,7 +487,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the on checked change listener of the view.
      *
-     * @param viewId   The view id.
+     * @param viewId   The view roomId.
      * @param listener The checked change listener of compound button.
      * @return The BaseViewHolder for chaining.
      */
@@ -500,7 +500,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the tag of the view.
      *
-     * @param viewId The view id.
+     * @param viewId The view roomId.
      * @param tag    The tag;
      * @return The BaseViewHolder for chaining.
      */
@@ -513,7 +513,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the tag of the view.
      *
-     * @param viewId The view id.
+     * @param viewId The view roomId.
      * @param key    The key of tag;
      * @param tag    The tag;
      * @return The BaseViewHolder for chaining.
@@ -527,7 +527,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the checked status of a checkable.
      *
-     * @param viewId  The view id.
+     * @param viewId  The view roomId.
      * @param checked The checked status;
      * @return The BaseViewHolder for chaining.
      */
@@ -545,7 +545,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * Sets the adapter of a adapter view.
      *
-     * @param viewId  The view id.
+     * @param viewId  The view roomId.
      * @param adapter The adapter;
      * @return The BaseViewHolder for chaining.
      */

@@ -7,18 +7,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 import com.bumptech.glide.Glide;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
-import com.storyshu.storyshu.utils.net.ApiService;
 import com.storyshu.storyshu.bean.LauncherResponseBean;
 import com.storyshu.storyshu.info.BaseUserInfo;
 import com.storyshu.storyshu.utils.FileUtil;
 import com.storyshu.storyshu.utils.NameUtil;
 import com.storyshu.storyshu.utils.StatusBarUtils;
-import com.storyshu.storyshu.utils.net.UrlUtil;
+import com.storyshu.storyshu.utils.net.RetrofitManager;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.widget.text.StorkTextView;
 
@@ -30,7 +28,6 @@ import java.util.TimerTask;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * 欢迎页
@@ -106,13 +103,7 @@ public class WelcomeActivity extends IBaseActivity {
      * 获取服务器发送的启动图片
      */
     public void getLaunchImg() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(UrlUtil.BASE_API_URL)
-                .addConverterFactory(new Retrofit2ConverterFactory())
-                .build();
-
-        ApiService service = retrofit.create(ApiService.class);
-        Call<LauncherResponseBean> call = service.getLauncher();
+        Call<LauncherResponseBean> call = RetrofitManager.getInstance().getService().getLauncher();
         call.enqueue(new Callback<LauncherResponseBean>() {
             @Override
             public void onResponse(Call<LauncherResponseBean> call, Response<LauncherResponseBean> response) {

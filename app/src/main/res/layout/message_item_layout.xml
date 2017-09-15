@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:id="@+id/cover"
+        android:layout_width="@dimen/image_normal"
+        android:layout_height="@dimen/image_normal"
+        android:layout_margin="@dimen/margin_normal"
+        android:background="@color/colorGrayLight"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/line_space_normal"
+        android:maxLines="2"
+        android:padding="@dimen/margin_min"
+        android:scaleType="centerCrop"
+        android:text="@string/search_error_empty"
+        android:textColor="?attr/textColor1"
+        android:textSize="@dimen/font_small" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="@dimen/image_normal"
+        android:layout_height="@dimen/image_normal"
+        android:layout_margin="@dimen/margin_normal"
+        android:scaleType="centerCrop" />
+
+    <com.storyshu.storyshu.widget.NickNameTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_toRightOf="@id/image"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/font_big" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_toRightOf="@id/image"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_toRightOf="@id/image"
+        android:background="@color/colorGrayLight" />
+
+</RelativeLayout>

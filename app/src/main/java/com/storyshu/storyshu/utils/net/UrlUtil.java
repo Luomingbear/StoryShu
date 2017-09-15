@@ -12,5 +12,5 @@ public class UrlUtil {
     public static String BASE_HOST = "118.89.144.204";
 
     //七牛云绑定的图片存储的地址
-    public static String BASE_IMAGE_URL = "https://image.storyshu.com/";
+    public static String BASE_IMAGE_URL = "https://cover.storyshu.com/";
 }

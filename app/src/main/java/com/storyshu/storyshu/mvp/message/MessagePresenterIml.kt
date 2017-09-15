@@ -1,21 +1,22 @@
 package com.storyshu.storyshu.mvp.message
 
 import android.content.Context
-import android.view.View
-import android.widget.ExpandableListView
-
-import com.storyshu.storyshu.adapter.MessageExpandableAdapter
-import com.storyshu.storyshu.adapter.SystemMessageAdapter
+import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import com.hyphenate.EMMessageListener
+import com.hyphenate.chat.EMClient
+import com.hyphenate.chat.EMMessage
+import com.storyshu.storyshu.R
+import com.storyshu.storyshu.adapter.MessageListAdapter
 import com.storyshu.storyshu.bean.getStory.StoryIdBean
-import com.storyshu.storyshu.bean.read.ReadCommentPostBean
-import com.storyshu.storyshu.bean.read.ReadStoryLikeBean
-import com.storyshu.storyshu.bean.read.ReadStoryLikePostBean
+import com.storyshu.storyshu.info.MessageInfo
 import com.storyshu.storyshu.info.StoryMessageInfo
 import com.storyshu.storyshu.info.SystemMessageInfo
 import com.storyshu.storyshu.model.MessageModel
 import com.storyshu.storyshu.mvp.base.IBasePresenter
+import com.storyshu.storyshu.utils.ToastUtil
+import com.storyshu.storyshu.utils.sharepreference.ISharePreference
 
-import java.util.ArrayList
 
 /**
  * mvp模式
@@ -24,89 +25,43 @@ import java.util.ArrayList
  */
 
 class MessagePresenterIml(mContext: Context, mvpView: MessageView) : IBasePresenter<MessageView>(mContext, mvpView), MessagePresenter {
+    private val TAG = "MessagePresenterIml"
+
     private var mMessageModel: MessageModel? = null //信息更新的model
-    private var mLikeList: ArrayList<StoryMessageInfo>? = null //喜欢我的列表
-    private var mCommentList: ArrayList<StoryMessageInfo>? = null //评论我的列表
-    private var mSystemMessageList: ArrayList<SystemMessageInfo>? = null //系统消息的列表
-    private var mLikeExpandableAdapter: MessageExpandableAdapter? = null //点赞显示适配器
-    private var mCommentExpandableAdapter: MessageExpandableAdapter? = null //评论显示适配器
-    private var mSystemExpandableAdapter: SystemMessageAdapter? = null //系统信息显示适配器
+
+    private var mList: MutableList<MessageInfo>
+    private var mAdapter: MessageListAdapter
 
     init {
-        init()
-    }
 
-    private fun init() {
-        mLikeList = ArrayList<StoryMessageInfo>()
-        mCommentList = ArrayList<StoryMessageInfo>()
-        mSystemMessageList = ArrayList<SystemMessageInfo>()
+        mList = ArrayList<MessageInfo>()
+        mAdapter = MessageListAdapter(mContext, mList)
+        mMvpView.messageRecyclerView.adapter = mAdapter
+        mvpView.messageRecyclerView.layoutManager = LinearLayoutManager(mContext)
 
-        mLikeExpandableAdapter = MessageExpandableAdapter(mContext, mLikeList)
-        mMvpView.likeMessageList.setAdapter(mLikeExpandableAdapter)
-        mMvpView.likeMessageList.visibility = View.GONE
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            when (mList[position].type) {
+                MessageInfo.COMMENT,
+                MessageInfo.LIKE -> {
+                    mMvpView.intent2MessageMe(mList[position].type)
+                }
 
-        mCommentExpandableAdapter = MessageExpandableAdapter(mContext, mCommentList)
-        mMvpView.commentMessageList.setAdapter(mCommentExpandableAdapter)
-        mMvpView.commentMessageList.visibility = View.GONE
+                MessageInfo.DISCUSS,
+                MessageInfo.CHAT -> {
+                    mMvpView.intent2DiscussRoom(StoryIdBean(mList[position].storyId))
 
-        mSystemExpandableAdapter = SystemMessageAdapter(mContext, mSystemMessageList)
-        mMvpView.systemMessageList.setAdapter(mSystemExpandableAdapter)
-        mMvpView.systemMessageList.visibility = View.GONE
-
-        //点击选项
-        setClickEvents()
-    }
-
-    private val messageModelListener = object : MessageModel.OnMessageModelListener {
-        override fun onLikeDataGot(messageInfoList: ArrayList<StoryMessageInfo>?) {
-
-            mLikeList!!.clear()
-            if (messageInfoList != null && messageInfoList.size > 0) {
-                for (storyMessageInfo in messageInfoList) {
-                    mLikeList!!.add(storyMessageInfo)
                 }
             }
-
-            if (mLikeList!!.size == 0)
-                mMvpView.likeMessageList.visibility = View.GONE
-            else {
-                mMvpView.likeMessageList.visibility = View.VISIBLE
-                mLikeExpandableAdapter!!.notifyDataSetChanged()
-            }
-
-
         }
 
-        override fun onCommentDataGot(messageList: ArrayList<StoryMessageInfo>?) {
+    }
 
-            mCommentList!!.clear()
-            if (messageList != null && messageList.size > 0) {
-                for (storyMessageInfo in messageList) {
-                    mCommentList!!.add(storyMessageInfo)
-                }
-            }
-
-            if (mCommentList!!.size == 0)
-                mMvpView.commentMessageList.visibility = View.GONE
-            else {
-                mMvpView.commentMessageList.visibility = View.VISIBLE
-                mCommentExpandableAdapter!!.notifyDataSetChanged()
-            }
-
-        }
-
-        override fun onSystemDataGot(messageList: ArrayList<SystemMessageInfo>) {
-            mSystemMessageList = messageList
-
-            if (mSystemMessageList!!.size == 0)
-                mMvpView.systemMessageList.visibility = View.GONE
-            else {
-                mMvpView.systemMessageList.visibility = View.VISIBLE
-                //显示
-                showMessageList()
-            }
-
-            mMvpView.refreshLayout.isRefreshing = false
+    fun initRefreshLayout() {
+        mMvpView.refreshLayout.setColorSchemeResources(R.color.colorRed)
+        mMvpView.refreshLayout.setOnRefreshListener {
+            mList.clear()
+            mAdapter.notifyDataSetChanged()
+            getMessageData()
         }
     }
 
@@ -114,89 +69,119 @@ class MessagePresenterIml(mContext: Context, mvpView: MessageView) : IBasePresen
      * 获取消息数据
      */
     override fun getMessageData() {
+        //获取点赞等数据
+        getUnreadNum()
+
         //获取消息列表
         mMessageModel = MessageModel(mContext)
-        mMessageModel!!.updateMessageData(messageModelListener)
-    }
+        mMessageModel?.getDiscussList(ISharePreference.getUserId(mContext), object : MessageModel.MessageGotListener {
+            override fun onSucceed(list: MutableList<MessageInfo>) {
+                mList.addAll(list)
+                mAdapter.notifyDataSetChanged()
+                mMvpView.refreshLayout.isRefreshing = false
+            }
 
-    /**
-     * 标记我收到的赞为已读
-     */
-    private fun readStoryLike() {
-        val messageModel = MessageModel(mContext)
-        val readStoryLikeBeanList = ArrayList<ReadStoryLikeBean>()
-        for (storyMessageInfo in mLikeList!!) {
-            readStoryLikeBeanList.add(ReadStoryLikeBean(storyMessageInfo.userInfo.userId,
-                    storyMessageInfo.storyId))
-        }
-        messageModel.updateStoryLikeRead(ReadStoryLikePostBean(readStoryLikeBeanList))
-    }
-
-    /**
-     * 标记我收到的评论为已读
-     */
-    private fun readComment() {
-        val messageModel = MessageModel(mContext)
-        val list = ArrayList<String>()
-        for (storyMessageInfo in mCommentList!!) {
-            list.add(storyMessageInfo.commentId)
-        }
-        messageModel.updateStoryCommentRead(ReadCommentPostBean(list))
-    }
-
-    /**
-     * 初始化点击事件
-     */
-    private fun setClickEvents() {
-        //点赞列表
-        mMvpView.likeMessageList.setOnGroupClickListener(ExpandableListView.OnGroupClickListener { parent, v, groupPosition, id ->
-            if (mLikeList!!.size == 0)
-                return@OnGroupClickListener false
-
-            mLikeList!![0].unReadNum = 0
-            mLikeExpandableAdapter!!.notifyDataSetChanged()
-            //
-            readStoryLike()
-            false
+            override fun onFailed(error: String?) {
+                ToastUtil.Show(mContext, error)
+                mMvpView.refreshLayout.isRefreshing = false
+            }
         })
-        mMvpView.likeMessageList.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-            mMvpView.intent2StoryRoom(StoryIdBean(mLikeList!![childPosition].storyId))
-            false
-        }
 
-        //评论列表
-        mMvpView.commentMessageList.setOnGroupClickListener(ExpandableListView.OnGroupClickListener { parent, v, groupPosition, id ->
-            if (mCommentList!!.size == 0)
-                return@OnGroupClickListener false
+    }
 
-            mCommentList!![0].unReadNum = 0
-            mCommentExpandableAdapter!!.notifyDataSetChanged()
-            //
-            readComment()
-            false
+    /**
+     * 获取与自己有关的电子和评论数量
+     */
+    private fun getUnreadNum() {
+        mMessageModel?.updateMessageData(object : MessageModel.OnMessageModelListener {
+            override fun onLikeDataGot(messageList: java.util.ArrayList<StoryMessageInfo>?) {
+                if (messageList?.size == 0)
+                    return
+
+                val info = MessageInfo()
+                info.content = "" + messageList?.size
+                info.type = MessageInfo.LIKE
+
+                mList.add(info)
+
+                mMvpView.notifyDataSetChanged()
+            }
+
+            override fun onCommentDataGot(messageList: java.util.ArrayList<StoryMessageInfo>?) {
+                if (messageList?.size == 0)
+                    return
+                val info = MessageInfo()
+                info.content = "" + messageList?.size
+                info.type = MessageInfo.COMMENT
+                mList.add(info)
+
+                mMvpView.notifyDataSetChanged()
+            }
+
+            override fun onSystemDataGot(messageList: java.util.ArrayList<SystemMessageInfo>?) {
+                if (messageList?.size == 0)
+                    return
+            }
         })
-        mMvpView.commentMessageList.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-            mMvpView.intent2StoryRoom(StoryIdBean(mCommentList!![childPosition].storyId))
-            false
+
+    }
+
+    private fun getUnreadCommentNum() {
+
+    }
+
+    val msgListener = object : EMMessageListener {
+
+        override fun onMessageReceived(messages: List<EMMessage>) {
+            for (message in messages) {
+                for (roomMsg in mList) {
+                    if (roomMsg.roomId.equals(message.to)) {
+                        roomMsg.userId = message.from.toInt()
+                        roomMsg.content = message.body.toString()
+                        mMvpView.notifyDataSetChanged()
+                    }
+                }
+
+            }
+
+            EMClient.getInstance().chatManager().importMessages(messages);
+            Log.d(TAG, messages[0].toString())
+            //收到消息
         }
 
-        //系统信息列表
-        mMvpView.systemMessageList.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-            //                    mMvpView.intent2StoryRoom(new StoryIdBean(mSystemMessageList.get(childPosition).getStoryId()));
-            false
+        override fun onCmdMessageReceived(messages: List<EMMessage>) {
+            //收到透传消息
+        }
+
+        override fun onMessageRead(messages: List<EMMessage>) {
+            //收到已读回执
+        }
+
+        override fun onMessageDelivered(message: List<EMMessage>) {
+            //收到已送达回执
+        }
+
+        override fun onMessageRecalled(messages: List<EMMessage>) {
+            //消息被撤回
+        }
+
+        override fun onMessageChanged(message: EMMessage, change: Any) {
+            //消息状态变动
         }
     }
 
-    override fun showMessageList() {
-
+    /**
+     * 添加环信消息监听
+     */
+    fun addEMMessageListener() {
+        EMClient.getInstance().chatManager().addMessageListener(msgListener)
     }
 
-    override fun unFoldList(listType: MessagePresenter.ListType) {
-
-    }
-
-    override fun FoldList(listType: MessagePresenter.ListType) {
-
+    /**
+     * 移除环信消息监听
+     */
+    fun removeEMMessageListener() {
+        EMClient.getInstance().chatManager().removeMessageListener(msgListener)
     }
 
     override fun toStoryRoom() {
@@ -207,7 +192,4 @@ class MessagePresenterIml(mContext: Context, mvpView: MessageView) : IBasePresen
 
     }
 
-    companion object {
-        private val TAG = "MessagePresenterIml"
-    }
 }

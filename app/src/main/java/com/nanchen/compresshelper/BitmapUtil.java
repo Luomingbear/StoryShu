@@ -80,7 +80,7 @@ public class BitmapUtil {
         float imgRatio = (float) actualWidth / actualHeight;
         float maxRatio = maxWidth / maxHeight;
 
-        //width and height values are set maintaining the aspect ratio of the image
+        //width and height values are set maintaining the aspect ratio of the cover
         if (actualHeight > maxHeight || actualWidth > maxWidth) {
             if (imgRatio < maxRatio) {
                 imgRatio = maxHeight / actualHeight;
@@ -96,7 +96,7 @@ public class BitmapUtil {
             }
         }
 
-        //setting inSampleSize value allows to load a scaled down version of the original image
+        //setting inSampleSize value allows to load a scaled down version of the original cover
         options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
 
         //inJustDecodeBounds set to false to load the actual bitmap
@@ -143,7 +143,7 @@ public class BitmapUtil {
         canvas.setMatrix(scaleMatrix);
         canvas.drawBitmap(bmp, 0, 0, new Paint(Paint.FILTER_BITMAP_FLAG));
 
-        //check the rotation of the image and display it properly
+        //check the rotation of the cover and display it properly
         ExifInterface exif;
         try {
             exif = new ExifInterface(filePath);

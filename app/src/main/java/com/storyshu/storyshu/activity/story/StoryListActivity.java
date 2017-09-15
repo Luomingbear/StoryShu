@@ -29,13 +29,13 @@ public class StoryListActivity extends IBaseActivity {
     private void initView() {
 
         //标题栏
-//        mTitleView = (TitleView) findViewById(R.id.title_view);
+//        mTitleView = (TitleView) findViewById(R.roomId.title_view);
 //
 //        //刷新控件
-//        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.story_list_refresh);
+//        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.roomId.story_list_refresh);
 //
 //        //显示故事集的控件
-//        mRecyclerView = (RecyclerView) findViewById(R.id.story_list_recycler_view);
+//        mRecyclerView = (RecyclerView) findViewById(R.roomId.story_list_recycler_view);
 
 
     }

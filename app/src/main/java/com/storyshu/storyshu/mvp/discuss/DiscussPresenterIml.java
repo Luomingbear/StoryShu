@@ -13,6 +13,7 @@ import com.hyphenate.chat.EMMessage;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.adapter.DiscussAdapter;
 import com.storyshu.storyshu.bean.getStory.JoinChatRoomBean;
+import com.storyshu.storyshu.model.MessageModel;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
 import com.storyshu.storyshu.utils.KeyBordUtil;
@@ -94,6 +95,8 @@ public class DiscussPresenterIml extends IBasePresenter<DiscussView> implements 
                         mRoomID = roomID;
                         mLoadingDialog.dismiss();
                         mMvpView.getRefreshLayout().setRefreshing(false);
+
+                        getOldMessages();
                     }
 
                     @Override
@@ -104,6 +107,17 @@ public class DiscussPresenterIml extends IBasePresenter<DiscussView> implements 
                     }
                 });
 
+        EMClient.getInstance().chatManager().loadAllConversations();
+
+    }
+
+    private void getOldMessages() {
+        MessageModel messageModel = new MessageModel(mContext);
+        mDiscussList.addAll(messageModel.getMessages(mRoomID));
+
+        Log.d(TAG, "all:" + mDiscussList);
+        mMvpView.notifyData();
+
     }
 
     /**
@@ -113,11 +127,11 @@ public class DiscussPresenterIml extends IBasePresenter<DiscussView> implements 
         @Override
         public void onMessageReceived(List<EMMessage> list) {
             //收到消息
-            Log.i(TAG, "onMessageReceived: ");
+            Log.i(TAG, "onMessageReceived: " + list.get(0));
             mDiscussList.addAll(list);
             mMvpView.notifyData();
 
-
+            EMClient.getInstance().chatManager().importMessages(list);
         }
 
         @Override
@@ -194,5 +208,6 @@ public class DiscussPresenterIml extends IBasePresenter<DiscussView> implements 
         mMvpView.getEditText().setText("");
 
     }
+
 
 }

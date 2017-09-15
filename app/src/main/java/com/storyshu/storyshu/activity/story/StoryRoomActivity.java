@@ -161,12 +161,12 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
 //        if (mStoryBean != null) {
 //            switch (mStoryBean.getStoryType()) {
 //                case CardInfo.STORY:
-//                    mStoryCover = (ImageView) findViewById(R.id.story_pic);
-//                    mStoryContent = (TextView) findViewById(R.id.story_content);
+//                    mStoryCover = (ImageView) findViewById(R.roomId.story_pic);
+//                    mStoryContent = (TextView) findViewById(R.roomId.story_content);
 //                    break;
 //
 //                case CardInfo.ARTICLE:
-//                    mTitle = (TextView) findViewById(R.id.title_tv);
+//                    mTitle = (TextView) findViewById(R.roomId.title_tv);
 //                    break;
 //            }
 //        }
@@ -418,8 +418,8 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
          * 检测是否是匿名的
          */
         if (storyData.getAnonymous()) {
-//            findViewById(R.id.story_detail_layout).setBackgroundResource(R.drawable.card_view_black_bg);
-//            findViewById(R.id.line).setVisibility(View.GONE);
+//            findViewById(R.roomId.story_detail_layout).setBackgroundResource(R.drawable.card_view_black_bg);
+//            findViewById(R.roomId.line).setVisibility(View.GONE);
 //            mStoryContent.setTextColor(getResources().getColor(R.color.colorWhiteDeep));
 //            mLocation.setTextColor(getResources().getColor(R.color.colorGray));
 //            mReport.setTextColor(getResources().getColor(R.color.colorGray));

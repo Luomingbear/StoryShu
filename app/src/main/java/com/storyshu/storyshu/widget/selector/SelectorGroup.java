@@ -41,7 +41,7 @@ public class SelectorGroup extends LinearLayout implements ViewGroup.OnHierarchy
     public void onChildViewAdded(View parent, View child) {
         if (parent == SelectorGroup.this && child instanceof SelectorButton) {
             int id = child.getId();
-            // generates an id if it's missing
+            // generates an roomId if it's missing
             if (id == View.NO_ID) {
                 id = child.hashCode();
                 child.setId(id);

@@ -27,57 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/message_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.storyshu.storyshu.widget.IExpandableListView
-                    android:id="@+id/expand_like_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:background="@drawable/card_view_bg"
-                    android:divider="@null"
-                    android:groupIndicator="@null">
-
-                </com.storyshu.storyshu.widget.IExpandableListView>
-
-                <com.storyshu.storyshu.widget.IExpandableListView
-                    android:id="@+id/expand_comment_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:layout_marginBottom="@dimen/margin_normal"
-                    android:background="@drawable/card_view_bg"
-                    android:divider="@null"
-                    android:groupIndicator="@null">
-
-                </com.storyshu.storyshu.widget.IExpandableListView>
-
-                <com.storyshu.storyshu.widget.IExpandableListView
-                    android:id="@+id/expand_system_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_normal"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:background="@drawable/card_view_bg"
-                    android:divider="@null"
-                    android:groupIndicator="@null">
-
-                </com.storyshu.storyshu.widget.IExpandableListView>
-            </LinearLayout>
-
-        </android.support.v4.widget.NestedScrollView>
+        </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

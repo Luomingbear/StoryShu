@@ -12,6 +12,7 @@ import com.storyshu.storyshu.activity.base.IBaseActivity
 import com.storyshu.storyshu.bean.getStory.StoryIdBean
 import com.storyshu.storyshu.mvp.discuss.DiscussPresenterIml
 import com.storyshu.storyshu.mvp.discuss.DiscussView
+import com.storyshu.storyshu.utils.KeyBordUtil
 import com.storyshu.storyshu.utils.NameUtil
 import com.storyshu.storyshu.utils.StatusBarUtils
 import com.storyshu.storyshu.widget.title.TitleView
@@ -114,8 +115,10 @@ class DiscussActivity : IBaseActivity(), DiscussView, View.OnClickListener {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        KeyBordUtil.hideKeyboard(this, input_edit)
         mDiscussPresenterIml!!.removeEMMListener()
+        super.onDestroy()
+
     }
 
     override fun showToast(s: String) {

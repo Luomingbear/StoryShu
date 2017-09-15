@@ -45,7 +45,7 @@
 
 
                     <!--<TextView-->
-                        <!--android:id="@+id/story_content"-->
+                        <!--android:roomId="@+roomId/story_content"-->
                         <!--android:layout_width="match_parent"-->
                         <!--android:layout_height="wrap_content"-->
                         <!--android:layout_marginLeft="@dimen/margin_normal"-->
@@ -63,7 +63,7 @@
                         <!--app:scaleRate="1">-->
 
                         <!--<ImageView-->
-                            <!--android:id="@+id/story_pic"-->
+                            <!--android:roomId="@+roomId/story_pic"-->
                             <!--android:layout_width="match_parent"-->
                             <!--android:layout_height="match_parent"-->
                             <!--android:layout_marginTop="@dimen/margin_small"-->
@@ -71,11 +71,11 @@
                             <!--android:src="@drawable/gray_rectangle" />-->
 
                         <!--<TextView-->
-                            <!--android:id="@+id/pic_size"-->
+                            <!--android:roomId="@+roomId/pic_size"-->
                             <!--android:layout_width="@dimen/font_normal"-->
                             <!--android:layout_height="@dimen/font_normal"-->
-                            <!--android:layout_alignBottom="@id/story_pic"-->
-                            <!--android:layout_alignRight="@id/story_pic"-->
+                            <!--android:layout_alignBottom="@roomId/story_pic"-->
+                            <!--android:layout_alignRight="@roomId/story_pic"-->
                             <!--android:background="@color/colorBlack"-->
                             <!--android:gravity="center"-->
                             <!--android:textColor="@color/colorGrayLight"-->

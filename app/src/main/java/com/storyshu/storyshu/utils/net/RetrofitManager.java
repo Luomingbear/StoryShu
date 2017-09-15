@@ -1,8 +1,8 @@
 package com.storyshu.storyshu.utils.net;
 
-import com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory;
 
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 网络请求的manager
@@ -31,7 +31,7 @@ public class RetrofitManager {
          */
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(UrlUtil.BASE_API_URL)
-                .addConverterFactory(new Retrofit2ConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         /**

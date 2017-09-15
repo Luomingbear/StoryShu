@@ -56,7 +56,7 @@ public abstract class MultiTypeDelegate<T> {
     /**
      * auto increase type vale, start from 0.
      *
-     * @param layoutResIds layout id arrays
+     * @param layoutResIds layout roomId arrays
      * @return MultiTypeDelegate
      */
     public MultiTypeDelegate registerItemTypeAutoIncrease(@LayoutRes int... layoutResIds) {
@@ -72,7 +72,7 @@ public abstract class MultiTypeDelegate<T> {
      * set your own type one by one.
      *
      * @param type        type value
-     * @param layoutResId layout id
+     * @param layoutResId layout roomId
      * @return MultiTypeDelegate
      */
     public MultiTypeDelegate registerItemType(int type, @LayoutRes int layoutResId) {

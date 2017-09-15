@@ -35,7 +35,7 @@ public class ImageDataSource implements LoaderManager.LoaderCallbacks<Cursor> {
             MediaStore.Images.Media.SIZE,           //图片的大小，long型  132492
             MediaStore.Images.Media.WIDTH,          //图片的宽度，int型  1920
             MediaStore.Images.Media.HEIGHT,         //图片的高度，int型  1080
-            MediaStore.Images.Media.MIME_TYPE,      //图片的类型     image/jpeg
+            MediaStore.Images.Media.MIME_TYPE,      //图片的类型     cover/jpeg
             MediaStore.Images.Media.DATE_ADDED};    //图片被添加的时间，long型  1450518608
 
     private FragmentActivity activity;

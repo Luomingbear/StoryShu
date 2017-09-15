@@ -3,6 +3,10 @@ package com.storyshu.storyshu.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
+import com.storyshu.storyshu.bean.DiscussListResponseBean;
 import com.storyshu.storyshu.bean.OnlyDataResponseBean;
 import com.storyshu.storyshu.bean.message.StoryCommentBean;
 import com.storyshu.storyshu.bean.message.StoryCommentResponseBean;
@@ -10,6 +14,7 @@ import com.storyshu.storyshu.bean.message.StoryLikeBean;
 import com.storyshu.storyshu.bean.read.ReadCommentPostBean;
 import com.storyshu.storyshu.bean.read.ReadStoryLikePostBean;
 import com.storyshu.storyshu.bean.user.UserIdBean;
+import com.storyshu.storyshu.info.MessageInfo;
 import com.storyshu.storyshu.info.StoryMessageInfo;
 import com.storyshu.storyshu.info.SystemMessageInfo;
 import com.storyshu.storyshu.utils.net.CodeUtil;
@@ -55,7 +60,7 @@ public class MessageModel {
     /**
      * 获取点赞的列表数据
      */
-    private void getLikeList() {
+    public void getLikeList() {
         LikeModel likeModel = new LikeModel(mContext);
         likeModel.getStoryLike(ISharePreference.getUserId(mContext));
         likeModel.setOnGotStoryLikeListener(new LikeModel.OnGotStoryLikeListener() {
@@ -83,7 +88,7 @@ public class MessageModel {
     /**
      * 获取评论数据
      */
-    private void getCommentList() {
+    public void getCommentList() {
         Call<StoryCommentResponseBean> call = RetrofitManager.getInstance().getService().getStoryComment(new UserIdBean(ISharePreference.getUserId(mContext)));
         call.enqueue(new Callback<StoryCommentResponseBean>() {
             @Override
@@ -117,7 +122,7 @@ public class MessageModel {
     /**
      * 获取系统消息列表
      */
-    private void getSystemList() {
+    public void getSystemList() {
         // TODO: 2017/5/12 获取系统信息
         ArrayList<SystemMessageInfo> systemList = new ArrayList<>();
 
@@ -202,5 +207,79 @@ public class MessageModel {
                 listener.onFalied(t.getMessage());
             }
         });
+    }
+
+    /**
+     * 获取讨论的消息列表
+     */
+    public void getDiscussList(int userId, final MessageGotListener listener) {
+        Call<DiscussListResponseBean> call = RetrofitManager.getInstance().getService().getDiscussList(new UserIdBean(userId));
+        call.enqueue(new Callback<DiscussListResponseBean>() {
+            @Override
+            public void onResponse(Call<DiscussListResponseBean> call, Response<DiscussListResponseBean> response) {
+                if (response.body().getCode() == CodeUtil.Succeed) {
+                    if (response.body().getData() != null && response.body().getData().size() > 0) {
+                        List<MessageInfo> list = response.body().getData();
+                        for (int i = 0; i < list.size(); i++) {
+                            EMMessage emmsg = getNewDiscussMessage(list.get(i).getRoomId());
+                            if (emmsg != null) {
+                                list.get(i).setContent(emmsg.getBody().toString());
+                                list.get(i).setUserId(Integer.getInteger(emmsg.getFrom()));
+                            }
+                            list.get(i).setType(MessageInfo.Companion.getDISCUSS());
+                        }
+                        listener.onSucceed(list);
+                    } else
+                        listener.onFailed(response.body().getMessage());
+                } else {
+                    listener.onFailed(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DiscussListResponseBean> call, Throwable t) {
+                listener.onFailed(t.getMessage());
+            }
+        });
+    }
+
+    public List<EMMessage> getMessages(String roomId) {
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(roomId);
+//        return conversation.getAllMessages();
+        try {
+            EMClient.getInstance().chatManager().fetchHistoryMessages(
+                    roomId, EMConversation.EMConversationType.ChatRoom, 20, "");
+            final List<EMMessage> msgs = conversation.getAllMessages();
+            int msgCount = msgs != null ? msgs.size() : 0;
+            if (msgCount < conversation.getAllMsgCount() && msgCount < 20) {
+                String msgId = null;
+                if (msgs != null && msgs.size() > 0) {
+                    msgId = msgs.get(0).getMsgId();
+                }
+                return conversation.loadMoreMsgFromDB(msgId, 20 - msgCount);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    /**
+     * 获取最新的聊天信息
+     *
+     * @param roomID
+     */
+    public EMMessage getNewDiscussMessage(String roomID) {
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(roomID, EMConversation.EMConversationType.ChatRoom, true);
+        //获取此会话的所有消息
+        EMMessage message = conversation.getLastMessage();
+        return message;
+    }
+
+    public interface MessageGotListener {
+        void onSucceed(List<MessageInfo> list);
+
+        void onFailed(String error);
     }
 }

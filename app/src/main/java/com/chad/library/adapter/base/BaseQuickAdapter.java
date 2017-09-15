@@ -376,7 +376,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
      *
-     * @param layoutResId The layout resource id of each item.
+     * @param layoutResId The layout resource roomId of each item.
      * @param data        A new list is created out of this one to avoid mutable list
      */
     public BaseQuickAdapter(int layoutResId, List<T> data) {
@@ -1395,7 +1395,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     protected abstract void convert(K helper, T item);
 
     /**
-     * get the specific view by position,e.g. getViewByPosition(2, R.id.textView)
+     * get the specific view by position,e.g. getViewByPosition(2, R.roomId.textView)
      * <p>
      * bind recyclerView {@link #bindToRecyclerView(RecyclerView)} before use!
      *
@@ -1415,10 +1415,10 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     /**
-     * Get the row id associated with the specified position in the list.
+     * Get the row roomId associated with the specified position in the list.
      *
-     * @param position The position of the item within the adapter's data set whose row id we want.
-     * @return The id of the item at the specified position.
+     * @param position The position of the item within the adapter's data set whose row roomId we want.
+     * @return The roomId of the item at the specified position.
      */
     @Override
     public long getItemId(int position) {
@@ -1805,7 +1805,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * @return The callback to be invoked with an item in this RecyclerView has
-     * been long clicked and held, or null id no callback as been set.
+     * been long clicked and held, or null roomId no callback as been set.
      */
     public final OnItemLongClickListener<T> getOnItemLongClickListener() {
         return mOnItemLongClickListener;
@@ -1813,7 +1813,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * @return The callback to be invoked with an item in this RecyclerView has
-     * been clicked and held, or null id no callback as been set.
+     * been clicked and held, or null roomId no callback as been set.
      */
     public final OnItemClickListener<T> getOnItemClickListener() {
         return mOnItemClickListener;
@@ -1821,7 +1821,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * @return The callback to be invoked with an itemchild in this RecyclerView has
-     * been clicked, or null id no callback has been set.
+     * been clicked, or null roomId no callback has been set.
      */
     @Nullable
     public final OnItemChildClickListener<T> getOnItemChildClickListener() {
@@ -1830,7 +1830,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * @return The callback to be invoked with an itemChild in this RecyclerView has
-     * been long clicked, or null id no callback has been set.
+     * been long clicked, or null roomId no callback has been set.
      */
     @Nullable
     public final OnItemChildLongClickListener<T> getOnItemChildLongClickListener() {

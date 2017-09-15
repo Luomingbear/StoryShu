@@ -1,10 +1,9 @@
 package com.storyshu.storyshu.mvp.message
 
 import android.support.v4.widget.SwipeRefreshLayout
-
+import android.support.v7.widget.RecyclerView
 import com.storyshu.storyshu.bean.getStory.StoryIdBean
 import com.storyshu.storyshu.mvp.view.base.IBaseView
-import com.storyshu.storyshu.widget.IExpandableListView
 
 /**
  * mvp模式
@@ -20,31 +19,22 @@ interface MessageView : IBaseView {
      */
     val refreshLayout: SwipeRefreshLayout
 
-    /**
-     * 获取点赞折叠的列表控件
-
-     * @return
-     */
-    val likeMessageList: IExpandableListView
+    val messageRecyclerView: RecyclerView
 
     /**
-     * 获取评论折叠的列表控件
-
-     * @return
-     */
-    val commentMessageList: IExpandableListView
-
-    /**
-     * 获取系统消息折叠的列表控件
-
-     * @return
-     */
-    val systemMessageList: IExpandableListView
-
-    /**
-     * 跳转到故事屋
+     * 跳转到点赞列表
 
      * @param storyIdBean
      */
-    fun intent2StoryRoom(storyIdBean: StoryIdBean)
+    fun intent2MessageMe(type: Int)
+
+    /**
+     * 跳转到聊天室
+     */
+    fun intent2DiscussRoom(storyIdBean: StoryIdBean)
+
+    /**
+     * 更新数据显示
+     */
+    fun notifyDataSetChanged()
 }
