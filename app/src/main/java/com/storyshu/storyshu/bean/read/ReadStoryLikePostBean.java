@@ -8,20 +8,20 @@ import java.util.List;
  */
 
 public class ReadStoryLikePostBean {
-    private List<ReadStoryLikeBean> readInfo;
+    private List<String> readInfo;
 
     public ReadStoryLikePostBean() {
     }
 
-    public ReadStoryLikePostBean(List<ReadStoryLikeBean> readInfo) {
+    public ReadStoryLikePostBean(List<String> readInfo) {
         this.readInfo = readInfo;
     }
 
-    public List<ReadStoryLikeBean> getReadInfo() {
+    public List<String> getReadInfo() {
         return readInfo;
     }
 
-    public void setReadInfo(List<ReadStoryLikeBean> readInfo) {
+    public void setReadInfo(List<String> readInfo) {
         this.readInfo = readInfo;
     }
 }

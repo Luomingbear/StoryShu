@@ -111,9 +111,12 @@ public class DiscussPresenterIml extends IBasePresenter<DiscussView> implements 
 
     }
 
+    /**
+     * 获取历史记录
+     */
     private void getOldMessages() {
         MessageModel messageModel = new MessageModel(mContext);
-        mDiscussList.addAll(messageModel.getMessages(mRoomID));
+        mDiscussList.addAll(messageModel.getMessages(mRoomID, 1));
 
         Log.d(TAG, "all:" + mDiscussList);
         mMvpView.notifyData();

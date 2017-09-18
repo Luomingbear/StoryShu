@@ -98,10 +98,17 @@ class StoryRoomPresenterIml(mContext: Context, mvpView: StoryRoomView) :
         mMvpView.commentEdit.hint = mContext.getString(R.string.reply_to, nickname, "")
     }
 
-    override fun showStoryPicDialog(position:Int) {
+    /**
+     * 隐藏键盘
+     */
+    fun hideKeyBoard() {
+        KeyBordUtil.hideKeyboard(mContext, mMvpView.commentEdit)
+    }
+
+    override fun showStoryPicDialog(position: Int) {
 
         val previewDialog = PicturePreviewDialog(mContext)
-        previewDialog.setStoryListShow(mMvpView.storyPic,position)
+        previewDialog.setStoryListShow(mMvpView.storyPic, position)
     }
 
     override fun clickLike() {

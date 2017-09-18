@@ -93,6 +93,9 @@ public class LoginPresenterIml extends IBasePresenter<LoginView> implements Logi
      * 登陆环信账号
      */
     private void loginHX(final String userId) {
+        //保存密码
+        ISharePreference.savePassword(mContext, PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()));
+
         EMClient.getInstance().login(userId,
                 PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()),
                 new EMCallBack() {//回调

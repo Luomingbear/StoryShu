@@ -100,6 +100,11 @@ class MessageMeActivity : IBaseActivity(), MessageMeView {
 
     }
 
+    override fun onDestroy() {
+        mPresenter?.makeRead()
+        super.onDestroy()
+    }
+
     override fun intentStoryRoom(storyIdBean: StoryIdBean) {
         intentWithParcelable(StoryRoomActivity::class.java, NameUtil.STORY_ID_BEAN, storyIdBean)
     }

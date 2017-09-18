@@ -2,7 +2,10 @@ package com.storyshu.storyshu.mvp.register;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.database.DateBaseHelperIml;
 import com.storyshu.storyshu.info.BaseUserInfo;
@@ -94,6 +97,9 @@ public class RegisterPresenterIml extends IBasePresenter<RegisterView> implement
         userInfo.setNickname(mMvpView.getNickname());
         userInfo.setAvatar(mMvpView.getAvatar());
 
+        //保存密码
+        ISharePreference.savePassword(mContext, PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()));
+
         //获取网络数据
         UserModel userModel = new UserModel(mContext);
         userModel.setOnUserInfoGetListener(new UserModel.OnUserInfoGetListener() {
@@ -106,7 +112,31 @@ public class RegisterPresenterIml extends IBasePresenter<RegisterView> implement
                 DateBaseHelperIml dateBaseHelperIml = new DateBaseHelperIml(mContext.getApplicationContext());
                 dateBaseHelperIml.insertUserData(userInfo);
 
-                mMvpView.toMainActivity();
+
+                EMClient.getInstance().login(userInfo.getUserId() + "",
+                        PasswordUtil.getEncodeUsernamePassword(mMvpView.getUsername(), mMvpView.getPassword()),
+                        new EMCallBack() {//回调
+                            @Override
+                            public void onSuccess() {
+                                EMClient.getInstance().groupManager().loadAllGroups();
+                                EMClient.getInstance().chatManager().loadAllConversations();
+                                Log.d("main", "登录聊天服务器成功！");
+
+                                mMvpView.toMainActivity();
+
+                            }
+
+                            @Override
+                            public void onProgress(int progress, String status) {
+
+                            }
+
+                            @Override
+                            public void onError(int code, String message) {
+
+                                Log.d("main", "登录聊天服务器失败!");
+                            }
+                        });
             }
 
             @Override

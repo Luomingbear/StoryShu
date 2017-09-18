@@ -9,6 +9,7 @@ import com.storyshu.storyshu.info.BaseUserInfo;
 
 public class StoryLikeBean {
     private BaseUserInfo userInfo;
+    private String likeId;
     private String storyId;
     private String content;
     private String cover;
@@ -17,8 +18,10 @@ public class StoryLikeBean {
     public StoryLikeBean() {
     }
 
-    public StoryLikeBean(BaseUserInfo userInfo, String storyId, String content, String cover, String createTime) {
+    public StoryLikeBean(BaseUserInfo userInfo, String likeId, String storyId, String content,
+                         String cover, String createTime) {
         this.userInfo = userInfo;
+        this.likeId = likeId;
         this.storyId = storyId;
         this.content = content;
         this.cover = cover;
@@ -31,6 +34,14 @@ public class StoryLikeBean {
 
     public void setUserInfo(BaseUserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public String getLikeId() {
+        return likeId;
+    }
+
+    public void setLikeId(String likeId) {
+        this.likeId = likeId;
     }
 
     public String getStoryId() {

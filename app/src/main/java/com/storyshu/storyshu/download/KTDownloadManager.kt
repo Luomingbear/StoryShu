@@ -77,7 +77,7 @@ class KTDownloadManager(context: Context) {
 
         if (timer == null)
             timer = Timer()
-        timer?.schedule(task, 500, 200)
+        timer?.schedule(task, 500, 100)
     }
 
     /**

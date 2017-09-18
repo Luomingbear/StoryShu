@@ -13,7 +13,7 @@ public class StoryMessageInfo implements Parcelable {
     private BaseUserInfo userInfo; //用户信息
     private String createTime; //创建时间
     private String storyId; //故事id
-    private String commentId; //评论id
+    private String id; //消息id
     private String storyContent; //故事的内容
     private String cover; //故事的第一张图片
     private String comment; //评论
@@ -36,7 +36,7 @@ public class StoryMessageInfo implements Parcelable {
         this.userInfo = userInfo;
         this.createTime = createTime;
         this.storyId = storyId;
-        this.commentId = commentId;
+        this.id = commentId;
         this.storyContent = storyContent;
         this.cover = cover;
         this.comment = comment;
@@ -88,12 +88,12 @@ public class StoryMessageInfo implements Parcelable {
         return comment;
     }
 
-    public String getCommentId() {
-        return commentId;
+    public String getId() {
+        return id;
     }
 
-    public void setCommentId(String commentId) {
-        this.commentId = commentId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setComment(String comment) {

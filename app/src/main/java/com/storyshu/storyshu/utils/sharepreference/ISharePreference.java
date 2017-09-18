@@ -21,6 +21,7 @@ public class ISharePreference {
     private static String NICK_NAME = "nickName"; //昵称
     private static String AVATAR = "avatar"; //头像
     private static String USER_ID = "userId"; //roomId
+    private static String PASSWORD = "password"; //password
 
 
     /**
@@ -76,6 +77,22 @@ public class ISharePreference {
     }
 
     /**
+     * 保存使用者的用password
+     *
+     * @param context
+     * @param password
+     */
+    public static void savePassword(Context context, String password) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(PASSWORD, password);
+        editor.apply();
+    }
+
+
+    /**
      * 保存使用者的用户id
      *
      * @param context
@@ -94,6 +111,7 @@ public class ISharePreference {
 
     /**
      * 移除用户数据
+     *
      * @param context
      */
     public static void removeUserInfo(Context context) {
@@ -117,6 +135,17 @@ public class ISharePreference {
         SharedPreferences sp = context.getSharedPreferences(USER_DATA,
                 Activity.MODE_PRIVATE);
         return sp.getInt(USER_ID, -1);
+    }
+
+    /**
+     * 获取用户的password
+     *
+     * @return
+     */
+    public static String getPassword(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(USER_DATA,
+                Activity.MODE_PRIVATE);
+        return sp.getString(PASSWORD, "");
     }
 
     public static void saveNickname(Context context, String nickname) {

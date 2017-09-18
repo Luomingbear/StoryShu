@@ -69,9 +69,6 @@ class MessagePresenterIml(mContext: Context, mvpView: MessageView) : IBasePresen
      * 获取消息数据
      */
     override fun getMessageData() {
-        //获取点赞等数据
-        getUnreadNum()
-
         //获取消息列表
         mMessageModel = MessageModel(mContext)
         mMessageModel?.getDiscussList(ISharePreference.getUserId(mContext), object : MessageModel.MessageGotListener {
@@ -87,10 +84,13 @@ class MessagePresenterIml(mContext: Context, mvpView: MessageView) : IBasePresen
             }
         })
 
+        //获取点赞等数据
+        getUnreadNum()
+
     }
 
     /**
-     * 获取与自己有关的电子和评论数量
+     * 获取与自己有关的点赞和评论数量
      */
     private fun getUnreadNum() {
         mMessageModel?.updateMessageData(object : MessageModel.OnMessageModelListener {

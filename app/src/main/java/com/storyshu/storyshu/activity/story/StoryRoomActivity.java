@@ -109,7 +109,7 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
     @Override
     protected void onResume() {
         super.onResume();
-
+        mStoryRoomPresenter.hideKeyBoard();
         mStoryRoomPresenter.updateComments();
     }
 

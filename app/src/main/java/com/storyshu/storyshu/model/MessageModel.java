@@ -70,7 +70,7 @@ public class MessageModel {
                 if (storyLikeBeanList != null && storyLikeBeanList.size() > 0) {
                     for (StoryLikeBean storyLikeBean : storyLikeBeanList)
                         likeList.add(new StoryMessageInfo(storyLikeBean.getUserInfo(), storyLikeBean.getCreateTime(),
-                                storyLikeBean.getStoryId(), "", storyLikeBean.getContent(), storyLikeBean.getCover(), "",
+                                storyLikeBean.getStoryId(), storyLikeBean.getLikeId(), storyLikeBean.getContent(), storyLikeBean.getCover(), "",
                                 StoryMessageInfo.MessageType.LIKE_STORY, storyLikeBeanList.size()));
                 }
                 if (onMessageModelListener != null)
@@ -159,7 +159,7 @@ public class MessageModel {
 
             @Override
             public void onFailure(Call<OnlyDataResponseBean> call, Throwable t) {
-
+                Log.e(TAG, t.getMessage());
             }
         });
     }
@@ -212,7 +212,7 @@ public class MessageModel {
     /**
      * 获取讨论的消息列表
      */
-    public void getDiscussList(int userId, final MessageGotListener listener) {
+    public void getDiscussList(final int userId, final MessageGotListener listener) {
         Call<DiscussListResponseBean> call = RetrofitManager.getInstance().getService().getDiscussList(new UserIdBean(userId));
         call.enqueue(new Callback<DiscussListResponseBean>() {
             @Override
@@ -222,10 +222,15 @@ public class MessageModel {
                         List<MessageInfo> list = response.body().getData();
                         for (int i = 0; i < list.size(); i++) {
                             EMMessage emmsg = getNewDiscussMessage(list.get(i).getRoomId());
-                            if (emmsg != null) {
-                                list.get(i).setContent(emmsg.getBody().toString());
-                                list.get(i).setUserId(Integer.getInteger(emmsg.getFrom()));
+                            try {
+                                if (emmsg != null) {
+                                    list.get(i).setContent(emmsg.getBody().toString());
+                                    list.get(i).setUserId(emmsg.getFrom() == null ? userId : Integer.getInteger(emmsg.getFrom()));
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
+
                             list.get(i).setType(MessageInfo.Companion.getDISCUSS());
                         }
                         listener.onSucceed(list);
@@ -243,7 +248,13 @@ public class MessageModel {
         });
     }
 
-    public List<EMMessage> getMessages(String roomId) {
+    /**
+     * 获取历史消息
+     *
+     * @param roomId
+     * @return
+     */
+    public List<EMMessage> getMessages(String roomId, int page) {
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(roomId);
 //        return conversation.getAllMessages();
         try {

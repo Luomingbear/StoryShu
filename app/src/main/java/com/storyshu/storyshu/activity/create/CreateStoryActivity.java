@@ -336,7 +336,7 @@ public class CreateStoryActivity extends IBaseActivity implements CreateStoryVie
 
     @Override
     protected void onDestroy() {
-        mCreateStoryPresenter.distach();
+//        mCreateStoryPresenter.distach();
         super.onDestroy();
     }
 }

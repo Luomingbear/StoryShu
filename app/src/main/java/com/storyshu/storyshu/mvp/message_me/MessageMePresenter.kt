@@ -5,6 +5,8 @@ import android.support.v7.widget.LinearLayoutManager
 import com.storyshu.storyshu.R
 import com.storyshu.storyshu.adapter.MessageMeAdapter
 import com.storyshu.storyshu.bean.getStory.StoryIdBean
+import com.storyshu.storyshu.bean.read.ReadCommentPostBean
+import com.storyshu.storyshu.bean.read.ReadStoryLikePostBean
 import com.storyshu.storyshu.info.MessageInfo
 import com.storyshu.storyshu.info.StoryMessageInfo
 import com.storyshu.storyshu.info.SystemMessageInfo
@@ -12,6 +14,8 @@ import com.storyshu.storyshu.model.MessageModel
 import com.storyshu.storyshu.mvp.base.IBasePresenter
 
 /**
+ * mvp
+ * 未读消息列表 逻辑实现
  * Created by bear on 2017/9/16.
  */
 class MessageMePresenter(context: Context, view: MessageMeView) :
@@ -19,6 +23,8 @@ class MessageMePresenter(context: Context, view: MessageMeView) :
 
     private var mList: MutableList<StoryMessageInfo>
     private var mAdapter: MessageMeAdapter
+
+    private val model = MessageModel(mContext)
 
     init {
         mList = ArrayList<StoryMessageInfo>()
@@ -45,8 +51,10 @@ class MessageMePresenter(context: Context, view: MessageMeView) :
 
     }
 
+    /**
+     * 获取数据
+     */
     fun getRvData() {
-        val model = MessageModel(mContext)
         when (mMvpView.getMessageType()) {
             MessageInfo.LIKE -> {
                 model.getLikeList()
@@ -84,5 +92,47 @@ class MessageMePresenter(context: Context, view: MessageMeView) :
                 mMvpView.refreshLayout.isRefreshing = false
             }
         })
+    }
+
+    /**
+     * 标记为已读
+     */
+    fun makeRead() {
+        when (mMvpView.getMessageType()) {
+            MessageInfo.LIKE -> {
+                readLike()
+            }
+            MessageInfo.COMMENT -> {
+                readComment()
+            }
+        }
+    }
+
+    /**
+     * 将点赞列表标记为已读
+     */
+    fun readLike() {
+        if (mList.size == 0)
+            return
+
+        val likeList = ArrayList<String>()
+        for (info in mList) {
+            likeList.add(info.id)
+        }
+        model.updateStoryLikeRead(ReadStoryLikePostBean(likeList))
+    }
+
+    /**
+     * 将评论标记为已读
+     */
+    fun readComment() {
+        if (mList.size == 0)
+            return
+
+        val likeList = ArrayList<String>()
+        for (info in mList) {
+            likeList.add(info.id)
+        }
+        model.updateStoryCommentRead(ReadCommentPostBean(likeList))
     }
 }

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.storyshu.storyshu.R;
 import com.storyshu.storyshu.activity.base.IBaseActivity;
 import com.storyshu.storyshu.activity.login.LoginActivity;
@@ -38,7 +40,7 @@ import retrofit2.Response;
 public class WelcomeActivity extends IBaseActivity {
     private ImageView AdImage; //广告页
     private StorkTextView Describe; //广告描述
-    private int mWaitTime = 3200; //自动跳转等待的时间 单位毫秒
+    private int mWaitTime = 4000; //自动跳转等待的时间 单位毫秒
     private int mAnimationTime = 1600; //动画执行时间，单位毫秒
     private Timer mTimer;//定时器
 
@@ -96,6 +98,8 @@ public class WelcomeActivity extends IBaseActivity {
         }
 
         getLaunchImg();
+
+        initHXSDK();
     }
 
 
@@ -165,5 +169,32 @@ public class WelcomeActivity extends IBaseActivity {
             intentWithFlag(LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         else
             intentWithFlag(MainActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    }
+
+    /**
+     * 初始化环信sdk，加载聊天会话
+     */
+    private void initHXSDK() {
+
+        if (ISharePreference.getUserId(this) != -1)
+            EMClient.getInstance().login(ISharePreference.getUserId(this) + "", ISharePreference.getPassword(this),
+                    new EMCallBack() {//回调
+                        @Override
+                        public void onSuccess() {
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+                            Log.d("main", "登录聊天服务器成功！");
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            Log.d("main", "登录聊天服务器失败！");
+                        }
+                    });
     }
 }
