@@ -5,7 +5,6 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.View;
@@ -33,7 +32,6 @@ import com.storyshu.storyshu.utils.StatusBarUtils;
 import com.storyshu.storyshu.utils.ToastUtil;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.ClickButton;
-import com.storyshu.storyshu.widget.card.AutoScaleLayout;
 import com.storyshu.storyshu.widget.imageview.AvatarImageView;
 import com.storyshu.storyshu.widget.ninegrid.NineGridlayout;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
@@ -153,23 +151,6 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
         mCommentRV = (RecyclerView) findViewById(R.id.comment_list);
 
         mStoryLayout = (LinearLayout) findViewById(R.id.story_detail_layout);
-
-//        /**
-//         * 短文界面特有
-//         */
-//
-//        if (mStoryBean != null) {
-//            switch (mStoryBean.getStoryType()) {
-//                case CardInfo.STORY:
-//                    mStoryCover = (ImageView) findViewById(R.roomId.story_pic);
-//                    mStoryContent = (TextView) findViewById(R.roomId.story_content);
-//                    break;
-//
-//                case CardInfo.ARTICLE:
-//                    mTitle = (TextView) findViewById(R.roomId.title_tv);
-//                    break;
-//            }
-//        }
 
         //修复打开页面的自动滚动问题
         mScrollView.post(new Runnable() {
@@ -470,31 +451,25 @@ public class StoryRoomActivity extends IBaseActivity implements StoryRoomView, V
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int margin = (int) getResources().getDimension(R.dimen.margin_normal);
         mStoryContent.setLayoutParams(params);
-        mStoryContent.setPadding(margin, margin, margin, 0);
+        mStoryContent.setPadding(margin, margin, margin, margin);
         mStoryContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_normal));
         mStoryContent.setTextColor(getResources().getColor(R.color.colorBlack));
         mStoryContent.setLineSpacing(getResources().getDimension(R.dimen.line_space_normal), 1);
         mStoryLayout.addView(mStoryContent, 0);
 
-        AutoScaleLayout scaleLayout = new AutoScaleLayout(StoryRoomActivity.this);
-        RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params2.setMargins(margin, margin, margin, margin);
-        scaleLayout.setLayoutParams(params2);
-        scaleLayout.setScaleRate(1);
-
-
         //九宫格
         mNineGridLayout = new NineGridlayout(StoryRoomActivity.this);
         mNineGridLayout.setLayoutParams(params);
+        mNineGridLayout.setPadding(margin, 0, margin, 0);
 
         mNineGridLayout.setOnItemClickListener(onImageClickListener);
 
-        scaleLayout.addView(mNineGridLayout);
-
-        if (!TextUtils.isEmpty(mStoryBean.getCover()))
-            mStoryLayout.addView(scaleLayout, 1);
+        mStoryLayout.addView(mNineGridLayout, 1);
     }
 
+    /**
+     * 九宫格图片点击
+     */
     private OnItemClickListener onImageClickListener = new OnItemClickListener() {
         @Override
         public void onClick(int... args) {

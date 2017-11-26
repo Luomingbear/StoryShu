@@ -11,5 +11,5 @@ public class UrlUtil {
 
 
     //七牛云绑定的图片存储的地址
-    public static String BASE_IMAGE_URL = "https://image.storyshu.com/";
+    public static String BASE_IMAGE_URL = "https://file.2fun.xyz/";
 }

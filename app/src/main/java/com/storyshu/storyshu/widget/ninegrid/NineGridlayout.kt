@@ -13,7 +13,7 @@ import com.storyshu.storyshu.utils.DipPxConversion
  * 九宫格图片
  * Created by bear on 2017/8/3.
  */
-class NineGridlayout :ViewGroup {
+class NineGridlayout : ViewGroup {
     private val TAG = "NineGridlayout"
     private var adapter: NineGridAdapter? = null
     private var onItemClickListerner: OnItemClickListener? = null
@@ -22,12 +22,14 @@ class NineGridlayout :ViewGroup {
      */
     private val ITEM_GAP = 3
     private val DEFAULT_WIDTH = 140
+
     /**
      * 图片之间的间隔
      */
     var gap: Int = 0
-    private var columns: Int = 0//
-    private var rows: Int = 0//
+
+    private var columns: Int = 0 //列
+    private var rows: Int = 0 //行
     private var totalWidth: Int = 0
     internal var singleWidth = 0
     internal var singleHeight = 0
@@ -68,25 +70,25 @@ class NineGridlayout :ViewGroup {
         }
 
         oldCount = adapter.getCount()
+
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         Log.e(TAG, "onMeasure")
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
-        val heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
+
         val sizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
-        val sizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
         totalWidth = sizeWidth - paddingLeft - paddingRight
         if (adapter != null && adapter!!.getCount() > 0) {
-            val measureHeight: Int
             //计算单个图片的大小
             singleWidth = (totalWidth - gap * (columns - 1)) / columns
             singleHeight = singleWidth
 
             measureChildren(View.MeasureSpec.makeMeasureSpec(singleWidth, View.MeasureSpec.EXACTLY),
                     View.MeasureSpec.makeMeasureSpec(singleHeight, View.MeasureSpec.EXACTLY))
-            measureHeight = singleHeight * rows + gap * (rows - 1) + paddingTop + paddingBottom
+
+            var measureHeight = singleHeight * rows + gap * (rows - 1) + paddingTop + paddingBottom
+
             setMeasuredDimension(sizeWidth, measureHeight)
         }
 
@@ -100,8 +102,6 @@ class NineGridlayout :ViewGroup {
     }
 
     private fun layoutChildrenView() {
-        Log.e(TAG, "layoutChildrenView")
-
         if (adapter == null || adapter!!.getCount() == 0) {
             return
         }
@@ -160,10 +160,13 @@ class NineGridlayout :ViewGroup {
         if (length == 1) {
             rows = 1
             columns = 1
+        } else if (length == 2) {
+            rows = 1
+            columns = 2
         } else if (length <= 4) {
             rows = 2
             columns = 2
-        } else if (length <= 6) {
+        }else if (length <= 6) {
             rows = 2
             columns = 3
         } else {

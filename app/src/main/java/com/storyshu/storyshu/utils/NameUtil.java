@@ -17,7 +17,7 @@ public class NameUtil {
     public static final int REQUST_CREATE = 22;
 
     //自定义地图文件
-    public static final String MAP_STYLE = "map_style.json";
+    public static final String MAP_STYLE = "map_style.data";
 
     //https证书
     public static final String API_SSL = "apistoryshucom.cer";

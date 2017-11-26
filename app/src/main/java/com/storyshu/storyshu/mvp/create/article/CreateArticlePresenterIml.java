@@ -11,6 +11,7 @@ import com.storyshu.storyshu.info.CardInfo;
 import com.storyshu.storyshu.model.location.ILocationQueryTool;
 import com.storyshu.storyshu.model.stories.StoryModel;
 import com.storyshu.storyshu.mvp.base.IBasePresenter;
+import com.storyshu.storyshu.utils.net.QiniuUploadManager;
 import com.storyshu.storyshu.utils.sharepreference.ISharePreference;
 import com.storyshu.storyshu.utils.time.TimeUtils;
 import com.storyshu.storyshu.widget.text.RichTextEditor;
@@ -103,6 +104,28 @@ public class CreateArticlePresenterIml extends IBasePresenter<CreateArticleView>
         longStoryBean.setCityName(ISharePreference.getCityName(mContext));
         longStoryBean.setStoryType(CardInfo.ARTICLE);
         queryLocation();
+
+
+    }
+
+    /**
+     * 上传图片
+     */
+    public void uploadPic() {
+        QiniuUploadManager qiniuUploadManager = new QiniuUploadManager(mContext);
+        qiniuUploadManager.setQiniuUploadInterface(new QiniuUploadManager.QiniuUploadInterface() {
+            @Override
+            public void onSucceed(List<String> pathList) {
+
+            }
+
+            @Override
+            public void onFailed(List<String> errorPathList) {
+
+            }
+        });
+
+
     }
 
     /**
